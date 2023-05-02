@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="musicArtist" value="music_artist"/>
 		<property name="musicLocation" value="music_location"/>
 		<property name="musicArt" value="music_art"/>
-		
+		<property name="musicArt" value="music_art"/>
 		
 	</properties>
 
