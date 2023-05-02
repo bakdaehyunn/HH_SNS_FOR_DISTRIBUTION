@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+	<properties>
+		<!-- * property - name : mapper.xml에서 사용될 이름 - value : DB테이블 및 컬럼 이름 -->
+
+
+		<property name="user_info" value="user_info" />
+		<property name="userId" value="user_id" />
+		<property name="userPassword" value="user_password" />
+		<property name="userName" value="user_name" />
+		<property name="userNickname" value="user_nickname" />
+		<property name="userBirth" value="user_birth" />
+		<property name="userEmail" value="user_email" />
+		<property name="userProfile" value="user_profile" />
+
+		<property name="feed" value="feed" />
+		<property name="feedId" value="feed_id" />
+		<property name="feedContent" value="feed_content" />
+		<property name="userId" value="user_id" />
+		<property name="userNickname" value="user_nickname" />
+		<property name="userProfile" value="user_profile" />
+		<property name="replyCount" value="reply_count" />
+		<property name="feedDate" value="feed_date" />
+		<property name="musicTitle" value="music_title" />
+
+		<property name="reply" value="reply" />
+		<property name="replyId" value="reply_id" />
+		<property name="feedId" value="feed_id" />
+		<property name="userId" value="user_id" />
+		<property name="userNickname" value="user_nickname" />
+		<property name="replyContent" value="reply_content" />
+		<property name="replyDate" value="reply_date" />
+		<property name="likeCount" value="like_count" />
+		<property name="commentCount" value="comment_count" />
+		
+		<property name="comment_info" value="comment_info"/>
+		<property name="commentId" value="comment_id"/>
+		<property name="replyId" value="reply_id"/>
+		<property name="userId" value="user_id"/>
+		<property name="userNickname" value="user_nickname"/>
+		<property name="commentContent" value="comment_content"/>
+		<property name="commentDate" value="comment_date"/>
+		<property name="likeCount" value="like_count"/>
+		
+
+		<property name="like_info" value="like_info"/>
+		<property name="likeId" value="like_id"/>
+		<property name="userId" value="user_id"/>
+		<property name="feedId" value="feed_id"/>
+		<property name="replyId" value="reply_id"/>
+		<property name="commentId" value="comment_id"/>
+		
+		<property name="following" value="following"/>
+		<property name="followingId" value="following_id"/>
+		<property name="userId" value="user_id"/>
+		<property name="followingUserId" value="following_user_id"/>
+		
+		<property name="follower" value="follower"/>
+		<property name="follwerId" value="follower_id"/>
+		<property name="userId" value="user_id"/>
+		<property name="followerUserId" value="follower_user_id"/>
+		
+		<property name="music" value="music"/>
+		<property name="musicId" value="music_id"/>
+		<property name="musicTitle" value="music_title"/>
+		<property name="musicArtist" value="music_artist"/>
+		<property name="musicLocation" value="music_location"/>
+		<property name="musicArt" value="music_art"/>
+		
+		
+	</properties>
+
+	<!-- underscore 명명법을 camel 명명법으로 변환 가능하도록 세팅 -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	<!-- typeAliases : mapper.xml의 select 리턴 타입에 들어갈 클래스 경로를 설정 -->
+	<typeAliases>
+		<package name="edu.spring.ex06.domain" />
+	</typeAliases>
+</configuration>
