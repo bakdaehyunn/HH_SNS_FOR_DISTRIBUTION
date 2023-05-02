@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.ex06.FeedMapper">
+	<!-- ★ ${key 이름} : mybatis-config.xml의 property - name(vo)과 매칭. DB 테이블의 
+		컬럼 ★ #{key 이름} : dao 클래스의 sqlSession에서 전송받은 데이터 변수명(입력받은 데이터) -->
+
+	<!-- private int feedId;
+		 private String feedContent; 
+		 private String userId; 
+		 private String userNickname; 
+		 private String userProfile; 
+		 private String replyCount; 
+		 private String likeCount; 
+		 private Date feedDate; 
+		 private String musicTitle; -->
+
+	<!-- INSERT INTO TEST_BOARD 
+	(BOARD_TITLE, BOARD_CONTENT, MEMBER_ID) 
+	VALUES(?, ?, ?); -->
+	
+	<!-- 
+		INSERT INTO [테이블명] values([시퀀스명].NEXTVAL, 'test');
+	 -->
+	
+	<insert id="insert">
+		insert into ${feed}
+		values (FEED_SEQ.NEXTVAL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, sysdate, #{musicTitle})
+	</insert>
+
+
+</mapper>
