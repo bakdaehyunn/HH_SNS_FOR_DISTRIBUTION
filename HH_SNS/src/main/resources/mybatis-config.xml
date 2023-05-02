@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<properties>
+		<property name="feed" value="feed" />
+		<property name="feedId" value="feed_id" />
+		<property name="feedContent" value="feed_content" />
+		<property name="userId" value="user_id" />
+		<property name="userNickname" value="user_nickname" />
+		<property name="userProfile" value="user_profile" />
+		<property name="replyCount" value="reply_count" />
+		<property name="likeCount" value="like_count" />
+		<property name="feedDate" value="feed_date" />
+		<property name="musicTitle" value="music_title" />
+
+
+	</properties>
+
+
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+
+	<typeAliases>
+		<package name="edu.spring.ex06.domain" />
+	</typeAliases>
+
+</configuration>
