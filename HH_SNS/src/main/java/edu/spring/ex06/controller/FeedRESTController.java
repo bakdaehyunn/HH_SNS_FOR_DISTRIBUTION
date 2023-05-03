@@ -2,16 +2,8 @@ package edu.spring.ex06.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import edu.spring.ex06.domain.FeedVO;
-import edu.spring.ex06.service.FeedService;
 
 // * RESTful url과 의미
 // /replies (POST) : 댓글 추가(insert)
@@ -20,30 +12,30 @@ import edu.spring.ex06.service.FeedService;
 // /replies/숫자 (DELETE) : 해당 댓글 번호(replyId)의 댓글을 삭제(delete)
 
 @RestController
-@RequestMapping(value = "/mains")
+@RequestMapping(value = "/feeds")
 public class FeedRESTController {
 	private static final Logger logger =
 			LoggerFactory.getLogger(FeedRESTController.class);
 	
-	@Autowired
-	private FeedService feedService;
-	
-	@PostMapping // POST : 피드작성 -> 데이터를 넣는 형식
-	public ResponseEntity<Integer> createReply(@RequestBody FeedVO vo) {
-		// @RequestBody
-		// - 클라이언트에서 전송받은 json 데이터를
-		//	 자바 객체로 변환해주는 annotation
-		
-		logger.info("creatReply() 호출 : vo = " + vo.toString());
-		int result = 0; // 예외처리
-		try {
-			result = feedService.create(vo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<Integer>(result, HttpStatus.OK);
-
-	}
+//	@Autowired
+//	private ReplyService replyService;
+//	
+//	@PostMapping // POST : 댓글 입력 -> 데이터를 넣는 형식
+//	public ResponseEntity<Integer> createReply(@RequestBody ReplyVO vo) {
+//		// @RequestBody
+//		// - 클라이언트에서 전송받은 json 데이터를
+//		//	 자바 객체로 변환해주는 annotation
+//		
+//		logger.info("creatReply() 호출 : vo = " + vo.toString());
+//		int result = 0; // 예외처리
+//		try {
+//			result = replyService.create(vo);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+//
+//	}
 //	
 //	@GetMapping("/all/{boardId}") // GET : 댓글 선택(all)
 //	public ResponseEntity<List<ReplyVO>> readReplies(
