@@ -24,11 +24,11 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#btn_login').click(function(){
-				var target = encodeURI('/ex06/feed/login');
+				var target = encodeURI('/ex06/user/login');
 				location = target;
 			});
 			$('#btn_logout').click(function(){
-				location = '../feed/logout';
+				location = '../user/logout';
 			});
 		});
 	</script>

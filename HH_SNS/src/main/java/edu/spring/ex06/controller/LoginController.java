@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value="/feed")
+@RequestMapping(value="/user")
 public class LoginController {
 	private static final Logger logger = 
 			LoggerFactory.getLogger(LoginController.class);
@@ -60,11 +60,11 @@ public class LoginController {
 	public String logout(HttpServletRequest request) {
 		logger.info("logout() 호출");
 		HttpSession session = request.getSession();
-		if(session.getAttribute("memberId") != null) {
-			session.removeAttribute("memberId");
-			return "redirect:/board/list";
+		if(session.getAttribute("UserId") != null) {
+			session.removeAttribute("UserId");
+			return "redirect:/feed/list";
 		} else {
-			return "redirect:/board/list";
+			return "redirect:/feed/list";
 		}
 	}
 	
