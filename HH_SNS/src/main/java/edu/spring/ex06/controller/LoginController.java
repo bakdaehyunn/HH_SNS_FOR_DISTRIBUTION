@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 	private static final Logger logger = 
 			LoggerFactory.getLogger(LoginController.class);
-	
+	 
 	@GetMapping("/login")
 	public void loginGET() {
 		logger.info("loginGET() 호출");
@@ -40,6 +40,7 @@ public class LoginController {
 		} else {
 			logger.info("로그인 실패");
 			return "redirect:/member/login";
+			
 		}
 	}
 	

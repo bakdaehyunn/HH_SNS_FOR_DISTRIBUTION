@@ -8,15 +8,15 @@ public class FeedVO {
 	private String userId;
 	private String userNickname;
 	private String userProfile;
-	private String replyCount;
-	private String likeCount;
+	private int replyCount;
+	private int likeCount;
 	private Date feedDate;
 	private String musicTitle;
 	
 	public FeedVO() {}
 
 	public FeedVO(int feedId, String feedContent, String userId, String userNickname, String userProfile,
-			String replyCount, String likeCount, Date feedDate, String musicTitle) {
+			int replyCount, int likeCount, Date feedDate, String musicTitle) {
 		super();
 		this.feedId = feedId;
 		this.feedContent = feedContent;
@@ -69,19 +69,19 @@ public class FeedVO {
 		this.userProfile = userProfile;
 	}
 
-	public String getReplyCount() {
+	public int getReplyCount() {
 		return replyCount;
 	}
 
-	public void setReplyCount(String replyCount) {
+	public void setReplyCount(int replyCount) {
 		this.replyCount = replyCount;
 	}
 
-	public String getLikeCount() {
+	public int getLikeCount() {
 		return likeCount;
 	}
 
-	public void setLikeCount(String likeCount) {
+	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
 	}
 
