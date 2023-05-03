@@ -13,40 +13,42 @@ http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-<!-- http://www.springframework.org/schema/tx : 추가 설정 넣었음(트랜잭션) -->
+	<!-- http://www.springframework.org/schema/tx : 추가 설정 넣었음(트랜잭션) -->
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="ds" class="oracle.jdbc.pool.OracleDataSource">
-		<property name="dataSourceName" value="ds"/>
+		<property name="dataSourceName" value="ds" />
 		<property name="URL"
-			value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="user" value="scott"/>
-		<property name="password" value="tiger"/>
+			value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="user" value="scott" />
+		<property name="password" value="tiger" />
 	</bean>
-	
-	<bean id="transactionManager" 
-      class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		 <property name="dataSource" ref="ds" />
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="ds" />
 	</bean>
-	
+
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="ds"/>
+		<property name="dataSource" ref="ds" />
+
 		<property name="configLocation"
-			value="classpath:/mybatis-config.xml"/>
+			value="classpath:/mybatis-config.xml" />
+
 		<property name="mapperLocations"
-			value="classpath:mappers/*.xml"/>
+			value="classpath:mappers/*.xml" />
 		<!-- classpath == src/main/resources -->
 	</bean>
-	
+
 	<bean id="sqlSession"
 		class="org.mybatis.spring.SqlSessionTemplate"
 		destroy-method="clearCache">
 		<constructor-arg name="sqlSessionFactory"
-			ref="sqlSessionFactory"/>
+			ref="sqlSessionFactory" />
 	</bean>
-	
+
 	<!-- 트랜잭션 관리를 수행하는 Aspect를 annotation 기반으로 사용 -->
-	<tx:annotation-driven/>
-	
+	<tx:annotation-driven />
+
 </beans>
