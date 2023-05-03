@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value="/member")
+@RequestMapping(value="/feed")
 public class LoginController {
 	private static final Logger logger = 
 			LoggerFactory.getLogger(LoginController.class);
@@ -21,12 +21,13 @@ public class LoginController {
 		logger.info("loginGET() 호출");
 	}
 	@PostMapping("/login")
-	public String loginPOST(String memberId, String password, HttpServletRequest request) {
+	public String loginPOST(String userId, String userPassword, HttpServletRequest request) {
 		logger.info("loginPOST() 호출");
-		if(memberId.equals("test")&& password.equals("1234")) {
+		int result ;
+		if(userId.equals("test")&& userPassword.equals("1234")) {
 			logger.info("로그인 성공");
 			HttpSession session = request.getSession();
-			session.setAttribute("memberId", memberId);
+			session.setAttribute("memberId", userId);
 			
 			// 세션에서 targetURL 가져오기
 			String targetURL = (String) session.getAttribute("targetURL");
@@ -34,12 +35,12 @@ public class LoginController {
 				session.removeAttribute("targetURL");
 				return "redirect:" + targetURL;
 			} else {
-				return "redirect:/board/list";
+				return "redirect:/feed/list";
 			}
 			
 		} else {
 			logger.info("로그인 실패");
-			return "redirect:/member/login";
+			return "redirect:/user/login";
 			
 		}
 	}

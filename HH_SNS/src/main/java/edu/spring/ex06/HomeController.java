@@ -26,7 +26,7 @@ public class HomeController {
 	public String home(Locale locale) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
-		return "redirect:/board/list";
+		return "redirect:/feed/list";
 	}
 	
 }

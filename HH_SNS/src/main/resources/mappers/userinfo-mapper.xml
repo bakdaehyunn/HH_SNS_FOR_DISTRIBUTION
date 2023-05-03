@@ -14,12 +14,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from ${user_info}
 		where ${userId} = #{userId}
 	</select>
+	<!-- select 체크 -->
+	<select id="select_check_user_acc" resultType="int">
+	 select count(${userId}) from ${user_info} 
+	 where ${userId} = #{userId} and ${userPassword} = #{userPassword}
+	</select>
 	<!--  update 유저정보 수정 -->
-	<update id="update">
+	<update id="update_userinfo">
 		update ${user_info}
 		set ${userId} = #{userId}, ${userPassword} = #{userPassword}, ${userName} = #{userName},
-		${userNickname} = #{userNickname}, ${userBirth} = #{user_birth}, ${userEmail} = #{user_email},
-		${userProfile} = #{userProfile}
+		 ${userBirth} = #{userBirth}, ${userEmail} = #{userEmail}
+		where ${userId} = #{userId}
+	</update>
+	<!-- update 프로필 수정 -->
+	<update id="update_profile">
+		update ${user_info}
+		set ${userNickname} = #{userNickname}, ${userProfile} = #{userProfile}
 		where ${userId} = #{userId}
 	</update>
 	<!-- delete 유저계정 삭제 -->
