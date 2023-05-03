@@ -7,22 +7,22 @@ public class ReplyVO {
 	private int feedId;
 	private String userId;
 	private String userNickname;
+	private String userProfile;
 	private String replyContent;
 	private Date replyDate;
 	private int likeCount;
 	private int commentCount;
 	
 	public ReplyVO() {}
-	
-	
 
-	public ReplyVO(int replyId, int feedId, String userId, String userNickname, String replyContent, Date replyDate,
-			int likeCount, int commentCount) {
+	public ReplyVO(int replyId, int feedId, String userId, String userNickname, String userProfile, String replyContent,
+			Date replyDate, int likeCount, int commentCount) {
 		super();
 		this.replyId = replyId;
 		this.feedId = feedId;
 		this.userId = userId;
 		this.userNickname = userNickname;
+		this.userProfile = userProfile;
 		this.replyContent = replyContent;
 		this.replyDate = replyDate;
 		this.likeCount = likeCount;
@@ -61,6 +61,14 @@ public class ReplyVO {
 		this.userNickname = userNickname;
 	}
 
+	public String getUserProfile() {
+		return userProfile;
+	}
+
+	public void setUserProfile(String userProfile) {
+		this.userProfile = userProfile;
+	}
+
 	public String getReplyContent() {
 		return replyContent;
 	}
@@ -96,9 +104,10 @@ public class ReplyVO {
 	@Override
 	public String toString() {
 		return "ReplyVO [replyId=" + replyId + ", feedId=" + feedId + ", userId=" + userId + ", userNickname="
-				+ userNickname + ", replyContent=" + replyContent + ", replyDate=" + replyDate + ", likeCount="
-				+ likeCount + ", commentCount=" + commentCount + "]";
+				+ userNickname + ", userProfile=" + userProfile + ", replyContent=" + replyContent + ", replyDate="
+				+ replyDate + ", likeCount=" + likeCount + ", commentCount=" + commentCount + "]";
 	}
+	
 	
 	
 }
