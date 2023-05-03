@@ -41,19 +41,19 @@ public class FeedDAOImple implements FeedDAO{
 	}// end selectAll 전체 검색
 
 	@Override
-	public FeedVO select(String userId, int feedId) {
+	public FeedVO select(int feedId) {
 		logger.info("★ FeedDAOImple 피드 detail");
 		return sqlSession.selectOne(NAMESPACE + ".select", feedId);
 	}// end select 상세 검색
 
 	@Override
-	public int update(String userId, int feedId, FeedVO vo) {
+	public int update(int feedId, FeedVO vo) {
 		logger.info("★ FeedDAOImple 피드 수정");
 		return sqlSession.update(NAMESPACE + ".update", vo);
 	}// end update 수정
 
 	@Override
-	public int delete(String usserId, int feedId) {
+	public int delete(int feedId) {
 		logger.info("★ FeedDAOImple 피드 삭제");
 		return sqlSession.delete(NAMESPACE + ".delete", feedId);
 	}// end delete 삭제
