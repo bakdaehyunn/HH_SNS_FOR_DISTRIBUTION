@@ -35,8 +35,8 @@ public class UserInfoDAOTest {
 
 	@Test
 	public void testDAO() {
-		//testInsert();
-		testSelect();
+		testInsert();
+		//testSelect();
 		
 		
 	}
