@@ -34,8 +34,8 @@
 	<!-- Interceptor가 가로챌 URL 매핑 설정 -->
 	<interceptors>
 		<interceptor>
-			<mapping path="/board/register" />
-			<mapping path="/board/test" />
+			<mapping path="/feed/register" />
+			<mapping path="/feed/test" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 	</interceptors>

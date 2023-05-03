@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FeedController {
 	private static final Logger logger =
 			LoggerFactory.getLogger(FeedController.class);
+<<<<<<< HEAD
 	
 	@GetMapping("/list")
 	public void list() { 
@@ -37,4 +38,23 @@ public class FeedController {
 		logger.info("★ FeddController 호출");
 	}
 	
+=======
+	@GetMapping("/list")
+	public void list() { 
+		logger.info("list() 호출 ");
+	}
+	
+	@GetMapping("/register")
+	public void register() { 
+		logger.info("register() 호출");
+	}
+	
+	@GetMapping("/test")
+	public void test(String data1, String data2, Model model) {
+		logger.info("test() 호출");
+		model.addAttribute("data1", data1);
+		model.addAttribute("data2", data2);
+	}
+
+>>>>>>> branch 'master' of https://github.com/bakdaehyunn/HH_SNS.git
 }

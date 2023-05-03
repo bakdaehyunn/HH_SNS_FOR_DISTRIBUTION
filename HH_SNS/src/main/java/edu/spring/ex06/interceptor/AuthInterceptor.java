@@ -29,7 +29,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 			logger.info("로그아웃 상태 -> controller method 실행 안됨");
 			// 목표 url 세션에 저장(만약 request parameter가 존재하면 같이 저
 			saveDestination(request);
-			response.sendRedirect("/ex06/member/login");
+			response.sendRedirect("/ex06/user/login");
 			return false;
 		}
 		

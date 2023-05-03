@@ -1,5 +1,8 @@
 package edu.spring.ex06.persistence;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +26,41 @@ public class UserInfoDAOImple implements UserInfoDAO{
 	}
 
 	@Override
-	public UserInfoVO select(String userid) {
+	public UserInfoVO select(String userId) {
 		logger.info("select() 호출");
-		return sqlSession.selectOne(NAMESPACE + ".select_all_by_user_id", userid);
+		return sqlSession.selectOne(NAMESPACE + ".select_all_by_user_id", userId);
 	}
 
 	@Override
 	public int update(UserInfoVO vo) {
+		logger.info("update() 호출");
+		return sqlSession.update(NAMESPACE + ".update_userinfo", vo);
+	}
+	
+	@Override
+	public int updateProfile(UserInfoVO vo) {
+		logger.info("updateProfile() 호출");
+		return sqlSession.update(NAMESPACE + ".update_profile", vo);
+	}
+	
+
+	@Override
+	public int delete(String userId) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete(NAMESPACE + ".delete", userId);
 	}
 
 	@Override
-	public int delete(String userid) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int select(String userId, String userPassword) {
+		logger.info("select() 호출");
+		logger.info("userId = " + userId + ", password = " + userPassword);
+		Map<String, Object> args = new HashMap();
+		args.put("userId", userId);
+		args.put("password", userPassword);
+		return sqlSession.selectOne(NAMESPACE + ".select_check_user_acc", args) ;
+		
 	}
+
+	
 
 }
