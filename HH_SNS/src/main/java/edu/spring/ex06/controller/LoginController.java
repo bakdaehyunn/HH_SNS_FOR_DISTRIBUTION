@@ -16,6 +16,7 @@ public class LoginController {
 	private static final Logger logger = 
 			LoggerFactory.getLogger(LoginController.class);
 	 
+	
 	@GetMapping("/login")
 	public void loginGET() {
 		logger.info("loginGET() 호출");
