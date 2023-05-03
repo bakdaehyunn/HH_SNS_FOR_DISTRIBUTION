@@ -10,8 +10,8 @@
 .feed-container {
 	display: flex;
 	flex-wrap: wrap;
-	align: center;
-	justify-content: space-between;
+	justify-content: center;
+	margin-top: 50px;
 }
 
 .feed-item {
@@ -46,7 +46,7 @@
 <body>
 
 	<div style="text-align: center;">
-		<div id="feeds"></div>
+		<div id="mains"></div>
 	</div>
 
 	<div class="feed-container">
@@ -57,15 +57,16 @@
 				<button class="delete-button">삭제</button>
 			</div>
 		</div>
+		
 		<div class="feed-item">
-			<p>두 번째 피드 아이템</p>
+				<p>두 번째 피드 아이템</p>
 			<div class="button-container">
 				<button class="edit-button">수정</button>
 				<button class="delete-button">삭제</button>
 			</div>
 		</div>
 		<div class="feed-item">
-			<p>세 번째 피드 아이템</p>
+				<p>세 번째 피드 아이템</p>
 			<div class="button-container">
 				<button class="edit-button">수정</button>
 				<button class="delete-button">삭제</button>
