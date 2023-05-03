@@ -72,7 +72,7 @@ public class FeedDAOTest {
 //	--------------------------------------------------
 
 	private void testSelect() {
-		FeedVO vo = feeddao.select(6);
+		FeedVO vo = feeddao.select(null, 6);
 		logger.info("♠ 결과 : " + vo.toString());
 	}// end testSelect
 
@@ -89,7 +89,7 @@ public class FeedDAOTest {
 		}
 
 		// 피드번호 != 유저아이디
-		FeedVO selectfeedid = feeddao.select(10);
+		FeedVO selectfeedid = feeddao.select(null, 10);
 		List<FeedVO> selectuserid = feeddao.selectAllbyId(uservo.getUserId());
 		if (selectfeedid != selectuserid) {
 			logger.info("♠ 피드번호 != 유저아이디");
@@ -98,7 +98,7 @@ public class FeedDAOTest {
 
 		FeedVO vo = new FeedVO(10, "ㅎㅎ", uservo.getUserId(), uservo.getUserNickname(), uservo.getUserProfile(), 0, 0,
 				null, "ㅎㅎ");
-		int result = feeddao.update(10, vo);
+		int result = feeddao.update(uservo.getUserId(), 10, vo);
 
 		if (result == 1) {
 			logger.info("♠ 수정 성공");
@@ -118,7 +118,7 @@ public class FeedDAOTest {
 		}
 
 		FeedVO vo = new FeedVO(6, null, null, null, null, 0, 0, null, null);
-		int result = feeddao.delete(11);
+		int result = feeddao.delete( 11);
 
 		if (result == 1) {
 			logger.info("♠ 삭제 성공");
@@ -129,7 +129,7 @@ public class FeedDAOTest {
 //	--------------------------------------------------
 
 	private void testSelectAllbyId() {
-		String userid = "테스트";
+		String userid = "테스";
 		UserInfoVO uservo = userdao.select(userid);
 
 		if (uservo == null) {
@@ -138,15 +138,14 @@ public class FeedDAOTest {
 		}
 
 		/*
-		 * 유저아이디가 == 피드에서 쓴 유저 아이디가 일치해야함 
-		 * 일치할 시 유저아이디의 피드가 최신순으로 출력
+		 * 유저아이디가 == 피드에서 쓴 유저 아이디가 일치해야함 일치할 시 유저아이디의 피드가 최신순으로 출력
 		 */
 
 		List<FeedVO> selectuserid = feeddao.selectAllbyId(uservo.getUserId());
 
+		logger.info("총 개수 : " + selectuserid.size() + "개");
 	    for (FeedVO vo : selectuserid) {
 	        if(vo.getUserId().equals(uservo.getUserId())) { // 유저 아이디 비교
-	        	logger.info("총 개수 : " + selectuserid.size() + "개");
 	            logger.info("♠ 결과 : " + vo.toString());
 	        } else {
 	        	logger.info("♠ 피드가 없음!");
