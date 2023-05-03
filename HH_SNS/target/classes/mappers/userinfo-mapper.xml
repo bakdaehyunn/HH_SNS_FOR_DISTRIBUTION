@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.ex06.UserinfoMapper">
+	<!-- insert 회원가입 -->
+	<insert id="insert">
+		insert into ${user_info}
+		(${userId}, ${userPassword}, ${userName}, ${userNickname}, ${userBirth}, ${userEmail})
+		values (#{userId}, #{userPassword}, #{userName}, #{userNickname}, #{userBirth}, #{userEmail})
+	</insert>
+	<!--  select 유저의 정보 확인  -->
+	<select id="select_all_by_user_id" resultType="UserInfoVO">
+		select * from ${user_info}
+		where ${userId} = #{userId}
+	</select>
+	<!--  update 유저정보 수정 -->
+	<update id="update">
+		update ${user_info}
+		set ${userId} = #{userId}, ${userPassword} = #{userPassword}, ${userName} = #{userName},
+		${userNickname} = #{userNickname}, ${userBirth} = #{user_birth}, ${userEmail} = #{user_email},
+		${userProfile} = #{userProfile}
+		where ${userId} = #{userId}
+	</update>
+	<!-- delete 유저계정 삭제 -->
+	<delete id="delete">
+		delete from ${user_info}
+		where ${userId} = #{userId}
+	</delete>
+</mapper>
