@@ -9,8 +9,8 @@
 <body>
 	<h1>로그인</h1>
 	<form action="login" method="POST">
-		<input type="text" name="memberId"><br>
-		<input type="password" name="password">
+		<input type="text" name="userId"><br>
+		<input type="password" name="userPassword">
 		<input type="submit" value="로그인"></button>
 	</form>
 	<a href="signup">회원가입</a>

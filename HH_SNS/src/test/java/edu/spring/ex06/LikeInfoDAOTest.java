@@ -59,7 +59,6 @@ public class LikeInfoDAOTest {
 			return;
 		}
 		
-		
 		LikeInfoVO vo = new LikeInfoVO(0, uservo.getUserId(), feedvo.getFeedId(), 0, 0);
 		int result = likedao.insert(vo);
 		logger.info("♠ 결과 : " + result + "행 삽입");
