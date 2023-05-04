@@ -15,9 +15,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${userId} = #{userId}
 	</select>
 	<!-- select 체크 -->
-	<select id="select_check_user_acc" resultType="int">
-	 select count(${userId}) from ${user_info} 
+	<select id="select_check_user_acc" resultType="Integer">
+	  select count(${userId}) from ${user_info} 
 	 where ${userId} = #{userId} and ${userPassword} = #{userPassword}
+	 
 	</select>
 	<!--  update 유저정보 수정 -->
 	<update id="update_userinfo">

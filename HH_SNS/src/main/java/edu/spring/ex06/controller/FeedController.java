@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/feed")
+
 public class FeedController {
 	private static final Logger logger =
 			LoggerFactory.getLogger(FeedController.class);

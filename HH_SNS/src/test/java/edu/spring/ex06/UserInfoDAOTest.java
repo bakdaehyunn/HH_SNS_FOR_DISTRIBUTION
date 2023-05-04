@@ -40,8 +40,8 @@ public class UserInfoDAOTest {
 		//testSelect();
 		//testUpdate();
 		//testProfileUpdate();
-		//testlogin();
-		testDelete();
+		testlogin();
+		//testDelete();
 		
 		
 	}
@@ -101,9 +101,13 @@ public class UserInfoDAOTest {
 	}
 	private void testlogin() {
 		String userId="asd";
-		String userPassword="123";
-		int result = dao.select(userId, userPassword);
+		String userPassword="asd";
+		int result = dao.select("asd","asd");
 		logger.info(String.valueOf(result));
+		if(result == 1) {
+			logger.info("로그인 성공");
+		}
+		
 	}
 	
 	
