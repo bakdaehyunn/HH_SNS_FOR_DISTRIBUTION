@@ -24,35 +24,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into ${feed}
 		values (FEED_SEQ.NEXTVAL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, sysdate, #{musicTitle})
 	</insert>
-	
-	<!-- 
-	여기 실험중 
-	하고싶은거 : 시퀀스가 있는 상태에서 join를 해서 userId값을 가져오고 insert쿼리짜기
-
-	<insert id="insert">
-  		insert into ${feed} (feed_id, feed_content, user_id, user_nickname, user_profile, reply_count, like_count, feed_date, music_title)
-  		select 
-    		FEED_SEQ.NEXTVAL, 
-    		#{feedContent}, 
-    		ui.user_id, 
-    		ui.user_nickname, 
-    		ui.user_profile, 
-    		0, 
-    		0, 
-    		sysdate, 
-    		#{musicTitle}
-  		from user_info ui
-  		where ui.user_id = #{userId}
-	</insert>
-		-->
-		
-		<!--
-		select f.feed_id, u.user_id from feed 
-		f full outer join user_info u on f.user_id=u.user_id;
-		
-		outer join = 겹치는것(=userid) 빼고도 선택한 모든건 같이 뜸
-		근데 나 join 4개 필요함 ;ㅎ
-		 -->
 		
 	<select id="select_all" resultType="FeedVO">
 	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
@@ -83,5 +54,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
 	 	order by ${feedId} desc
 	 </select>
+	 
+	 <select id="total_like" resultType="Integer">
+		select count(*) total_like from ${feed}
+	</select>
+	
+	<update id="update_like_cnt">
+		update ${feed} 
+		set ${likeCount} = ${likeCount} + #{amount} 
+		where ${feedId} = #{feedId}
+	</update>
 
 </mapper>

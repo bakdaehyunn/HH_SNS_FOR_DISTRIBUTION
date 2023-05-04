@@ -1,7 +1,9 @@
 package edu.spring.ex06.persistence;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -63,6 +65,27 @@ public class FeedDAOImple implements FeedDAO{
 		logger.info("★ FeedDAOImple 개인 피드");
 		return sqlSession.selectList(NAMESPACE +".select_all_by_id", userId);
 	}// end selectAllbyId 개인 피드 전체 출력
+	
+	@Override
+	public int getTotalLike() {
+		logger.info("★ FeedDAOImple 좋아요 수");
+		return sqlSession.selectOne(NAMESPACE, ".total_like");
+	}
+	
+	@Override
+	public int getTotalComment() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public int updateLikeCnt(int amount, int feedId) {
+		logger.info("★ FeedDAOImple 좋아요 개수 : feedId = " + feedId);
+		Map<String, Integer> args = new HashMap<>();
+		args.put("amount", amount);
+		args.put("feedId", feedId);
+		return sqlSession.update(NAMESPACE + ".update_like_cnt", args);
+	}
 
 	@Override
 	public int updateCommentCnt(int amount, int feedId) {
@@ -70,10 +93,5 @@ public class FeedDAOImple implements FeedDAO{
 		return 0;
 	}// end updateCommentCnt 개인 댓글 출력
 
-	@Override
-	public int updateLikeCnt(int amount, int feedId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

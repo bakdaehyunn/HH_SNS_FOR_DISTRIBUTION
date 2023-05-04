@@ -4,9 +4,9 @@ import edu.spring.ex06.domain.FeedVO;
 
 public interface FeedService {
 	int create(FeedVO vo);
-	FeedVO read(int boardId);
-	int update(FeedVO vo);
-	int delete(int boardId);
+	FeedVO read(int feedId);
+	int update(int feedId, FeedVO vo);
+	int delete(int feedId);
 	int getTotalComments();
 	int getTotalLikes();
 }

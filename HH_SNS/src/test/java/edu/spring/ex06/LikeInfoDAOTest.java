@@ -26,7 +26,7 @@ public class LikeInfoDAOTest {
 
 	@Autowired
 	private LikeInfoDAO likedao;
-	
+
 	@Autowired
 	private FeedDAO feeddao;
 
@@ -35,13 +35,57 @@ public class LikeInfoDAOTest {
 
 	@Test
 	public void testDAO() {
-		testInsert();
+		testInsert_feed();
+//		testInsert_reply();
+//		testInsert_comment();
 //		testDelete();
 	}// end testDAO()
-	
+
 //	--------------------------------------------------
 
-	private void testInsert() {
+	private void testInsert_feed() {
+		String userid = "asss"; // 실제 데이터베이스에 존재하는 유저아이디 입력
+		UserInfoVO uservo = userdao.select(userid);
+
+		// db에 아이디 있는지 체크
+		if (uservo == null) {
+			logger.info("일치하는 ID가 없습니다.");
+			return;
+		} else {
+			logger.info("현재 ID : " + uservo.getUserId());
+		}
+
+		int feedid = 10; // 실제 데이터베이스에 존재하는 피드번호 입력
+		FeedVO feedvo = feeddao.select(feedid);
+		if (feedvo == null) {
+			logger.info("ID와 일치하는 피드 번호가 없습니다.");
+			return;
+		} else {
+			logger.info("현재 피드 번호 : " + feedvo.getFeedId());
+		}
+
+		logger.info("★ ID vo : " + uservo);
+		logger.info("★ 현재 ID : " + uservo.getUserId());
+		logger.info("★ 피드 vo : " + feedvo);
+		logger.info("★ 현재 피드에 존재하는 ID : " + feedvo.getUserId());
+		logger.info("★ 현재 피드 번호 : " + feedvo.getFeedId());
+
+		// 유저id랑 피드 번호가 피드VO에 존재 할 시에
+		if (feedvo.getUserId().equals(uservo.getUserId()) && feedvo.getFeedId() == feedid) {
+			LikeInfoVO likevo = new LikeInfoVO(0, uservo.getUserId(), feedvo.getFeedId(), 0, 0);
+			int result = likedao.insert(likevo);
+			logger.info("♠ 결과 : " + result + " 좋아요 등록");
+			
+		} else {
+			logger.info("♠ 현재 ID : " + uservo.getUserId() + ", 피드 번호 : " + feedvo.getFeedId() + "가 존재하지 않습니다.");
+		}
+
+	}// end testInsert
+
+//	--------------------------------------------------
+
+	private void testInsert_reply() {
+		// (수정 전 ★)
 		String userid = "asss"; // 실제 데이터베이스에 존재하는 유저아이디 입력
 		UserInfoVO uservo = userdao.select(userid);
 
@@ -50,20 +94,47 @@ public class LikeInfoDAOTest {
 			logger.info("일치하는 ID가 없습니다.");
 			return;
 		}
-		
+
 		int feedid = 10; // 실제 데이터베이스에 존재하는 피드번호 입력
 		FeedVO feedvo = feeddao.select(feedid);
-		
+
 		if (feedvo == null) {
 			logger.info("ID와 일치하는 피드 번호가 없습니다.");
 			return;
 		}
-		
+
 		LikeInfoVO vo = new LikeInfoVO(0, uservo.getUserId(), feedvo.getFeedId(), 0, 0);
 		int result = likedao.insert(vo);
 		logger.info("♠ 결과 : " + result + "행 삽입");
 
-	}// end testInsert
+	}
+
+//--------------------------------------------------
+
+	private void testInsert_comment() {
+		// (수정 전 ★)
+		String userid = "asss"; // 실제 데이터베이스에 존재하는 유저아이디 입력
+		UserInfoVO uservo = userdao.select(userid);
+
+		// db에 아이디 있는지 체크
+		if (uservo == null) {
+			logger.info("일치하는 ID가 없습니다.");
+			return;
+		}
+
+		int feedid = 10; // 실제 데이터베이스에 존재하는 피드번호 입력
+		FeedVO feedvo = feeddao.select(feedid);
+
+		if (feedvo == null) {
+			logger.info("ID와 일치하는 피드 번호가 없습니다.");
+			return;
+		}
+
+		LikeInfoVO vo = new LikeInfoVO(0, uservo.getUserId(), feedvo.getFeedId(), 0, 0);
+		int result = likedao.insert(vo);
+		logger.info("♠ 결과 : " + result + "행 삽입");
+
+	}
 
 //	--------------------------------------------------
 
@@ -74,21 +145,29 @@ public class LikeInfoDAOTest {
 		if (uservo == null) {
 			logger.info("일치하는 ID가 없습니다.");
 			return;
+		} else {
+			logger.info("현재 ID : " + uservo.getUserId());
 		}
-		
-		int feedid = 10; // 실제 데이터베이스에 존재하는 피드번호 입력
+
+		int feedid = 10;
 		FeedVO feedvo = feeddao.select(feedid);
-		
 		if (feedvo == null) {
 			logger.info("ID와 일치하는 피드 번호가 없습니다.");
 			return;
+		} else {
+			logger.info("현재 피드 번호 : " + feedvo.getFeedId());
 		}
 
-		LikeInfoVO vo = new LikeInfoVO(feedvo.getFeedId(), null, 0, 0, 0);
-		int result = likedao.delete(feedvo.getFeedId());
+		if (feedvo.getUserId().equals(uservo.getUserId()) && feedvo.getFeedId() == feedid) {
+			LikeInfoVO likevo = new LikeInfoVO(12, null, 0, 0, 0);
+			int result = likedao.delete(likevo.getLikeId());
 
-		if (result == 1) {
-			logger.info("♠ 삭제 성공");
+			if (result == 1) {
+				logger.info("♠ 삭제 성공");
+			}
+
+		} else {
+			logger.info("♠ 현재 ID : " + uservo.getUserId() + ", 피드 번호 : " + feedvo.getFeedId() + "가 존재하지 않습니다.");
 		}
 
 	}// end testDelete
