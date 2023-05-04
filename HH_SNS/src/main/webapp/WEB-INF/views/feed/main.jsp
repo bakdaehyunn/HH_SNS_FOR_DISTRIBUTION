@@ -7,28 +7,29 @@
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style type="text/css">
-.feed-container {
-	display: flex;
+.feedcontainer {
+	display: block;
 	flex-wrap: wrap;
 	align: center;
 	justify-content: space-between;
 }
 
-.feed-item {
+.feeditem {
 	width: 30%;
+	margin: 0 auto;
 	margin-bottom: 20px;
 	padding: 20px;
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
 }
 
-.button-container {
+.btn_add {
 	display: flex;
 	justify-content: space-between;
 	margin-top: 10px;
 }
 
-.edit-button, .delete-button {
+.btn_update, .btn_delete {
 	background-color: transparent;
 	border: none;
 	color: #1da1f2;
@@ -36,8 +37,46 @@
 	cursor: pointer;
 }
 
-.edit-button:hover, .delete-button:hover {
+.btn_update:hover, .btn_delete:hover {
 	text-decoration: underline;
+}
+
+.feedinput {
+	display: block;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	width: 30%;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	padding: 20px;
+	background-color: #f7f7f7;
+	border: 1px solid #ddd;
+	height: 200px;
+	position: relative;
+}
+
+.feedtxt {
+	width: 100%;
+	height: 100px;
+	margin-right: 10px;
+}
+
+.feedinputbtn {
+	position: absolute;
+	width: 20%;
+	height: 30px;
+	background-color: #1da1f2;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	font-size: 14px;
+	cursor: pointer;
+	bottom: 0;
+	right: 0;
+	margin-right: 10px;
+	margin-bottom: 10px;
 }
 </style>
 <meta charset="UTF-8">
@@ -49,43 +88,34 @@
 		<div id="feeds"></div>
 	</div>
 
-	<div class="feed-container">
-		<div class="feed-item">
+	<div class="feedinput">
+		<input type="text" id="feedcontent"
+			placeholder="무슨 일이 일어나고 있나요?"> <br>
+		<button id="btn_add">작성</button>
+	</div>
+
+	<div class="feedcontainer">
+		<div class="feeditem">
 			<p>첫 번째 피드 아이템</p>
-			<div class="button-container">
-				<button class="edit-button">수정</button>
-				<button class="delete-button">삭제</button>
+			<div class="btncontainer">
+				<button id="btn_update">수정</button>
+				<button id="btn_delete">삭제</button>
 			</div>
-		</div>
-		<div class="feed-item">
-			<p>두 번째 피드 아이템</p>
-			<div class="button-container">
-				<button class="edit-button">수정</button>
-				<button class="delete-button">삭제</button>
-			</div>
-		</div>
-		<div class="feed-item">
-			<p>세 번째 피드 아이템</p>
-			<div class="button-container">
-				<button class="edit-button">수정</button>
-				<button class="delete-button">삭제</button>
-			</div>
-		</div>
 	</div>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			// 피드 삭제 버튼 클릭 시 해당 피드 아이템 삭제
-			$('.delete-button').on('click', function() {
+			// 피드 작성버튼
+			$('#btn_add').on('click', function() {
+			});
+			
+			// userId가 일치 할 시에 누르는 삭제 버튼
+			$('#btn_delete').on('click', function() {
 				$(this).parents('.feed-item').remove();
 			});
 
-			// 피드 수정 버튼 클릭 시 해당 피드 아이템의 텍스트 수정
-			$('.edit-button').on('click', function() {
-				var feedText = $(this).parent().siblings('p').text();
-				var newText = prompt("수정할 내용을 입력하세요.", feedText);
-				if (newText !== null) {
-					$(this).parent().siblings('p').text(newText);
+			// userId가 일치 할 시에 누르는 수정 버튼
+			$('#btn_update').on('click', function() {
 				}
 			});
 		});

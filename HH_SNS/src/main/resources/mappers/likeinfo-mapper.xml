@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.ex06.LikeInfoMapper">
+	<!-- ★ ${key 이름} : mybatis-config.xml의 property - name(vo)과 매칭. DB 테이블의 
+		컬럼 ★ #{key 이름} : dao 클래스의 sqlSession에서 전송받은 데이터 변수명(입력받은 데이터) -->
+
+	<!-- private int likeId;
+		 private String userId;
+		 private int feedId;
+		 private int replyId;
+		 private int commentId; 
+		 -->
+
+	<!-- 
+		INSERT INTO [테이블명] values([시퀀스명].NEXTVAL, 'test');
+	 -->
+	
+	<insert id="insert">
+		insert into ${like_info}
+		values (LIKE_INFO_SEQ.NEXTVAL, #{userId}, #{feedId}, 0, 0)
+	</insert>
+	 
+	 <delete id="delete">
+	 	delete from ${like_info}
+	 	where ${likeId} = #{likeId}
+	 </delete>
+
+
+</mapper>

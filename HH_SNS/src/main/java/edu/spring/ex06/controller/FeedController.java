@@ -16,7 +16,7 @@ public class FeedController {
 //	------------------------------------------------------------------
 	@GetMapping("/main")
 	public void main() {
-		logger.info("★ FeddController 호출");
+		logger.info("★ FeedController 호출");
 	}
 	
 

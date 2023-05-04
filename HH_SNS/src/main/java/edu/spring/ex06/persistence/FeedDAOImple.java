@@ -64,4 +64,16 @@ public class FeedDAOImple implements FeedDAO{
 		return sqlSession.selectList(NAMESPACE +".select_all_by_id", userId);
 	}// end selectAllbyId 개인 피드 전체 출력
 
+	@Override
+	public int updateCommentCnt(int amount, int feedId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}// end updateCommentCnt 개인 댓글 출력
+
+	@Override
+	public int updateLikeCnt(int amount, int feedId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
