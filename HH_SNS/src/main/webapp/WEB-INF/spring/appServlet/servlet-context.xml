@@ -31,7 +31,8 @@
 		class="edu.spring.ex06.interceptor.AuthInterceptor">
 	</beans:bean>
 	
-	<!-- Interceptor가 가로챌 URL 매핑 설정 -->
+	<!-- Interceptor가 가로챌 URL 매핑 설정 
+	
 	<interceptors>
 		<interceptor>
 			<mapping path="/feed/register" />
@@ -39,6 +40,8 @@
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 	</interceptors>
+	-->
+	
 	
 	<!--  뒤로가기 캐쉬 삭제 설정 코드 -->
 	<interceptors>

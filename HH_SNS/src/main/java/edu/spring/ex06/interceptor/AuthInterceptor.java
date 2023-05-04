@@ -21,8 +21,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		// 로그인 상태(세션 존재) : mapping된 url의 컨트롤러 메소드 실행
 		// 로그아웃 상태(세션 없음) : login url로 이동. 목표 url 저장
 		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
-		if(memberId != null) {
+		String userId = (String) session.getAttribute("userId");
+		if(userId != null) {
 			logger.info("로그인 상태 -> controller method 실행");
 			return true;
 		} else {

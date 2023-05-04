@@ -10,10 +10,10 @@
 </head>
 <body>
 	<h1>게시판 메인</h1>
-	<c:if test="${empty memberId }"> 
+	<c:if test="${empty userId }"> 
 		<button type="button" id="btn_login">로그인</button>
 	</c:if>
-	<c:if test="${not empty memberId }"> 
+	<c:if test="${not empty userId }"> 
 		<button type="button" id="btn_logout">로그아웃</button>
 	</c:if>
 	

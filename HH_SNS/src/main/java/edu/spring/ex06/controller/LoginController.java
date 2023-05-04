@@ -50,19 +50,20 @@ public class LoginController {
 			session.setAttribute("userId", userId);
 			
 			// 세션에서 targetURL 가져오기
-			String targetURL = (String) session.getAttribute("targetURL");
-			if(targetURL != null) {
-				session.removeAttribute("targetURL");
-				return "redirect:" + targetURL;
-			} else {
-				return "redirect:/feed/list";
-			}
+			//String targetURL = (String) session.getAttribute("targetURL");
+		//	if(targetURL != null) {
+			//	session.removeAttribute("targetURL");
+				//return "redirect:" + targetURL;
+			//} else {
+				//return "redirect:/feed/list";
+			//}
 			
-		} else {
-			logger.info("로그인 실패");
-			return "redirect:/user/login";
-			
+		//} else {
+			//logger.info("로그인 실패");
 		}
+			return "redirect:/feed/list";
+			
+		//}
 	}
 	
 	@GetMapping("/signup")
@@ -88,8 +89,8 @@ public class LoginController {
 	public String logout(HttpServletRequest request) {
 		logger.info("logout() 호출");
 		HttpSession session = request.getSession();
-		if(session.getAttribute("UserId") != null) {
-			session.removeAttribute("UserId");
+		if(session.getAttribute("userId") != null) {
+			session.removeAttribute("userId");
 			return "redirect:/feed/list";
 		} else {
 			return "redirect:/feed/list";
