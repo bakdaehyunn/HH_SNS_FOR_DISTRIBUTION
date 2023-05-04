@@ -24,7 +24,7 @@ public class UserInfoServiceImple implements UserInfoService {
 
 	@Override
 	public UserInfoVO read(String userId) {
-		logger.info("read() 호출 : boardId = " + userId);
+		logger.info("read() 호출 : userId = " + userId);
 		return dao.select(userId);
 	}
 

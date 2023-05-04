@@ -37,10 +37,10 @@ public class UserInfoDAOTest {
 	@Test
 	public void testDAO() {
 		//testInsert();
-		//testSelect();
+		testSelect();
 		//testUpdate();
 		//testProfileUpdate();
-		testlogin();
+		//testlogin();
 		//testDelete();
 		
 		

@@ -14,7 +14,9 @@
 		<button type="button" id="btn_login">로그인</button>
 	</c:if>
 	<c:if test="${not empty userId }"> 
+		<p>@${userId }님 </p>
 		<button type="button" id="btn_logout">로그아웃</button>
+		<button type="button" id="btn_profileEdit">프로필편집</button>
 	</c:if>
 	
 	<hr>
@@ -29,6 +31,10 @@
 			});
 			$('#btn_logout').click(function(){
 				location = '../user/logout';
+			});
+			$('#btn_profileEdit').click(function(){
+				var target = encodeURI('/ex06/user/profileEdit');
+				location = target;
 			});
 		});
 	</script>

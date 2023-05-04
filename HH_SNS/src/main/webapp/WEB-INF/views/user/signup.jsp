@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Sign Up</title>
 </head>
 <body>
 <%-- 아이디 비밀번호 이름 닉네임, 생일 이메일 --%>

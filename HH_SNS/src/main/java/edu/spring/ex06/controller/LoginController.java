@@ -1,9 +1,13 @@
 package edu.spring.ex06.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,11 +16,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.spring.ex06.domain.UserInfoVO;
@@ -35,6 +42,9 @@ public class LoginController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, false));
 	} // 폼에서 전달되는 String형의 데이터를 VO의 Date형의 변수와 매핑되도록 Date형으로 변환 
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 	
 	@GetMapping("/login")
 	public void loginGET() {
@@ -95,6 +105,52 @@ public class LoginController {
 		} else {
 			return "redirect:/feed/list";
 		}
+	}
+	
+	@GetMapping("/profileEdit")
+	public void profileEditGET(Model model, HttpServletRequest request) {
+		logger.info("profileEdit() 호출");
+		HttpSession session =request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		UserInfoVO vo = userInfoservice.read(userId);
+		model.addAttribute("vo",vo);
+	}
+	
+	@PostMapping("/profileEdit")
+	public String profileEdit(UserInfoVO vo, MultipartFile file ) {
+		logger.info("profileEdit() 호출");
+		logger.info("vo.getUserProfile() : " + vo.getUserProfile());
+		logger.info("vo.getUserNickname() : " + vo.getUserNickname());
+		logger.info("file : "+ file.getSize());
+		
+		if(file.getSize()>0) { //사진파일의 사이즈가 0이상 경우 파일로 간주하여 파일업로드 진행  (현재 파일을 추가안하는 경우에 null로 넘어오지 않음)
+			String savedFileName = saveUploadFile(file);
+			vo.setUserProfile(savedFileName);
+			logger.info("file 추가 하겠습니다.");
+			logger.info("vo.getUserProfile() : " + vo.getUserProfile());
+		}
+		int result = userInfoservice.updateProfile(vo);
+
+		if(result == 1) {
+			logger.info("프로필 업데이트 성공");
+		}
+		return "redirect:/feed/list";
+	}
+	private String saveUploadFile(MultipartFile file) {
+		// UUID : 업로드하는 파일 이름이 중복되지 않도록 값 생성
+		UUID uuid = UUID.randomUUID();
+		String savedName = uuid + "_" + file.getOriginalFilename();
+		File target = new File(uploadPath, savedName);
+		
+		try {
+			FileCopyUtils.copy(file.getBytes(), target);
+			logger.info("파일 저장 성공");
+			return savedName;
+		} catch (IOException e) {
+			logger.error("파일 저장 실패");
+			return null;
+		}
+		
 	}
 	
 
