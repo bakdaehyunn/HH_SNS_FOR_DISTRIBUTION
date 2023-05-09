@@ -70,8 +70,12 @@ public class UserController {
 			
 		//} else {
 			//logger.info("로그인 실패");
-		}
 			return "redirect:/feed/list";
+		}
+		else {
+			return "redirect:/user/login";
+		}
+			
 			
 		//}
 	}

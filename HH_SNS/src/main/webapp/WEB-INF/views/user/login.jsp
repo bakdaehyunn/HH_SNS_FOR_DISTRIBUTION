@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Log In</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 	<h1>로그인</h1>

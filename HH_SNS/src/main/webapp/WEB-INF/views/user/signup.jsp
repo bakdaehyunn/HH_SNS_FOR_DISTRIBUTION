@@ -85,30 +85,36 @@
 				console.log(userEmail);
 				var list = '';
 				if(userEmail != ''){
-					$('#userEmail').show();
-					if(isEmail(userEmail)){
+					if(isEmail(userEmail)){	
+						var emaildivide = userEmail.split(".");
 						$.ajax({
 							type : 'GET',
-							url : '../users/userEmail/'+userEmail,
+							url : '../users/userEmail/'+emaildivide[0]+'/'+emaildivide[1],
 							headers : {'Content-Type' : 'application/json'},
 							success : function(data){
 								console.log(data);
 								if(data == 1){
+									console.log(data);
 									list ='해당 이메일은 이미 사용 중 입니다.';
+									$('#userEmailGuide').html(list);
+									$('#userEmailGuide').show();
+								}else{
+									list ='해당 이메일은 사용 가능합니다.';
 									$('#userEmailGuide').html(list);
 									$('#userEmailGuide').show();
 								} 
 							
 							}
 						});
-					} 
-					else {
-						list ='올바른 이메일을 입력해주세요.'
+					} else {
+						list ='올바른 이메일을 입력해주세요.';
+						$('#userEmailGuide').html(list);
+						$('#userEmailGuide').show();
 					}
 				}else {
 					list = '이메일을 입력해주세요.';
-					$('#userIdGuide').html(list);
-					$('#userIdGuide').show();
+					$('#userEmailGuide').html(list);
+					$('#userEmailGuide').show();
 				}
 			});
 			$('#userPassword').keyup(function(){
