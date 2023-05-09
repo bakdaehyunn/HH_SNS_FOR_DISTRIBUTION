@@ -71,6 +71,8 @@ public class LikeInfoDAOTest {
 		logger.info("★ 현재 피드 번호 : " + feedvo.getFeedId());
 
 		// 유저id랑 피드 번호가 피드VO에 존재 할 시에
+		// 피드vo에 있는 피드 작성 번호에 유저 아이디와 유저vo에 있는 유저 아이디가 일치하고
+		// 피드vo에 있는 피드 번호가 현재 넣을 피드 아이디가 같은지 확인
 		if (feedvo.getUserId().equals(uservo.getUserId()) && feedvo.getFeedId() == feedid) {
 			LikeInfoVO likevo = new LikeInfoVO(0, uservo.getUserId(), feedvo.getFeedId(), 0, 0);
 			int result = likedao.insert(likevo);

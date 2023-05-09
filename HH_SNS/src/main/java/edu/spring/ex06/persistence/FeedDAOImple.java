@@ -1,6 +1,5 @@
 package edu.spring.ex06.persistence;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +36,9 @@ public class FeedDAOImple implements FeedDAO{
 	}// end insert
 
 	@Override
-	public List<FeedVO> selectAll(Date feedDate) {
+	public List<FeedVO> selectAll(int feedId) {
 		logger.info("★ FeedDAOImple 전체검색 최신순");
-		return sqlSession.selectList(NAMESPACE + ".select_all", feedDate);
+		return sqlSession.selectList(NAMESPACE + ".select_all", feedId);
 	}// end selectAll 전체 검색
 
 	@Override
