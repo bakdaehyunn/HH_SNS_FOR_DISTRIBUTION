@@ -37,12 +37,32 @@ public class UserInfoDAOTest {
 	@Test
 	public void testDAO() {
 		//testInsert();
-		testSelect();
+		//testSelect();
 		//testUpdate();
 		//testProfileUpdate();
 		//testlogin();
 		//testDelete();
+		//testidcheck();
+		testEmailcheck();
 		
+	}
+
+	private void testEmailcheck() {
+		String userEmail = "a@a";
+		int result = dao.selectUserEmail(userEmail);
+		System.out.println(result+"asdasdasd");
+		
+		
+	}
+
+	private void testidcheck() {
+		String userId="as";
+		int result = dao.selectUserId(userId);
+		if(result == 1) {
+			logger.info("아이디가 이미 존재합니다.");
+		} else {
+			logger.info("사용가능한 아이디 입니다.");
+		}
 		
 	}
 

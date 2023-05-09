@@ -31,9 +31,9 @@ import edu.spring.ex06.service.UserInfoService;
 
 @Controller
 @RequestMapping(value="/user")
-public class LoginController {
+public class UserController {
 	private static final Logger logger = 
-			LoggerFactory.getLogger(LoginController.class);
+			LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserInfoService userInfoservice;
 	
