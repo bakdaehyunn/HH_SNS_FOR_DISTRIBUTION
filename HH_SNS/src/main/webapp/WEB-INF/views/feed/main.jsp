@@ -103,6 +103,7 @@
 		<div id="feeds"></div>
 	</div>
 
+
 	<form action="main" method="get">
 		<div class="input_feed">
 			<p id="userId">${userId}</p>
