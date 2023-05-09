@@ -8,7 +8,10 @@ public interface UserInfoDAO {
 	int insert(UserInfoVO vo);
 	UserInfoVO select(String userId);
 	int select(String userId,String userPassword);
+	int selectUserId(String userId);
+	int selectUserEmail(String userEmail);
 	int update(UserInfoVO vo);
 	int updateProfile(UserInfoVO vo);
 	int delete(String userId);
+	
 }

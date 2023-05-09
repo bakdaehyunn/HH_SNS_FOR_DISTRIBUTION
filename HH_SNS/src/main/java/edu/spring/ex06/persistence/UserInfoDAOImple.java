@@ -61,6 +61,19 @@ public class UserInfoDAOImple implements UserInfoDAO{
 		
 	}
 
+	@Override
+	public int selectUserId(String userId) {
+		logger.info("selectUserId() 호출");
+		return sqlSession.selectOne(NAMESPACE + ".select_check_user_id", userId);
+	}
+
+	@Override
+	public int selectUserEmail(String userEmail) {
+		logger.info("selectUserEmail() 호출");
+		return sqlSession.selectOne(NAMESPACE + ".select_check_user_email", userEmail);
+	}
+	
+
 	
 
 }

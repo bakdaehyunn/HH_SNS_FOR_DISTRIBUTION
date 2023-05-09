@@ -14,12 +14,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from ${user_info}
 		where ${userId} = #{userId}
 	</select>
-	<!-- select 체크 -->
+	<!-- select 로그인 아이디 체크 -->
 	<select id="select_check_user_acc" resultType="Integer">
-	  select count(${userId}) from ${user_info} 
-	 where ${userId} = #{userId} and ${userPassword} = #{userPassword}
-	 
+		select count(${userId}) from ${user_info} 
+		where ${userId} = #{userId} and ${userPassword} = #{userPassword}
 	</select>
+	
+	<!-- select 아이디 중복 체크 -->
+	<select id="select_check_user_id" resultType="Integer">
+	 	select count(${userId}) from ${user_info}
+	 	where ${userId} = #{userId}
+	</select>
+	
+	<!-- select 이메일 중복 체크 -->
+	<select id="select_check_user_email" resultType="Integer">
+		select count(${userEmail}) from ${user_info}
+		where ${userEmail} = #{userEmail}
+	</select>
+	
 	<!--  update 유저정보 수정 -->
 	<update id="update_userinfo">
 		update ${user_info}
@@ -38,4 +50,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${user_info}
 		where ${userId} = #{userId}
 	</delete>
+	
+	
 </mapper>

@@ -54,4 +54,16 @@ public class UserInfoServiceImple implements UserInfoService {
 		return dao.delete(userId);
 	}
 
+	@Override
+	public int readUserId(String userId) {
+		logger.info("readUserId() 호출 : userId = " + userId);
+		return dao.selectUserId(userId);
+	}
+
+	@Override
+	public int readUserEmail(String userEmail) {
+		logger.info("readUserEmail() 호출 : userEmail = " + userEmail);
+		return dao.selectUserEmail(userEmail);
+	}
+
 }
