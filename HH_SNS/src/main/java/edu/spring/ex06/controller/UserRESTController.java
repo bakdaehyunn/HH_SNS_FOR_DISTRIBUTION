@@ -28,6 +28,7 @@ public class UserRESTController {
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	
+	
 	@GetMapping("/userEmail/{userEmail}")
 	public ResponseEntity<Integer> readUserEmail(
 			@PathVariable("userEmail") String userEmail){
