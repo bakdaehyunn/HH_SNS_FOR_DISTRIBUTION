@@ -18,38 +18,39 @@ public class FeedServiceImple implements FeedService{
 
 	@Override
 	public int create(FeedVO vo) {
-		logger.info("create() 호출 : vo = " + vo.toString());
+		logger.info("★ FeedService 등록 : " + vo.toString());
 		return dao.insert(vo);
 	}// end create()
 
 	@Override
-	public FeedVO read(int boardId) {
-		// TODO Auto-generated method stub
-		return null;
+	public FeedVO read(int feedId) {
+		logger.info("★ FeedService 검색 : " + feedId);
+		return dao.select(feedId);
 	}
 
 	@Override
-	public int update(FeedVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(int feedId, FeedVO vo) {
+		logger.info("★ FeedService 수정 : " + vo.toString());
+		return dao.update(feedId, vo);
 	}
 
 	@Override
-	public int delete(int boardId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete(int feedId) {
+		logger.info("★ FeedService 삭제 : " + feedId);
+		return dao.delete(feedId);
 	}
 
+	@Override
+	public int getTotalLikes() {
+		logger.info("★ FeedService 좋아요 수");
+		return dao.getTotalLike();
+	}
+	
 	@Override
 	public int getTotalComments() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
-	public int getTotalLikes() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

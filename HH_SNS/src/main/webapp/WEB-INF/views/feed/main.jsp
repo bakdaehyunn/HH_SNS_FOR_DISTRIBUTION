@@ -7,41 +7,7 @@
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style type="text/css">
-.feedcontainer {
-	display: block;
-	flex-wrap: wrap;
-	align: center;
-	justify-content: space-between;
-}
-
-.feeditem {
-	width: 30%;
-	margin: 0 auto;
-	margin-bottom: 20px;
-	padding: 20px;
-	background-color: #f7f7f7;
-	border: 1px solid #ddd;
-}
-
-.btn_add {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 10px;
-}
-
-.btn_update, .btn_delete {
-	background-color: transparent;
-	border: none;
-	color: #1da1f2;
-	font-size: 14px;
-	cursor: pointer;
-}
-
-.btn_update:hover, .btn_delete:hover {
-	text-decoration: underline;
-}
-
-.feedinput {
+.feed-input {
 	display: block;
 	flex-wrap: wrap;
 	align-items: center;
@@ -54,17 +20,18 @@
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
 	height: 200px;
-	position: relative;
+	position: relative; /* 추가 */
 }
 
-.feedtxt {
-	width: 100%;
-	height: 100px;
+.feed-input-text {
+	width: 70%;
+	height: 70%;
 	margin-right: 10px;
 }
 
-.feedinputbtn {
+.feed-input-button {
 	position: absolute;
+	bottom: 0;
 	width: 20%;
 	height: 30px;
 	background-color: #1da1f2;
@@ -73,10 +40,42 @@
 	border-radius: 4px;
 	font-size: 14px;
 	cursor: pointer;
-	bottom: 0;
-	right: 0;
-	margin-right: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 2; /* 추가 */
+	margin-right: 2px;
+}
+
+.feed-container {
+	display: block; /* flex에서 block으로 변경 */
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	width: 80%;
+	margin: 0 auto;
+}
+
+.feed-item {
+	width: 30%; margin : 0 auto; /* 가운데 정렬을 위해 추가 */ 
+	margin-bottom : 20px;
+	padding : 20px; background-color : #f7f7f7;
+	border: 1px solid #ddd;
+	margin: 0 auto; /* 가운데 정렬을 위해 추가 */
+	margin-bottom: 20px;
+	padding: 20px;
+	background-color: #f7f7f7;
+}
+
+.button-container {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
+.edit-button, .delete-button {
+	background-color: transparent;
+	border: none;
+	color: #1da1f2;
+	font-size: 14px;
+	cursor: pointer;
 }
 </style>
 <meta charset="UTF-8">
@@ -88,19 +87,33 @@
 		<div id="feeds"></div>
 	</div>
 
-	<div class="feedinput">
-		<input type="text" id="feedcontent"
-			placeholder="무슨 일이 일어나고 있나요?"> <br>
-		<button id="btn_add">작성</button>
+	<div class="feed-input">
+		<input type="text" class="feed-input-text" placeholder="피드 작성하기">
+		<button class="feed-input-button">작성</button>
 	</div>
 
-	<div class="feedcontainer">
-		<div class="feeditem">
+	<div class="feed-container">
+		<div class="feed-item">
 			<p>첫 번째 피드 아이템</p>
-			<div class="btncontainer">
-				<button id="btn_update">수정</button>
-				<button id="btn_delete">삭제</button>
+			<div class="button-container">
+				<button class="edit-button">수정</button>
+				<button class="delete-button">삭제</button>
 			</div>
+		</div>
+		<div class="feed-item">
+			<p>두 번째 피드 아이템</p>
+			<div class="button-container">
+				<button class="edit-button">수정</button>
+				<button class="delete-button">삭제</button>
+			</div>
+		</div>
+		<div class="feed-item">
+			<p>세 번째 피드 아이템</p>
+			<div class="button-container">
+				<button class="edit-button">수정</button>
+				<button class="delete-button">삭제</button>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript">
