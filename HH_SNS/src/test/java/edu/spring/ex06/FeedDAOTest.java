@@ -63,7 +63,7 @@ public class FeedDAOTest {
 //	--------------------------------------------------
 
 	private void testSelectAll() {
-		List<FeedVO> list = feeddao.selectAll(null);
+		List<FeedVO> list = feeddao.selectAll(0);
 		logger.info("총 개수 : " + list.size() + "개");
 		for (FeedVO vo : list) {
 			logger.info("♠ 결과 : " + vo.toString());

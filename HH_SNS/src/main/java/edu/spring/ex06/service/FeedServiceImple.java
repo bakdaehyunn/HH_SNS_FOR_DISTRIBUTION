@@ -1,6 +1,7 @@
 package edu.spring.ex06.service;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,16 +33,22 @@ public class FeedServiceImple implements FeedService{
 		String musictitle = "X";
 		
 		feedvo = new FeedVO(0, feedcontent, userid, usernickname, userprofile, 0, 0, feeddate, musictitle);
-		logger.info("★ FeedService 등록 : " + feedvo.toString());
+		logger.info("★ FeedServiceImple 등록 : " + feedvo.toString());
 		// FeedVO [feedId=0, feedContent=ㅁㄴㅇ, userId=asss, userNickname=null, userProfile=null, replyCount=0, likeCount=0, feedDate=null, musicTitle=null]
 		
 		return feeddao.insert(feedvo);
 	}// end create()
 
 	@Override
-	public FeedVO read(int feedId) {
+	public List<FeedVO> readAll(int feedId) {
 		logger.info("★ FeedService 검색 : " + feedId);
-		return feeddao.select(feedId);
+		return feeddao.selectAll(feedId);
+	}
+	
+	@Override
+	public FeedVO read(int feedId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -67,6 +74,8 @@ public class FeedServiceImple implements FeedService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
 
 
 }

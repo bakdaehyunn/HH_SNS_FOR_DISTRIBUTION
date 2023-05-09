@@ -1,18 +1,17 @@
 package edu.spring.ex06.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,8 +45,6 @@ public class FeedRESTController {
 		// - 클라이언트에서 전송받은 json 데이터를
 		// 자바 객체로 변환해주는 annotation
 		logger.info("★ FeedRESTController : " + feedvo.toString());
-		// FeedVO [feedId=1, feedContent=ㅁㄴㅇ, userId=, userNickname=null,
-		// userProfile=null, replyCount=0, likeCount=0, feedDate=null, musicTitle=null]
 
 		String userid = (String) session.getAttribute("userId");
 
@@ -67,8 +64,7 @@ public class FeedRESTController {
 			Date feeddate = new Date(); 
 			String musictitle = "X";
 			feedvo = new FeedVO(0, feedcontent, userid, usernickname, userprofile, 0, 0, feeddate, musictitle);
-			logger.info("다시한번 ! : " + feedvo.toString());
-
+			logger.info("★ 등록할 정보 : " + feedvo.toString());
 
 		} else {
 			// 유저정보가 없는 경우나 세션이 만료된 경우 등에 대한 예외 처리
@@ -79,6 +75,7 @@ public class FeedRESTController {
 		try {
 			result = feedService.create(feedvo, userinfovo, session);
 			logger.info("result : " + result);
+			logger.info("---------------------------------------------------------------");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,15 +84,15 @@ public class FeedRESTController {
 
 	}
 
-//	@GetMapping("/all/{boardId}") // GET : 댓글 선택(all)
-//	public ResponseEntity<List<ReplyVO>> readReplies(
-//			@PathVariable("boardId") int boardId) {
+//	@GetMapping("/all/{feedId}") // GET : 댓글 선택(all)
+//	public ResponseEntity<List<FeedVO>> readFeeds(
+//			@PathVariable("feedId") int feedId) {
 //		// PathVariable("boardId") : /all/{boardId} 값을 설정된 변수에 저장
 //		// 실제로 할 때는 /all/1 -> 이런식으로 한당 ㅎㅅㅎ
-//		logger.info("readReplies() 호출 : boardId = " + boardId);
+//		logger.info("★ FeedRESTController 전체검색 : " + feedId);
 //		
-//		List<ReplyVO> list = replyService.read(boardId);
-//		return new ResponseEntity<List<ReplyVO>>(list, HttpStatus.OK);
+//		List<FeedVO> list = feedService.readAll(feedId);
+//		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
 //	}
 //	
 //	@PutMapping("/{replyId}") // PUT : 댓글 수정

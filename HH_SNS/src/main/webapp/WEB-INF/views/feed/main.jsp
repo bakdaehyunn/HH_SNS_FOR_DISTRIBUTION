@@ -97,20 +97,24 @@
 		
 	%>
 
+	<!-- ▼ 아래 히든인 이유는 1씩 올리는것뿐인걸 굳이 보일필요 X -->
 	<input type="hidden" id="feedId" value="1">
 
+	<!-- ▼ 이건 RESTController랑 관계 X 그냥 여기서 보여줄 태그일 뿐임 ㅎ-ㅎ -->
 	<div style="text-align: center;">
 		<div id="feeds"></div>
 	</div>
 
+	<!-- 
+	▼ 등록버튼은 절 대 form안에 넣지말기 ㅎ-ㅎ 
+	-->
 
-	<form action="main" method="get">
-		<div class="input_feed">
-			<p id="userId">${userId}</p>
-			<input type="text" id="feedContent" placeholder="피드 작성하기" required>
-			<input type="submit" id="btn_add" value="등록">
-		</div>
-	</form>
+	<div class="input_feed">
+		<p id="userId">${userId}</p>
+		<input type="text" id="feedContent" placeholder="피드 작성하기" required>
+		<input type="submit" id="btn_add" value="등록">
+	</div>
+
 
 
 	<c:forEach var="vo" items="${main}">
@@ -118,45 +122,44 @@
 			<div class="post_item">
 				<p>${vo.feedContent }</p>
 				<div class="div_btn">
-					<input type="submit" class="btn_update" value="수정"> <input
-						type="submit" class="btn_delete" value="삭제">
+					<input type="submit" class="btn_update" value="수정"> 
+					<input type="submit" class="btn_delete" value="삭제">
 				</div>
 			</div>
 		</div>
 	</c:forEach>
 
 
-
+	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장
 	<input type="hidden" id="insertAlert" value="${insert_result }">
+	 -->
 
 	<script type="text/javascript">
 		// - css 선택자 :
 		//	'p' : 태그(요소)
 		//	'#p1' : 아이디
 		//	'.c1' : 클래스
-		
+
 		$(document).ready(function() {
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
-				console.log('왜 안뜨지');
 				var feedId = $('#feedId').val();
 				var userId = $('#userId').val();
 				var feedContent = $('#feedContent').val();
 				
-				console.log(userId);
 				console.log(feedContent);
 
 				var obj = {
 					'feedId' : feedId,
 					'userId' : userId,
 					'feedContent' : feedContent
-					
+
 				}
 				console.log(obj);
 
 				$.ajax({
 					type : 'POST',
-					url : '/ex06/feeds',
+					url : '../feeds',
 					headers : {
 						'Content-Type' : 'application/json'
 					},
@@ -165,14 +168,14 @@
 						console.log(result);
 						if (result == 1) {
 							console.log('★ 피드작성 완료');
-							getAllmain();
 						} else {
 							console.log('★ 피드작성 실패');
-				          }
+						}
 					}
 
 				});// end ajax()
 			});// end btn_add.click();
+
 		}); // end ready();
 	</script>
 
