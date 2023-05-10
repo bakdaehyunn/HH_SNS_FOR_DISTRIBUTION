@@ -21,7 +21,6 @@ public class FeedController {
 	@GetMapping("/main")
 	public void mainGET(FeedVO feedvo, UserInfoVO userinfovo, HttpSession session) {
 		logger.info("★ FeedControllerGET 호출");
-
 	}
 
 	@GetMapping("/list")
