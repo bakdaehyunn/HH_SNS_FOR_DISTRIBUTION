@@ -14,6 +14,7 @@
 		<button type="button" id="btn_login">로그인</button>
 	</c:if>
 	<c:if test="${not empty userId }"> 
+		<p><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		<p>@${userId }님 </p>
 		<button type="button" id="btn_logout">로그아웃</button>
 		<button type="button" id="btn_profileEdit">프로필편집</button>

@@ -86,6 +86,7 @@
 	font-size: 14px;
 	cursor: pointer;
 }
+
 </style>
 <meta charset="UTF-8">
 <title>H&H</title>
@@ -104,7 +105,9 @@
 	-->
 
 	<div class="input_feed">
-		<p id="userId"><b>${userId}</b></p>
+		<p id="userProfile"><a href="../feed/list"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
+		<p id="userId"><a href="../feed/list"><b>${userId}</b></a></p>
+		<p id="userNickname">${userinfovo.userNickname }</p>
 		<input type="text" id="feedContent" placeholder="피드 작성하기" required>
 		<input type="submit" id="btn_add" value="등록">
 	</div>
@@ -194,7 +197,7 @@
 											list += '<div class="div_post">'
 											+ '<div class="post_item">'
 											+ '<input type="hidden" id="feedId" value="'+ this.feedId +'">'
-											+ '<p>' + '<a href="../feed/list">' + this.userProfile + '</a>' +'</p>'
+											+ '<p>' + '<a href="../feed/list">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
 											+ '<p>' + '<a href="../feed/list">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
 											+ '<p>' + this.userNickname + '</p>'
 											+ '&nbsp;&nbsp;'
