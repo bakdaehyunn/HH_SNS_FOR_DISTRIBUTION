@@ -9,6 +9,7 @@
 <body>
 <h1>프로필 편집</h1>
 	<br>
+	<img src="display?fileName=${vo.getUserProfile() }" alt="img" width="100" height="100" /><br>
 	<button class="button" onclick="onclick=document.all.files.click()">사진변경</button> <br>
 	<form action="profileEdit" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="userId" value="${vo.getUserId() }">

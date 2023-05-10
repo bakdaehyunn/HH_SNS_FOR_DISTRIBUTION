@@ -47,8 +47,7 @@ public class FeedServiceImple implements FeedService{
 	
 	@Override
 	public FeedVO read(int feedId) {
-		// TODO Auto-generated method stub
-		return null;
+		return feeddao.select(feedId);
 	}
 
 	@Override
