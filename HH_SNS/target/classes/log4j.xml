@@ -13,6 +13,7 @@
 	<!-- Application Loggers -->
 	<logger name="edu.spring.ex06">
 		<level value="info" />
+		<!-- debug로 되어있으면 info로 바꾸기! -->
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

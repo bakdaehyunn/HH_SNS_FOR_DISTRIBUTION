@@ -38,9 +38,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 </select>
 	
 	 <update id="update">
-	 	update ${feed} set
-	 	${feedContent} = #{feedContent}, ${userNickname} = #{userNickname},
-	 	${userProfile} = #{userProfile}, ${musicTitle} = #{musicTitle}
+	 	update ${feed} 
+	 	set ${feedContent} = #{feedContent}
 	 	where ${feedId} = #{feedId}
 	 </update>
 	 
