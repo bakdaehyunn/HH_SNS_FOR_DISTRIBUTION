@@ -93,42 +93,26 @@
 <body>
 
 	<%
-		String userId = (String) session.getAttribute("userId");
-		
+	String userId = (String) session.getAttribute("userId");
 	%>
 
 	<!-- ▼ 아래 히든인 이유는 1씩 올리는것뿐인걸 굳이 보일필요 X -->
 	<input type="hidden" id="feedId" value="1">
-
-	<!-- ▼ 이건 RESTController랑 관계 X 그냥 여기서 보여줄 태그일 뿐임 ㅎ-ㅎ -->
-	<div style="text-align: center;">
-		<div id="feeds"></div>
-	</div>
 
 	<!-- 
 	▼ 등록버튼은 절 대 form안에 넣지말기 ㅎ-ㅎ 
 	-->
 
 	<div class="input_feed">
-		<p id="userId">${userId}</p>
+		<p id="userId"><b>${userId}</b></p>
 		<input type="text" id="feedContent" placeholder="피드 작성하기" required>
 		<input type="submit" id="btn_add" value="등록">
 	</div>
-
-
-
-	<c:forEach var="vo" items="${main}">
-		<div class="div_post">
-			<div class="post_item">
-				<p>${vo.feedContent }</p>
-				<div class="div_btn">
-					<input type="submit" class="btn_update" value="수정"> 
-					<input type="submit" class="btn_delete" value="삭제">
-				</div>
-			</div>
-		</div>
-	</c:forEach>
-
+	
+	<!-- ▼ 이건 RESTController랑 관계 X 그냥 여기서 보여줄 태그일 뿐임 ㅎ-ㅎ -->
+	<div style="text-align: center;">
+		<div id="feeds"></div>
+	</div>
 
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장
 	<input type="hidden" id="insertAlert" value="${insert_result }">
@@ -141,18 +125,19 @@
 		//	'.c1' : 클래스
 
 		$(document).ready(function() {
+			//$('.input_feed').prependTo('body');
+			getAllMain();
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
-				var userId = $('#userId').val();
+				const userId = document.getElementById("userId").textContent;
 				var feedContent = $('#feedContent').val();
-				
 				console.log(feedContent);
 
 				var obj = {
-					'feedId' : feedId,
-					'userId' : userId,
-					'feedContent' : feedContent
+				'feedId' : feedId,
+				'userId' : userId,
+				'feedContent' : feedContent
 
 				}
 				console.log(obj);
@@ -168,15 +153,118 @@
 						console.log(result);
 						if (result == 1) {
 							console.log('★ 피드작성 완료');
+							getAllMain();
 						} else {
 							console.log('★ 피드작성 실패');
 						}
 					}
-
 				});// end ajax()
 			});// end btn_add.click();
+			
+					// - css 선택자 :
+					//	'p' : 태그(요소)
+					//	'#p1' : 아이디
+					//	'.c1' : 클래스
 
-		}); // end ready();
+					function getAllMain() {
+						var feedId = $('#feedId').val();
+
+						var url = '../feeds/all/' + feedId;
+							$.getJSON(
+								url,
+								function(data) {
+									console.log(data);
+									const userId = document.getElementById("userId").textContent;
+									var list = '';
+										$(data).each(function() {
+											console.log(this);
+
+											var feedDate = new Date(this.feedDate);
+											var yyyy = feedDate.getFullYear();
+											var mm = String(feedDate.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
+											var dd = String(feedDate.getDate()).padStart(2, '0');
+											var feedDate = yyyy + '-' + mm + '-' + dd;
+											var disabled = 'disabled';
+											var readonly = 'readonly';
+
+											if (userId == this.userId) {
+											disabled = '';
+											readonly = '';
+										}
+											list += '<div class="div_post">'
+											+ '<div class="post_item">'
+											+ '<input type="hidden" id="feedId" value="'+ this.feedId +'">'
+											+ '<p>' + '<a href="../feed/list">' + this.userProfile + '</a>' +'</p>'
+											+ '<p>' + '<a href="../feed/list">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
+											+ '<p>' + this.userNickname + '</p>'
+											+ '&nbsp;&nbsp;'
+											+ '<input type="text" ' + readonly + ' id="feedContent" value="'+ this.feedContent +'">'
+											+ '&nbsp;&nbsp;'
+											+ feedDate
+											+ '<button class="btn_update" ' + disabled + '>수정</button>'
+											+ '<button class="btn_delete" ' + disabled + '>삭제</button>'
+											+ '</div>'
+											+ '</div>';
+
+									});// end data.funchion;
+									
+									$('#feeds').html(list);
+								}//end function(data);
+							);// end getJSON();
+						}// end getAllMain();
+						
+						$('#feeds').on('click', '.div_post .btn_update', function(){
+							console.log(this);
+							
+							var feedId = $(this).prevAll('#feedId').val();
+							var feedContent = $(this).prevAll('#feedContent').val();
+							console.log("선택된 피드 번호 : " + feedId + ", 피드 내용 : " + feedContent);
+							
+							$.ajax({
+								type : 'PUT', 
+								url : '../feeds/' + feedId,
+								headers : {
+									'Content-Type' : 'application/json'
+								},
+								data : feedContent, 
+								success : function(result) {
+									console.log(result);
+									if(result == 1) {
+										console.log('★ 피드수정 완료');
+										getAllMain();
+									} else {
+										console.log('★ 피드수정 실패');
+									}
+								}
+							});// end ajax
+							
+						});// end feeds.update
+						
+						// 삭제 버튼을 클릭하면 선택된 댓글 삭제
+						$('#feeds').on('click', '.div_post .btn_delete', function(){
+							console.log(this);
+							
+							var feedId = $(this).prevAll('#feedId').val();
+							
+							$.ajax({
+								type : 'DELETE', 
+								url : '../feeds/' + feedId, 
+								headers : {
+									'Content-Type' : 'application/json'
+								},
+								data : feedId,
+								success : function(result) {
+									console.log(result);
+									if(result == 1) {
+										console.log('★ 피드삭제 완료');
+										getAllMain();
+									} else {
+										console.log('★ 피드삭제 실패');
+									}
+								}
+							});//end ajax
+						}); // end feeds.delete
+					}); // end ready();
 	</script>
 
 

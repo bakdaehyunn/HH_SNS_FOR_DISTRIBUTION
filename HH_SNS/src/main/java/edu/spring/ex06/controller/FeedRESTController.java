@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,41 +86,42 @@ public class FeedRESTController {
 
 	}
 
-//	@GetMapping("/all/{feedId}") // GET : 댓글 선택(all)
-//	public ResponseEntity<List<FeedVO>> readFeeds(
-//			@PathVariable("feedId") int feedId) {
-//		// PathVariable("boardId") : /all/{boardId} 값을 설정된 변수에 저장
-//		// 실제로 할 때는 /all/1 -> 이런식으로 한당 ㅎㅅㅎ
-//		logger.info("★ FeedRESTController 전체검색 : " + feedId);
-//		
-//		List<FeedVO> list = feedService.readAll(feedId);
-//		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
-//	}
-//	
-//	@PutMapping("/{replyId}") // PUT : 댓글 수정
-//	public ResponseEntity<Integer> updateReply(
-//			@PathVariable("replyId") int replyId,
-//			@RequestBody String replyContent
-//			// front에서 json으로 데이터를 가져온다는뜻
-//			){
-//		int result = replyService.update(replyId, replyContent);
-//		return new ResponseEntity<Integer>(result, HttpStatus.OK);
-//	}
-//	
-//	@DeleteMapping("/{replyId}") // DELETE
-//	public ResponseEntity<Integer> deleteReply(
-//			@PathVariable("replyId") int replyId,
-//			@RequestBody int boardId) {
-//		logger.info("replyId = " + replyId);
-//		
-//		int result = 0; // 예외처리
-//		try {
-//			result = replyService.delete(replyId, boardId);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return new ResponseEntity<Integer>(result, HttpStatus.OK);
-//	}
+	@GetMapping("/all/{feedId}") // GET : 댓글 선택(all)
+	public ResponseEntity<List<FeedVO>> readFeeds(
+			@PathVariable("feedId") int feedId) {
+		// PathVariable("boardId") : /all/{boardId} 값을 설정된 변수에 저장
+		// 실제로 할 때는 /all/1 -> 이런식으로 한당 ㅎㅅㅎ
+		logger.info("★ FeedRESTController 전체검색 : " + feedId);
+		
+		List<FeedVO> list = feedService.readAll(feedId);
+		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
+	}
+	
+	@PutMapping("/{feedId}") // PUT : 댓글 수정
+	public ResponseEntity<Integer> updateFeeds(
+			@PathVariable("feedId") int feedId,
+			@RequestBody String feedContent
+			// front에서 json으로 데이터를 가져온다는뜻
+			){
+		int result = feedService.update(feedId, feedContent);
+		logger.info("---------------------------------------------------------------");
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{feedId}") // DELETE
+	public ResponseEntity<Integer> deleteFeeds(
+			@PathVariable("feedId") int feedId) {
+		logger.info("feedId = " + feedId);
+		
+		int result = 0; // 예외처리
+		try {
+			result = feedService.delete(feedId);
+			logger.info("---------------------------------------------------------------");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
 
 }// ReplyRESTcontroller

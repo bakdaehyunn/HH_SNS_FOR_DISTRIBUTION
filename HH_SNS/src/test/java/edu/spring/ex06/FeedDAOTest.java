@@ -96,10 +96,8 @@ public class FeedDAOTest {
 			logger.info("♠ 피드번호 != 유저아이디");
 			return;
 		}
-
-		FeedVO vo = new FeedVO(10, "ㅎㅎ", uservo.getUserId(), uservo.getUserNickname(), uservo.getUserProfile(), 0, 0,
-				null, "ㅎㅎ");
-		int result = feeddao.update(10, vo);
+		
+		int result = feeddao.update(10, "ㅎㅎ");
 
 		if (result == 1) {
 			logger.info("♠ 수정 성공");

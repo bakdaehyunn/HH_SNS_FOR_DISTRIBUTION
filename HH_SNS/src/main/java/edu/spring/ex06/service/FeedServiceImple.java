@@ -52,9 +52,10 @@ public class FeedServiceImple implements FeedService{
 	}
 
 	@Override
-	public int update(int feedId, FeedVO vo) {
-		logger.info("★ FeedService 수정 : " + vo.toString());
-		return feeddao.update(feedId, vo);
+	public int update(int feedId, String feedContent) {
+		logger.info("★ FeedService 수정");
+		logger.info("feedId = " + feedId + " feedContent = " + feedContent);
+		return feeddao.update(feedId, feedContent);
 	}
 
 	@Override

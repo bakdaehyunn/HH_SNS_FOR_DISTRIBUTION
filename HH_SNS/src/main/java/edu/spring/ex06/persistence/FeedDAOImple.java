@@ -48,9 +48,13 @@ public class FeedDAOImple implements FeedDAO{
 	}// end select 상세 검색
 
 	@Override
-	public int update(int feedId, FeedVO vo) {
+	public int update(int feedId, String feedContent) {
 		logger.info("★ FeedDAOImple 피드 수정");
-		return sqlSession.update(NAMESPACE + ".update", vo);
+		logger.info("feedId = " + feedId + " feedContent = " + feedContent);
+		Map<String, Object>  args = new HashMap<>();
+		args.put("feedId", feedId);
+		args.put("feedContent", feedContent);
+		return sqlSession.update(NAMESPACE + ".update", args);
 	}// end update 수정
 
 	@Override
