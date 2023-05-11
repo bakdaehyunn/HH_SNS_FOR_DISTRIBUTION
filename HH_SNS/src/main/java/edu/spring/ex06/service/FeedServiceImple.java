@@ -41,32 +41,43 @@ public class FeedServiceImple implements FeedService{
 
 	@Override
 	public List<FeedVO> readAll(int feedId) {
-		logger.info("★ FeedService 검색 : " + feedId);
+		logger.info("★ FeedServiceImple 검색 : " + feedId);
 		return feeddao.selectAll(feedId);
 	}
 	
 	@Override
 	public FeedVO read(int feedId) {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("★ FeedServiceImple 검색 : 피드 번호 = " + feedId);
+		return feeddao.select(feedId);
 	}
-
+	
+	@Override
+	public FeedVO read(int feedId, String userId) {
+		logger.info("★ FeedServiceImple 검색 : 피드 번호 = " + feedId + ", 로그인한 유저 아이디 = " + userId);
+		return feeddao.select(feedId, userId);
+	}
+	
+	@Override
+	public FeedVO read(String userId) {
+		logger.info("★ FeedServiceImple 검색 : 유저 아이디 = " + userId);
+		return feeddao.select(userId);
+	}
 	@Override
 	public int update(int feedId, String feedContent) {
-		logger.info("★ FeedService 수정");
+		logger.info("★ FeedServiceImple 수정");
 		logger.info("feedId = " + feedId + " feedContent = " + feedContent);
 		return feeddao.update(feedId, feedContent);
 	}
 
 	@Override
 	public int delete(int feedId) {
-		logger.info("★ FeedService 삭제 : " + feedId);
+		logger.info("★ FeedServiceImple 삭제 : " + feedId);
 		return feeddao.delete(feedId);
 	}
 
 	@Override
 	public int getTotalLikes() {
-		logger.info("★ FeedService 좋아요 수");
+		logger.info("★ FeedServiceImple 좋아요 수");
 		return feeddao.getTotalLike();
 	}
 	
@@ -76,6 +87,7 @@ public class FeedServiceImple implements FeedService{
 		return 0;
 	}
 
+	
 	
 
 

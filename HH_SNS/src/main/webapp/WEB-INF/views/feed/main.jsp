@@ -103,14 +103,19 @@
 	<!-- 
 	▼ 등록버튼은 절 대 form안에 넣지말기 ㅎ-ㅎ 
 	-->
-
-	<div class="input_feed">
-		<p id="userProfile"><a href="../feed/list"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
-		<p id="userId"><a href="../feed/list"><b>${userId}</b></a></p>
-		<p id="userNickname">${userinfovo.userNickname }</p>
-		<input type="text" id="feedContent" placeholder="피드 작성하기" required>
-		<input type="submit" id="btn_add" value="등록">
-	</div>
+	
+		<div class="input_feed">
+			<p id="userProfile"><a href="../feed/list"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
+			<p id="userId"><b>${userId}</b></p>
+			<p id="userNickname">${userinfovo.userNickname }</p>
+			<input type="text" id="feedContent" placeholder="피드 작성하기" required>
+			<input type="submit" id="btn_add" value="등록">
+		</div>
+	
+	
+	<br>
+	<hr>
+	<br>
 	
 	<!-- ▼ 이건 RESTController랑 관계 X 그냥 여기서 보여줄 태그일 뿐임 ㅎ-ㅎ -->
 	<div style="text-align: center;">
@@ -178,6 +183,7 @@
 								function(data) {
 									console.log(data);
 									const userId = document.getElementById("userId").textContent;
+									console.log(userId);
 									var list = '';
 										$(data).each(function() {
 											console.log(this);
@@ -186,9 +192,17 @@
 											var yyyy = feedDate.getFullYear();
 											var mm = String(feedDate.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
 											var dd = String(feedDate.getDate()).padStart(2, '0');
-											var feedDate = yyyy + '-' + mm + '-' + dd;
+											var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
 											var disabled = 'disabled';
 											var readonly = 'readonly';
+											
+											// 회원이어야지만 작성은 가능하나
+											// 회원이 아니여도 피드를 볼 수 있고
+											// 피드에 있는 링크를 통해 그 회원의 개인 피드(=list), 회원의 전체 피드(=main / detail) 볼 수 있다.
+											console.log('★');
+											console.log(userId); // 접속한 회원
+											console.log(this.userId); // 작성 된 회원
+											
 
 											if (userId == this.userId) {
 											disabled = '';
@@ -196,14 +210,15 @@
 										}
 											list += '<div class="div_post">'
 											+ '<div class="post_item">'
-											+ '<input type="hidden" id="feedId" value="'+ this.feedId +'">'
-											+ '<p>' + '<a href="../feed/list">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
-											+ '<p>' + '<a href="../feed/list">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
+											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
+											+ '<p>' + '<a href="../feed/list?feedId=' + this.feedId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
+											+ '<p>' + '<a href="../feed/list?feedId=' + this.feedId + '">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
 											+ '<p>' + this.userNickname + '</p>'
-											+ '&nbsp;&nbsp;'
-											+ '<input type="text" ' + readonly + ' id="feedContent" value="'+ this.feedContent +'">'
-											+ '&nbsp;&nbsp;'
 											+ feedDate
+											+ '&nbsp;&nbsp;'
+											+'<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</p>'
+											+ '&nbsp;&nbsp;'
+											+ '<br>'
 											+ '<button class="btn_update" ' + disabled + '>수정</button>'
 											+ '<button class="btn_delete" ' + disabled + '>삭제</button>'
 											+ '</div>'

@@ -36,6 +36,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
 		where ${feedId} = #{feedId}
 	 </select>
+	 
+	 <select id="select_by_id" resultType="FeedVO">
+		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
+	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
+		where ${feedId} = #{feedId}
+		and ${userId} = #{userId}
+	 </select>
+	 
+	 <select id="select_by_userid" resultType="FeedVO">
+		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
+	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
+		where ${userId} = #{userId}
+	 </select>
 	
 	 <update id="update">
 	 	update ${feed} 

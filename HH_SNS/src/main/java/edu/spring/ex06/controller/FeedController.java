@@ -2,6 +2,7 @@ package edu.spring.ex06.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.spring.ex06.domain.FeedVO;
@@ -40,25 +42,41 @@ public class FeedController {
 
 //	------------------------------------------------------------------
 	@GetMapping("/main")
-	public void mainGET(Model model, FeedVO feedvo, UserInfoVO userinfovo, HttpSession session) {
+	public void mainGET(Model model, UserInfoVO userinfovo, HttpSession session) {
 		logger.info("★ FeedControllerGET 호출");
-		String userId = (String) session.getAttribute("userId");
+		String sessionuserId = (String) session.getAttribute("userId");
 		
-		// 여기서 유저아이디가 db에 있는지 확인 불가능 : 이미 확인이 되어야 세션이 저장되서 오니까
+		// 로그인 필요 X
 		
-		// 그래서 db에서 유저 아이디가 일치하는 사람의 정보를 가져온다
-		userinfovo = userInfoService.read(userId);
+		userinfovo = userInfoService.read(sessionuserId);
 
 		model.addAttribute("userinfovo", userinfovo);
 	}
 
 	@GetMapping("/list")
-	public void list(Model model, FeedVO feedvo, UserInfoVO userinfovo, HttpSession session) {
+	public void list(Model model, String userId, FeedVO feedvo, UserInfoVO userinfovo, HttpSession session) {
 		logger.info("★ FeedController list 호출");
 		
-		String userId = (String) session.getAttribute("userId");
-		userinfovo = userInfoService.read(userId);
+		// 로그인 필요 X
+		
+		String sessionuserId = (String) session.getAttribute("userId");
+		
+		userinfovo = userInfoService.read(sessionuserId);
 
+		model.addAttribute("userinfovo", userinfovo);
+	}
+	
+	@GetMapping("/detail")
+	public void detail(Model model, @ModelAttribute(name="feedId") int feedId, FeedVO feedvo, UserInfoVO userinfovo, HttpSession session) {
+		logger.info("★ FeedController detail 호출");
+		
+		// 로그인 필요 X
+		
+		String sessionuserId = (String) session.getAttribute("userId");
+		feedvo = feedService.read(feedId);
+		userinfovo = userInfoService.read(sessionuserId);
+
+		model.addAttribute("feedvo", feedvo);
 		model.addAttribute("userinfovo", userinfovo);
 	}
 	

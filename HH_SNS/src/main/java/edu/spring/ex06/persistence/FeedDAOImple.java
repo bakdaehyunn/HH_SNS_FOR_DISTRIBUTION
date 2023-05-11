@@ -43,8 +43,23 @@ public class FeedDAOImple implements FeedDAO{
 
 	@Override
 	public FeedVO select(int feedId) {
-		logger.info("★ FeedDAOImple 피드 detail");
+		logger.info("★ FeedDAOImple 피드번호 detail");
 		return sqlSession.selectOne(NAMESPACE + ".select", feedId);
+	}// end select 상세 검색
+	
+	@Override
+	public FeedVO select(int feedId, String userId) {
+		logger.info("★ FeedDAOImple 피드번호, 유저아이디 detail");
+		Map<String, Object>  args = new HashMap<>();
+		args.put("feedId", feedId);
+		args.put("userId", userId);
+		return sqlSession.selectOne(NAMESPACE + ".select_by_id", args);
+	}// end select_by_id 상세 검색
+	
+	@Override
+	public FeedVO select(String userId) {
+		logger.info("★ FeedDAOImple 유저아이디 detail");
+		return sqlSession.selectOne(NAMESPACE + ".select_by_userid", userId);
 	}// end select 상세 검색
 
 	@Override
@@ -95,6 +110,8 @@ public class FeedDAOImple implements FeedDAO{
 		// TODO Auto-generated method stub
 		return 0;
 	}// end updateCommentCnt 개인 댓글 출력
+
+	
 
 
 }
