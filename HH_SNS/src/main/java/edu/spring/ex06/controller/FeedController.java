@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -55,13 +56,14 @@ public class FeedController {
 	}
 
 	@GetMapping("/list")
-	public void list(Model model, FeedVO feedvo, UserInfoVO userinfovo, HttpSession session) {
+	public void list(Model model, HttpServletRequest request) {
 		logger.info("★ FeedController list 호출");
-		
-		String userId = (String) session.getAttribute("userId");
-		userinfovo = userInfoService.read(userId);
-
-		model.addAttribute("userinfovo", userinfovo);
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userId") != null) {
+			String userId = (String)session.getAttribute("userId");
+			UserInfoVO userinfovo = userInfoService.read(userId);
+			model.addAttribute("userinfovo", userinfovo);
+		}
 	}
 	
 	@GetMapping("/display")

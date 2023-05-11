@@ -47,7 +47,24 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 		<constructor-arg name="sqlSessionFactory"
 			ref="sqlSessionFactory" />
 	</bean>
-
+	
+	<!-- email 인증 관련   -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="이메일 주소"/>
+        <property name="password" value="비밀번호" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
+    </bean>
+	
+	
 	<!-- 트랜잭션 관리를 수행하는 Aspect를 annotation 기반으로 사용 -->
 	<tx:annotation-driven />
 

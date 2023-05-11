@@ -59,13 +59,15 @@ public class UserController {
 		logger.info("loginGET() 호출");
 	}
 	@PostMapping("/login")
-	public String loginPOST(String userId, String userPassword, HttpServletRequest request) {
+	public String loginPOST(Model model, String userId, String userPassword, HttpServletRequest request ) {
 		logger.info("loginPOST() 호출");
 		int result = userInfoservice.read(userId, userPassword);
 		if(result == 1) {
 			logger.info("로그인 성공");
 			HttpSession session = request.getSession();
 			session.setAttribute("userId", userId);
+			
+			
 			
 			// 세션에서 targetURL 가져오기
 			//String targetURL = (String) session.getAttribute("targetURL");
