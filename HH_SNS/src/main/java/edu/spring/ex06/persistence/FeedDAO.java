@@ -6,7 +6,7 @@ import edu.spring.ex06.domain.FeedVO;
 
 public interface FeedDAO {
 	int insert(FeedVO vo); // 피드 작성(회원)
-	List<FeedVO> selectAll(int feedId); // 전체 피드 츌력 = 전체 검색 (최신순)(비회원)
+	List<FeedVO> selectAll(); // 전체 피드 츌력 = 전체 검색 (최신순)(비회원)
 	FeedVO select (int feedId); // 피드 상세 출력 = 피드 번호 기준 검색(비회원)
 	FeedVO select (int feedId, String userId);
 	FeedVO select (String userId);

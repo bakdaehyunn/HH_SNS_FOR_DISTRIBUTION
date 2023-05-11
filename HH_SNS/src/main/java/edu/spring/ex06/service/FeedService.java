@@ -9,7 +9,7 @@ import edu.spring.ex06.domain.UserInfoVO;
 
 public interface FeedService {
 	int create(FeedVO feedvo, UserInfoVO userinfovo, HttpSession session);
-	List<FeedVO> readAll(int feedId);
+	List<FeedVO> readAll();
 	FeedVO read(int feedId);
 	FeedVO read(int feedId, String userId);
 	FeedVO read(String userId);

@@ -40,9 +40,9 @@ public class FeedServiceImple implements FeedService{
 	}// end create()
 
 	@Override
-	public List<FeedVO> readAll(int feedId) {
-		logger.info("★ FeedServiceImple 검색 : " + feedId);
-		return feeddao.selectAll(feedId);
+	public List<FeedVO> readAll() {
+		logger.info("★ FeedServiceImple 검색 : ");
+		return feeddao.selectAll();
 	}
 	
 	@Override

@@ -13,6 +13,7 @@
 
 	<div style="text-align: center;">
 		<input type="text" id="userId" >
+		<input type="hidden" id="userNickname" value="test"> 
 		<input type="text" id="replyContent">
 		<button id="btn_add">작성</button>
 	</div>
@@ -33,12 +34,14 @@
 			getAllReplies();
 			
 			$('#btn_add').click(function(){
-				var boardId = $('#feedId').val(); // 게시판 번호 데이터
-				var memberId = $('#userId').val(); // 작성자 데이터
+				var feedId = $('#feedId').val(); // 게시판 번호 데이터
+				var userId = $('#userId').val(); // 유저 ID
+				var userNickname = $('#userNickname').val();// 유저 닉네임
 				var replyContent = $('#replyContent').val(); // 댓글 내용
 				var obj = {
 						'feedId' : feedId,
 						'userId' : userId,
+						'userNickname' : userNickname,
 						'replyContent' : replyContent
 				}
 				console.log(obj);
@@ -46,7 +49,7 @@
 				// $.ajax로 송수신
 				$.ajax({
 					type : 'POST', 
-					url : 'replies', 
+					url : '../replies', 
 					headers : {
 						'Content-Type' : 'application/json'
 					}, 
@@ -63,9 +66,8 @@
 			
 			// 게시판 댓글 전체 가져오기
 			function getAllReplies() {
-				var boardId = $('#feedId').val();
-				
-				var url = 'replies/all/' + boardId;
+				var feedId = $('#feedId').val();
+				var url = '../replies/all/' + feedId;
 				console.log('test');
 				$.getJSON(
 					url, 		
@@ -84,7 +86,7 @@
 							// this : 컬렉션의 각 인덱스 데이터를 의미
 							console.log(this);
 						
-							var replyDateCreated = new Date(this.replyDateCreated);
+							var replyDateCreated = new Date(this.replyDate);
 							var disabled = 'disabled';
 							var readonly = 'readonly';
 							if(userId == this.userId) { 
@@ -94,7 +96,7 @@
 							list += '<div class="reply_item">'
 								+ '<pre>'
 								+ '<input type="hidden" id="replyId" value="'+ this.replyId +'">'
-								+ this.userId
+								+ this.userId +"("+this.userNickname +")"
 								+ '&nbsp;&nbsp;' // 공백
 								+ '<input type="text" ' + readonly + ' id="replyContent" value="'+ this.replyContent +'">'
 								+ '&nbsp;&nbsp;'
@@ -124,7 +126,7 @@
 				// ajax 요청
 				$.ajax({
 					type : 'PUT', 
-					url : 'replies/' + replyId,
+					url : '../replies/' + replyId,
 					headers : {'Content-Type' : 'application/json' },
 					data : replyContent, 
 					success : function(result) {
@@ -147,7 +149,7 @@
 				// ajax 요청
 				$.ajax({
 					type : 'DELETE', 
-					url : 'replies/' + replyId,
+					url : '../replies/' + replyId,
 					headers : {'Content-Type' : 'application/json' },
 					data : feedId,
 					success : function(result) {

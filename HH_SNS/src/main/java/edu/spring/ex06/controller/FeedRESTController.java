@@ -93,7 +93,7 @@ public class FeedRESTController {
 		// 실제로 할 때는 /all/1 -> 이런식으로 한당 ㅎㅅㅎ
 		logger.info("★ FeedRESTController 전체검색 : " + feedId);
 		
-		List<FeedVO> list = feedService.readAll(feedId);
+		List<FeedVO> list = feedService.readAll();
 		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
 	}
 	

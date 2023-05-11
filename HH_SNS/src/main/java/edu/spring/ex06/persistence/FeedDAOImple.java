@@ -36,9 +36,9 @@ public class FeedDAOImple implements FeedDAO{
 	}// end insert
 
 	@Override
-	public List<FeedVO> selectAll(int feedId) {
+	public List<FeedVO> selectAll() {
 		logger.info("★ FeedDAOImple 전체검색 최신순");
-		return sqlSession.selectList(NAMESPACE + ".select_all", feedId);
+		return sqlSession.selectList(NAMESPACE + ".select_all");
 	}// end selectAll 전체 검색
 
 	@Override

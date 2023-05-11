@@ -1,7 +1,9 @@
 package edu.spring.ex06.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,10 +13,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -26,8 +32,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.service.UserInfoService;
+import edu.spring.ex06.util.MediaUtil;
 
 @Controller
 @RequestMapping(value="/user")
@@ -51,13 +59,15 @@ public class UserController {
 		logger.info("loginGET() 호출");
 	}
 	@PostMapping("/login")
-	public String loginPOST(String userId, String userPassword, HttpServletRequest request) {
+	public String loginPOST(Model model, String userId, String userPassword, HttpServletRequest request ) {
 		logger.info("loginPOST() 호출");
 		int result = userInfoservice.read(userId, userPassword);
 		if(result == 1) {
 			logger.info("로그인 성공");
 			HttpSession session = request.getSession();
 			session.setAttribute("userId", userId);
+			
+			
 			
 			// 세션에서 targetURL 가져오기
 			//String targetURL = (String) session.getAttribute("targetURL");
@@ -156,6 +166,38 @@ public class UserController {
 		}
 		
 	}
+	// display 함수를 호출하면 서버에서 이미지를 확인할 수 있음
+			// - 파일 경로를 전송해야 함
+			@GetMapping("/display")
+			public ResponseEntity<byte[]> display(String fileName) {
+				logger.info("display() 호출");
+				logger.info(fileName);
+				ResponseEntity<byte[]> entity = null;
+				InputStream in = null;
+				
+				String filePath = uploadPath +'/'+ fileName;
+				try {
+					in = new FileInputStream(filePath);
+					
+					// 파일 확장자
+					String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
+					logger.info(extension);
+					
+					// 응답 헤더(response header)에 Content-Type 설정
+					HttpHeaders httpHeaders = new HttpHeaders();
+					httpHeaders.setContentType(MediaUtil.getMediaType(extension));
+					// 데이터 전송
+					entity = new ResponseEntity<byte[]>(
+								IOUtils.toByteArray(in), // 파일에서 읽은 데이터
+								httpHeaders, // 응답 헤더
+								HttpStatus.OK
+							);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return entity;
+			}
 	
 
 }

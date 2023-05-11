@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -42,28 +43,31 @@ public class FeedController {
 
 //	------------------------------------------------------------------
 	@GetMapping("/main")
-	public void mainGET(Model model, UserInfoVO userinfovo, HttpSession session) {
+	public void mainGET(Model model, HttpSession session) {
 		logger.info("★ FeedControllerGET 호출");
+
 		String sessionuserId = (String) session.getAttribute("userId");
+
 		
 		// 로그인 필요 X
 		
-		userinfovo = userInfoService.read(sessionuserId);
+		UserInfoVO userinfovo = userInfoService.read(sessionuserId);
 
 		model.addAttribute("userinfovo", userinfovo);
+
 	}
 
 	@GetMapping("/list")
-	public void list(Model model, String userId, FeedVO feedvo, UserInfoVO userinfovo, HttpSession session) {
+	public void list(Model model, HttpServletRequest request) {
 		logger.info("★ FeedController list 호출");
-		
 		// 로그인 필요 X
-		
-		String sessionuserId = (String) session.getAttribute("userId");
-		
-		userinfovo = userInfoService.read(sessionuserId);
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userId") != null) {
+			String userId = (String)session.getAttribute("userId");
+			UserInfoVO userinfovo = userInfoService.read(userId);
+			model.addAttribute("userinfovo", userinfovo);
+		}
 
-		model.addAttribute("userinfovo", userinfovo);
 	}
 	
 	@GetMapping("/detail")

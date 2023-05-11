@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.ReplyVO;
+import edu.spring.ex06.service.FeedService;
 import edu.spring.ex06.service.ReplyService;
 
 
@@ -36,6 +38,9 @@ public class ReplyRESTController {
 	@Autowired
 	private ReplyService replyService;
 	
+	@Autowired
+	private FeedService feedservice;
+	
 	@PostMapping // POST : 댓글 입력
 	public ResponseEntity<Integer> createReply(@RequestBody ReplyVO vo){
 		// @RequestBody
@@ -46,6 +51,7 @@ public class ReplyRESTController {
 		// ResponseEntity<T> : Rest 방식에서 데이터를 리턴할 때 쓰이는 객체
 		// - 데이터 HttpStatus를 전송
 		// - <T> : 보내고자 하는 데이터 타입
+		
 		int result = 0;
 		try {
 			result = replyService.create(vo);
@@ -60,7 +66,7 @@ public class ReplyRESTController {
 	public ResponseEntity<List<ReplyVO>> readReplies(
 			@PathVariable("feedId") int feedId) {
 		// @pathVariable("feedId") : /all/{feedId} 값을 설정된 변수에 저장
-		logger.info("readReplies() 호출 : feeddId  = " + feedId);
+		logger.info("readReplies() 호출 : feedId  = " + feedId);
 		List<ReplyVO> list = replyService.read(feedId);
 		return new ResponseEntity<List<ReplyVO>>(list, HttpStatus.OK);
 	}

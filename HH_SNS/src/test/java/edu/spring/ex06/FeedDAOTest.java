@@ -35,7 +35,7 @@ public class FeedDAOTest {
 	@Test
 	public void testDAO() {
 //		testInsert();
-//		testSelectAll();
+		testSelectAll();
 //		testSelect();
 //		testUpdate();
 //		testDelete();
