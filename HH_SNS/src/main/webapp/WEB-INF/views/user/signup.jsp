@@ -9,21 +9,27 @@
 </head>
 <body>
 <%-- 아이디 비밀번호 이름 닉네임, 생일 이메일 --%>
-	<form action="signup" method="post">
+	<form id="signUpForm" action="signup" method="post">
 		<%-- 아이디 중복 체크(비동기) 및 정규식 --%>
-		<p>아이디 : <input type="text" id="userId" name="userId" placeholder="아이디" required></p>
-		<p id="userIdGuide" style="display: none;"></p>
-		<p>패스워드 : <input type="password" id="userPassword" name="userPassword" placeholder="패스워드" required></p>
-		<p id="userPasswordGuide" style="display: none;"></p>
-		<p> 이름: <input type="text" id="userName" name="userName" placeholder="이름" maxlength='20' required></p>
-		<p id="userNameGuide" style="display: none;"></p>
-		<p>닉네임 : <input type="text" id="userNickname" name="userNickname" placeholder="닉네임"  maxlength='20' required></p>
-		<p id="userNicknameGuide" style="display: none;"></p>
+		<div>아이디 : <input type="text" id="userId" name="userId" placeholder="아이디"></div>
+		<div id="userIdGuide" style="display: none;"></div>
+		<div>패스워드 : <input type="password" id="userPassword" name="userPassword" placeholder="패스워드" ></div>
+		<div id="userPasswordGuide" style="display: none;"></div>
+		<div> 이름: <input type="text" id="userName" name="userName" placeholder="이름" maxlength='20' ></div>
+		<div id="userNameGuide" style="display: none;"></div>
+		<div>닉네임 : <input type="text" id="userNickname" name="userNickname" placeholder="닉네임"  maxlength='20' ></div>
+		<div id="userNicknameGuide" style="display: none;"></div>
 		<%-- 이메일 인증(비동기) 이메일 @(옵션)  생년월일 생년월일 옵션  --%>
-		<p>이메일 : <input type="email" id="userEmail" name="userEmail" required></p> 
-		<p id="userEmailGuide" style="display: none;"></p>
-		<p>생년월일 : <input type="date" name="userBirth"required></p>
-		<input type="hidden" name="userProfile" value=""></p>
+		<div>이메일 : <input type="text" id="userEmail" name="userEmail" > 
+			<button type="button" id="emailVerifSend">인증번호 받기</button>
+		</div> 
+		<div id="userEmailGuide" style="display: none;"></div>
+		<div>
+			인증번호 : <input type="text" id="emailVerifInput" readonly>
+		</div>
+		<div id="emailVerifInputGuide" style="display: none;"></div>
+		<div>생년월일 : <input type="date" name="userBirth" id="userBirth" required></div>
+		<input type="hidden" name="userProfile" value=""></div>
 		<input type="submit" value="가입">
 	</form>
 	
@@ -42,7 +48,16 @@
 				var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				return regExp.test(asValue);
 			}
+			function isName(asValue){
+				var regExp = /^[가-힣a-zA-Z]*$/;
+				return regExp.test(asValue);
+			}
+			function isNickname(asValue){
+				var regExp = /^[가-힣a-zA-Z0-9]*$/;
+				return regExp.test(asValue);
+			};
 			
+			var userIdBool =false;
 			$('#userId').keyup(function(){
 				var userId = $('#userId').val();
 				console.log(userId);
@@ -58,10 +73,11 @@
 								console.log(data);
 								if(data == 1){
 									list ='해당 아이디는 이미 사용 중 입니다. ';
+									userIdBool = false;
 								} else if(data == 0){
 									list = '해당 아이디는 사용 가능 합니다.';
+									userIdBool = true;
 								}
-								
 								$('#userIdGuide').html(list);
 								$('#userIdGuide').show();
 							} //end function()
@@ -69,17 +85,58 @@
 						}); // end ajax
 					}
 					else {
+						userIdBool =false;
 						list = '아이디는 1-8자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능';
 						$('#userIdGuide').html(list);
 					}
 				} else {
+					userIdBool =false;
 					list ='아이디를 입력해주세요. ';
 					$('#userIdGuide').html(list);
 					$('#userIdGuide').show();
 					//$('#userIdGuide').hide();
 				}
 				
-			});//end userid.keyup event
+			});//end userid.keyup event 
+			
+			var emailVerifCode ='-1'; // 발급된 이메일 인증번호 저장 변수
+			
+			var EmailSendBool = false;
+			$('#emailVerifSend').click(function(){
+				var userEmail = $('#userEmail').val();
+				$.ajax({
+					type : 'POST',
+					url : '../users/emailVerif',
+					headers : {
+						'Content-Type' : 'application/json'
+					},
+					data : userEmail,
+					success : function (result){
+						emailVerifCode =result
+						EmailSendBool = true;
+						$('#emailVerifInput').attr("readonly", false);
+						alert('해당 이메일로 인증번호가 전송되었습니다.');
+					}
+				})
+				
+			});
+			var emailInputBool = false;
+			$('#emailVerifInput').blur(function(){
+				var list ='';
+				if($('#emailVerifInput').val() != null){
+					var emailVerifInput = $('#emailVerifInput').val();
+					if(emailVerifInput == emailVerifCode){
+						console.log("이메일 인증 성공");
+						list='이메일 인증 성공';
+						emailVerifBool = true;
+					}else{
+					emailVerifBool = false;
+					}
+					$('#emailVerifInputGuide').show();
+					$('#emailVerifInputGuide').html(list);
+				}
+			});
+			
 			$('#userEmail').keyup(function(){
 				var userEmail = $('#userEmail').val();
 				console.log(userEmail);
@@ -112,11 +169,13 @@
 						$('#userEmailGuide').show();
 					}
 				}else {
+					
 					list = '이메일을 입력해주세요.';
 					$('#userEmailGuide').html(list);
 					$('#userEmailGuide').show();
 				}
 			});
+			var userPasswordBool = false;
 			$('#userPassword').keyup(function(){
 				var userPassword = $('#userPassword').val();
 				console.log(userPassword);
@@ -124,8 +183,10 @@
 				if(userPassword != ''){
 					if(isPassword(userPassword)){
 						list = '해당 패스워드는 사용가능 합니다.';
+						userPasswordBool = true;
 					}else{
 						list = '영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용'
+						userPasswordBool = false;
 					}
 					$('#userPasswordGuide').html(list);	
 					$('#userPasswordGuide').show();
@@ -133,29 +194,99 @@
 					list = '패스워드를 입력해주세요. ';
 					$('#userPasswordGuide').html(list);	
 					$('#userPasswordGuide').show();
+					userPasswordBool = false;
 				}
 			});
-			
-			$('#userName').focusout(function(){
+			var userNameBool = false;
+			$('#userName').blur(function(){
 				var userName = $('#userName').val();
 				console.log(userName);
 				var list = '';
-				if(userName == ''){
-					var list = '이름을 입력해주세요.';
+				if(userName != ''){
+					if(isName(userName)){
+						userNameBool= true;
+						list = '';
+					}else{
+						userNameBool= false;
+						list = '한글 또는 영어로만 입력 가능합니다.';
+					}
+					$('#userNameGuide').html(list);
+					$('#userNameGuide').show();
+				}else{
+					userNameBool= false;
+					list = '이름을 입력해주세요.';
 					$('#userNameGuide').html(list);
 					$('#userNameGuide').show();
 				}
 			});
-			$('#userNickname').focusout(function(){
+			var userNicknameBool = false;
+			$('#userNickname').blur(function(){
 				var userNickname =  $('#userNickname').val();
 				console.log(userNickname);
 				var list = '';
-				if(userNickname == ''){
+				if(userNickname != ''){
+					if(isNickname(userNickname)){
+						userNicknameBool = true;
+						list = '';
+				
+					}else{
+						userNicknameBool = false;
+						list = '한글, 영어, 숫자로만 입력 가능합니다.';
+						
+					}$('#userNicknameGuide').html(list);
+					$('#userNicknameGuide').show();
+				}else{
+					userNicknameBool = false;
 					var list = '닉네임을 입력해주세요.';
 					$('#userNicknameGuide').html(list);
 					$('#userNicknameGuide').show();
 				}
-			})
+			});
+			
+			$('#signUpForm').submit(function(e){
+				warn="필수 입력 사항입니다.";
+				if(userIdBool == false){
+					e.preventDefault();
+					$('#userId').focus();
+					$('#userIdGuide').html(warn);
+					$('#userIdGuide').show();
+					
+				}	
+				else if(userPasswordBool==false){
+					e.preventDefault();
+					$('#userPassword').focus();
+					$('#userPasswordGuide').html(warn);
+					$('#userPasswordGuide').show();
+					
+				}
+				else if(userNameBool == false){
+					e.preventDefault();
+					$('#userName').focus();
+					$('#userNameGuide').html(warn);
+					$('#userNameGuide').show();
+					
+				}else if(userNicknameBool == false){
+					e.preventDefault();
+					$('#userNickname').focus();
+					$('#userNicknameGuide').html(warn);
+					$('#userNicknameGuide').show();
+					
+				}else if(EmailSendBool == false){
+					e.preventDefault();
+					warn='이메일 인증을 진행해주세요.'
+					$('#userEmail').focus();
+					$('#userEmailGuide').html(warn);
+					$('#userEmailGuide').show();
+					
+				}else if(EmailInputBool == false){
+					e.preventDefault();
+					$('#emailVerifInput').focus();
+					$('#emailVerifInputGuide').html(warn);
+					$('#emailVerifInputGuid').show();
+					
+				}
+				return true;
+			});
 			
 				
 		
