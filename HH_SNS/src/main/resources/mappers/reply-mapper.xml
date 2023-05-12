@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="edu.spring.ex06.ReplyMapper">
 	<insert id="insert">
 		insert into ${reply}
-		(${replyId}, ${feedId}, ${userId}, ${userNickname}, ${replyContent} )
-		values (reply_seq.nextval, #{feedId}, #{userId}, #{userNickname}, #{replyContent})
+		(${replyId}, ${feedId}, ${userId}, ${userNickname}, ${replyContent}, ${userProfile})
+		values (reply_seq.nextval, #{feedId}, #{userId}, #{userNickname}, #{replyContent}, #{userProfile})
 	</insert>
 	
 	<select id="select_all_by_feed_id" resultType="ReplyVO">
