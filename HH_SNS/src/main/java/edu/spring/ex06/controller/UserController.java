@@ -80,7 +80,7 @@ public class UserController {
 			
 		//} else {
 			//logger.info("로그인 실패");
-			return "redirect:/feed/list";
+			return "redirect:/feed/main";
 		}
 		else {
 			return "redirect:/user/login";
@@ -115,9 +115,9 @@ public class UserController {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userId") != null) {
 			session.removeAttribute("userId");
-			return "redirect:/feed/list";
+			return "redirect:/feed/main";
 		} else {
-			return "redirect:/feed/list";
+			return "redirect:/feed/main";
 		}
 	}
 	

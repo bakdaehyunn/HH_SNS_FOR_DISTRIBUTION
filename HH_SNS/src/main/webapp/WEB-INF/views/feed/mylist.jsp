@@ -117,10 +117,10 @@
 	userId = session
 	-->
 		<c:if test="${empty userId or userId ne feedvo.userId}">
-			<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></p>
+		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></p>
 		</c:if>
 		<c:if test="${not empty userId and userId eq feedvo.userId}">
-			<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></a></p>
+		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></a></p>
 		</c:if>
 		<p id="userId"><b>${feedvo.userId}</b></p>
 		<p id="userNickname">${feedvo.userNickname }</p>

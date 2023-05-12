@@ -59,8 +59,8 @@
 	<div class="div_post">
 		<div class="post_item">
 			<input type="hidden" id="feedId" value="${feedvo.feedId}">
-		<p><a href="../feed/list?userId=${feedvo.userId}"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></a></p>
-			<p><a href="../feed/list?userId=${feedvo.userId}"><b>@${feedvo.userId}</b></a></p>
+		<p><a href="../feed/mylist?userId=${feedvo.userId}"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></a></p>
+			<p><a href="../feed/mylist?userId=${feedvo.userId}"><b>@${feedvo.userId}</b></a></p>
 			<p>${feedvo.userNickname }</p>
 			<fmt:formatDate value="${feedvo.feedDate}" var="feedDate" pattern="yyyy년 MM월 dd일"/>
 			<p>${feedDate }</p>

@@ -22,7 +22,7 @@
 	<script type="text/javascript">
 		var result = $('#insertAlert').val();
 		if(result == 'success') {
-			alert('새 글 작성 성공!');
+			alert('회원 가입 성공!');
 		}
 	</script>
 </body>

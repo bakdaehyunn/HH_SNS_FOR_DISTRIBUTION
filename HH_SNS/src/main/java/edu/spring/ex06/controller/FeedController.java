@@ -56,7 +56,7 @@ public class FeedController {
 
 	}
 
-	@GetMapping("/list")
+	@GetMapping("/mylist")
 	public void list(Model model, String userId, HttpServletRequest request) {
 		logger.info("★ FeedController list 호출");
 

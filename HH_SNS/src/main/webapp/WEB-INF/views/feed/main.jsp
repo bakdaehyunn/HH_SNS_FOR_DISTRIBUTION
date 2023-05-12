@@ -103,8 +103,13 @@
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
 		<div class="input_feed">
-			<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
-			<p id="userId"><a href="../feed/list?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
+		<c:if test="${empty userId or userId ne feedvo.userId}">
+		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /></p>
+		</c:if>
+		<c:if test="${not empty userId and userId eq feedvo.userId}">
+		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></a></p>
+		</c:if>
+			<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 			<p id="userNickname">${userinfovo.userNickname }</p>
 			<c:if test="${empty userId }">
 				<input type="submit" id="btn_login" value="로그인">
@@ -212,8 +217,8 @@
 											list += '<div class="div_post">'
 											+ '<div class="post_item">'
 											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
-											+ '<p>' + '<a href="../feed/list?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
-											+ '<p>' + '<a href="../feed/list?userId=' + this.userId + '">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
+											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
+											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
 											+ '<p>' + this.userNickname + '</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'

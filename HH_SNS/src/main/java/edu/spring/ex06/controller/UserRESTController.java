@@ -36,7 +36,6 @@ public class UserRESTController {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	
-
 	private int authNumber;
 	
 	@GetMapping("/userId/{userId}")
@@ -53,12 +52,17 @@ public class UserRESTController {
 		int result = userinfoService.readUserEmail(userEmail);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-	@PostMapping
-	public ResponseEntity<String>emailVerif(@RequestBody String email){
-		
-		return new ResponseEntity<String>("a",HttpStatus.OK);
+
+	@PostMapping("/emailVerif")
+	public ResponseEntity<Integer>emailVerif(@RequestBody String userEmail){
+		logger.info("emailVerif()");
+		logger.info(userEmail);
+		joinEmail(userEmail);
+		return new ResponseEntity<Integer>(authNumber,HttpStatus.OK);
+
 	}
 		
+
 	public void makeRandomNumber() {
 		// 난수의 범위 111111 ~ 999999 (6자리 난수)
 		Random r = new Random();
@@ -69,10 +73,10 @@ public class UserRESTController {
 	
 	
 			//이메일 보낼 양식! 
-	public String joinEmail(String email) {
+	public void joinEmail(String userEmail) {
 		makeRandomNumber();
-		String setFrom = ".com"; // email-config에 설정한 자신의 이메일 주소를 입력 
-		String toMail = email;
+		String setFrom = "hennei@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
+		String toMail = userEmail;
 		String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목 
 		String content = 
 				"홈페이지를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
@@ -81,7 +85,7 @@ public class UserRESTController {
 			    "<br>" + 
 			    "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; //이메일 내용 삽입
 		mailSend(setFrom, toMail, title, content);
-		return Integer.toString(authNumber);
+		
 	}
 	
 	//이메일 전송 메소드
