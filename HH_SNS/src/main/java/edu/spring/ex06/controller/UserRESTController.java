@@ -52,14 +52,17 @@ public class UserRESTController {
 		int result = userinfoService.readUserEmail(userEmail);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
+
 	@PostMapping("/emailVerif")
 	public ResponseEntity<Integer>emailVerif(@RequestBody String userEmail){
 		logger.info("emailVerif()");
 		logger.info(userEmail);
 		joinEmail(userEmail);
 		return new ResponseEntity<Integer>(authNumber,HttpStatus.OK);
+
 	}
 		
+
 	public void makeRandomNumber() {
 		// 난수의 범위 111111 ~ 999999 (6자리 난수)
 		Random r = new Random();

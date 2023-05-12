@@ -42,6 +42,12 @@ public class FeedDAOImple implements FeedDAO{
 	}// end selectAll 전체 검색
 
 	@Override
+	public List<FeedVO> selectAllbyId(String userId) {
+		logger.info("★ FeedDAOImple 개인 피드");
+		return sqlSession.selectList(NAMESPACE +".select_all_by_userid", userId);
+	}// end selectAllbyId 개인 피드 전체 출력
+	
+	@Override
 	public FeedVO select(int feedId) {
 		logger.info("★ FeedDAOImple 피드번호 detail");
 		return sqlSession.selectOne(NAMESPACE + ".select", feedId);
@@ -55,6 +61,7 @@ public class FeedDAOImple implements FeedDAO{
 		args.put("userId", userId);
 		return sqlSession.selectOne(NAMESPACE + ".select_by_id", args);
 	}// end select_by_id 상세 검색
+
 	
 	@Override
 	public FeedVO select(String userId) {
@@ -77,12 +84,6 @@ public class FeedDAOImple implements FeedDAO{
 		logger.info("★ FeedDAOImple 피드 삭제");
 		return sqlSession.delete(NAMESPACE + ".delete", feedId);
 	}// end delete 삭제
-
-	@Override
-	public List<FeedVO> selectAllbyId(String userId) {
-		logger.info("★ FeedDAOImple 개인 피드");
-		return sqlSession.selectList(NAMESPACE +".select_all_by_id", userId);
-	}// end selectAllbyId 개인 피드 전체 출력
 	
 	@Override
 	public int getTotalLike() {
