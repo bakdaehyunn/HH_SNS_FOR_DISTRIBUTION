@@ -187,7 +187,7 @@
 						console.log(result);
 						if (result == 1) {
 							console.log('★ 피드작성 완료');
-							getAllMain();
+							getAllList();
 						} else {
 							console.log('★ 피드작성 실패');
 						}
@@ -232,7 +232,7 @@
 									+ '<p>' + this.userNickname + '</p>'
 									+ feedDate
 									+ '&nbsp;&nbsp;'
-									+'<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</p>'
+									+'<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
 									+ '</div>'
 									+ '</div>';
 

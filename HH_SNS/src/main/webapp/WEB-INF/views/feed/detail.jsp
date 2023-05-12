@@ -56,9 +56,9 @@
 <body>
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
-	<%
+	<%--
 	 String userId = (String) session.getAttribute("userId");
-	 %>
+	 --%>
 	
 	<div class="div_post">
 		<div class="post_item">
@@ -92,11 +92,11 @@
 			<a href="../user/login">로그인 하러 가기</a>
 		</c:if>
 		<c:if test="${not empty userId }">
-			<input type="hidden" id="userId" value="${userinfovo.userName}" >
+			<input type="hidden" id="userId" value="${userinfovo.userId}" >
 			<input type="hidden" id="userNickname" value="${userinfovo.userNickname}"> 
 			<input type="hidden" id="userProfile"  value="${userinfovo.userProfile }">
 			<div><a href="../feed/mylist?userId=${feedvo.userId}"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></div>
-			<div><a href="../feed/mylist?userId=${userinfovo.userId } "><b>@${userinfovo.userName}(${userinfovo.userNickname})</b></a></div>
+			<div><a href="../feed/mylist?userId=${userinfovo.userId } "><b>@${userinfovo.userId}(${userinfovo.userNickname})</b></a></div>
 			<input type="text" id="replyContent">
 		<button id="btn_add">작성</button>
 		</c:if>
