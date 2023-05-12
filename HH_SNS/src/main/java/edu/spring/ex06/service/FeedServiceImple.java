@@ -41,8 +41,14 @@ public class FeedServiceImple implements FeedService{
 
 	@Override
 	public List<FeedVO> readAll() {
-		logger.info("★ FeedServiceImple 검색 : ");
+		logger.info("★ FeedServiceImple 전체 검색 ");
 		return feeddao.selectAll();
+	}
+	
+	@Override
+	public List<FeedVO> readAllbyId(String userId) {
+		logger.info("★ FeedServiceImple 아이디 전체 검색 ");
+		return feeddao.selectAllbyId(userId);
 	}
 	
 	@Override
@@ -86,9 +92,6 @@ public class FeedServiceImple implements FeedService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	
-	
 
 
 }

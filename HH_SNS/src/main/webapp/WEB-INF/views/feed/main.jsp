@@ -13,14 +13,14 @@
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	width: 30%;
+	width: 50%;
 	margin: 0 auto;
 	margin-bottom: 20px;
 	margin-top: 20px;
 	padding: 20px;
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
-	height: 200px;
+	height: 250px;
 	position: relative; /* 추가 */
 }
 
@@ -55,7 +55,7 @@
 }
 
 .post_item {
-	width: 30%;
+	width: 50%;
 	margin: 0 auto; /* 가운데 정렬을 위해 추가 */
 	margin-bottom: 20px;
 	padding: 20px;
@@ -93,10 +93,6 @@
 </head>
 <body>
 
-	<%
-	String userId = (String) session.getAttribute("userId");
-	%>
-
 	<!-- ▼ 아래 히든인 이유는 1씩 올리는것뿐인걸 굳이 보일필요 X -->
 	<input type="hidden" id="feedId" value="1">
 
@@ -104,15 +100,20 @@
 	▼ 등록버튼은 절 대 form안에 넣지말기 ㅎ-ㅎ 
 	-->
 	
+	<h1><a href="../feed/main">H&H</a></h1> <br>
+	
 		<div class="input_feed">
-			<p id="userProfile"><a href="../feed/list"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
-			<p id="userId"><b>${userId}</b></p>
+			<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
+			<p id="userId"><a href="../feed/list?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 			<p id="userNickname">${userinfovo.userNickname }</p>
-			<input type="text" id="feedContent" placeholder="피드 작성하기" required>
-			<input type="submit" id="btn_add" value="등록">
+			<c:if test="${empty userId }">
+				<input type="submit" id="btn_login" value="로그인">
+			</c:if>
+			<c:if test="${not empty userId }">
+				<input type="text" id="feedContent" placeholder="피드 작성하기" required>
+				<input type="submit" id="btn_add" value="등록">
+			</c:if>
 		</div>
-	
-	
 	<br>
 	<hr>
 	<br>
@@ -134,6 +135,11 @@
 
 		$(document).ready(function() {
 			//$('.input_feed').prependTo('body');
+			$('#btn_login').click(function(){
+				var target = encodeURI('/ex06/user/login');
+				location = target;
+			});
+			
 			getAllMain();
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
@@ -203,24 +209,15 @@
 											console.log(userId); // 접속한 회원
 											console.log(this.userId); // 작성 된 회원
 											
-
-											if (userId == this.userId) {
-											disabled = '';
-											readonly = '';
-										}
 											list += '<div class="div_post">'
 											+ '<div class="post_item">'
 											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
-											+ '<p>' + '<a href="../feed/list?feedId=' + this.feedId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
-											+ '<p>' + '<a href="../feed/list?feedId=' + this.feedId + '">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
+											+ '<p>' + '<a href="../feed/list?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
+											+ '<p>' + '<a href="../feed/list?userId=' + this.userId + '">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
 											+ '<p>' + this.userNickname + '</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'
 											+'<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</p>'
-											+ '&nbsp;&nbsp;'
-											+ '<br>'
-											+ '<button class="btn_update" ' + disabled + '>수정</button>'
-											+ '<button class="btn_delete" ' + disabled + '>삭제</button>'
 											+ '</div>'
 											+ '</div>';
 
@@ -230,58 +227,6 @@
 								}//end function(data);
 							);// end getJSON();
 						}// end getAllMain();
-						
-						$('#feeds').on('click', '.div_post .btn_update', function(){
-							console.log(this);
-							
-							var feedId = $(this).prevAll('#feedId').val();
-							var feedContent = $(this).prevAll('#feedContent').val();
-							console.log("선택된 피드 번호 : " + feedId + ", 피드 내용 : " + feedContent);
-							
-							$.ajax({
-								type : 'PUT', 
-								url : '../feeds/' + feedId,
-								headers : {
-									'Content-Type' : 'application/json'
-								},
-								data : feedContent, 
-								success : function(result) {
-									console.log(result);
-									if(result == 1) {
-										console.log('★ 피드수정 완료');
-										getAllMain();
-									} else {
-										console.log('★ 피드수정 실패');
-									}
-								}
-							});// end ajax
-							
-						});// end feeds.update
-						
-						// 삭제 버튼을 클릭하면 선택된 댓글 삭제
-						$('#feeds').on('click', '.div_post .btn_delete', function(){
-							console.log(this);
-							
-							var feedId = $(this).prevAll('#feedId').val();
-							
-							$.ajax({
-								type : 'DELETE', 
-								url : '../feeds/' + feedId, 
-								headers : {
-									'Content-Type' : 'application/json'
-								},
-								data : feedId,
-								success : function(result) {
-									console.log(result);
-									if(result == 1) {
-										console.log('★ 피드삭제 완료');
-										getAllMain();
-									} else {
-										console.log('★ 피드삭제 실패');
-									}
-								}
-							});//end ajax
-						}); // end feeds.delete
 					}); // end ready();
 	</script>
 

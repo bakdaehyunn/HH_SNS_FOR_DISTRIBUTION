@@ -31,6 +31,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	order by ${feedDate} desc
 	 </select>
 	 
+	 <select id="select_all_by_userid" resultType="FeedVO">
+	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
+	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
+	 	where ${userId} = #{userId}
+	 	order by ${feedDate} desc
+	 </select>
+	 
 	 <select id="select" resultType="FeedVO">
 		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
 	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
@@ -60,12 +67,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	delete from ${feed}
 	 	where ${feedId} = #{feedId}
 	 </delete>
-	 
-	 <select id="select_all_by_id" resultType="FeedVO">
-	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
-	 	order by ${feedId} desc
-	 </select>
 	 
 	 <select id="total_like" resultType="Integer">
 		select count(*) total_like from ${feed}

@@ -86,7 +86,7 @@ public class FeedRESTController {
 
 	}
 
-	@GetMapping("/all/{feedId}") // GET : 댓글 선택(all)
+	@GetMapping("/all/{feedId}") 
 	public ResponseEntity<List<FeedVO>> readFeeds(
 			@PathVariable("feedId") int feedId) {
 		// PathVariable("boardId") : /all/{boardId} 값을 설정된 변수에 저장
@@ -94,6 +94,15 @@ public class FeedRESTController {
 		logger.info("★ FeedRESTController 전체검색 : " + feedId);
 		
 		List<FeedVO> list = feedService.readAll();
+		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("/allbyId/{userId}")
+	public ResponseEntity<List<FeedVO>> readFeedsById(
+			@PathVariable("userId") String userId) {
+		logger.info("★ FeedRESTController 아이디 전체검색 : " + userId);
+		
+		List<FeedVO> list = feedService.readAllbyId(userId);
 		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
 	}
 	

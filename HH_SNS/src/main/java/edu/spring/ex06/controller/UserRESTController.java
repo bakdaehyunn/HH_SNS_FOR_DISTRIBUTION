@@ -55,7 +55,7 @@ public class UserRESTController {
 	}
 	@PostMapping
 	public ResponseEntity<String>emailVerif(@RequestBody String email){
-	
+		
 		return new ResponseEntity<String>("a",HttpStatus.OK);
 	}
 		
