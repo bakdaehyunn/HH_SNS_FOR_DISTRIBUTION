@@ -148,8 +148,12 @@ public class UserController {
 		if(result == 1) {
 			logger.info("프로필 업데이트 성공");
 		}
-		return "redirect:/feed/main";
+
+		//return "redirect:/feed/main";
+
+		return "redirect:/feed/mylist?userId="+vo.getUserId();
 	}
+
 	private String saveUploadFile(MultipartFile file) {
 		// UUID : 업로드하는 파일 이름이 중복되지 않도록 값 생성
 		UUID uuid = UUID.randomUUID();

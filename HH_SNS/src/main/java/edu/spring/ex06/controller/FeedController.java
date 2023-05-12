@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.service.FeedService;
+import edu.spring.ex06.service.ReplyService;
 import edu.spring.ex06.service.UserInfoService;
 import edu.spring.ex06.util.MediaUtil;
 
@@ -40,6 +41,14 @@ public class FeedController {
 
 	@Resource(name = "uploadPath")
 	private String uploadPath;
+	
+	@Autowired
+	private ReplyService replyService;
+	
+	@GetMapping("/reply")
+	public void replyGet() {
+		logger.info("replyGET() 호출");
+	}
 
 //	------------------------------------------------------------------
 	@GetMapping("/main")
