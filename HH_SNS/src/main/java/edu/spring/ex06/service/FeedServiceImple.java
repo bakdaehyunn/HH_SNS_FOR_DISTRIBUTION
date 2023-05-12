@@ -38,6 +38,18 @@ public class FeedServiceImple implements FeedService{
 		
 		return feeddao.insert(feedvo);
 	}// end create()
+	
+
+	@Override
+	public List<FeedVO> readList(String userId, String userNickname, String feedContent) {
+		logger.info("★ FeedServiceImple 포함되는 문자 검색 ");
+		logger.info("userId : " + userId); 
+		logger.info("userNickname : " + userNickname); 
+		logger.info("feedContent : " + feedContent); 
+		
+		return feeddao.selectSearch(userId, userNickname, feedContent);
+	}
+
 
 	@Override
 	public List<FeedVO> readAll() {

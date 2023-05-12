@@ -34,6 +34,16 @@ public class FeedDAOImple implements FeedDAO{
 		logger.info("★ FeedDAOImple 피드 등록");
 		return sqlSession.insert(NAMESPACE + ".insert", vo);
 	}// end insert
+	
+	@Override
+	public List<FeedVO> selectSearch(String userId, String userNickname, String feedContent) {
+		logger.info("★ FeedDAOImple 피드 포함 단어 검색");
+		Map<String, Object>  args = new HashMap<>();
+		args.put("userId", userId);
+		args.put("userNickname", userNickname);
+		args.put("feedContent", feedContent);
+		return sqlSession.selectOne(NAMESPACE + ".select_search", args);
+	}
 
 	@Override
 	public List<FeedVO> selectAll() {

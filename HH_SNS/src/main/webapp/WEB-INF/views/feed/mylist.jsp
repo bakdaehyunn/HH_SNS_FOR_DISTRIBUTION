@@ -132,8 +132,8 @@
 			<input type="text" id="feedContent" placeholder="피드 작성하기" required>
 			<input type="submit" id="btn_add" value="등록"><br>
 			<br>
-			<button type="button" id="btn_logout">로그아웃</button>
 			<button type="button" id="btn_profileEdit">프로필편집</button>
+			<button type="button" id="btn_logout">로그아웃</button>
 		</c:if>
 		<br>
 	</div>
@@ -150,12 +150,14 @@
 				var target = encodeURI('/ex06/user/login');
 				location = target;
 			});
-			$('#btn_logout').click(function(){
-				location = '../user/logout';
-			});
+			
 			$('#btn_profileEdit').click(function(){
 				var target = encodeURI('/ex06/user/profileEdit');
 				location = target;
+			});
+			
+			$('#btn_logout').click(function(){
+				location = '../user/logout';
 			});
 			
 			getAllList();

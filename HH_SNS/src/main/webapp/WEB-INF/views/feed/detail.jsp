@@ -56,6 +56,10 @@
 <body>
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
+	<%
+	 String userId = (String) session.getAttribute("userId");
+	 %>
+	
 	<div class="div_post">
 		<div class="post_item">
 			<input type="hidden" id="feedId" value="${feedvo.feedId}">
@@ -87,6 +91,8 @@
 			
 			var feedId = $(this).prevAll('#feedId').val();
 			var feedContent = $(this).prevAll('#feedContent').val();
+			var userId = '<%=(String)session.getAttribute("userId")%>';
+			console.log ("아이디 : " + userId);
 			console.log("선택된 피드 번호 : " + feedId + ", 피드 내용 : " + feedContent);
 			
 			$.ajax({
@@ -100,9 +106,15 @@
 					console.log(result);
 					if(result == 1) {
 						console.log('★ 피드수정 완료');
+						alert('수정 완료');
+						location = '../feed/mylist?userId=' + userId;
+						// http://localhost:8080/ex06/mylist?userId=asss
+						// http://localhost:8080/ex06/feed/mylist?userId=asss
 						getAllMain();
 					} else {
 						console.log('★ 피드수정 실패');
+						alert('수정 실패');
+						location = '../feed/main';
 					}
 				}
 			});// end ajax
@@ -114,6 +126,7 @@
 			console.log(this);
 			
 			var feedId = $(this).prevAll('#feedId').val();
+			var userId = '<%=(String)session.getAttribute("userId")%>';
 			
 			$.ajax({
 				type : 'DELETE', 
@@ -127,10 +140,14 @@
 					if(result == 1) {
 						location.replace("../feed/main");
 						console.log('★ 피드삭제 완료');
+						alert('삭제 완료');
+						location = '../feed/mylist?userId=' + userId;
 						getAllMain();
 						
 					} else {
 						console.log('★ 피드삭제 실패');
+						alert('삭제 실패');
+						location = '../feed/main';
 					}
 				}
 			});//end ajax

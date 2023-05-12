@@ -24,6 +24,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into ${feed}
 		values (FEED_SEQ.NEXTVAL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, sysdate, #{musicTitle})
 	</insert>
+	
+	<select id="select_search" resultType="FeedVO">
+	    select user_id, user_nickname, feed_content
+	    from feed
+	    where lower(user_id) like concat('%', #{keyword}, '%') 
+	        or lower(user_nickname) like concat('%', #{keyword}, '%') 
+	        or lower(feed_content) like concat('%', #{keyword}, '%')
+	</select>
 		
 	<select id="select_all" resultType="FeedVO">
 	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  

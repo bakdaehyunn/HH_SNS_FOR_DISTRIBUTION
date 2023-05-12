@@ -20,7 +20,7 @@
 	padding: 20px;
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
-	height: 250px;
+	height: 270px;
 	position: relative; /* 추가 */
 }
 
@@ -87,6 +87,33 @@
 	cursor: pointer;
 }
 
+.search_user {
+	display: block;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	width: 50%;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	padding: 20px;
+	background-color: #f7f7f7;
+	border: 1px solid #ddd;
+	height: 180px;
+	position: relative; /* 추가 */
+	text-align: center;
+}
+
+#txt_user {
+  	margin-bottom: 10px;
+  	text-align: center;
+}
+
+#txt_userPreofile, #txt_userId, #txt_userNickname {
+	display: block;
+	margin-top: 10px;
+}
+
 </style>
 <meta charset="UTF-8">
 <title>H&H</title>
@@ -103,11 +130,11 @@
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
 		<div class="input_feed">
-		<c:if test="${empty userId or userId ne feedvo.userId}">
+		<c:if test="${empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /></p>
 		</c:if>
-		<c:if test="${not empty userId and userId eq feedvo.userId}">
-		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></a></p>
+		<c:if test="${not empty userId and userId eq userinfovo.userId}">
+		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
 		</c:if>
 			<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 			<p id="userNickname">${userinfovo.userNickname }</p>
@@ -117,9 +144,24 @@
 			<c:if test="${not empty userId }">
 				<input type="text" id="feedContent" placeholder="피드 작성하기" required>
 				<input type="submit" id="btn_add" value="등록">
+				<br><br>
+				<button type="button" id="btn_profileEdit">프로필편집</button>
+				<button type="button" id="btn_logout">로그아웃</button>
 			</c:if>
 		</div>
+	
 	<br>
+	
+	<div class="search_user">
+		<p>
+			검색 : <input type="text" id="txt_user" >
+		</p>
+		<p>
+			<br><span id="txt_userPreofile"></span> 
+			<br><span id="txt_userId"></span>
+			<br><span id="txt_userNickname"></span> 
+		</p>
+	</div>
 	<hr>
 	<br>
 	
@@ -143,6 +185,15 @@
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
+			});
+			
+			$('#btn_profileEdit').click(function(){
+				var target = encodeURI('/ex06/user/profileEdit');
+				location = target;
+			});
+			
+			$('#btn_logout').click(function(){
+				location = '../user/logout';
 			});
 			
 			getAllMain();
@@ -232,6 +283,46 @@
 								}//end function(data);
 							);// end getJSON();
 						}// end getAllMain();
+						
+						$('#txt').keyup(function(){
+							
+							/*
+							<div class="search_user">
+								<p>
+									검색 : <input type="text" id="txt_user" >
+								</p>
+								<p>
+									<br><span id="txt_userPreofile"></span> 
+									<br><span id="txt_userId"></span>
+									<br><span id="txt_userNickname"></span> 
+								</p>
+							</div>
+							*/
+							
+							var keyword = $('#txt_user').val();
+							console.log(keyword);
+							
+							$.ajax({
+								type : 'get', 
+								url : '../feed/', 
+								data : {keyword : keyword}, 
+								success : function(result) {
+									console.log(result);
+									var obj = JSON.parse(result);
+									var list = "";
+									for(var x in obj) {
+										list += "<a href='https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=" + obj[x].title + "'>" + obj[x].title + "</a><br>"; 
+									}
+									
+									$('#txtHint').html(list);
+								}
+							});
+							
+						}); // end txt.keyup()
+						
+						
+						
+						
 					}); // end ready();
 	</script>
 
