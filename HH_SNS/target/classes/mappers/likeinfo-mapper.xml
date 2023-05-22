@@ -21,6 +21,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into ${like_info}
 		values (LIKE_INFO_SEQ.NEXTVAL, #{userId}, #{feedId}, 0, 0)
 	</insert>
+	
+	<select id="select" resultType="LikeInfoVO">
+		select ${likeId}, ${userId}, ${feedId} from ${like_info}
+		where ${likeId} = #{likeId}
+	 </select>
+	 
+	 <select id="select_feedid" resultType="LikeInfoVO">
+		select ${likeId}, ${userId}, ${feedId} from ${like_info}
+		where ${feedId} = #{feedId}
+	 </select>
+	 
+	 <select id="select_all" resultType="LikeInfoVO">
+	 	select * from ${like_info}
+	 </select>
+	 
+	 <select id="select_check_id" resultType="Integer">
+		 select count(${userId}) from ${user_info}
+	 	 where ${userId} = #{userId}
+	 </select>
+	 
+	  <select id="select_check_feedid" resultType="Integer">
+		 select count(${feedId}) from ${user_info}
+	 	 where ${feedId} = #{feedId}
+	 </select>
 	 
 	 <delete id="delete">
 	 	delete from ${like_info}

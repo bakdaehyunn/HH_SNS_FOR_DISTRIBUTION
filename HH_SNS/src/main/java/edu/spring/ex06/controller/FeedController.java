@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.spring.ex06.domain.FeedVO;
+import edu.spring.ex06.domain.LikeInfoVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.service.FeedService;
+import edu.spring.ex06.service.LikeInfoService;
 import edu.spring.ex06.service.ReplyService;
 import edu.spring.ex06.service.UserInfoService;
 import edu.spring.ex06.util.MediaUtil;
@@ -39,11 +41,15 @@ public class FeedController {
 	@Autowired
 	private UserInfoService userInfoService;
 
+	@Autowired
+	private ReplyService replyService;
+	
+	@Autowired
+	private LikeInfoService likeInfoService;
+	
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 	
-	@Autowired
-	private ReplyService replyService;
 	
 	@GetMapping("/reply")
 	public void replyGet() {
@@ -58,25 +64,32 @@ public class FeedController {
 		// 로그인 필요 X
 		HttpSession session = request.getSession();
 		if (session.getAttribute("userId") != null) {
-			String userId = (String) session.getAttribute("userId");
-			UserInfoVO userinfovo = userInfoService.read(userId);
+			String sessionuserId = (String) session.getAttribute("userId");
+			UserInfoVO userinfovo = userInfoService.read(sessionuserId);
 			model.addAttribute("userinfovo", userinfovo);
 		}
+		
+		FeedVO feedvo = new FeedVO();
+		int likeCount = feedvo.getLikeCount();
+		model.addAttribute("likeCount", likeCount);
 
 	}
 
 	@GetMapping("/mylist")
 	public void list(Model model, String userId, HttpServletRequest request) {
-		logger.info("★ FeedController list 호출");
+		logger.info("★ FeedController mylist 호출");
 
 		// 로그인 필요 X
 		HttpSession session = request.getSession();
-		// 만약 세션 즉 로그인이 되어있다면 세션값을 준다 !
+		// 세션 아이디값 O
 		if (session.getAttribute("userId") != null) {
 			String sessionuserId = (String) session.getAttribute("userId");
-			UserInfoVO userinfovo = userInfoService.read(sessionuserId);
-			model.addAttribute("userinfovo", userinfovo);
-		}
+			UserInfoVO sessionUserinfovo = userInfoService.read(sessionuserId);
+			model.addAttribute("sessionUserinfovo", sessionUserinfovo);
+		} 
+		
+		UserInfoVO userinfovo = userInfoService.read(userId);
+		model.addAttribute("userinfovo", userinfovo);
 
 		List<FeedVO> list = feedService.readAllbyId(userId);
 		logger.info("★ List feedvo 정보 : " + list.toString());
@@ -87,7 +100,7 @@ public class FeedController {
 	}
 
 	@GetMapping("/detail")
-	public void detail(Model model, @ModelAttribute(name = "feedId") int feedId, FeedVO feedvo,
+	public void detail(Model model, @ModelAttribute(name = "feedId") int feedId, FeedVO feedvo, LikeInfoVO likeinfovo,
 			HttpServletRequest request) {
 		logger.info("★ FeedController detail 호출");
 
@@ -99,12 +112,19 @@ public class FeedController {
 			UserInfoVO userinfovo = userInfoService.read(sessionuserId);
 			model.addAttribute("userinfovo", userinfovo);
 			logger.info("세션 아이디 : " + userinfovo);
-
 		}
 
 		feedvo = feedService.read(feedId);
 		model.addAttribute("feedvo", feedvo);
 		logger.info("피드 정보 : " + feedvo);
+		
+		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
+		for(LikeInfoVO likevo : list) {
+			logger.info(likevo.toString());
+			model.addAttribute("likevo", likevo);
+		}
+		
+		
 	}
 
 	@GetMapping("/display")
@@ -138,18 +158,6 @@ public class FeedController {
 
 		return entity;
 
-	}
-
-	@GetMapping("/register")
-	public void register() {
-		logger.info("register() 호출");
-	}
-
-	@GetMapping("/test")
-	public void test(String data1, String data2, Model model) {
-		logger.info("test() 호출");
-		model.addAttribute("data1", data1);
-		model.addAttribute("data2", data2);
 	}
 
 }

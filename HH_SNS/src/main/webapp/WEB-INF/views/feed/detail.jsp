@@ -1,3 +1,4 @@
+<%@page import="edu.spring.ex06.domain.LikeInfoVO"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -48,6 +49,20 @@
 	cursor: pointer;
 }
 
+.like_item {
+    display: flex;
+    align-items: center;
+}
+
+.btn_like {
+  cursor: pointer;
+}
+
+.btn_like.liked {
+  fill: #e74c3c; 
+}
+
+
 </style>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -59,6 +74,7 @@
 	<%--
 	 String userId = (String) session.getAttribute("userId");
 	 --%>
+	 
 	
 	<div class="div_post">
 		<div class="post_item">
@@ -77,12 +93,23 @@
 			    <input type="submit" id="btn_update" value="수정">
 			    <input type="submit" id="btn_delete" value="삭제">
 			</c:if>
+			    <hr>
+			<input type="hidden" id="likeId" value="${likevo.likeId }">
+				<div class="like_item">
+					<a>좋아요 ${feedvo.likeCount } <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" 
+					stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">
+					<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>
+					</svg></a>
+				</div>
 		</div>
 	</div>
 	
 	<div style="text-align: center;">
 		<div id="feeds"></div>
 	</div>
+
+	
+	<hr>
 	
 	<!-- -----------------------댓글 파트 ------------------------------ -->
 	
@@ -101,10 +128,7 @@
 		<button id="btn_add">작성</button>
 		</c:if>
 	</div>
-
-
 	
-	<hr>
 	<div style="text-align: center;">
 		<div id="replies"></div>
 	</div>
@@ -316,7 +340,131 @@
 				}
 			});
 		});
+		
+	//--------------------------좋아요 파트-------------------------------------
+	var heart;
+	likecheck();
+    // 좋아요 버튼 클릭 이벤트 핸들러
+    $(document).on('click', '.btn_like:not(.liked)', function() {
+	    var likeId = $('#likeId').val();
+	    const userId = $('#userId').val();
+	    var feedId = $('#feedId').val();
+		var idx = $('.like_item a').attr('idx');
+		console.log('좋아요 개수 : ' + idx);
+	    
+		
+		$btnLike = $(this);
+	    
+	    var obj = {
+			'likeId' : likeId,
+			'userId' : userId,
+			'feedId' : feedId
+		}
+		console.log(obj)
+		
+		if(userId == null) {
+			alert('로그인을 해주세요');
+			return;
+		}
+	    
+		$.ajax({
+				type : 'POST',
+				url : '../likes',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				data : JSON.stringify(obj),
+				success : function(result) {
+					console.log(result);
+					if (result == 1) {
+						console.log('★ 좋아요 등록 성공');
+						heart = $btnLike.addClass('liked');
+						heart = true;
+					} else{
+						console.log('★ 좋아요 등록 실패');
+					}
+				}
+			});//end ajax
+	    
+	   
+	    });// end click not liked()
+    
+    $(document).on('click', '.btn_like.liked', function() {
+    	console.log('delete');
+    	var likeId = $('#likeId').val();
+    	
+    	$btnLike = $(this);
+    	
+    	var obj = {
+    			'likeId' : likeId
+    		};
+    	
+    	console.log(obj);
+    	
+    	 $.ajax({
+    		type : 'DELETE', 
+			url : '../likes/' + likeId,
+ 			headers : {
+ 				'Content-Type' : 'application/json'
+ 			},
+ 			data : JSON.stringify(obj),
+ 			success : function(result) {
+ 				console.log(result);
+ 				console.log(this);
+ 				if (result == 1) {
+ 					console.log('★ 좋아요 삭제 성공');
+ 				    heart = $btnLike.removeClass('liked');
+ 				    heart = false;
+ 				} else{
+ 					console.log('★ 좋아요 삭제 실패');
+ 				}
+ 			}
+ 		});// end ajax()
+ 		
+    	
+    }); //end click liked
+
+     
+	function likecheck() {
+		var likeId = $('#likeId').val();
+		const userId = $('#userId').val();
+		var feedId = $('#feedId').val();
+		
+		
+		console.log('likecheck : ' + likeId + ', ' + userId + ', ' + feedId);
+    	
+		var url = '../likes/all/' + feedId;
+		$.getJSON(
+			url,
+			function(data) {
+				console.log('list로 받아온 data : ' + data);
+				
+				var check = false;
+				 $(data).each(function() {
+				        console.log('for문 돌린 this : ' + this.feedId);
+				        if (feedId == this.feedId && userId == this.userId) {
+				        	check = true;
+				        	return false; // 반복문 중단
+				        }
+				      });
+
+				      if(check) {
+				        heart = true;
+				        console.log('이미 좋아요한 상태');
+				        $('.btn_like').addClass('liked');
+				      } else {
+				        heart = false;
+				        console.log('좋아요하지 않은 상태');
+				        $('.btn_like').removeClass('liked');
+				      }
+			}// end function
+		);// end getJSON
+		
+	}// end likecheck
+	
+	
 	}); // end ready();
+	
 	
 	</script>
 		

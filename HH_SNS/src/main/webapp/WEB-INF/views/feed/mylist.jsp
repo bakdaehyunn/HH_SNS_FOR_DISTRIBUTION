@@ -18,13 +18,13 @@
 	padding: 20px;
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
-	height: 270px;
+	height: auto;
 	position: relative; /* 추가 */
 }
 
 .feedContent {
 	width: 70%;
-	height: 70%;
+	height: auto;
 	margin-right: 10px;
 }
 
@@ -106,42 +106,42 @@
 	<= 또는 le: 왼쪽 값이 오른쪽 값보다 작거나 같은 경우 참을 반환합니다.
 	
 	 -->
-	 
-	 <%
-	 String userId = (String) session.getAttribute("userId");
-	 %>
-	
+
 	<div class="input_feed">
 	<!-- 
 	empty = null 
 	userId = session
 	-->
-		<c:if test="${empty userId or userId ne feedvo.userId}">
-		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></p>
+
+		<!-- 세션아이디값 X -->
+		<c:if test="${empty userId}">
+		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		</c:if>
-		<c:if test="${not empty userId and userId eq feedvo.userId}">
-		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${feedvo.userProfile}" /></a></p>
+		<!-- 세션아이디값 O / 그리고 세션아이디 != 유저 아이디 -->
+		<c:if test="${not empty userId}">
+		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		</c:if>
-		<p id="userId"><b>${feedvo.userId}</b></p>
-		<p id="userNickname">${feedvo.userNickname }</p>
+		<p id="userId"><b>${userinfovo.userId}</b></p>
+		<p id="userNickname">${userinfovo.userNickname }</p>
 		
-		<c:if test="${empty userId and userId ne feedvo.userId}">
+		<c:if test="${empty userId and userId ne userinfovo.userId}">
 			<br>
 		</c:if>
-		<c:if test="${not empty userId and userId eq feedvo.userId}">
+		<c:if test="${not empty userId and userId eq userinfovo.userId}">
 			<input type="text" id="feedContent" placeholder="피드 작성하기" required>
 			<input type="submit" id="btn_add" value="등록"><br>
+			<div id="check_feedContent" style="display: none;"></div>
 			<br>
 			<button type="button" id="btn_profileEdit">프로필편집</button>
 			<button type="button" id="btn_logout">로그아웃</button>
 		</c:if>
-		<br>
 	</div>
 	<hr>
 	
 	<div style="text-align: center;">
 		<div id="feeds"></div>
 	</div>
+	<br>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -175,6 +175,14 @@
 
 				}
 				console.log(obj);
+				
+				var list = '';
+				if(feedContent == '') {
+					list ='<i style="font-size: 14px">피드를 입력해주세요.</i>';
+					$('#check_feedContent').html(list);
+					$('#check_feedContent').show();
+					return;
+				}
 
 				$.ajax({
 					type : 'POST',
@@ -206,30 +214,25 @@
 						url,
 						function(data) {
 							console.log(data);
+							var datasize = data.length;
+							console.log('피드 개수 : ' + datasize);
 							const userId = document.getElementById("userId").textContent;
 							console.log(userId);
 							var list = '';
+							if(data.length > 0) {
 								$(data).each(function() {
-									console.log(this);
 									
 									var feedDate = new Date(this.feedDate);
 									var yyyy = feedDate.getFullYear();
 									var mm = String(feedDate.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
 									var dd = String(feedDate.getDate()).padStart(2, '0');
 									var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
-									var disabled = 'disabled';
-									var readonly = 'readonly';
-									
-									console.log('★');
-									console.log(userId); // 접속한 회원
-									console.log(this.userId); // 작성 된 회원
-									
-									list += '<div class="div_post">'
+									list += '<br>'
+									+ '<div class="div_post">'
 									+ '<div class="post_item">'
 									+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 									+ '<p>' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</p>'
-									+ '<p>' + '<b>' + this.userId +'</b>' + '</p>'
-									+ '<p>' + this.userNickname + '</p>'
+									+ '<p>' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
 									+ feedDate
 									+ '&nbsp;&nbsp;'
 									+'<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
@@ -238,11 +241,16 @@
 
 
 							});// end data.funchion;
+						} else {
+							console.log('피드가 없음');
+							list += '<br>' 
+							+ '<p><i>피드를 작성해보세요 !</i></p>';
+						}
 							
-							$('#feeds').html(list);
-						}//end function(data);
-					);// end getJSON();
-				}// end getAllList();
+					$('#feeds').html(list);
+				}//end function(data);
+			);// end getJSON();
+		}// end getAllList();
 			
 			
 			
