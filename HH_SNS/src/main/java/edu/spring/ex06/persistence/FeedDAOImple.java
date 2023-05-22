@@ -19,31 +19,12 @@ public class FeedDAOImple implements FeedDAO{
 
 	@Autowired
 	private SqlSession sqlSession;
-	
-	/*
-	 * int insert(String userId, FeedVO vo); // 피드 작성(회원)
-	   List<FeedVO> selectAll(String userId, Date feedDate); // 전체 피드 츌력 = 전체 검색 (최신순)(비회원)
-	   FeedVO select (String userId, int feedId); // 피드 상세 출력 = 아이디 기준 검색(비회원)
-	   int update(String userId, FeedVO vo); // 피드 수정(회원)
-	   int delete(String usserId); // 아이디 기준 피드 삭제(회원)
-	   List<FeedVO> selectAllbyId (String userId); // 개인 피드 출력 = 아이디 기준(회원)
-	 * */
 
 	@Override
 	public int insert(FeedVO vo) {
 		logger.info("★ FeedDAOImple 피드 등록");
 		return sqlSession.insert(NAMESPACE + ".insert", vo);
 	}// end insert
-	
-	@Override
-	public List<FeedVO> selectSearch(String userId, String userNickname, String feedContent) {
-		logger.info("★ FeedDAOImple 피드 포함 단어 검색");
-		Map<String, Object>  args = new HashMap<>();
-		args.put("userId", userId);
-		args.put("userNickname", userNickname);
-		args.put("feedContent", feedContent);
-		return sqlSession.selectOne(NAMESPACE + ".select_search", args);
-	}
 
 	@Override
 	public List<FeedVO> selectAll() {
@@ -62,16 +43,6 @@ public class FeedDAOImple implements FeedDAO{
 		logger.info("★ FeedDAOImple 피드번호 detail");
 		return sqlSession.selectOne(NAMESPACE + ".select", feedId);
 	}// end select 상세 검색
-	
-	@Override
-	public FeedVO select(int feedId, String userId) {
-		logger.info("★ FeedDAOImple 피드번호, 유저아이디 detail");
-		Map<String, Object>  args = new HashMap<>();
-		args.put("feedId", feedId);
-		args.put("userId", userId);
-		return sqlSession.selectOne(NAMESPACE + ".select_by_id", args);
-	}// end select_by_id 상세 검색
-
 	
 	@Override
 	public FeedVO select(String userId) {
@@ -99,7 +70,7 @@ public class FeedDAOImple implements FeedDAO{
 	public int getTotalLike() {
 		logger.info("★ FeedDAOImple 좋아요 수");
 		return sqlSession.selectOne(NAMESPACE, ".total_like");
-	}
+	}// Like 총 갯수
 	
 	@Override
 	public int getTotalComment() {

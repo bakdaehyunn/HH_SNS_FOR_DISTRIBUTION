@@ -24,14 +24,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into ${feed}
 		values (FEED_SEQ.NEXTVAL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, sysdate, #{musicTitle})
 	</insert>
-	
-	<select id="select_search" resultType="FeedVO">
-	    select user_id, user_nickname, feed_content
-	    from feed
-	    where lower(user_id) like concat('%', #{keyword}, '%') 
-	        or lower(user_nickname) like concat('%', #{keyword}, '%') 
-	        or lower(feed_content) like concat('%', #{keyword}, '%')
-	</select>
 		
 	<select id="select_all" resultType="FeedVO">
 	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
@@ -50,13 +42,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
 	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
 		where ${feedId} = #{feedId}
-	 </select>
-	 
-	 <select id="select_by_id" resultType="FeedVO">
-		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
-		where ${feedId} = #{feedId}
-		and ${userId} = #{userId}
 	 </select>
 	 
 	 <select id="select_by_userid" resultType="FeedVO">

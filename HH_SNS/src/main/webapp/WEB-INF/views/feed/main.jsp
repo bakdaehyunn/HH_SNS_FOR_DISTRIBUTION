@@ -20,13 +20,13 @@
 	padding: 20px;
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
-	height: 270px;
+	height: auto;
 	position: relative; /* 추가 */
 }
 
 .feedContent {
 	width: 70%;
-	height: 70%;
+	height: auto;
 	margin-right: 10px;
 }
 
@@ -94,12 +94,12 @@
 	justify-content: space-between;
 	width: 50%;
 	margin: 0 auto;
-	margin-bottom: 20px;
-	margin-top: 20px;
-	padding: 20px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	padding: 10px;
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
-	height: 180px;
+	height: auto;
 	position: relative; /* 추가 */
 	text-align: center;
 }
@@ -114,6 +114,21 @@
 	margin-top: 10px;
 }
 
+.like_item {
+    display: flex;
+    align-items: center;
+}
+
+.btn_like {
+  cursor: none;
+}
+
+.btn_like.liked path {
+  fill: #e74c3c;
+}
+
+
+
 </style>
 <meta charset="UTF-8">
 <title>H&H</title>
@@ -122,7 +137,7 @@
 
 	<!-- ▼ 아래 히든인 이유는 1씩 올리는것뿐인걸 굳이 보일필요 X -->
 	<input type="hidden" id="feedId" value="1">
-
+	
 	<!-- 
 	▼ 등록버튼은 절 대 form안에 넣지말기 ㅎ-ㅎ 
 	-->
@@ -132,42 +147,36 @@
 		<div class="input_feed">
 		<c:if test="${empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /></p>
+		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">
 		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
+		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
-			<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
-			<p id="userNickname">${userinfovo.userNickname }</p>
-			<c:if test="${empty userId }">
-				<input type="submit" id="btn_login" value="로그인">
-			</c:if>
-			<c:if test="${not empty userId }">
-				<input type="text" id="feedContent" placeholder="피드 작성하기" required>
-				<input type="submit" id="btn_add" value="등록">
-				<br><br>
-				<button type="button" id="btn_profileEdit">프로필편집</button>
-				<button type="button" id="btn_logout">로그아웃</button>
-			</c:if>
+		<p id="userNickname">${userinfovo.userNickname }</p>
+		<c:if test="${empty userId }">
+		<input type="submit" id="btn_login" value="로그인">
+		</c:if>
+		<c:if test="${not empty userId }">
+		<input type="text" id="feedContent" placeholder="피드 작성하기" required>
+		<input type="submit" id="btn_add" value="등록">
+		<br>
+		<div id="check_feedContent" style="display: none;"></div>
+		<br>
+		<button type="button" id="btn_profileEdit">프로필편집</button>
+		<button type="button" id="btn_logout">로그아웃</button>
+		</c:if>
 		</div>
 	
 	<br>
-	
-	<div class="search_user">
-		<p>
-			검색 : <input type="text" id="txt_user" >
-		</p>
-		<p>
-			<br><span id="txt_userPreofile"></span> 
-			<br><span id="txt_userId"></span>
-			<br><span id="txt_userNickname"></span> 
-		</p>
-	</div>
+
 	<hr>
 	<br>
 	
 	<!-- ▼ 이건 RESTController랑 관계 X 그냥 여기서 보여줄 태그일 뿐임 ㅎ-ㅎ -->
 	<div style="text-align: center;">
-		<div id="feeds"></div>
+		<div id="feeds">
+		</div>
 	</div>
 
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장
@@ -197,6 +206,7 @@
 			});
 			
 			getAllMain();
+			
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
@@ -210,25 +220,34 @@
 				'feedContent' : feedContent
 
 				}
-				console.log(obj);
-
-				$.ajax({
-					type : 'POST',
-					url : '../feeds',
-					headers : {
-						'Content-Type' : 'application/json'
-					},
-					data : JSON.stringify(obj),
-					success : function(result) {
-						console.log(result);
-						if (result == 1) {
-							console.log('★ 피드작성 완료');
-							getAllMain();
-						} else {
-							console.log('★ 피드작성 실패');
+				console.log(obj)
+				var list = '';
+				if(feedContent == '') {
+					list += '<i style="font-size: 14px">피드를 입력해주세요.</i>'
+					$('#check_feedContent').html(list);
+					$('#check_feedContent').show();
+					return;
+				}
+				
+				if(userId != '') {
+					$.ajax({
+						type : 'POST',
+						url : '../feeds',
+						headers : {
+							'Content-Type' : 'application/json'
+						},
+						data : JSON.stringify(obj),
+						success : function(result) {
+							console.log(result);
+							if (result == 1) {
+								console.log('★ 피드작성 완료');
+								getAllMain();
+							} else {
+								console.log('★ 피드작성 실패');
+							}
 						}
-					}
-				});// end ajax()
+					});// end ajax()
+				}
 			});// end btn_add.click();
 			
 					// - css 선택자 :
@@ -255,8 +274,6 @@
 											var mm = String(feedDate.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
 											var dd = String(feedDate.getDate()).padStart(2, '0');
 											var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
-											var disabled = 'disabled';
-											var readonly = 'readonly';
 											
 											// 회원이어야지만 작성은 가능하나
 											// 회원이 아니여도 피드를 볼 수 있고
@@ -269,61 +286,30 @@
 											+ '<div class="post_item">'
 											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
-											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>' + this.userId +'</b>' +'</a>' + '</p>'
-											+ '<p>' + this.userNickname + '</p>'
+											+ '<p id="userId">' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' +'</a>' + '</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'
-											+'<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</p>'
+											+ '<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent + '</a>' + '</p>'
+											+ '<hr>'
+											+ '<div class="like_item">'
+											+ '<span class="like_cnt" />좋아요 ' + ${likeCount} + '개 ' + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">'
+											+ '<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>'
+											+ '</svg>'
+											+ '</div>'
 											+ '</div>'
 											+ '</div>';
-
 									});// end data.funchion;
 									
 									$('#feeds').html(list);
-								}//end function(data);
-							);// end getJSON();
-						}// end getAllMain();
-						
-						$('#txt').keyup(function(){
+										
+							}//end function(data);
+					);// end getJSON();
+				}// end getAllMain();
 							
-							/*
-							<div class="search_user">
-								<p>
-									검색 : <input type="text" id="txt_user" >
-								</p>
-								<p>
-									<br><span id="txt_userPreofile"></span> 
-									<br><span id="txt_userId"></span>
-									<br><span id="txt_userNickname"></span> 
-								</p>
-							</div>
-							*/
 							
-							var keyword = $('#txt_user').val();
-							console.log(keyword);
 							
-							$.ajax({
-								type : 'get', 
-								url : '../feed/', 
-								data : {keyword : keyword}, 
-								success : function(result) {
-									console.log(result);
-									var obj = JSON.parse(result);
-									var list = "";
-									for(var x in obj) {
-										list += "<a href='https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=" + obj[x].title + "'>" + obj[x].title + "</a><br>"; 
-									}
-									
-									$('#txtHint').html(list);
-								}
-							});
 							
-						}); // end txt.keyup()
-						
-						
-						
-						
-					}); // end ready();
+			}); // end ready();
 	</script>
 
 

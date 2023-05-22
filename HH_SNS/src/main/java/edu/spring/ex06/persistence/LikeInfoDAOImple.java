@@ -2,6 +2,7 @@ package edu.spring.ex06.persistence;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -25,20 +26,70 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 	@Override
 	public int insert(LikeInfoVO vo) {
 		logger.info("★ LikeInfoDAOImple 좋아요 등록");
-		logger.info(vo.toString());
+		logger.info("하트 들어갈 내용 : " + vo.toString());
 		return sqlSession.insert(NAMESPACE + ".insert", vo);
 	}// end insert
 //	-----------------------------------------------------------
 
 	@Override
-	public int update(int likeId, int feedId, int replyId, int commentId) {
+	public LikeInfoVO select(int likeId) {
+		logger.info("★ LikeInfoDAOImple 좋아요 번호 찾기");
+		logger.info("likeId : " + likeId);
+		return sqlSession.selectOne(NAMESPACE + ".select", likeId);
+	}
+	
+//	-----------------------------------------------------------
+	
+
+	@Override
+	public LikeInfoVO select_feedId(int feedId) {
+		logger.info("★ LikeInfoDAOImple 좋아요 피드 번호 찾기");
+		logger.info("feedId : " + feedId);
+		return sqlSession.selectOne(NAMESPACE + ".select_feedid", feedId);
+	}
+	
+//	-----------------------------------------------------------
+	
+	@Override
+	public int select_check(String userId) {
+		logger.info("★ LikeInfoDAOImple 중복 유저아이디");
+		logger.info("userId : " + userId);
+		return sqlSession.selectOne(NAMESPACE + ".select_check_id", userId);
+	}
+	
+//	-----------------------------------------------------------
+	
+	@Override
+	public int select_check_feedId(int feedId) {
+		logger.info("★ LikeInfoDAOImple 중복 피드번호");
+		logger.info("feedId : " + feedId);
+		return sqlSession.selectOne(NAMESPACE + ".select_check_feedid", feedId);
+	}
+	
+//	-----------------------------------------------------------
+	@Override
+	public List<LikeInfoVO> select_all() {
+		logger.info("★ LikeInfoDAOImple 좋아요 전체 찾기");
+		return sqlSession.selectOne(NAMESPACE + ".select_all");
+	}
+	
+//	-----------------------------------------------------------
+
+	@Override
+	public List<LikeInfoVO> select_all(int feedId) {
+		logger.info("★ LikeInfoDAOImple 피드 전체 검색");
+		return sqlSession.selectList(NAMESPACE + ".select_all");
+	}
+	
+//	-----------------------------------------------------------
+
+	@Override
+	public int update(int likeId, int feedId) {
 		logger.info("★ LikeInfoDAOImple 좋아요 수정");
-		logger.info("좋아요 번호 : " + likeId + ", 게시글 번호 : " + feedId + ", 댓글 번호 : " + replyId + ", 대댓글 번호 : " + commentId);
+		logger.info("좋아요 번호 : " + likeId + ", 게시글 번호 : " + feedId);
 		Map<String, Object>  args = new HashMap<>();
 		args.put("likeId", likeId);
 		args.put("feedId", feedId);
-		args.put("replyId", replyId);
-		args.put("commentId", commentId);
 		return sqlSession.update(NAMESPACE + ".update", args);
 	}// end update
 	
@@ -47,10 +98,12 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 	@Override
 	public int delete(int likeId) {
 		logger.info("★ LikeInfoDAOImple 좋아요 삭제");
-		logger.info("좋아요 번호 : " + likeId);
 		return sqlSession.delete(NAMESPACE + ".delete", likeId);
 	}// end delete
 //	-----------------------------------------------------------
+
+
+
 
 	
 //	int insert(LikeInfoVO vo);
