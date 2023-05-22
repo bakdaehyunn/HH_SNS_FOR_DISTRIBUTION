@@ -39,6 +39,7 @@ public class LikeInfoDAOTest {
 //		testInsert_reply();
 //		testInsert_comment();
 //		testDelete();
+		
 	}// end testDAO()
 
 //	--------------------------------------------------
