@@ -130,8 +130,11 @@
 			<br>
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">
-			<input type="text" id="feedContent" placeholder="피드 작성하기" required>
-			<input type="submit" id="btn_add" value="등록"><br>
+			<div style="display: flex;">
+			<div style="background-color: #ffffff;  min-width: 620px; width: auto; margin-right: 20px;" id="feedContent" contentEditable='true' >
+			</div>
+			<input type="submit" id="btn_add" value="등록">
+			</div>
 			<div id="check_feedContent" style="display: none;"></div>
 			<br>
 			<button type="button" id="btn_profileEdit">프로필편집</button>
@@ -167,7 +170,7 @@
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
-				var feedContent = $('#feedContent').val();
+				var feedContent = $('#feedContent').text();
 				console.log(feedContent);
 
 				var obj = {

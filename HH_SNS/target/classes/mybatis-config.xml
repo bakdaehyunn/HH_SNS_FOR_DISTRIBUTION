@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="likeCount" value="like_count" />
 		<property name="feedDate" value="feed_date" />
 		<property name="musicTitle" value="music_title" />
+		<property name="feedPicture" value="feed_picture" />
 
 		<property name="reply" value="reply" />
 		<property name="replyId" value="reply_id" />

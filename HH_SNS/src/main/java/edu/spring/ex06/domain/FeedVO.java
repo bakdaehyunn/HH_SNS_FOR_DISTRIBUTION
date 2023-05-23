@@ -103,11 +103,20 @@ public class FeedVO {
 		this.musicTitle = musicTitle;
 	}
 
+	public String getFeedPicture() {
+		return feedPicture;
+	}
+
+	public void setFeedPicture(String feedPicture) {
+		this.feedPicture = feedPicture;
+	}
+
 	@Override
 	public String toString() {
 		return "FeedVO [feedId=" + feedId + ", feedContent=" + feedContent + ", userId=" + userId + ", userNickname="
 				+ userNickname + ", userProfile=" + userProfile + ", replyCount=" + replyCount + ", likeCount="
-				+ likeCount + ", feedDate=" + feedDate + ", musicTitle=" + musicTitle + "]";
+				+ likeCount + ", feedDate=" + feedDate + ", musicTitle=" + musicTitle + ", feedPicture=" + feedPicture
+				+ "]";
 	}
 
 }

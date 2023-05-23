@@ -95,11 +95,13 @@
 			</c:if>
 			    <hr>
 			<input type="hidden" id="likeId" value="${likevo.likeId }">
+			<input type="hidden" id="checkuserId" value="${likevo.userId }">
+			<input type="hidden" id="checkfeedId" value="${likevo.feedId }">
 				<div class="like_item">
-					<a>좋아요 ${feedvo.likeCount } <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" 
+					좋아요 <input type="hidden" id="likeCount" value="${feedvo.likeCount }">${feedvo.likeCount }개 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" 
 					stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">
 					<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>
-					</svg></a>
+					</svg>
 				</div>
 		</div>
 	</div>
@@ -134,6 +136,7 @@
 	</div>
 	
 	<script type="text/javascript">
+	<!-- ----------------------- 피드 디테일 ------------------------------ -->
 	$(document).ready(function() {
 		$('#btn_login').click(function(){
 			var target = encodeURI('/ex06/user/login');
@@ -145,12 +148,15 @@
 			var feedId = $(this).prevAll('#feedId').val();
 			var feedContent = $(this).prevAll('#feedContent').val();
 			var userId = $(this).prevAll('#userId').val();
+<<<<<<< HEAD
 			<%--
 			var userId = ${userId};
 			--%>
 			
 			
 			
+=======
+>>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 			console.log ("아이디 : " + userId);
 			console.log("선택된 피드 번호 : " + feedId + ", 피드 내용 : " + feedContent);
 			
@@ -180,17 +186,21 @@
 			
 		});// end feeds.update
 		
-		// 삭제 버튼을 클릭하면 선택된 댓글 삭제
 		$('#btn_delete').click(function() {
 			console.log(this);
 			
 			var feedId = $(this).prevAll('#feedId').val();
+<<<<<<< HEAD
 			<%--
 				var userId = ${userId};
 				
 			 --%>
 			 var userId = $(this).prevAll('#userId').val();
 			
+=======
+			var userId = $(this).prevAll('#userId').val();
+			console.log('피드 : ' + feedId + ' 유저 : ' + userId);
+>>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 			
 			$.ajax({
 				type : 'DELETE', 
@@ -205,7 +215,7 @@
 						location.replace("../feed/main");
 						console.log('★ 피드삭제 완료');
 						alert('삭제 완료');
-						location = '../feed/mylist?userId=' + userId;
+						location = '../feed/main';
 						getAllMain();
 						
 					} else {
@@ -360,8 +370,14 @@
 	    var likeId = $('#likeId').val();
 	    const userId = $('#userId').val();
 	    var feedId = $('#feedId').val();
-		var idx = $('.like_item a').attr('idx');
-		console.log('좋아요 개수 : ' + idx);
+	    
+	    var checkuser = $('#checkuserId').val();
+	    var checkfeed = $('checkfeedId').val();
+	    
+	    console.log('♥ 유저 : ' + checkuser + ', 피드 : ' + checkfeed);
+	    
+		var likeCount = $('#likeCount').val();
+		console.log(likeCount + ' 개');
 	    
 		
 		$btnLike = $(this);
@@ -369,7 +385,8 @@
 	    var obj = {
 			'likeId' : likeId,
 			'userId' : userId,
-			'feedId' : feedId
+			'feedId' : feedId,
+			'likeCount' : likeCount
 		}
 		console.log(obj)
 		
@@ -387,12 +404,15 @@
 				data : JSON.stringify(obj),
 				success : function(result) {
 					console.log(result);
-					if (result == 1) {
-						console.log('★ 좋아요 등록 성공');
-						heart = $btnLike.addClass('liked');
-						heart = true;
-					} else{
-						console.log('★ 좋아요 등록 실패');
+					if(checkuser != userId && checkfeed != feedId) {
+						if (result == 1) {
+							console.log('★ 좋아요 등록 성공');
+							heart = $btnLike.addClass('liked');
+							heart = true;
+							
+						} else{
+							console.log('★ 좋아요 등록 실패');
+						}
 					}
 				}
 			});//end ajax
@@ -403,11 +423,15 @@
     $(document).on('click', '.btn_like.liked', function() {
     	console.log('delete');
     	var likeId = $('#likeId').val();
+	    const userId = $('#userId').val();
+	    var feedId = $('#feedId').val();
     	
     	$btnLike = $(this);
     	
     	var obj = {
-    			'likeId' : likeId
+    			'likeId' : likeId,
+    			'userId' : userId,
+    			'feedId' : feedId
     		};
     	
     	console.log(obj);
@@ -422,13 +446,13 @@
  			success : function(result) {
  				console.log(result);
  				console.log(this);
- 				if (result == 1) {
- 					console.log('★ 좋아요 삭제 성공');
- 				    heart = $btnLike.removeClass('liked');
- 				    heart = false;
- 				} else{
- 					console.log('★ 좋아요 삭제 실패');
- 				}
+	 			if (result == 1) {
+	 				console.log('★ 좋아요 삭제 성공');
+	 				heart = $btnLike.removeClass('liked');
+	 				heart = false;
+	 			} else{
+	 				console.log('★ 좋아요 삭제 실패');
+	 			}
  			}
  		});// end ajax()
  		

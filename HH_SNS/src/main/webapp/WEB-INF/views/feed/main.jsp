@@ -13,6 +13,7 @@
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
+	min-width: 660px;
 	width: 50%;
 	margin: 0 auto;
 	margin-bottom: 20px;
@@ -46,6 +47,7 @@
 }
 
 .div_post {
+	min-width: 620px;
 	display: block; /* flex에서 block으로 변경 */
 	flex-wrap: wrap;
 	justify-content: center;
@@ -158,9 +160,24 @@
 		<input type="submit" id="btn_login" value="로그인">
 		</c:if>
 		<c:if test="${not empty userId }">
-		<input type="text" id="feedContent" placeholder="피드 작성하기" required>
+		<div style="display: flex;">
+		<div style="background-color: #ffffff;  min-width: 600px; width: auto; margin-right: 20px;" id="feedContent" contentEditable='true' >
+		</div>
 		<input type="submit" id="btn_add" value="등록">
-		<br>
+		</div>
+		
+		<div>
+  		<input type="file" id="upload" style="display: none;" accept=".gif, .jpg, .png" />
+		</div>
+		
+		<div id="preview" contentEditable='true'></div>
+		
+		<button style="border: none;">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" width="26" height="26" fill="#c7c7c7" stroke="#707070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" id="feedPicture">
+  		<path d="M20.2 7l-1.7-1.7c-.2-.2-.5-.3-.8-.3H5.5c-.3 0-.6.1-.8.3L2.8 7c-.4.4-.5 1-.3 1.5L4 17.3c.1.6.6 1 1.2 1h12.6c.7 0 1.2-.4 1.2-1l1.2-8.8c.3-.6.1-1.2-.3-1.6zM12 17.5c-2.8 0-5.1-2.3-5.1-5.1s2.3-5.1 5.1-5.1 5.1 2.3 5.1 5.1-2.3 5.1-5.1 5.1z"></path>
+		</svg>
+		</button>
+		
 		<div id="check_feedContent" style="display: none;"></div>
 		<br>
 		<button type="button" id="btn_profileEdit">프로필편집</button>
@@ -207,11 +224,40 @@
 			
 			getAllMain();
 			
+			$('#feedPicture').click(function(){
+				$('#upload').click();
+			});
+			$('#upload').change(function(){
+				console.log(this.files[0]);
+				var files = this.files;
+				var preview = $('#preview');
+				  
+				var file = files[0];
+				var srcURL = URL.createObjectURL(file);
+				
+				var img = $('<img>').attr('src', srcURL).css({ width: '100px', height: '100px' });
+				
+				if (preview.children().length >= 1) {
+				    alert('사진은 최대 한 개까지만 가능합니다.');
+				    return;
+				  }
+				
+				preview.append(img);
+				
+				
+				
+			})
+			
+			$('#preview').prop('contentEditable', false);
+			$('#preview').css('pointer-events', 'none');
+			
+			
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
-				var feedContent = $('#feedContent').val();
+				var feedContent = $('#feedContent').text();
+				
 				console.log(feedContent);
 
 				var obj = {
@@ -291,11 +337,17 @@
 											+ '&nbsp;&nbsp;'
 											+ '<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent + '</a>' + '</p>'
 											+ '<hr>'
+											
 											+ '<div class="like_item">'
-											+ '<span class="like_cnt" />좋아요 ' + ${likeCount} + '개 ' + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">'
+											+ '좋아요' 
+											+ '<input type="hidden" id="likeCount" value="${feedvo.likeCount }">' + this.likeCount + '개' 
+											
+											+ '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">'
 											+ '<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>'
 											+ '</svg>'
+											
 											+ '</div>'
+											
 											+ '</div>'
 											+ '</div>';
 									});// end data.funchion;
