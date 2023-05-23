@@ -121,6 +121,15 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("/userInfoEdit")
+	public void userInfoEditGET() {
+		logger.info("userinfoEditGET()");
+	}
+	@PostMapping("/userInfoEdit")
+	public void  userInfoEditPOST() {
+		logger.info("userinfoEditPOST()");
+	}
+	
 	@GetMapping("/profileEdit")
 	public void profileEditGET(Model model, HttpServletRequest request) {
 		logger.info("profileEdit() 호출");
@@ -131,7 +140,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/profileEdit")
-	public String profileEdit(UserInfoVO vo, MultipartFile file ) {
+	public String profileEditPOST(UserInfoVO vo, MultipartFile file ) {
 		logger.info("profileEdit() 호출");
 		logger.info("vo.getUserProfile() : " + vo.getUserProfile());
 		logger.info("vo.getUserNickname() : " + vo.getUserNickname());

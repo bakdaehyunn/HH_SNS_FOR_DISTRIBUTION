@@ -1,7 +1,5 @@
 package edu.spring.ex06;
 
-import java.util.Date;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import edu.spring.ex06.domain.FeedVO;
-import edu.spring.ex06.domain.UserInfoVO;
-import edu.spring.ex06.persistence.FeedDAO;
-import edu.spring.ex06.persistence.FollowerDAO;
-import edu.spring.ex06.persistence.LikeInfoDAO;
-import edu.spring.ex06.persistence.UserInfoDAO;
+import edu.spring.ex06.persistence.FollowDAO;
+
+
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/*.xml" })
@@ -25,20 +21,66 @@ import edu.spring.ex06.persistence.UserInfoDAO;
 public class FollowDAOTest {
 	private static final Logger logger = LoggerFactory.getLogger(FollowDAOTest.class);
 
-	private static final String NAMESPACE = "edu.spring.ex06.FeedMapper";
+	
 
+	
 	@Autowired
-	private FollowerDAO followDao;
+	private FollowDAO followDao;
 
 
 	@Test
 	public void testDAO() {
-		testInsert();
+		followTestInsert();
+		//followerTestSelect();
+		//followingTestSelect();
+		//followingTestDelete();
 	}// end testDAO()
 
+	private void followingTestDelete() {
+		String followerUserId = "asd";
+		String followingUserId="a";
+		
+		int result = followDao.delete(followerUserId, followingUserId);
+		if(result == 1) {
+			logger.info("삭제 성공");
+		}else {
+			logger.info("삭제 실패");
+		}
+		
+	}
+
+	private void followingTestSelect() {
+		String followingUserId="b";
+		
+		int count = followDao.selectFollowing(followingUserId);
+		logger.info("팔로잉 수 : " + count);
+		
+	}
+
+	private void followerTestSelect() {
+		String followerUserId="a";
+		
+		int count = followDao.selectFollower(followerUserId);
+		logger.info("팔로워 수 : " + count );
+		
+	}
+
+	
+
 	// --------------------------------------------------
-	private void testInsert() {
-	}// end testInsert
+	private void followTestInsert() {
+		String followerUserId="asd";
+		String followingUserId="as";
+		
+		int result = followDao.insert(followerUserId, followingUserId);
+		if(result == 1) {
+			logger.info("인서트 성공");
+		}else {
+			logger.info("인서트 실패");
+		}
+	}
+	
+	
 
 
 }

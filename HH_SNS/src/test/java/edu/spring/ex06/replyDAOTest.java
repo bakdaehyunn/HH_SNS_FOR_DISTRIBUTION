@@ -31,7 +31,7 @@ import oracle.jdbc.OracleDriver;
 @WebAppConfiguration
 public class replyDAOTest {
 	private static final Logger logger = LoggerFactory.getLogger(replyDAOTest.class);
-	private static final String NAMESPACE = "edu.spring.ex06.UserinfoMapper";
+	
 
 	@Autowired
 	private ReplyDAO dao;

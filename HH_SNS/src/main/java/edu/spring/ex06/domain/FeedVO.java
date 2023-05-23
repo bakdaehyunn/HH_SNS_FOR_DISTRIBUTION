@@ -12,11 +12,12 @@ public class FeedVO {
 	private int likeCount;
 	private Date feedDate;
 	private String musicTitle;
+	private String feedPicture;
 	
 	public FeedVO() {}
 
 	public FeedVO(int feedId, String feedContent, String userId, String userNickname, String userProfile,
-			int replyCount, int likeCount, Date feedDate, String musicTitle) {
+			int replyCount, int likeCount, Date feedDate, String musicTitle, String feedPicture) {
 		super();
 		this.feedId = feedId;
 		this.feedContent = feedContent;
@@ -27,6 +28,7 @@ public class FeedVO {
 		this.likeCount = likeCount;
 		this.feedDate = feedDate;
 		this.musicTitle = musicTitle;
+		this.feedPicture = feedPicture;
 	}
 
 	public int getFeedId() {

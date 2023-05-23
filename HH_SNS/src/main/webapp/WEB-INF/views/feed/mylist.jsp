@@ -121,6 +121,8 @@
 		<c:if test="${not empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		</c:if>
+		<div>팔로잉 : ${followingCnt}</div>
+		<div>팔로워 : ${followerCnt}</div>
 		<p id="userId"><b>${userinfovo.userId}</b></p>
 		<p id="userNickname">${userinfovo.userNickname }</p>
 		

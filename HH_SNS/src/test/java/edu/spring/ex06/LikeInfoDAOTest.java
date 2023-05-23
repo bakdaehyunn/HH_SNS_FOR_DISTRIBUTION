@@ -22,7 +22,7 @@ import edu.spring.ex06.persistence.UserInfoDAO;
 public class LikeInfoDAOTest {
 	private static final Logger logger = LoggerFactory.getLogger(LikeInfoDAOTest.class);
 
-	private static final String NAMESPACE = "edu.spring.ex06.LikeInfoMapper";
+
 
 	@Autowired
 	private LikeInfoDAO likedao;

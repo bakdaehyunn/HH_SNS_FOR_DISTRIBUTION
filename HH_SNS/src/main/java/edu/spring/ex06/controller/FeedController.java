@@ -2,7 +2,9 @@ package edu.spring.ex06.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +24,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.spring.ex06.domain.FeedVO;
+
 import edu.spring.ex06.domain.LikeInfoVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.service.FeedService;
+
+import edu.spring.ex06.service.FollowService;
 import edu.spring.ex06.service.LikeInfoService;
 import edu.spring.ex06.service.ReplyService;
 import edu.spring.ex06.service.UserInfoService;
@@ -46,6 +51,12 @@ public class FeedController {
 	
 	@Autowired
 	private LikeInfoService likeInfoService;
+	
+	@Autowired
+	private FollowService followService;
+	
+	@Autowired
+	private FollowService followingService;
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath;
@@ -88,9 +99,19 @@ public class FeedController {
 			model.addAttribute("sessionUserinfovo", sessionUserinfovo);
 		} 
 		
+		
+		
+		
 		UserInfoVO userinfovo = userInfoService.read(userId);
 		model.addAttribute("userinfovo", userinfovo);
-
+		
+		
+		//int followerCnt= followerService.read(userId);
+		//model.addAttribute("followerCnt", followerCnt);
+		
+		//int followingCnt = followingService.read(userId);
+		//model.addAttribute("followingCnt", followingCnt);
+		
 		List<FeedVO> list = feedService.readAllbyId(userId);
 		logger.info("★ List feedvo 정보 : " + list.toString());
 

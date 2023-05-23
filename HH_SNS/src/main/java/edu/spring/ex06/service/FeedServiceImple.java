@@ -23,19 +23,7 @@ public class FeedServiceImple implements FeedService{
 	private FeedDAO feeddao;
 
 	@Override
-	public int create(FeedVO feedvo, UserInfoVO userinfovo, HttpSession session) {
-		String userid = (String) session.getAttribute("userId");
-		
-		String feedcontent = feedvo.getFeedContent();
-		String usernickname = userinfovo.getUserNickname();
-		String userprofile = userinfovo.getUserProfile();
-		Date feeddate = new Date();
-		String musictitle = "X";
-		
-		feedvo = new FeedVO(0, feedcontent, userid, usernickname, userprofile, 0, 0, feeddate, musictitle);
-		logger.info("★ FeedServiceImple 등록 : " + feedvo.toString());
-		// FeedVO [feedId=0, feedContent=ㅁㄴㅇ, userId=asss, userNickname=null, userProfile=null, replyCount=0, likeCount=0, feedDate=null, musicTitle=null]
-		
+	public int create(FeedVO feedvo) {
 		return feeddao.insert(feedvo);
 	}// end create()
 

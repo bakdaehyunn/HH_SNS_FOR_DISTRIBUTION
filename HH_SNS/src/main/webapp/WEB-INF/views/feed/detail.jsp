@@ -144,7 +144,13 @@
 			
 			var feedId = $(this).prevAll('#feedId').val();
 			var feedContent = $(this).prevAll('#feedContent').val();
-			var userId = '<%=(String)session.getAttribute("userId")%>';
+			var userId = $(this).prevAll('#userId').val();
+			<%--
+			var userId = ${userId};
+			--%>
+			
+			
+			
 			console.log ("아이디 : " + userId);
 			console.log("선택된 피드 번호 : " + feedId + ", 피드 내용 : " + feedContent);
 			
@@ -179,7 +185,12 @@
 			console.log(this);
 			
 			var feedId = $(this).prevAll('#feedId').val();
-			var userId = '<%=(String)session.getAttribute("userId")%>';
+			<%--
+				var userId = ${userId};
+				
+			 --%>
+			 var userId = $(this).prevAll('#userId').val();
+			
 			
 			$.ajax({
 				type : 'DELETE', 

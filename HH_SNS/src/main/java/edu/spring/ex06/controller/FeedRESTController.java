@@ -65,7 +65,7 @@ public class FeedRESTController {
 			String userProfile = userinfovo.getUserProfile();
 			Date feedDate = new Date(); 
 			String musicTitle = "X";
-			feedvo = new FeedVO(0, feedContent, userId, userNickname, userProfile, 0, 0, feedDate, musicTitle);
+			feedvo = new FeedVO(0, feedContent, userId, userNickname, userProfile, 0, 0, feedDate, musicTitle, null);
 			logger.info("★ 등록할 정보 : " + feedvo.toString());
 		} else {
 			// 유저정보가 없는 경우나 세션이 만료된 경우 등에 대한 예외 처리
@@ -74,7 +74,7 @@ public class FeedRESTController {
 
 		int result = 0; // 예외처리
 		try {
-			result = feedService.create(feedvo, userinfovo, session);
+			result = feedService.create(feedvo);
 			logger.info("result : " + result);
 			logger.info("---------------------------------------------------------------");
 		} catch (Exception e) {

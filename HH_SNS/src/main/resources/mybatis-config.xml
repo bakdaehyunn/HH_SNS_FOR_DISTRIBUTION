@@ -55,15 +55,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="replyId" value="reply_id"/>
 		<property name="commentId" value="comment_id"/>
 		
-		<property name="following" value="following"/>
-		<property name="followingId" value="following_id"/>
-		<property name="userId" value="user_id"/>
-		<property name="followingUserId" value="following_user_id"/>
-		
-		<property name="follower" value="follower"/>
-		<property name="follwerId" value="follower_id"/>
-		<property name="userId" value="user_id"/>
+		<property name="follow" value="follow"/>
+		<property name="followId" value="follow_id"/>
 		<property name="followerUserId" value="follower_user_id"/>
+		<property name="followingUserId" value="following_user_id"/>
 		
 		<property name="music" value="music"/>
 		<property name="musicId" value="music_id"/>
