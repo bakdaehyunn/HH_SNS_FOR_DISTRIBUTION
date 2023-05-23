@@ -22,37 +22,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insert">
 		insert into ${feed}
-		values (FEED_SEQ.NEXTVAL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, sysdate, #{musicTitle})
+		values (FEED_SEQ.NEXTVAL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, sysdate, #{musicTitle}, #{feedPicture})
 	</insert>
 		
 	<select id="select_all" resultType="FeedVO">
 	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
+	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle}, ${feedPicture} from ${feed}
 	 	order by ${feedDate} desc
 	 </select>
 	 
 	 <select id="select_all_by_userid" resultType="FeedVO">
 	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
+	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle}, ${feedPicture} from ${feed}
 	 	where ${userId} = #{userId}
 	 	order by ${feedDate} desc
 	 </select>
 	 
 	 <select id="select" resultType="FeedVO">
 		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
+	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle}, ${feedPicture} from ${feed}
 		where ${feedId} = #{feedId}
 	 </select>
 	 
 	 <select id="select_by_userid" resultType="FeedVO">
 		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle} from ${feed}
+	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle}, ${feedPicture} from ${feed}
 		where ${userId} = #{userId}
 	 </select>
 	
 	 <update id="update">
 	 	update ${feed} 
-	 	set ${feedContent} = #{feedContent}
+	 	set 
+	 	${feedContent} = #{feedContent},
+	 	${feedPicture} = #{feedPicture}
 	 	where ${feedId} = #{feedId}
 	 </update>
 	 

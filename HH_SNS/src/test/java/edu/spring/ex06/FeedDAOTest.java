@@ -54,7 +54,7 @@ public class FeedDAOTest {
 		}
 
 		FeedVO feedvo = new FeedVO(0, "시간확인", uservo.getUserId(), uservo.getUserNickname(), uservo.getUserProfile(), 0,
-				0, null, "음악제목");
+				0, null, "음악제목", null);
 		int result = feeddao.insert(feedvo);
 		logger.info("♠ 결과 : " + result + "행 삽입");
 
@@ -116,7 +116,7 @@ public class FeedDAOTest {
 			return;
 		}
 
-		FeedVO vo = new FeedVO(6, null, null, null, null, 0, 0, null, null);
+		FeedVO vo = new FeedVO(6, null, null, null, null, 0, 0, null, null, null);
 		int result = feeddao.delete(11);
 
 		if (result == 1) {

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.spring.ex06.domain.LikeInfoVO;
 import edu.spring.ex06.persistence.FeedDAO;
@@ -26,9 +27,10 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	@Autowired
 	private LikeInfoDAO likeDAO;
 
-
+	
+	@Transactional(value= "transactionManager")
 	@Override
-	public int create(LikeInfoVO vo) {
+	public int create(LikeInfoVO vo) throws Exception{
 		logger.info("★ LikeServiceImple 등록 : vo = " + vo.toString());
 		likeDAO.insert(vo);
 		logger.info("좋아요 등록");
@@ -81,18 +83,22 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	}
 
 
+	@Transactional(value= "transactionManager")
 	@Override
-	public int delete(int likeId) {
-		logger.info("★ LikeServiceImple 삭제 : likeId = " + likeId);
-		likeDAO.delete(likeId);
-		logger.info("좋아요 삭제 완료");
+	public int delete(int likeId) throws Exception{
 		
-		// feedId 가져오기 ~
-		
-		
-//		logger.info("피드 좋아요 개수 삭제할 피드 번호 : " + feedId);
-//		feedDAO.updateLikeCnt(-1, feedId);
-//		logger.info("피드 업데이트 완료");
+		// likeId에 해당하는 좋아요 정보 가져오기
+	    LikeInfoVO likeInfo = likeDAO.select(likeId);
+	    int feedId = likeInfo.getFeedId(); // 가져온 좋아요 정보에서 feedId 얻기
+	    
+	    likeDAO.delete(likeId); // 좋아요 삭제
+	    
+	    logger.info("좋아요 삭제 완료 : " + likeId);
+	    
+	    logger.info("피드 좋아요 개수 삭제할 피드 번호 : " + feedId);
+	    feedDAO.updateLikeCnt(-1, feedId); // 피드의 좋아요 개수 업데이트
+	    
+	    logger.info("피드 업데이트 완료");
 		
 		
 		return 1;
