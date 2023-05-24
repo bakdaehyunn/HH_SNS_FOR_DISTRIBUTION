@@ -13,7 +13,7 @@ public interface FeedService {
 	List<FeedVO> readAllbyId(String userId);
 	FeedVO read(int feedId);
 	FeedVO read(String userId);
-	int update(int feedId, String feedContent);
+	int update_content(int feedId, String feedContent);
 	int delete(int feedId);
 	int getTotalComments();
 	int getTotalLikes();

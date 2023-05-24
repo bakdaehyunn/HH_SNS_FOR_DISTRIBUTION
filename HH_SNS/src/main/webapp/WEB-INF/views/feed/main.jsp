@@ -19,17 +19,32 @@
 	margin-bottom: 20px;
 	margin-top: 20px;
 	padding: 20px;
-	background-color: #f7f7f7;
+	background-color: #ffffff;
 	border: 1px solid #ddd;
 	height: auto;
 	position: relative; /* 추가 */
 }
 
-.feedContent {
-	width: 70%;
-	height: auto;
-	margin-right: 10px;
+#feedContent {
+	display: flex;
+	background-color: #ffffff;  
+	min-width: 600px; 
+	width: auto; 
+	min-height: 80px; 
+	height: auto; 
+	margin-right: 20px;
 }
+
+.feedContent {
+	display: flex;
+	background-color: #ffffff;  
+	width: auto; 
+	height: auto; 
+	text-align: center; 
+	justify-content: center;
+	align-items: center;
+}
+
 
 .btn_add {
 	position: absolute;
@@ -61,18 +76,8 @@
 	margin: 0 auto; /* 가운데 정렬을 위해 추가 */
 	margin-bottom: 20px;
 	padding: 20px;
-	background-color: #f7f7f7;
+	background-color: #ffffff;
 	border: 1px solid #ddd;
-	margin: 0 auto; /* 가운데 정렬을 위해 추가 */
-	margin-bottom: 20px;
-	padding: 20px;
-	background-color: #f7f7f7;
-	margin-bottom: 20px;
-	padding: 20px;
-	background-color: #f7f7f7;
-	padding: 20px;
-	background-color: #f7f7f7;
-	background-color: #f7f7f7;
 }
 
 .div_btn {
@@ -161,9 +166,9 @@
 		</c:if>
 		<c:if test="${not empty userId }">
 		<div style="display: flex;">
-		<div style="background-color: #ffffff;  min-width: 600px; width: auto; margin-right: 20px;" id="feedContent" contentEditable='true' >
+		<div id="feedContent" contentEditable='true'>
 		</div>
-		<input type="submit" id="btn_add" value="등록">
+		<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 		</div>
 		
 		<form id="uploadForm" enctype="multipart/form-data">
@@ -173,8 +178,9 @@
 		
 		<div id="preview" contentEditable='true'></div>
 		
-		<button style="border: none;">
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" width="26" height="26" fill="#c7c7c7" stroke="#707070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" id="feedPicture">
+		<br>
+		<button style="border: none; background-color: #ffffff">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="#c7c7c7" stroke="#707070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" id="feedPicture">
   		<path d="M20.2 7l-1.7-1.7c-.2-.2-.5-.3-.8-.3H5.5c-.3 0-.6.1-.8.3L2.8 7c-.4.4-.5 1-.3 1.5L4 17.3c.1.6.6 1 1.2 1h12.6c.7 0 1.2-.4 1.2-1l1.2-8.8c.3-.6.1-1.2-.3-1.6zM12 17.5c-2.8 0-5.1-2.3-5.1-5.1s2.3-5.1 5.1-5.1 5.1 2.3 5.1 5.1-2.3 5.1-5.1 5.1z"></path>
 		</svg>
 		</button>
@@ -236,7 +242,7 @@
 				var file = files[0];
 				var srcURL = URL.createObjectURL(file);
 				
-				var img = $('<img>').attr('src', srcURL).css({ width: '100px', height: '100px' });
+				var img = $('<img>').attr('src', srcURL).css({ width: '60%', height: '60%' });
 				
 				if (preview.children().length >= 1) {
 				    alert('사진은 최대 한 개까지만 가능합니다.');
@@ -274,6 +280,8 @@
 				// 현재 문제점 :
 					// 파일 없이 내용(content)로만 작성시 파일 이름 못읽는다고 에러남 ^!^
 					// 파일 + 내용 작성 시 form데이터가 안가서 restcontroller에서 null뜸
+					// => vo랑 multi 같은 이름이였음 근데 왜 그런진 잘 모름 ㅎㅎ;;
+					//	  또, 형이 안맞았음..... 오ㅐ..?
 				
 				console.log('파일 : ' + feedPicture);
 				  
@@ -339,6 +347,13 @@
 											var dd = String(feedDate.getDate()).padStart(2, '0');
 											var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
 											
+											if(this.feedPhoto != 'null') {
+												var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
+												console.log('photo : ' + this.feedPhoto);
+												console.log('tag : ' + imageUrl);
+											} else if(this.feedPhoto == 'null') {
+												var imageUrl = '';
+											}
 											// 회원이어야지만 작성은 가능하나
 											// 회원이 아니여도 피드를 볼 수 있고
 											// 피드에 있는 링크를 통해 그 회원의 개인 피드(=list), 회원의 전체 피드(=main / detail) 볼 수 있다.
@@ -353,7 +368,8 @@
 											+ '<p id="userId">' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' +'</a>' + '</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'
-											+ '<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent + '</a>' + '</p>'
+											+ '<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent + '</a>' + '</p>'
+						                    + imageUrl
 											+ '<hr>'
 											
 											+ '<div class="like_item">'

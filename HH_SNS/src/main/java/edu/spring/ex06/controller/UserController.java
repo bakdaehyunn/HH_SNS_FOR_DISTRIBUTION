@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -34,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import edu.spring.ex06.domain.UserInfoVO;
+import edu.spring.ex06.service.FollowService;
 import edu.spring.ex06.service.UserInfoService;
 import edu.spring.ex06.util.MediaUtil;
 
@@ -44,6 +46,9 @@ public class UserController {
 			LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserInfoService userInfoservice;
+	
+	@Autowired
+	private FollowService followService;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -119,6 +124,13 @@ public class UserController {
 		} else {
 			return "redirect:/feed/main";
 		}
+	}
+	
+	@GetMapping("/followerlist")
+	public void followerlistGET(Model model, String userId) {
+		logger.info("followerListGET()");
+		List<UserInfoVO> list = followService.readFollowerList(userId);
+		model.addAttribute("list", list);
 	}
 	
 	@GetMapping("/userInfoEdit")

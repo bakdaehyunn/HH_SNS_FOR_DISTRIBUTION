@@ -11,21 +11,36 @@
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
+	min-width: 660px;
 	width: 50%;
 	margin: 0 auto;
 	margin-bottom: 20px;
 	margin-top: 20px;
 	padding: 20px;
-	background-color: #f7f7f7;
+	background-color: #ffffff;
 	border: 1px solid #ddd;
 	height: auto;
 	position: relative; /* 추가 */
 }
 
+#feedContent {
+	display: flex;
+	background-color: #ffffff;  
+	min-width: 600px; 
+	width: auto; 
+	min-height: 80px; 
+	height: auto; 
+	margin-right: 20px;
+}
+
 .feedContent {
-	width: 70%;
-	height: auto;
-	margin-right: 10px;
+	display: flex;
+	background-color: #ffffff;  
+	width: auto; 
+	height: auto; 
+	text-align: center; 
+	justify-content: center;
+	align-items: center;
 }
 
 .btn_add {
@@ -44,6 +59,7 @@
 }
 
 .div_post {
+	min-width: 620px;
 	display: block; /* flex에서 block으로 변경 */
 	flex-wrap: wrap;
 	justify-content: center;
@@ -57,18 +73,8 @@
 	margin: 0 auto; /* 가운데 정렬을 위해 추가 */
 	margin-bottom: 20px;
 	padding: 20px;
-	background-color: #f7f7f7;
+	background-color: #ffffff;
 	border: 1px solid #ddd;
-	margin: 0 auto; /* 가운데 정렬을 위해 추가 */
-	margin-bottom: 20px;
-	padding: 20px;
-	background-color: #f7f7f7;
-	margin-bottom: 20px;
-	padding: 20px;
-	background-color: #f7f7f7;
-	padding: 20px;
-	background-color: #f7f7f7;
-	background-color: #f7f7f7;
 }
 
 .div_btn {
@@ -83,6 +89,19 @@
 	color: #1da1f2;
 	font-size: 14px;
 	cursor: pointer;
+}
+
+.like_item {
+    display: flex;
+    align-items: center;
+}
+
+.btn_like {
+  cursor: none;
+}
+
+.btn_like.liked path {
+  fill: #e74c3c;
 }
 
 </style>
@@ -112,7 +131,7 @@
 	empty = null 
 	userId = session
 	-->
-
+		
 		<!-- 세션아이디값 X -->
 		<c:if test="${empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
@@ -121,8 +140,10 @@
 		<c:if test="${not empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		</c:if>
+		<a href="../user/mylist?userId=${userinfovo.userId}"> 팔로잉 : ${followingCnt}</a>
+		<a href="../feed/mylist?userId=${userinfovo.userId}"> 팔로워 : ${followerCnt}</a>
 		<div>팔로잉 : ${followingCnt}</div>
-		<div>팔로워 : ${followerCnt}</div>
+		<div></div>
 		<p id="userId"><b>${userinfovo.userId}</b></p>
 		<p id="userNickname">${userinfovo.userNickname }</p>
 		
@@ -131,22 +152,39 @@
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">
 			<div style="display: flex;">
-			<div style="background-color: #ffffff;  min-width: 620px; width: auto; margin-right: 20px;" id="feedContent" contentEditable='true' >
+			<div id="feedContent" contentEditable='true'>
 			</div>
-			<input type="submit" id="btn_add" value="등록">
+			<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 			</div>
+			
+			<form id="uploadForm" enctype="multipart/form-data">
+  			<input type="file" id="upload" style="display: none;" accept=".gif, .jpg, .png" />
+			</form>
+	
+			
+			<div id="preview" contentEditable='true'></div>
+			
+			<br>
+			<button style="border: none; background-color: #ffffff">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="#c7c7c7" stroke="#707070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" id="feedPicture">
+	  		<path d="M20.2 7l-1.7-1.7c-.2-.2-.5-.3-.8-.3H5.5c-.3 0-.6.1-.8.3L2.8 7c-.4.4-.5 1-.3 1.5L4 17.3c.1.6.6 1 1.2 1h12.6c.7 0 1.2-.4 1.2-1l1.2-8.8c.3-.6.1-1.2-.3-1.6zM12 17.5c-2.8 0-5.1-2.3-5.1-5.1s2.3-5.1 5.1-5.1 5.1 2.3 5.1 5.1-2.3 5.1-5.1 5.1z"></path>
+			</svg>
+			</button>
+			
+			
 			<div id="check_feedContent" style="display: none;"></div>
 			<br>
 			<button type="button" id="btn_profileEdit">프로필편집</button>
 			<button type="button" id="btn_logout">로그아웃</button>
 		</c:if>
 	</div>
+	<br>
 	<hr>
+	<br>
 	
 	<div style="text-align: center;">
 		<div id="feeds"></div>
 	</div>
-	<br>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -167,45 +205,81 @@
 			
 			getAllList();
 			
+			$('#feedPicture').click(function(){
+				$('#upload').click();
+			});
+			$('#upload').change(function(){
+				console.log(this.files[0]);
+				var files = this.files;
+				var preview = $('#preview');
+				  
+				var file = files[0];
+				var srcURL = URL.createObjectURL(file);
+				
+				var img = $('<img>').attr('src', srcURL).css({ width: '60%', height: '60%' });
+				
+				if (preview.children().length >= 1) {
+				    alert('사진은 최대 한 개까지만 가능합니다.');
+				    return;
+				  }
+				
+				preview.append(img);
+				
+				
+				
+			})
+			
+			$('#preview').prop('contentEditable', false);
+			$('#preview').css('pointer-events', 'none');
+			
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
 				var feedContent = $('#feedContent').text();
-				console.log(feedContent);
-
-				var obj = {
-				'feedId' : feedId,
-				'userId' : userId,
-				'feedContent' : feedContent
-
-				}
-				console.log(obj);
 				
+				console.log(feedContent);
+	
+				var formData = new FormData();
+				var feedPicture = $('#upload')[0].files[0];
+
+				console.log(formData);
+
+				
+				console.log('파일 : ' + feedPicture);
+				  
+				formData.append('feedId', feedId);
+				formData.append('userId', userId);
+				formData.append('feedContent', feedContent);
+				formData.append('feedPicture', feedPicture);
+
 				var list = '';
 				if(feedContent == '') {
-					list ='<i style="font-size: 14px">피드를 입력해주세요.</i>';
+					list += '<i style="font-size: 14px">피드를 입력해주세요.</i>'
 					$('#check_feedContent').html(list);
 					$('#check_feedContent').show();
 					return;
 				}
-
-				$.ajax({
-					type : 'POST',
-					url : '../feeds',
-					headers : {
-						'Content-Type' : 'application/json'
-					},
-					data : JSON.stringify(obj),
-					success : function(result) {
-						console.log(result);
-						if (result == 1) {
-							console.log('★ 피드작성 완료');
-							getAllList();
-						} else {
-							console.log('★ 피드작성 실패');
+				
+				if(userId != '' || feedPicture == '') {
+					$.ajax({
+						type : 'POST',
+						method : 'POST',
+						cache : false,
+						url : '/ex06/feeds',
+						data : formData,
+						contentType : false,
+				        processData : false,  
+						success : function(result) {
+							console.log(result);
+							if (result == 1) {
+								console.log('★ 피드작성 완료');
+								getAllMain();
+							} else {
+								console.log('★ 피드작성 실패');
+							}
 						}
-					}
-				});// end ajax()
+					});// end ajax()
+				}
 			});// end btn_add.click();
 			
 			
@@ -224,6 +298,7 @@
 							const userId = document.getElementById("userId").textContent;
 							console.log(userId);
 							var list = '';
+							
 							if(data.length > 0) {
 								$(data).each(function() {
 									
@@ -232,6 +307,15 @@
 									var mm = String(feedDate.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
 									var dd = String(feedDate.getDate()).padStart(2, '0');
 									var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
+									
+									if(this.feedPhoto != 'null') {
+										var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
+										console.log('photo : ' + this.feedPhoto);
+										console.log('tag : ' + imageUrl);
+									} else if(this.feedPhoto == 'null') {
+										var imageUrl = '';
+									}
+									
 									list += '<br>'
 									+ '<div class="div_post">'
 									+ '<div class="post_item">'
@@ -240,7 +324,17 @@
 									+ '<p>' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
 									+ feedDate
 									+ '&nbsp;&nbsp;'
-									+'<p id="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
+									+'<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
+									+ imageUrl
+									+ '<hr>'
+									
+									+ '<div class="like_item">'
+									+ '좋아요' 
+									+ '<input type="hidden" id="likeCount" value="${feedvo.likeCount }">' + this.likeCount + '개'
+									+ '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">'
+									+ '<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>'
+									+ '</svg>'
+									
 									+ '</div>'
 									+ '</div>';
 

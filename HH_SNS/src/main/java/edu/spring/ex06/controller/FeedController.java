@@ -106,12 +106,13 @@ public class FeedController {
 		model.addAttribute("userinfovo", userinfovo);
 		
 		
-		//int followerCnt= followerService.read(userId);
-		//model.addAttribute("followerCnt", followerCnt);
+		int followerCnt= followService.readFollower(userId); //user가 팔로우한 경우  
+		model.addAttribute("followingCnt", followerCnt); // 팔로잉 수
 		
-		//int followingCnt = followingService.read(userId);
-		//model.addAttribute("followingCnt", followingCnt);
+		int followingCnt = followService.readFollowing(userId); // user가 팔로우 당하는 경우
+		model.addAttribute("followerCnt", followingCnt);  //팔로워 수 
 		
+	
 		List<FeedVO> list = feedService.readAllbyId(userId);
 		logger.info("★ List feedvo 정보 : " + list.toString());
 
@@ -154,18 +155,19 @@ public class FeedController {
 		ResponseEntity<byte[]> entity = null;
 		InputStream in = null;
 
-		String filePath = uploadPath + "\\" + fileName;
+		String filePath = uploadPath + "/" + fileName;
 		logger.info("★" + filePath);
-
+		
 		try {
 			in = new FileInputStream(filePath);
-
+			
 			// 파일 확장자
 			String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
 			logger.info(extension);
 
 			// 응답 해더(response header)에 Content-Type 설정
 			HttpHeaders httpHeaders = new HttpHeaders();
+			
 			httpHeaders.setContentType(MediaUtil.getMediaType(extension));
 			
 			// 데이터 전송

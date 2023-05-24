@@ -12,4 +12,6 @@ public interface FollowService {
 	int readFollower(String followerUserId);
 	int readFollowing(String followingUserId);
 	int delete(String followerUserId, String followingUserId);
+	List<UserInfoVO> readFollowingList(String followingUserId);
+	List<UserInfoVO> readFollowerList(String followerUserId);
 }
