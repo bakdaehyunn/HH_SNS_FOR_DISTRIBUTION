@@ -1,9 +1,6 @@
 package edu.spring.ex06.service;
 
-import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.spring.ex06.domain.FeedVO;
-import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.FeedDAO;
 
 @Service
@@ -51,10 +47,10 @@ public class FeedServiceImple implements FeedService{
 		return feeddao.select(userId);
 	}
 	@Override
-	public int update(int feedId, String feedContent) {
+	public int update_content(int feedId, String feedContent) {
 		logger.info("★ FeedServiceImple 수정");
 		logger.info("feedId = " + feedId + " feedContent = " + feedContent);
-		return feeddao.update(feedId, feedContent);
+		return feeddao.update_content(feedId, feedContent);
 	}
 
 	@Override

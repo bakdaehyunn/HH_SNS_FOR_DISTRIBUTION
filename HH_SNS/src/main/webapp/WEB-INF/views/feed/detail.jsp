@@ -85,6 +85,10 @@
 			<fmt:formatDate value="${feedvo.feedDate}" var="feedDate" pattern="yyyy년 MM월 dd일"/>
 			<p>${feedDate }</p>
 			<input type="text" id="feedContent" value="${feedvo.feedContent }">
+			<c:if test="${feedvo.feedPhoto ne 'null'}">
+				<br>
+				<img id="feedPhoto" src="display?fileName=${feedvo.feedPhoto }" alt="img">			
+			</c:if>
 			<c:if test="${empty userId or feedvo.userId ne userId}">
 			    <input type="submit" id="btn_update" disabled value="수정">
 			    <input type="submit" id="btn_delete" disabled value="삭제">
@@ -163,7 +167,7 @@
 					if(result == 1) {
 						console.log('★ 피드수정 완료');
 						alert('수정 완료');
-						location = '../feed/mylist?userId=' + userId;
+						location = '../feed/main';
 						// http://localhost:8080/ex06/mylist?userId=asss
 						// http://localhost:8080/ex06/feed/mylist?userId=asss
 						getAllMain();

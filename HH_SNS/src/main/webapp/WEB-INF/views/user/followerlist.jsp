@@ -13,11 +13,11 @@
 	<br>
 	<br>
 	<c:forEach var="vo" items="${list }">
+
 	<div onclick="location.href='../feed/mylist?userId=${vo.userId }';">
 	<img id="profileImage" src="display?fileName=${vo.userProfile }" alt="img" width="100" height="100" />
  	@${vo.userId } (${vo.userNickname })
 	</div>
-		
 		<hr>	
 	</c:forEach>
 	
