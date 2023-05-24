@@ -9,7 +9,7 @@
 <title>Profile Edit</title>
 </head>
 <body>
-	<h1>팔로워 리스트</h1>
+	<h1>팔로잉 리스트</h1>
 	<br>
 	<br>
 	<c:forEach var="vo" items="${list }">

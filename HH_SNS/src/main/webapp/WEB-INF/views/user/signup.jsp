@@ -148,9 +148,9 @@
 							type : 'GET',
 							url : '../users/userEmail/'+emaildivide[0]+'/'+emaildivide[1],
 							headers : {'Content-Type' : 'application/json'},
-							success : function(data){
-								console.log(data);
-								if(data == 1){
+							success : function(result){
+								console.log(result);
+								if(result == 1){
 									console.log(data);
 									list ='해당 이메일은 이미 사용 중 입니다.';
 									$('#userEmailGuide').html(list);
@@ -162,7 +162,7 @@
 								} 
 							
 							}
-						});
+						})
 					} else {
 						list ='올바른 이메일을 입력해주세요.';
 						$('#userEmailGuide').html(list);

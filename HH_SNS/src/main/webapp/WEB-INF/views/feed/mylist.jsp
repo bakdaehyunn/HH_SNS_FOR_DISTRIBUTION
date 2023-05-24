@@ -118,13 +118,15 @@
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		</c:if>
 		<!-- 세션아이디값 O / 그리고 세션아이디 != 유저 아이디 -->
-		<c:if test="${not empty userId}">
+		<c:if test="${not empty userId  }">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		</c:if>
-		<a href="../user/mylist?userId=${userinfovo.userId}"> 팔로잉 : ${followingCnt}</a>
-		<a href="../feed/mylist?userId=${userinfovo.userId}"> 팔로워 : ${followerCnt}</a>
-		<div>팔로잉 : ${followingCnt}</div>
-		<div></div>
+		<a href="../user/followerlist?userId=${userinfovo.userId}"> 팔로워 : ${followerCnt}</a>
+		<a href="../user/followinglist?userId=${userinfovo.userId}"> 팔로잉 : ${followingCnt}</a>
+		<c:if test="${empty userId or userinfovo.userId ne userId}">
+		<button id="btn_follow">팔로우 하기</button>
+		</c:if>
+
 		<p id="userId"><b>${userinfovo.userId}</b></p>
 		<p id="userNickname">${userinfovo.userNickname }</p>
 		
@@ -152,6 +154,59 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
+			followcheck();
+			function followcheck(){
+				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
+				var userId = "<c:out value='${userId}' />";
+				if(userId != ''){
+					$.ajax({
+						type : 'GET',
+						url : '../users/followCheck/'+userinfoUserId,
+						header : {
+							'Content-Type' : 'application/json'
+						},
+						success : function(result){
+							console.log(result);
+							if(result == 1){
+								console.log('팔로우한 계정');
+							}else{
+								console.log('팔로우한 계정 아님');
+							}
+						}
+						
+					})
+				}
+				
+			}
+			$('#btn_follow').click(function(){
+				//var feedId = ${userinfovo.userId};
+				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
+				var userId = "<c:out value='${userId}' />";
+				if(userId != ''){
+					var obj = {
+						'userinfoUserId'  : userinfoUserId,
+						'userId' : userId
+					}	
+					console.log(obj);
+					$.ajax({
+						type : 'POST',
+						url : '../users/follow',
+						headers : {
+							'content-Type' : 'application/json'
+						},
+						data : JSON.stringify(obj),
+						success: function(result){
+							console.log(result);
+							if(result == 1){
+								alert("팔로우 완료");
+							}
+						}
+					})
+				} else{
+					alert("로그인 해주세요.");
+					location.href="../user/login";
+				}
+			});
 
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');

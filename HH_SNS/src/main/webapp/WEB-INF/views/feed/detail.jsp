@@ -71,7 +71,7 @@
 <body>
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
-	<%--
+	<%--768
 	 String userId = (String) session.getAttribute("userId");
 	 --%>
 	 
@@ -148,15 +148,6 @@
 			var feedId = $(this).prevAll('#feedId').val();
 			var feedContent = $(this).prevAll('#feedContent').val();
 			var userId = $(this).prevAll('#userId').val();
-<<<<<<< HEAD
-			<%--
-			var userId = ${userId};
-			--%>
-			
-			
-			
-=======
->>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 			console.log ("아이디 : " + userId);
 			console.log("선택된 피드 번호 : " + feedId + ", 피드 내용 : " + feedContent);
 			
@@ -190,18 +181,10 @@
 			console.log(this);
 			
 			var feedId = $(this).prevAll('#feedId').val();
-<<<<<<< HEAD
-			<%--
-				var userId = ${userId};
-				
-			 --%>
-			 var userId = $(this).prevAll('#userId').val();
-			
-=======
+
 			var userId = $(this).prevAll('#userId').val();
 			console.log('피드 : ' + feedId + ' 유저 : ' + userId);
->>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
-			
+
 			$.ajax({
 				type : 'DELETE', 
 				url : '../feeds/' + feedId, 
