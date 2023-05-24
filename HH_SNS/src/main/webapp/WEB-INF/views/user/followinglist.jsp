@@ -9,15 +9,15 @@
 <title>Profile Edit</title>
 </head>
 <body>
-	<h1>팔로워 리스트</h1>
+	<h1>팔로잉 리스트</h1>
 	<br>
 	<br>
 	<c:forEach var="vo" items="${list }">
-
 	<div onclick="location.href='../feed/mylist?userId=${vo.userId }';">
 	<img id="profileImage" src="display?fileName=${vo.userProfile }" alt="img" width="100" height="100" />
  	@${vo.userId } (${vo.userNickname })
 	</div>
+		
 		<hr>	
 	</c:forEach>
 	

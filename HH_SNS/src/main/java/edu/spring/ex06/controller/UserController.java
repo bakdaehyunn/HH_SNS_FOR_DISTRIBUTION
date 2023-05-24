@@ -133,6 +133,13 @@ public class UserController {
 		model.addAttribute("list", list);
 	}
 	
+	@GetMapping("/followinglist")
+	public void followinglistGET(Model model, String userId) {
+		logger.info("followingListGET()");
+		List<UserInfoVO> list = followService.readFollowingList(userId);
+		model.addAttribute("list", list);
+	}
+	
 	@GetMapping("/userInfoEdit")
 	public void userInfoEditGET() {
 		logger.info("userinfoEditGET()");

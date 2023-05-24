@@ -71,7 +71,7 @@
 <body>
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
-	<%--
+	<%--768
 	 String userId = (String) session.getAttribute("userId");
 	 --%>
 	 
@@ -185,9 +185,10 @@
 			console.log(this);
 			
 			var feedId = $(this).prevAll('#feedId').val();
+
 			var userId = $(this).prevAll('#userId').val();
 			console.log('피드 : ' + feedId + ' 유저 : ' + userId);
-			
+
 			$.ajax({
 				type : 'DELETE', 
 				url : '../feeds/' + feedId, 

@@ -1,5 +1,7 @@
 package edu.spring.ex06.controller;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import edu.spring.ex06.service.FollowService;
 import edu.spring.ex06.service.UserInfoService;
 
 @RestController
@@ -32,6 +35,9 @@ public class UserRESTController {
 	
 	@Autowired
 	private UserInfoService userinfoService;
+	
+	@Autowired
+	private FollowService followService;
 	
 	@Autowired
 	private JavaMailSenderImpl mailSender;
@@ -60,6 +66,23 @@ public class UserRESTController {
 		joinEmail(userEmail);
 		return new ResponseEntity<Integer>(authNumber,HttpStatus.OK);
 
+	}
+	@GetMapping("/followCheck/{userinfoUserId}")
+	public ResponseEntity<Integer> readFollowing(@PathVariable("userinfoUserId") String userinfoUserId){
+		int result=1;
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@PostMapping("/follow")
+	public ResponseEntity<Integer>follow(@RequestBody Map<String,Object> param){
+		logger.info("follow() ");
+		logger.info("userinfoUserId : "+param.get("userinfoUserId").toString());
+		logger.info("userId"+param.get("userId").toString());
+	
+		String userinfoUserId = (String) param.get("userinfoUserId");
+		String userId = (String) param.get("userId");
+		int result = followService.create(userId, userinfoUserId);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 		
 

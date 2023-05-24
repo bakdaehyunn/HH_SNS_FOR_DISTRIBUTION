@@ -35,8 +35,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
 		join ${follow} f on u.${userId} = f.${followingUserId} where f.${followerUserId} = #{followerUserId} 
 	</select>
-	
-	
-	
-	
+
 </mapper>
