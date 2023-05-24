@@ -63,10 +63,11 @@ public class FeedRESTController {
 			String userNickname = userinfovo.getUserNickname();
 			String userProfile = userinfovo.getUserProfile();
 			String musicTitle = "X";
+			String feedPicture = "x";
 
 			// int feedId, String feedContent, String userId, String userNickname, String userProfile, int replyCount, int likeCount, Date feedDate, String musicTitle, String feedPicture
 			
-			feedvo = new FeedVO(0, feedvo.getFeedContent(), userId, userNickname, userProfile, 0, 0, null, musicTitle, feedvo.getFeedPicture());
+			feedvo = new FeedVO(0, feedvo.getFeedContent(), userId, userNickname, userProfile, 0, 0, null, musicTitle, feedPicture);
 			
 			
 

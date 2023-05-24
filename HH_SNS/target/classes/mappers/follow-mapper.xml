@@ -10,12 +10,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values (follow_seq.nextval, #{followerUserId}, #{followingUserId})
 	</insert>
 	
-	<select id="select_follower" resultType="Integer">
+	<select id="select_follower_cnt" resultType="Integer">
 		select count(${followId}) from ${follow}
 		where ${followerUserId} = #{followerUserId}
 	</select>
 	
-	<select id="select_following" resultType="Integer">
+	<select id="select_following_cnt" resultType="Integer">
 		select count(${followId}) from ${follow}
 		where ${followingUserId} = #{followingUserId}
 	</select>
@@ -25,6 +25,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${follow}
 		where ${followerUserId} = #{followerUserId} and ${followingUserId} = #{followingUserId}
 	</delete>
+	
+	<select id="select_follower_list" resultType="UserInfoVO">
+		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
+		join ${follow} f on u.${userId} = f.${followerUserId} where f.${followingUserId} = #{followingUserId} 
+	</select>
+	
+	<select id="select_following_list" resultType="UserInfoVO">
+		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
+		join ${follow} f on u.${userId} = f.${followingUserId} where f.${followerUserId} = #{followerUserId} 
+	</select>
+	
 	
 	
 	

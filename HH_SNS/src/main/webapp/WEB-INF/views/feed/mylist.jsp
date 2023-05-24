@@ -121,8 +121,10 @@
 		<c:if test="${not empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		</c:if>
+		<a href="../user/mylist?userId=${userinfovo.userId}"> 팔로잉 : ${followingCnt}</a>
+		<a href="../feed/mylist?userId=${userinfovo.userId}"> 팔로워 : ${followerCnt}</a>
 		<div>팔로잉 : ${followingCnt}</div>
-		<div>팔로워 : ${followerCnt}</div>
+		<div></div>
 		<p id="userId"><b>${userinfovo.userId}</b></p>
 		<p id="userNickname">${userinfovo.userNickname }</p>
 		

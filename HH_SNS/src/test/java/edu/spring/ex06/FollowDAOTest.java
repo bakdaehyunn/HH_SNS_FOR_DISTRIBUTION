@@ -1,6 +1,8 @@
 package edu.spring.ex06;
 
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -10,6 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+
+import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.FollowDAO;
 
 
@@ -30,11 +34,31 @@ public class FollowDAOTest {
 
 	@Test
 	public void testDAO() {
-		followTestInsert();
+		//followTestInsert();
 		//followerTestSelect();
-		//followingTestSelect();
-		//followingTestDelete();
+		//followingCntTestSelect();
+		//followingCntTestDelete();
+		followingListTestSelect();
+		followerListTestSelect();
 	}// end testDAO()
+
+	private void followerListTestSelect() {
+		
+		String followerUserId = "a";
+		List<UserInfoVO> list = followDao.selectFollowerList(followerUserId);
+		for(UserInfoVO vo : list) {
+			logger.info(vo.toString());
+		}
+	}
+
+	private void followingListTestSelect() {
+		
+		String followingUserId="asd";
+		List<UserInfoVO> list = followDao.selectFollowerList(followingUserId);
+		for(UserInfoVO vo : list) {
+			logger.info(vo.toString());
+		}
+	}
 
 	private void followingTestDelete() {
 		String followerUserId = "asd";
@@ -49,18 +73,18 @@ public class FollowDAOTest {
 		
 	}
 
-	private void followingTestSelect() {
+	private void followingCntTestSelect() {
 		String followingUserId="b";
 		
-		int count = followDao.selectFollowing(followingUserId);
+		int count = followDao.selectFollowingCnt(followingUserId);
 		logger.info("팔로잉 수 : " + count);
 		
 	}
 
-	private void followerTestSelect() {
+	private void followerCntTestSelect() {
 		String followerUserId="a";
 		
-		int count = followDao.selectFollower(followerUserId);
+		int count = followDao.selectFollowerCnt(followerUserId);
 		logger.info("팔로워 수 : " + count );
 		
 	}
