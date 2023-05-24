@@ -190,17 +190,8 @@
 			console.log(this);
 			
 			var feedId = $(this).prevAll('#feedId').val();
-<<<<<<< HEAD
-			<%--
-				var userId = ${userId};
-				
-			 --%>
-			 var userId = $(this).prevAll('#userId').val();
-			
-=======
 			var userId = $(this).prevAll('#userId').val();
 			console.log('피드 : ' + feedId + ' 유저 : ' + userId);
->>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 			
 			$.ajax({
 				type : 'DELETE', 

@@ -166,9 +166,10 @@
 		<input type="submit" id="btn_add" value="등록">
 		</div>
 		
-		<div>
-  		<input type="file" id="upload" style="display: none;" accept=".gif, .jpg, .png" />
-		</div>
+		<form id="uploadForm" enctype="multipart/form-data">
+  			<input type="file" id="upload" style="display: none;" accept=".gif, .jpg, .png" />
+		</form>
+
 		
 		<div id="preview" contentEditable='true'></div>
 		
@@ -259,14 +260,30 @@
 				var feedContent = $('#feedContent').text();
 				
 				console.log(feedContent);
+				
+				// ▼ 문제점 ----------------------------------------------
 
-				var obj = {
-				'feedId' : feedId,
-				'userId' : userId,
-				'feedContent' : feedContent
+				// var form = $('#uploadForm')[0];
+				var formData = new FormData();
+				var feedPicture = $('#upload')[0].files[0];
+				
+				
+				
+				console.log(formData);
+				
+				// 현재 문제점 :
+					// 파일 없이 내용(content)로만 작성시 파일 이름 못읽는다고 에러남 ^!^
+					// 파일 + 내용 작성 시 form데이터가 안가서 restcontroller에서 null뜸
+				
+				console.log('파일 : ' + feedPicture);
+				  
+				formData.append('feedId', feedId);
+				formData.append('userId', userId);
+				formData.append('feedContent', feedContent);
+				formData.append('feedPicture', feedPicture);
+				
+				// ---------------------------------------------------
 
-				}
-				console.log(obj)
 				var list = '';
 				if(feedContent == '') {
 					list += '<i style="font-size: 14px">피드를 입력해주세요.</i>'
@@ -275,14 +292,15 @@
 					return;
 				}
 				
-				if(userId != '') {
+				if(userId != '' || feedPicture == '') {
 					$.ajax({
 						type : 'POST',
-						url : '../feeds',
-						headers : {
-							'Content-Type' : 'application/json'
-						},
-						data : JSON.stringify(obj),
+						method : 'POST',
+						cache : false,
+						url : '/ex06/feeds',
+						data : formData,
+						contentType : false,
+				        processData : false,  
 						success : function(result) {
 							console.log(result);
 							if (result == 1) {
