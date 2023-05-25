@@ -135,7 +135,7 @@
 		<div id="replies"></div>
 	</div>
 	
-	<script type="text/javascript">
+	<script type="text/javascript"> 
 	<!-- ----------------------- 피드 디테일 ------------------------------ -->
 	$(document).ready(function() {
 		$('#btn_login').click(function(){
@@ -360,7 +360,7 @@
 	    console.log('♥ 유저 : ' + checkuser + ', 피드 : ' + checkfeed);
 	    
 		var likeCount = $('#likeCount').val();
-		console.log(likeCount + ' 개');
+		console.log('좋아요 개수 : ' + likeCount + ' 개');
 	    
 		
 		$btnLike = $(this);
@@ -392,7 +392,7 @@
 							console.log('★ 좋아요 등록 성공');
 							heart = $btnLike.addClass('liked');
 							heart = true;
-							
+							likecheck();
 						} else{
 							console.log('★ 좋아요 등록 실패');
 						}
@@ -433,6 +433,7 @@
 	 				console.log('★ 좋아요 삭제 성공');
 	 				heart = $btnLike.removeClass('liked');
 	 				heart = false;
+	 				likecheck();
 	 			} else{
 	 				console.log('★ 좋아요 삭제 실패');
 	 			}

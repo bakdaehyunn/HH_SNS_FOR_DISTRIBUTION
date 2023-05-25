@@ -41,6 +41,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	where ${userId} = #{userId}
 	 </select>
 	 
+	 <select id="select_follower_list" resultType="UserInfoVO">
+		select f.${feedId}, f.${userId} from ${feed} f
+		join ${like_info} l on f.${feedId} = l.${feedId} where l.${userId} = #{userId} 
+	</select>
+	 
 	 <select id="select_check_id" resultType="Integer">
 		 select count(${userId}) from ${user_info}
 	 	 where ${userId} = #{userId}
