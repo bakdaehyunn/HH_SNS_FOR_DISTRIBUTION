@@ -1,5 +1,7 @@
 package edu.spring.ex06;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -46,14 +48,10 @@ public class LikeInfoDAOTest {
 	private void test_duplication_Id() {
 		String userId = "ss";
 		
-		int check = likedao.select_check(userId);
-		
-		if(check == 1) {
-			logger.info("존재하는 아이디");
-		} else {
-			logger.info("없는 아이디");
+		List<LikeInfoVO> list = likedao.select_all_Id(userId);
+		for(LikeInfoVO vo : list) {
+			logger.info(vo.toString());
 		}
-		
 		
 	}
 

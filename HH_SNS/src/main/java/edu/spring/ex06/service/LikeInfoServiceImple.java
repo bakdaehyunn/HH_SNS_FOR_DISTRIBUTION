@@ -63,12 +63,6 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		logger.info("★ LikeServiceImple 좋아요 유저 중복체크 : " + feedId);
 		return likeDAO.select_check_feedId(feedId);
 	}
-	
-	@Override
-	public List<LikeInfoVO> read_all() {
-		logger.info("★ LikeServiceImple 전체 검색");
-		return likeDAO.select_all();
-	}
 
 	@Override
 	public List<LikeInfoVO> read_all(int feedId) {
@@ -76,6 +70,12 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		return likeDAO.select_all(feedId);
 	}
 
+	@Override
+	public List<LikeInfoVO> read_all_Id(String userId) {
+		logger.info("★ LikeServiceImple 좋아요 아이디 전체 검색");
+		return likeDAO.select_all_Id(userId);
+	}
+	
 	@Override
 	public int update(int likeId, LikeInfoVO vo) {
 		// TODO Auto-generated method stub
@@ -103,6 +103,7 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		
 		return 1;
 	}
+
 
 
 

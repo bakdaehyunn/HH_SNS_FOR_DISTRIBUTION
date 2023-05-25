@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.service.FeedService;
+import edu.spring.ex06.service.LikeInfoService;
 import edu.spring.ex06.service.UserInfoService;
 import edu.spring.ex06.util.MediaUtil;
 
@@ -50,6 +51,9 @@ public class FeedRESTController {
 	
 	@Autowired
 	private UserInfoService userInfoService;
+	
+	@Autowired
+	private LikeInfoService likeInfoService;
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath;

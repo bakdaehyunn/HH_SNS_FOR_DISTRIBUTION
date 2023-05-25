@@ -104,6 +104,57 @@
   fill: #e74c3c;
 }
 
+
+#click_txt {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn_feed {
+	text-decoration: none; 
+	color: #8c8c8c; 
+	font-weight: bold; 
+	font-size: 25px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.btn_feed.active {
+	text-decoration: none; 
+	color:	#989bed;
+	font-weight: bold; 
+	font-size: 25px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+ .spacing {
+    margin: 0 140px; /* 원하는 간격 값을 지정합니다. */
+  }
+
+.btn_heart {
+	text-decoration: none; 
+	color: #8c8c8c; 
+	font-weight: bold; 
+	font-size: 25px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.btn_heart.active {
+	text-decoration: none; 
+	color:	#989bed;
+	font-weight: bold; 
+	font-size: 25px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
 </style>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -179,7 +230,21 @@
 			<button type="button" id="btn_profileEdit">프로필편집</button>
 			<button type="button" id="btn_logout">로그아웃</button>
 		</c:if>
+		
+		<c:forEach var="likeinfovo" items="${likelist }">
+			<input type="hidden" id="likeId" value="${likeinfovo.likeId }">
+		</c:forEach>
 	</div>
+	<br>
+	<hr>
+	<br>
+	
+	<div id="click_txt">
+		<a class="btn_feed active"><span>피드</span></a>
+		<span class="spacing"></span>
+		<a class="btn_heart"><span>마음</span></a>
+	</div>
+	
 	<br>
 	<hr>
 	<br>
@@ -191,6 +256,35 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			followcheck();
+			
+			if ($('.btn_feed').hasClass('active')) {
+				getAllList();
+			} else if ($('.btn_heart').hasClass('active')) {
+			       getAllHeart();
+			}
+			
+			$(document).on('click', '.btn_feed', function() {
+				// 피드를 누르면
+				// 피드가 파랑색(active) 마음이 회색 
+				if (!$('.btn_feed').hasClass('active')) {
+					$('.btn_feed').addClass('active');
+				}
+			    $('.btn_heart').not(this).removeClass('active');
+			    
+			    getAllList();
+			})// end click.btn_feed
+			
+			$(document).on('click', '.btn_heart', function() {
+				// 마음을 누르면
+				// 피드가 회색 마음이 파랑색(active)
+				
+				$('.btn_feed').not(this).removeClass('active');
+				$('.btn_heart').addClass('active');
+				
+				getAllHeart();
+				
+			})// end click.btn_heart
+			
 			function followcheck(){
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
 				var userId = "<c:out value='${userId}' />";
@@ -395,7 +489,7 @@
 									+ '</div>';
 
 
-							});// end data.funchion;
+							});// end data.function;
 						} else {
 							console.log('피드가 없음');
 							list += '<br>' 
@@ -406,10 +500,26 @@
 				}//end function(data);
 			);// end getJSON();
 		}// end getAllList();
+		
+		function getAllHeart() {
+			var likeId = $('#likeId').val();
+			const userId = document.getElementById("userId").textContent;
+			var feedId = $('#feedId').val();
+			console.log('좋아요 아이디 : ' + likeId + ", 좋아요 누른 피드 번호 : " + feedId);
+			
+			var url = '../feeds/allbyId/' + userId;
+			$.getJSON(
+				url,
+				function(data) {
+					
+					
+				}// end data
+			);// end getJSON();
+		}// end getAllHeart();
 			
 			
 			
-		});// end ready.function();
+});// end ready.function();
 	</script>
 </body>
 </html>
