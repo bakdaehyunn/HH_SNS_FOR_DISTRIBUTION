@@ -363,6 +363,7 @@
 		console.log('좋아요 개수 : ' + likeCount + ' 개');
 	    
 		
+		
 		$btnLike = $(this);
 	    
 	    var obj = {
