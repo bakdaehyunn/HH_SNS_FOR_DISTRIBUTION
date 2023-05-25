@@ -140,10 +140,11 @@
 		<c:if test="${not empty userId  }">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
 		</c:if>
-		<a href="../user/followerlist?userId=${userinfovo.userId}"> 팔로워 : ${followerCnt}</a>
-		<a href="../user/followinglist?userId=${userinfovo.userId}"> 팔로잉 : ${followingCnt}</a>
+		<a href="../user/followerlist?userId=${userinfovo.userId}" id="followerCnt"> 팔로워 : ${followerCnt}</a>
+		<a href="../user/followinglist?userId=${userinfovo.userId}" > 팔로잉 : ${followingCnt}</a>
+		<input type="hidden" id="followerCntValue" value="${followerCnt }">
 		<c:if test="${empty userId or userinfovo.userId ne userId}">
-		<button id="btn_follow">팔로우 하기</button>
+		<button class="followButton" id="btn_follow">팔로우 하기</button>
 		</c:if>
 
 		<p id="userId"><b>${userinfovo.userId}</b></p>
@@ -190,8 +191,12 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
+			var followerCnt =parseInt($('#followerCntValue').val());
+			console.log('followercnt ' + followerCnt);
 			followcheck();
+			
 			function followcheck(){
+				console.log('followcheck()');
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
 				var userId = "<c:out value='${userId}' />";
 				if(userId != ''){
@@ -205,16 +210,25 @@
 							console.log(result);
 							if(result == 1){
 								console.log('팔로우한 계정');
+								$('button.followButton').addClass('following');
+								$('button.followButton').text('팔로우 중');
+								
 							}else{
 								console.log('팔로우한 계정 아님');
+								$('button.followButton').removeClass('following');
+								$('button.followButton').text('팔로우 하기');
 							}
 						}
 						
 					})
 				}
+				else{
+					console.log('로그인 상태 아니라 팔로우 확인 불가');
+				}
 				
 			}
-			$('#btn_follow').click(function(){
+			$('button.followButton').on('click',function(e){
+				e.preventDefault();
 				//var feedId = ${userinfovo.userId};
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
 				var userId = "<c:out value='${userId}' />";
@@ -224,20 +238,46 @@
 						'userId' : userId
 					}	
 					console.log(obj);
-					$.ajax({
-						type : 'POST',
-						url : '../users/follow',
-						headers : {
-							'content-Type' : 'application/json'
-						},
-						data : JSON.stringify(obj),
-						success: function(result){
-							console.log(result);
-							if(result == 1){
-								alert("팔로우 완료");
+					if(!$(this).hasClass('following')){
+						console.log('post');
+						$.ajax({
+							type : 'POST',
+							url : '../users/follow',
+							headers : {
+								'content-Type' : 'application/json'
+							},
+							data : JSON.stringify(obj),
+							success: function(result){
+								console.log(result);
+								if(result == 1){
+									alert("팔로우 완료");
+									followcheck();
+									followerCnt = followerCnt + 1;
+									$('#followerCnt').text("팔로워 : "+ followerCnt );
+								}
 							}
-						}
-					})
+						})
+					}else {
+						console.log('delete');
+						$.ajax({
+							type : 'DELETE',
+							url : '../users/' + userinfoUserId,
+							headers : {
+								'content-Type' : 'application/json'
+							},
+							success: function(result){
+								console.log(result);
+								if(result == 1){
+									alert("팔로우 취소 완료");
+									followcheck();
+									followerCnt = followerCnt -1;
+									$('#followerCnt').text("팔로워 : "+ followerCnt);
+									
+								}
+							}
+						})
+						
+					}
 				} else{
 					alert("로그인 해주세요.");
 					location.href="../user/login";

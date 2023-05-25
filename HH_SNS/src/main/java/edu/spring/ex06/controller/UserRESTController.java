@@ -6,6 +6,8 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +45,7 @@ public class UserRESTController {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	
+	
 	private int authNumber;
 	
 	@GetMapping("/userId/{userId}")
@@ -68,8 +72,14 @@ public class UserRESTController {
 
 	}
 	@GetMapping("/followCheck/{userinfoUserId}")
-	public ResponseEntity<Integer> readFollowing(@PathVariable("userinfoUserId") String userinfoUserId){
-		int result=1;
+	public ResponseEntity<Integer> readFollowing(@PathVariable("userinfoUserId") String userinfoUserId, HttpServletRequest request){
+		
+		int result=0;
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userId") != null) {
+			String userId = (String) session.getAttribute("userId");
+			result = followService.readFollowingCheck(userId,userinfoUserId);
+		}
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	
@@ -82,6 +92,18 @@ public class UserRESTController {
 		String userinfoUserId = (String) param.get("userinfoUserId");
 		String userId = (String) param.get("userId");
 		int result = followService.create(userId, userinfoUserId);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{userinfoUserId}")
+	public ResponseEntity<Integer> unfollow(@PathVariable("userinfoUserId") String userinfoUserId, HttpServletRequest request){
+	
+		int result=0;
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userId") != null) {
+			String userId = (String) session.getAttribute("userId");
+			result = followService.delete(userId,userinfoUserId);
+		}
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 		

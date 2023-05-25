@@ -30,12 +30,12 @@ public class FollowServiceImple implements FollowService {
 	}
 
 	@Override
-	public int readFollower(String followerUserId) {
+	public int readFollowerCnt(String followerUserId) {
 		logger.info("readFollower() 호출 : followerUserId = " + followerUserId);
 		return dao.selectFollowerCnt(followerUserId);
 	}
 	
-	public int readFollowing(String followingUserId) {
+	public int readFollowingCnt(String followingUserId) {
 		logger.info("readFollowing() 호출 : followingUserId = " + followingUserId);
 		return dao.selectFollowingCnt(followingUserId);
 	}
@@ -61,6 +61,14 @@ public class FollowServiceImple implements FollowService {
 		logger.info("readFollowingList() 호출");
 		logger.info("followingUserId : " + followingUserId);
 		return dao.selectFollowingList(followingUserId);
+	}
+
+	@Override
+	public int readFollowingCheck(String followerUserId, String followingUserId) {
+		logger.info("readFollowingCheck() 호출");
+		logger.info("followerUserId : " + followerUserId);
+		logger.info("followingUserId : " + followingUserId);
+		return dao.selectFollowingCheck(followerUserId, followingUserId);
 	}
 
 	

@@ -283,7 +283,6 @@
 					$('#emailVerifInput').focus();
 					$('#emailVerifInputGuide').html(warn);
 					$('#emailVerifInputGuid').show();
-					
 				}
 				return true;
 			});

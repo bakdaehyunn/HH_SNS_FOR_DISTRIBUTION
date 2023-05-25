@@ -50,7 +50,7 @@ public class FollowDAOImple implements FollowDAO{
 	public int delete(String followerUserId, String followingUserId) {
 		logger.info("delete() 호출");
 		logger.info("followerUserId : " + followerUserId + ", followingUserId : " + followingUserId);
-		Map<String, Object> args = new HashMap();
+		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("followerUserId", followerUserId);
 		args.put("followingUserId", followingUserId);
 		return sqlSession.delete(NAMESPACE + ".delete", args);
@@ -68,6 +68,17 @@ public class FollowDAOImple implements FollowDAO{
 		logger.info("selectFollowerList() 호출");
 		logger.info("followerUserId : " + followerUserId);
 		return sqlSession.selectList(NAMESPACE + ".select_follower_list", followerUserId);
+	}
+
+	@Override
+	public int selectFollowingCheck(String followerUserId, String followingUserId) {
+		logger.info("selectFollowingCheck() 호출");
+		logger.info("followerUserId : " + followerUserId);
+		logger.info("followingUserId : " + followingUserId);
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("followerUserId", followerUserId);
+		args.put("followingUserId", followingUserId);
+		return sqlSession.selectOne(NAMESPACE + ".select_following_check", args);
 	}
 	
 	

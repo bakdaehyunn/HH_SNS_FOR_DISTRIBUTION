@@ -2,9 +2,8 @@ package edu.spring.ex06.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -106,11 +105,11 @@ public class FeedController {
 		model.addAttribute("userinfovo", userinfovo);
 		
 		
-		int followerCnt= followService.readFollower(userId); //user가 팔로우한 경우  
-		model.addAttribute("followingCnt", followerCnt); // 팔로잉 수
+		int followingCnt= followService.readFollowingCnt(userId); //user가 팔로우한 경우  
+		model.addAttribute("followingCnt", followingCnt); // 팔로잉 수
 		
-		int followingCnt = followService.readFollowing(userId); // user가 팔로우 당하는 경우
-		model.addAttribute("followerCnt", followingCnt);  //팔로워 수 
+		int followerCnt = followService.readFollowerCnt(userId); // user가 팔로우 당하는 경우
+		model.addAttribute("followerCnt", followerCnt);  //팔로워 수 
 		
 	
 		List<FeedVO> list = feedService.readAllbyId(userId);

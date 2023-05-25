@@ -139,7 +139,7 @@
 		<div id="replies"></div>
 	</div>
 	
-	<script type="text/javascript">
+	<script type="text/javascript"> 
 	<!-- ----------------------- 피드 디테일 ------------------------------ -->
 	$(document).ready(function() {
 		$('#btn_login').click(function(){
