@@ -42,6 +42,7 @@
 					$.ajax({
 						type : 'POST',
 						url : '../users/follow',
+						context: this,
 						headers : {
 							'content-Type' : 'application/json'
 						},
@@ -50,8 +51,8 @@
 							console.log(result);
 							if(result == 1){
 								alert("팔로우 완료");
-								$('button.followButton').addClass('following');
-								$('button.followButton').text('팔로우 중');
+								$(this).addClass('following');
+								$(this).text('팔로우 중');
 							}
 						}
 					})
@@ -60,6 +61,7 @@
 					$.ajax({
 						type : 'DELETE',
 						url : '../users/' + userinfoUserId,
+						context: this,
 						headers : {
 							'content-Type' : 'application/json'
 						},
@@ -67,8 +69,8 @@
 							console.log(result);
 							if(result == 1){
 								alert("팔로우 취소 완료");
-								$('button.followButton').removeClass('following');
-								$('button.followButton').text('팔로우 하기');
+								$(this).removeClass('following');
+								$(this).text('팔로우 하기');
 								
 							}
 						}
@@ -82,7 +84,7 @@
 		});
 		
 		$('.followButton').each(function(index,item){
-			console.log(index);
+			
 			var userinfoUserId = $(this).prevAll('#userinfoUserId').val();
 			var userId = "<c:out value='${userId}' />";
 			console.log(userinfoUserId);
@@ -90,6 +92,7 @@
 				$.ajax({
 					type : 'GET',
 					url : '../users/followCheck/'+userinfoUserId,
+					context: this,
 					header : {
 						'Content-Type' : 'application/json'
 					},
@@ -97,14 +100,14 @@
 						console.log(result);
 						if(result == 1){
 							console.log('팔로우한 계정');
-							$('button.followButton').addClass('following');
-							
-							$('button.followButton').text('팔로우 중');
+							console.log($(this).text());
+							$(this).addClass('following');
+							$(this).text('팔로우 중');
 							
 						}else{
 							console.log('팔로우한 계정 아님');
-							$('button.followButton').removeClass('following');
-							$('button.followButton').text('팔로우 하기');
+							$(this).removeClass('following');
+							$(this).text('팔로우 하기');
 						}
 					}
 					
