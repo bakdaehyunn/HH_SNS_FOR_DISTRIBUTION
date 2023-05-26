@@ -11,7 +11,7 @@ public interface LikeInfoService {
 	int read_check(String userId);
 	int read_check_feedId(int feedId);
 	List<LikeInfoVO> read_all(int feedId);
-	List<LikeInfoVO> read_all_Id(String userId);
+	List<LikeInfoVO> read_all_id(String userId);
 	int update(int likeId, LikeInfoVO vo);
 	int delete(int likeId) throws Exception;
 }

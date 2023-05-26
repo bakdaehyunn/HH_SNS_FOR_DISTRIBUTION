@@ -55,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="feedId" value="feed_id"/>
 		<property name="replyId" value="reply_id"/>
 		<property name="commentId" value="comment_id"/>
+		<property name="likeDate" value="like_date"/>
 		
 		<property name="follow" value="follow"/>
 		<property name="followId" value="follow_id"/>

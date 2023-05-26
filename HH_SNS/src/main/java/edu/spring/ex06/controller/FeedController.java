@@ -98,9 +98,6 @@ public class FeedController {
 			model.addAttribute("sessionUserinfovo", sessionUserinfovo);
 		} 
 		
-		
-		
-		
 		UserInfoVO userinfovo = userInfoService.read(userId);
 		model.addAttribute("userinfovo", userinfovo);
 		
@@ -109,10 +106,6 @@ public class FeedController {
 		
 		int followerCnt = followService.readFollowerCnt(userId); // user가 팔로우 당하는 경우
 		model.addAttribute("followerCnt", followerCnt);  //팔로워 수 
-		
-		List<LikeInfoVO> likelist = likeInfoService.read_all_Id(userId);
-		model.addAttribute("likelist", likelist);
-		
 	
 		List<FeedVO> list = feedService.readAllbyId(userId);
 		logger.info("★ List feedvo 정보 : " + list.toString());

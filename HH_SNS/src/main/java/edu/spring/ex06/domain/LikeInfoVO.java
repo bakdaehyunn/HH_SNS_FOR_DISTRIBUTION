@@ -1,21 +1,25 @@
 package edu.spring.ex06.domain;
 
+import java.util.Date;
+
 public class LikeInfoVO {
 	private int likeId;
 	private String userId;
 	private int feedId;
 	private int replyId;
 	private int commentId;
+	private Date likeDate;
 	
 	public LikeInfoVO() {}
 
-	public LikeInfoVO(int likeId, String userId, int feedId, int replyId, int commentId) {
+	public LikeInfoVO(int likeId, String userId, int feedId, int replyId, int commentId, Date likeDate) {
 		super();
 		this.likeId = likeId;
 		this.userId = userId;
 		this.feedId = feedId;
 		this.replyId = replyId;
 		this.commentId = commentId;
+		this.likeDate = likeDate;
 	}
 
 	public int getLikeId() {
@@ -58,10 +62,20 @@ public class LikeInfoVO {
 		this.commentId = commentId;
 	}
 
+	public Date getLikeDate() {
+		return likeDate;
+	}
+
+	public void setLikeDate(Date likeDate) {
+		this.likeDate = likeDate;
+	}
+
 	@Override
 	public String toString() {
 		return "LikeInfoVO [likeId=" + likeId + ", userId=" + userId + ", feedId=" + feedId + ", replyId=" + replyId
-				+ ", commentId=" + commentId + "]";
+				+ ", commentId=" + commentId + ", likeDate=" + likeDate + "]";
 	}
+
+	
 
 }

@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insert">
 		insert into ${like_info}
-		values (LIKE_INFO_SEQ.NEXTVAL, #{userId}, #{feedId}, 0, 0)
+		values (LIKE_INFO_SEQ.NEXTVAL, #{userId}, #{feedId}, 0, 0, sysdate)
 	</insert>
 	
 	<select id="select" resultType="LikeInfoVO">
@@ -36,14 +36,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	select * from ${like_info}
 	 </select>
 	 
-	 <select id="select_all_id" resultType="LikeInfoVO">
-	 	select ${likeId}, ${userId}, ${feedId} from ${like_info}
-	 	where ${userId} = #{userId}
-	 </select>
-	 
-	 <select id="select_follower_list" resultType="UserInfoVO">
-		select f.${feedId}, f.${userId} from ${feed} f
+	 <select id="select_all_id" resultType="FeedVO">
+		select f. * from ${feed} f
 		join ${like_info} l on f.${feedId} = l.${feedId} where l.${userId} = #{userId} 
+		order by ${likeDate} desc
 	</select>
 	 
 	 <select id="select_check_id" resultType="Integer">

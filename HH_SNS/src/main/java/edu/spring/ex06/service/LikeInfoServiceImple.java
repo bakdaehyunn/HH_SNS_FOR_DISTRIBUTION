@@ -71,7 +71,7 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	}
 
 	@Override
-	public List<LikeInfoVO> read_all_Id(String userId) {
+	public List<LikeInfoVO> read_all_id(String userId) {
 		logger.info("★ LikeServiceImple 좋아요 아이디 전체 검색");
 		return likeDAO.select_all_Id(userId);
 	}
