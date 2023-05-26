@@ -15,6 +15,6 @@ public interface FeedService {
 	FeedVO read(String userId);
 	int update_content(int feedId, String feedContent);
 	int delete(int feedId);
-	int getTotalComments();
+	int getTotalReplies();
 	int getTotalLikes();
 }

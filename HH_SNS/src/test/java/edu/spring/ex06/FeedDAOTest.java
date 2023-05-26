@@ -24,7 +24,7 @@ import edu.spring.ex06.persistence.UserInfoDAO;
 public class FeedDAOTest {
 	private static final Logger logger = LoggerFactory.getLogger(FeedDAOTest.class);
 
-	private static final String NAMESPACE = "edu.spring.ex06.FeedMapper";
+	
 
 	@Autowired
 	private FeedDAO feeddao;
@@ -35,12 +35,24 @@ public class FeedDAOTest {
 	@Test
 	public void testDAO() {
 //		testInsert();
-		testSelectAll();
+		//testSelectAll();
 //		testSelect();
 //		testUpdate();
 //		testDelete();
 //		testSelectAllbyId();
+		testProfileUpdate();
 	}// end testDAO()
+
+	private void testProfileUpdate() {
+		String userid= "asd";
+		String userNickname="asd";
+		String userProfile="X.PNG";
+		int result = feeddao.update_profile(userNickname, userProfile, userid);
+		if(result ==1) {
+			logger.info("성공");
+		}
+		
+	}
 
 	// --------------------------------------------------
 	private void testInsert() {

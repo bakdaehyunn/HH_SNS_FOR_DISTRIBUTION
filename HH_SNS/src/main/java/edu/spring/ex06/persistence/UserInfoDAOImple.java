@@ -54,7 +54,7 @@ public class UserInfoDAOImple implements UserInfoDAO{
 	public int select(String userId, String userPassword) {
 		logger.info("select() 호출");
 		logger.info("userId = " + userId + ", password = " + userPassword);
-		Map<String, Object> args = new HashMap();
+		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("userId", userId);
 		args.put("userPassword", userPassword);
 		return sqlSession.selectOne(NAMESPACE + ".select_check_user_acc", args) ;

@@ -171,7 +171,13 @@ public class UserController {
 			logger.info("file 추가 하겠습니다.");
 			logger.info("vo.getUserProfile() : " + vo.getUserProfile());
 		}
-		int result = userInfoservice.updateProfile(vo);
+		int result=0;
+		try {
+			result = userInfoservice.updateProfile(vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		if(result == 1) {
 			logger.info("프로필 업데이트 성공");

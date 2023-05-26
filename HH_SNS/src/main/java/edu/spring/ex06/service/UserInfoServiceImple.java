@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.spring.ex06.domain.UserInfoVO;
+import edu.spring.ex06.persistence.FeedDAO;
 import edu.spring.ex06.persistence.UserInfoDAO;
 
 @Service
@@ -15,6 +17,9 @@ public class UserInfoServiceImple implements UserInfoService {
 	
 	@Autowired
 	private UserInfoDAO dao;
+	
+	@Autowired
+	private FeedDAO feedDAO;
 	
 	@Override
 	public int create(UserInfoVO vo) {
@@ -41,11 +46,15 @@ public class UserInfoServiceImple implements UserInfoService {
 		logger.info("read() 호출 : vo = " + vo.toString());
 		return dao.update(vo);
 	}
-
+	
+	@Transactional(value= "transactionManager")
 	@Override
-	public int updateProfile(UserInfoVO vo) {
-		logger.info("readProfile() 호출 : vo = " + vo.toString());
-		return dao.updateProfile(vo);
+	public int updateProfile(UserInfoVO vo) throws Exception{
+		logger.info("updateProfile() 호출 : vo = " + vo.toString());
+		dao.updateProfile(vo);
+		logger.info("update_feedprofile()");
+		feedDAO.update_profile(vo.getUserNickname(),vo.getUserProfile(),vo.getUserId());
+		return 1;
 	}
 
 	@Override

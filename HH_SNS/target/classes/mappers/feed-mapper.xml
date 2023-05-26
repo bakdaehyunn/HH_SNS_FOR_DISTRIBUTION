@@ -71,5 +71,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set ${likeCount} = ${likeCount} + #{amount} 
 		where ${feedId} = #{feedId}
 	</update>
+	
+	<update id="update_reply_cnt">
+		update ${feed}
+		set ${replyCount} = ${replyCount} + #{amount}
+		where ${feedId} = #{feedId}
+	</update>
+	
+	<update id="update_profile">
+		update ${feed}
+		set ${userNickname} = #{userNickname}, ${userProfile} = #{userProfile}
+		where ${userId} = #{userId}
+	</update>
+	
 
 </mapper>

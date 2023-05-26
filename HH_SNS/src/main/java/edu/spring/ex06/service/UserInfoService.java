@@ -9,7 +9,7 @@ public interface UserInfoService {
 	int readUserId(String userId);
 	int readUserEmail(String userEmail);
 	int update(UserInfoVO vo);
-	int updateProfile(UserInfoVO vo);
+	int updateProfile(UserInfoVO vo)throws Exception;
 	int delete(String userId);
 	
 	

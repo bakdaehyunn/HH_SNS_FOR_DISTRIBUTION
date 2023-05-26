@@ -43,14 +43,14 @@ public class ReplyServiceImple implements ReplyService{
 		logger.info("create() 호출 : vo = " + vo.toString());
 		replyDAO.insert(vo);
 		logger.info("댓글 입력 성공");
-		//boardDAO.updateReplyCnt(1, vo.getBoardId());
+		feedDAO.updateReplyCnt(1, vo.getFeedId());
 		return 1;
 	}
 
 	@Override
-	public List<ReplyVO> read(int boardId) {
-		logger.info("read() 호출 : boardId = " + boardId);
-		return replyDAO.select(boardId);
+	public List<ReplyVO> read(int feedId) {
+		logger.info("read() 호출 : feedId = " + feedId);
+		return replyDAO.select(feedId);
 	}
 
 	@Override
@@ -62,11 +62,11 @@ public class ReplyServiceImple implements ReplyService{
 	
 	@Transactional(value = "transactionManager")
 	@Override
-	public int delete(int replyId, int boardId) throws  Exception{
+	public int delete(int replyId, int feedId) throws  Exception{
 		logger.info("delete() 호출 : replyId = " + replyId);
 		replyDAO.delete(replyId);
 		logger.info("댓글 삭제 성공");
-		//boardDAO.updateReplyCnt(-1, boardId);
+		feedDAO.updateReplyCnt(-1, feedId);
 		return 1;
 	}
 

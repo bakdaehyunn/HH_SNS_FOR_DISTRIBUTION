@@ -66,7 +66,7 @@ public class FeedServiceImple implements FeedService{
 	}
 	
 	@Override
-	public int getTotalComments() {
+	public int getTotalReplies() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

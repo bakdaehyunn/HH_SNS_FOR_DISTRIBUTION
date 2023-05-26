@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.spring.ex06.domain.FeedVO;
+import edu.spring.ex06.domain.UserInfoVO;
 
 @Repository
 public class FeedDAOImple implements FeedDAO{
@@ -73,7 +74,7 @@ public class FeedDAOImple implements FeedDAO{
 	}// Like 총 갯수
 	
 	@Override
-	public int getTotalComment() {
+	public int getTotalReply() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -88,10 +89,29 @@ public class FeedDAOImple implements FeedDAO{
 	}
 
 	@Override
-	public int updateCommentCnt(int amount, int feedId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateReplyCnt(int amount, int feedId) {
+		logger.info(" updateReplyCnt ");
+		logger.info("amount : " + amount);
+		logger.info("feedId : "+ feedId);
+		Map<String, Integer> args = new HashMap<String, Integer>();
+		args.put("amount", amount);
+		args.put("feedId", feedId);
+		return sqlSession.update(NAMESPACE  + ".update_reply_cnt", args);
 	}// end updateCommentCnt 개인 댓글 출력
+
+	@Override
+	public int update_profile(String userNickname, String userProfile, String userId) {
+		logger.info("updateProfile()");
+		logger.info("userNickname : " + userNickname);
+		logger.info("userProfile : "  + userProfile);
+		logger.info("userId : " + userId);
+		Map<String, String>  args = new HashMap<>();
+		args.put("userNickname", userNickname);
+		args.put("userProfile", userProfile);
+		args.put("userId", userId);
+		logger.info(args.toString());
+		return sqlSession.update(NAMESPACE + ".update_profile", args);
+	}
 
 	
 
