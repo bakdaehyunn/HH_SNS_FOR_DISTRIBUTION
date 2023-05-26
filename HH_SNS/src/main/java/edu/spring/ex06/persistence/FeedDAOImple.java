@@ -67,17 +67,6 @@ public class FeedDAOImple implements FeedDAO{
 		return sqlSession.delete(NAMESPACE + ".delete", feedId);
 	}// end delete 삭제
 	
-	@Override
-	public int getTotalLike() {
-		logger.info("★ FeedDAOImple 좋아요 수");
-		return sqlSession.selectOne(NAMESPACE, ".total_like");
-	}// Like 총 갯수
-	
-	@Override
-	public int getTotalReply() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	@Override
 	public int updateLikeCnt(int amount, int feedId) {

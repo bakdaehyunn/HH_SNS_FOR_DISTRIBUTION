@@ -53,15 +53,9 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	
 
 	@Override
-	public int read_check(String userId) {
-		logger.info("★ LikeServiceImple 좋아요 유저 중복체크 : " + userId);
-		return likeDAO.select_check(userId);
-	}
-	
-	@Override
-	public int read_check_feedId(int feedId) {
-		logger.info("★ LikeServiceImple 좋아요 유저 중복체크 : " + feedId);
-		return likeDAO.select_check_feedId(feedId);
+	public int read_check(String userId, int feedId) {
+		logger.info("★ LikeServiceImple 좋아요 중복체크 : " + userId + ", " + feedId);
+		return likeDAO.select_check(userId, feedId);
 	}
 
 	@Override
@@ -75,13 +69,6 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		logger.info("★ LikeServiceImple 좋아요 아이디 전체 검색");
 		return likeDAO.select_all_Id(userId);
 	}
-	
-	@Override
-	public int update(int likeId, LikeInfoVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 	@Transactional(value= "transactionManager")
 	@Override
@@ -103,6 +90,7 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		
 		return 1;
 	}
+
 
 
 

@@ -59,17 +59,7 @@ public class FeedServiceImple implements FeedService{
 		return feeddao.delete(feedId);
 	}
 
-	@Override
-	public int getTotalLikes() {
-		logger.info("★ FeedServiceImple 좋아요 수");
-		return feeddao.getTotalLike();
-	}
-	
-	@Override
-	public int getTotalReplies() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 
 }

@@ -346,9 +346,8 @@
 		});
 		
 	//--------------------------좋아요 파트-------------------------------------
-	var heart;
 	var likeCnt = parseInt($('#likeCount').val());
-	console.log('좋아요 개수 : ' + likeCount + ' 개');
+	console.log(likeCount);
 	likecheck();
 	
 	function likecheck() {
@@ -357,33 +356,31 @@
 		var feedId = $('#feedId').val();
 		
 		console.log('likecheck : ' + likeId + ', ' + userId + ', ' + feedId);
-    	
-		var url = '../likes/all/' + feedId;
-		$.getJSON(
-			url,
-			function(data) {
-				console.log('list로 받아온 data : ' + data);
-				
-				var check = false;
-				 $(data).each(function() {
-				        console.log('for문 돌린 this : ' + this.feedId);
-				        if (feedId == this.feedId && userId == this.userId) {
-				        	check = true;
-				        	return false; // 반복문 중단
-				        }
-				      });
-
-				      if(check) {
-				        heart = true;
-				        console.log('이미 좋아요한 상태');
-				        $('.btn_like').addClass('liked');
-				      } else {
-				        heart = false;
-				        console.log('좋아요하지 않은 상태');
-				        $('.btn_like').removeClass('liked');
-				      }
-			}// end function
-		);// end getJSON
+		
+		var obj = {
+				'likeId' : likeId,
+				'userId' : userId,
+				'feedId' : feedId
+			}
+		
+		if(userId == null) {
+			alert('로그인을 해주세요');
+			return;
+		}
+		
+		$.ajax({
+			type : 'GET',
+			url : '../likes/check',
+			data : obj,
+			success : function(result) {
+				if(result == 1) {
+					$('.btn_like').addClass('liked');
+				} else {
+					$('.btn_like').removeClass('liked');
+				}
+			}
+		});//end ajax
+		
 		
 	}// end likecheck
 	
@@ -392,19 +389,13 @@
 	    var likeId = $('#likeId').val();
 	    const userId = $('#userId').val();
 	    var feedId = $('#feedId').val();
-	    
-	    var checkuser = $('#checkuserId').val();
-	    var checkfeed = $('checkfeedId').val();
-	    
-	    console.log('♥ 유저 : ' + checkuser + ', 피드 : ' + checkfeed);
 		
 		$btnLike = $(this);
 	    
 	    var obj = {
 			'likeId' : likeId,
 			'userId' : userId,
-			'feedId' : feedId,
-			'likeCount' : likeCount
+			'feedId' : feedId
 		}
 		console.log(obj)
 		
@@ -422,15 +413,13 @@
 				data : JSON.stringify(obj),
 				success : function(result) {
 					console.log(result);
-					if(checkuser != userId && checkfeed != feedId) {
-						if (result == 1) {
-							console.log('★ 좋아요 등록 성공');
-							likecheck();
-							heart = $btnLike.addClass('liked');
-							likeCnt = likeCnt + 1;
-						} else{
-							console.log('★ 좋아요 등록 실패');
-						}
+					if (result == 1) {
+						console.log($btnLike);
+						console.log('★ 좋아요 등록 성공');
+						likeCnt = likeCnt + 1;
+						$btnLike.addClass('liked');
+					} else {
+						console.log('★ 좋아요 등록 실패');
 					}
 				}
 			});//end ajax
@@ -465,9 +454,8 @@
  				console.log(this);
 	 			if (result == 1) {
 	 				console.log('★ 좋아요 삭제 성공');
-	 				likecheck();
-	 				heart = $btnLike.removeClass('liked');
 	 				likeCnt = likeCnt - 1;
+	 				$btnLike.removeClass('liked');
 	 			} else{
 	 				console.log('★ 좋아요 삭제 실패');
 	 			}

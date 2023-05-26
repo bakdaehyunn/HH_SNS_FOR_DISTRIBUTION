@@ -85,6 +85,7 @@ public class UserController {
 			
 		//} else {
 			//logger.info("로그인 실패");
+			model.addAttribute("userId",userId);
 			return "redirect:/feed/main";
 		}
 		else {

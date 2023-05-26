@@ -13,8 +13,6 @@ public interface FeedDAO {
 	FeedVO select(String userId);
 	int update_content(int feedId, String feedContent); // 피드 수정(회원)
 	int delete(int feedId); // 피드 번호 기준 피드 삭제(회원)
-	int getTotalLike();
-	int getTotalReply();
 	int updateLikeCnt(int amount, int feedId); // 개인 좋아요 수 출력
 	int updateReplyCnt(int amount, int feedId); // 개인 댓글 수 출력
 	int update_profile(String userNickname, String userProfile, String userId);

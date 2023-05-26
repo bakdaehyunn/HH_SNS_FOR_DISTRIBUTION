@@ -47,23 +47,16 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 		logger.info("feedId : " + feedId);
 		return sqlSession.selectOne(NAMESPACE + ".select_feedid", feedId);
 	}
-	
+
 //	-----------------------------------------------------------
 	
 	@Override
-	public int select_check(String userId) {
-		logger.info("★ LikeInfoDAOImple 중복 유저아이디");
-		logger.info("userId : " + userId);
-		return sqlSession.selectOne(NAMESPACE + ".select_check_id", userId);
-	}
-	
-//	-----------------------------------------------------------
-	
-	@Override
-	public int select_check_feedId(int feedId) {
-		logger.info("★ LikeInfoDAOImple 중복 피드번호");
-		logger.info("feedId : " + feedId);
-		return sqlSession.selectOne(NAMESPACE + ".select_check_feedid", feedId);
+	public int select_check(String userId, int feedId) {
+		logger.info("★ LikeInfoDAOImple 좋아요 중복확인");
+		Map<String, Object>  args = new HashMap<>();
+		args.put("userId", userId);
+		args.put("feedId", feedId);
+		return sqlSession.selectOne(NAMESPACE + ".select_check", args);
 	}
 	
 //	-----------------------------------------------------------
@@ -81,19 +74,7 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 		logger.info("★ LikeInfoDAOImple 피드 전체 검색 좋아요");
 		return sqlSession.selectList(NAMESPACE + ".select_all_id", userId);
 	}
-	
-//	-----------------------------------------------------------
 
-	@Override
-	public int update(int likeId, int feedId) {
-		logger.info("★ LikeInfoDAOImple 좋아요 수정");
-		logger.info("좋아요 번호 : " + likeId + ", 게시글 번호 : " + feedId);
-		Map<String, Object>  args = new HashMap<>();
-		args.put("likeId", likeId);
-		args.put("feedId", feedId);
-		return sqlSession.update(NAMESPACE + ".update", args);
-	}// end update
-	
 //	-----------------------------------------------------------
 
 	@Override
@@ -102,14 +83,6 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 		return sqlSession.delete(NAMESPACE + ".delete", likeId);
 	}// end delete
 //	-----------------------------------------------------------
-
-
-
-
-
-	
-//	int insert(LikeInfoVO vo);
-//	int delete(int feedId);
 
 	
 }

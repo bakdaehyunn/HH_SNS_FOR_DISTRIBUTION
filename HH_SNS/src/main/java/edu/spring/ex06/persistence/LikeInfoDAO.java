@@ -8,11 +8,9 @@ public interface LikeInfoDAO {
 	int insert(LikeInfoVO vo);
 	LikeInfoVO select(int likeId);
 	LikeInfoVO select_feedId(int feedId);
-	int select_check(String userId);
-	int select_check_feedId(int feedId);
+	int select_check(String userId, int feedId);
 	List<LikeInfoVO> select_all(int feedId);
 	List<LikeInfoVO> select_all_Id(String userId);
-	int update(int likeId, int feedId);
 	int delete(int likeId);
 	/*
 	 * 좋아요 저장 = 등록

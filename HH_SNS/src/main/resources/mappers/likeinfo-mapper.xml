@@ -36,22 +36,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	select * from ${like_info}
 	 </select>
 	 
+	 <select id="select_check" resultType="Integer">
+	 	select count(*) from ${like_info} where ${userId} = #{userId} and ${feedId} = #{feedId}
+	 </select>
+	 
 	 <select id="select_all_id" resultType="FeedVO">
 		select f. * from ${feed} f
 		join ${like_info} l on f.${feedId} = l.${feedId} where l.${userId} = #{userId} 
 		order by ${likeDate} desc
 	</select>
-	 
-	 <select id="select_check_id" resultType="Integer">
-		 select count(${userId}) from ${user_info}
-	 	 where ${userId} = #{userId}
-	 </select>
-	 
-	  <select id="select_check_feedid" resultType="Integer">
-		 select count(${feedId}) from ${user_info}
-	 	 where ${feedId} = #{feedId}
-	 </select>
-	 
+
 	 <delete id="delete">
 	 	delete from ${like_info}
 	 	where ${likeId} = #{likeId}

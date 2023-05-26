@@ -47,11 +47,10 @@ public class LikeInfoDAOTest {
 
 	private void test_duplication_Id() {
 		String userId = "ss";
+		int feedId = 107;
 		
-		List<LikeInfoVO> list = likedao.select_all_Id(userId);
-		for(LikeInfoVO vo : list) {
-			logger.info(vo.toString());
-		}
+		int result = likedao.select_check(userId, feedId);
+		logger.info("결과값 : " + result);
 		
 	}
 

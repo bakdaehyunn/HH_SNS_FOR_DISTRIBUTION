@@ -8,10 +8,8 @@ public interface LikeInfoService {
 	int create(LikeInfoVO vo) throws Exception;
 	LikeInfoVO read(int likeId);
 	LikeInfoVO read_feedId(int feedId);
-	int read_check(String userId);
-	int read_check_feedId(int feedId);
+	int read_check(String userId, int feedId);
 	List<LikeInfoVO> read_all(int feedId);
 	List<LikeInfoVO> read_all_id(String userId);
-	int update(int likeId, LikeInfoVO vo);
 	int delete(int likeId) throws Exception;
 }

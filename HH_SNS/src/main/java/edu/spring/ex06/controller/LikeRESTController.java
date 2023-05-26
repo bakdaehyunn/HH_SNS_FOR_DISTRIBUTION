@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.LikeInfoVO;
 import edu.spring.ex06.service.FeedService;
 import edu.spring.ex06.service.LikeInfoService;
@@ -70,15 +70,15 @@ public class LikeRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 	
-	@GetMapping("/all/{feedId}") 
-	public ResponseEntity<List<LikeInfoVO>> readall(
-			@PathVariable("feedId") int feedId) {
-		// PathVariable("boardId") : /all/{boardId} 값을 설정된 변수에 저장
-		// 실제로 할 때는 /all/1 -> 이런식으로 한당 ㅎㅅㅎ
-		logger.info("★ LikeRESTController 전체검색 : " + feedId);
+	@GetMapping("/check") 
+	public ResponseEntity<Integer> read_check( 
+			@RequestParam("userId") String userId,
+	        @RequestParam("feedId") int feedId)  {
 		
-		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
-		return new ResponseEntity<List<LikeInfoVO>>(list, HttpStatus.OK);
+		logger.info("★ LikeRESTController 중복 검색 : " + userId  + ", "+ feedId);
+		
+		int result = likeInfoService.read_check(userId, feedId);
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{likeId}") // DELETE
