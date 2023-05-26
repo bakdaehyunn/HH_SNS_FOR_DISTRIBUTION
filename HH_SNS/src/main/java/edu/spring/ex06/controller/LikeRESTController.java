@@ -52,7 +52,6 @@ public class LikeRESTController {
 		int result = 0; // 예외처리
 		
 		int feedId = likeinfovo.getFeedId();
-		String userId = likeinfovo.getUserId();
 		
 		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
 		

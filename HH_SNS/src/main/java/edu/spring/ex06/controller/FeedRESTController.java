@@ -29,8 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.spring.ex06.domain.FeedVO;
+import edu.spring.ex06.domain.LikeInfoVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.service.FeedService;
+import edu.spring.ex06.service.LikeInfoService;
 import edu.spring.ex06.service.UserInfoService;
 import edu.spring.ex06.util.MediaUtil;
 
@@ -50,6 +52,9 @@ public class FeedRESTController {
 	
 	@Autowired
 	private UserInfoService userInfoService;
+	
+	@Autowired
+	private LikeInfoService likeInfoService;
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath;
@@ -174,7 +179,18 @@ public class FeedRESTController {
 		logger.info("★ FeedRESTController 전체검색 : " + feedId);
 		
 		List<FeedVO> list = feedService.readAll();
+		logger.info("---------------------------------------------------------------");
 		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("/mylist/{userId}") 
+	public ResponseEntity<List<LikeInfoVO>> readFeedsLike(
+			@PathVariable("userId") String userId) {
+		logger.info("★ FeedRESTController 아이디 좋아요전체검색 : " + userId);
+		
+		List<LikeInfoVO> list = likeInfoService.read_all_id(userId);
+		logger.info("---------------------------------------------------------------");
+		return new ResponseEntity<List<LikeInfoVO>>(list, HttpStatus.OK);
 	}
 	
 	@GetMapping("/allbyId/{userId}")
@@ -184,6 +200,7 @@ public class FeedRESTController {
 		
 		List<FeedVO> list = feedService.readAllbyId(userId);
 		logger.info("♥ 아이디 기준 총 정보 : " + list.size());
+		logger.info("---------------------------------------------------------------");
 		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
 	}
 	

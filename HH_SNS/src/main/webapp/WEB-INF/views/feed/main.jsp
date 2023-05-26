@@ -86,14 +86,6 @@
 	margin-top: 10px;
 }
 
-.update_btn, .delete_btn {
-	background-color: transparent;
-	border: none;
-	color: #1da1f2;
-	font-size: 14px;
-	cursor: pointer;
-}
-
 .search_user {
 	display: block;
 	flex-wrap: wrap;
@@ -134,6 +126,10 @@
   fill: #e74c3c;
 }
 
+.img_photo {
+	max-width: 250px;
+	max-height: 250px;
+}
 
 
 </style>
@@ -193,7 +189,6 @@
 		</div>
 	
 	<br>
-
 	<hr>
 	<br>
 	
@@ -214,7 +209,8 @@
 		//	'.c1' : 클래스
 
 		$(document).ready(function() {
-			//$('.input_feed').prependTo('body');
+			
+			getAllMain();
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -229,7 +225,6 @@
 				location = '../user/logout';
 			});
 			
-			getAllMain();
 			
 			$('#feedPicture').click(function(){
 				$('#upload').click();
@@ -242,7 +237,7 @@
 				var file = files[0];
 				var srcURL = URL.createObjectURL(file);
 				
-				var img = $('<img>').attr('src', srcURL).css({ width: '60%', height: '60%' });
+				var img = $('<img>').attr('src', srcURL).css({ width: '40%', height: '40%' });
 				
 				if (preview.children().length >= 1) {
 				    alert('사진은 최대 한 개까지만 가능합니다.');
@@ -250,14 +245,10 @@
 				  }
 				
 				preview.append(img);
-				
-				
-				
 			})
 			
 			$('#preview').prop('contentEditable', false);
 			$('#preview').css('pointer-events', 'none');
-			
 			
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
@@ -313,7 +304,7 @@
 							console.log(result);
 							if (result == 1) {
 								console.log('★ 피드작성 완료');
-								getAllMain();
+			                    getAllMain();
 							} else {
 								console.log('★ 피드작성 실패');
 							}
@@ -348,7 +339,7 @@
 											var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
 											
 											if(this.feedPhoto != 'null') {
-												var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
+												var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img class="img_photo" src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
 												console.log('photo : ' + this.feedPhoto);
 												console.log('tag : ' + imageUrl);
 											} else if(this.feedPhoto == 'null') {
@@ -384,16 +375,13 @@
 											
 											+ '</div>'
 											+ '</div>';
+											
+											$('#feeds').html(list);
 									});// end data.funchion;
 									
-									$('#feeds').html(list);
-										
 							}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
-							
-							
-							
 							
 			}); // end ready();
 	</script>

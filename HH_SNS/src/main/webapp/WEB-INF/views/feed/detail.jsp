@@ -22,31 +22,25 @@
 	width: 50%;
 	margin-bottom: 20px;
 	padding: 20px;
-	background-color: #f7f7f7;
+	background-color: #ffffff;
 	border: 1px solid #ddd;
 	margin-bottom: 20px;
-	padding: 20px;
-	background-color: #f7f7f7;
-	margin-bottom: 20px;
-	padding: 20px;
-	background-color: #f7f7f7;
-	padding: 20px;
-	background-color: #f7f7f7;
-	background-color: #f7f7f7;
 }
 
-.div_btn {
+#feedContent {
 	display: flex;
-	justify-content: space-between;
-	margin-top: 10px;
+	background-color: #ffffff;  
+	min-width: 600px; 
+	width: auto; 
+	min-height: 80px; 
+	height: auto; 
+	margin-right: 20px;
+	border: none;
 }
 
-.update_btn, .delete_btn {
-	background-color: transparent;
-	border: none;
-	color: #1da1f2;
-	font-size: 14px;
-	cursor: pointer;
+#btn_update, #btn_delete {
+	width: auto; 
+	height: 30px;
 }
 
 .like_item {
@@ -84,11 +78,8 @@
 			<p>${feedvo.userNickname }</p>
 			<fmt:formatDate value="${feedvo.feedDate}" var="feedDate" pattern="yyyy년 MM월 dd일"/>
 			<p>${feedDate }</p>
-			<input type="text" id="feedContent" value="${feedvo.feedContent }">
-			<c:if test="${feedvo.feedPhoto ne 'null'}">
-				<br>
-				<img id="feedPhoto" src="display?fileName=${feedvo.feedPhoto }" alt="img">			
-			</c:if>
+			<div style="display: flex;">
+			<div id="feedContent" contentEditable='true'>${feedvo.feedContent}</div>
 			<c:if test="${empty userId or feedvo.userId ne userId}">
 			    <input type="submit" id="btn_update" disabled value="수정">
 			    <input type="submit" id="btn_delete" disabled value="삭제">
@@ -96,6 +87,11 @@
 			<c:if test="${not empty userId and feedvo.userId eq userId}">
 			    <input type="submit" id="btn_update" value="수정">
 			    <input type="submit" id="btn_delete" value="삭제">
+			</c:if>
+			</div>
+			<c:if test="${feedvo.feedPhoto ne 'null'}">
+				<br>
+				<img id="feedPhoto" style="display:block; width:50%; height: 50%" onclick="window.open(this.src)" src="display?fileName=${feedvo.feedPhoto }" alt="img">			
 			</c:if>
 			    <hr>
 			<input type="hidden" id="likeId" value="${likevo.likeId }">
@@ -351,107 +347,14 @@
 		
 	//--------------------------좋아요 파트-------------------------------------
 	var heart;
+	var likeCnt = parseInt($('#likeCount').val());
+	console.log('좋아요 개수 : ' + likeCount + ' 개');
 	likecheck();
-    // 좋아요 버튼 클릭 이벤트 핸들러
-    $(document).on('click', '.btn_like:not(.liked)', function() {
-	    var likeId = $('#likeId').val();
-	    const userId = $('#userId').val();
-	    var feedId = $('#feedId').val();
-	    
-	    var checkuser = $('#checkuserId').val();
-	    var checkfeed = $('checkfeedId').val();
-	    
-	    console.log('♥ 유저 : ' + checkuser + ', 피드 : ' + checkfeed);
-	    
-		var likeCount = $('#likeCount').val();
-		console.log(likeCount + ' 개');
-	    
-		
-		$btnLike = $(this);
-	    
-	    var obj = {
-			'likeId' : likeId,
-			'userId' : userId,
-			'feedId' : feedId,
-			'likeCount' : likeCount
-		}
-		console.log(obj)
-		
-		if(userId == null) {
-			alert('로그인을 해주세요');
-			return;
-		}
-	    
-		$.ajax({
-				type : 'POST',
-				url : '../likes',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				data : JSON.stringify(obj),
-				success : function(result) {
-					console.log(result);
-					if(checkuser != userId && checkfeed != feedId) {
-						if (result == 1) {
-							console.log('★ 좋아요 등록 성공');
-							heart = $btnLike.addClass('liked');
-							heart = true;
-							
-						} else{
-							console.log('★ 좋아요 등록 실패');
-						}
-					}
-				}
-			});//end ajax
-	    
-	   
-	    });// end click not liked()
-    
-    $(document).on('click', '.btn_like.liked', function() {
-    	console.log('delete');
-    	var likeId = $('#likeId').val();
-	    const userId = $('#userId').val();
-	    var feedId = $('#feedId').val();
-    	
-    	$btnLike = $(this);
-    	
-    	var obj = {
-    			'likeId' : likeId,
-    			'userId' : userId,
-    			'feedId' : feedId
-    		};
-    	
-    	console.log(obj);
-    	
-    	 $.ajax({
-    		type : 'DELETE', 
-			url : '../likes/' + likeId,
- 			headers : {
- 				'Content-Type' : 'application/json'
- 			},
- 			data : JSON.stringify(obj),
- 			success : function(result) {
- 				console.log(result);
- 				console.log(this);
-	 			if (result == 1) {
-	 				console.log('★ 좋아요 삭제 성공');
-	 				heart = $btnLike.removeClass('liked');
-	 				heart = false;
-	 			} else{
-	 				console.log('★ 좋아요 삭제 실패');
-	 			}
- 			}
- 		});// end ajax()
- 		
-    	
-    }); //end click liked
-
-     
+	
 	function likecheck() {
 		var likeId = $('#likeId').val();
 		const userId = $('#userId').val();
 		var feedId = $('#feedId').val();
-		
 		
 		console.log('likecheck : ' + likeId + ', ' + userId + ', ' + feedId);
     	
@@ -484,6 +387,95 @@
 		
 	}// end likecheck
 	
+    // 좋아요 버튼 클릭 이벤트 핸들러
+    $(document).on('click', '.btn_like:not(.liked)', function() {
+	    var likeId = $('#likeId').val();
+	    const userId = $('#userId').val();
+	    var feedId = $('#feedId').val();
+	    
+	    var checkuser = $('#checkuserId').val();
+	    var checkfeed = $('checkfeedId').val();
+	    
+	    console.log('♥ 유저 : ' + checkuser + ', 피드 : ' + checkfeed);
+		
+		$btnLike = $(this);
+	    
+	    var obj = {
+			'likeId' : likeId,
+			'userId' : userId,
+			'feedId' : feedId,
+			'likeCount' : likeCount
+		}
+		console.log(obj)
+		
+		if(userId == null) {
+			alert('로그인을 해주세요');
+			return;
+		}
+	    
+		$.ajax({
+				type : 'POST',
+				url : '../likes',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				data : JSON.stringify(obj),
+				success : function(result) {
+					console.log(result);
+					if(checkuser != userId && checkfeed != feedId) {
+						if (result == 1) {
+							console.log('★ 좋아요 등록 성공');
+							likecheck();
+							heart = $btnLike.addClass('liked');
+							likeCnt = likeCnt + 1;
+						} else{
+							console.log('★ 좋아요 등록 실패');
+						}
+					}
+				}
+			});//end ajax
+	    
+	    });// end click not liked()
+    
+    $(document).on('click', '.btn_like.liked', function() {
+    	console.log('delete');
+    	var likeId = $('#likeId').val();
+	    const userId = $('#userId').val();
+	    var feedId = $('#feedId').val();
+    	
+    	$btnLike = $(this);
+    	
+    	var obj = {
+    			'likeId' : likeId,
+    			'userId' : userId,
+    			'feedId' : feedId
+    		};
+    	
+    	console.log(obj);
+    	
+    	 $.ajax({
+    		type : 'DELETE', 
+			url : '../likes/' + likeId,
+ 			headers : {
+ 				'Content-Type' : 'application/json'
+ 			},
+ 			data : JSON.stringify(obj),
+ 			success : function(result) {
+ 				console.log(result);
+ 				console.log(this);
+	 			if (result == 1) {
+	 				console.log('★ 좋아요 삭제 성공');
+	 				likecheck();
+	 				heart = $btnLike.removeClass('liked');
+	 				likeCnt = likeCnt - 1;
+	 			} else{
+	 				console.log('★ 좋아요 삭제 실패');
+	 			}
+ 			}
+ 		});// end ajax()
+ 		
+    	
+    }); //end click liked
 	
 	}); // end ready();
 	

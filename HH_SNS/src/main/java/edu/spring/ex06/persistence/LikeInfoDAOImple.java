@@ -67,18 +67,19 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 	}
 	
 //	-----------------------------------------------------------
-	@Override
-	public List<LikeInfoVO> select_all() {
-		logger.info("★ LikeInfoDAOImple 좋아요 전체 찾기");
-		return sqlSession.selectOne(NAMESPACE + ".select_all");
-	}
-	
-//	-----------------------------------------------------------
 
 	@Override
 	public List<LikeInfoVO> select_all(int feedId) {
 		logger.info("★ LikeInfoDAOImple 피드 전체 검색");
 		return sqlSession.selectList(NAMESPACE + ".select_all");
+	}
+	
+//	-----------------------------------------------------------
+	
+	@Override
+	public List<LikeInfoVO> select_all_Id(String userId) {
+		logger.info("★ LikeInfoDAOImple 피드 전체 검색 좋아요");
+		return sqlSession.selectList(NAMESPACE + ".select_all_id", userId);
 	}
 	
 //	-----------------------------------------------------------
@@ -101,6 +102,7 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 		return sqlSession.delete(NAMESPACE + ".delete", likeId);
 	}// end delete
 //	-----------------------------------------------------------
+
 
 
 

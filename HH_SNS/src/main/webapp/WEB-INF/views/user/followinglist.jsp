@@ -31,6 +31,7 @@
 			e.stopPropagation();
 			var userinfoUserId = $(this).prevAll('#userinfoUserId').val();
 			var userId = "<c:out value='${userId}' />";
+			
 			if(userId != ''){
 				var obj = {
 					'userinfoUserId'  : userinfoUserId,

@@ -1,6 +1,5 @@
 package edu.spring.ex06;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.FeedDAO;
-import edu.spring.ex06.persistence.LikeInfoDAO;
 import edu.spring.ex06.persistence.UserInfoDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,7 +63,8 @@ public class FeedDAOTest {
 			return;
 		}
 
-		FeedVO feedvo = new FeedVO(0, "시간확인", uservo.getUserId(), uservo.getUserNickname(), uservo.getUserProfile(), 0, 0, null, "음악제목","x");
+		FeedVO feedvo = new FeedVO(0, "시간확인", uservo.getUserId(), uservo.getUserNickname(), uservo.getUserProfile(), 0, 0, null, "음악제목", "X");
+
 
 
 		int result = feeddao.insert(feedvo);

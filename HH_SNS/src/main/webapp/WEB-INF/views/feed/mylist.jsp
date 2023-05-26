@@ -100,8 +100,59 @@
   cursor: none;
 }
 
-.btn_like.liked path {
+.btn_like.liked {
   fill: #e74c3c;
+}
+
+
+#click_txt {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn_feed {
+	text-decoration: none; 
+	color: #8c8c8c; 
+	font-weight: bold; 
+	font-size: 20px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.btn_feed.active {
+	text-decoration: none; 
+	color:	#989bed;
+	font-weight: bold; 
+	font-size: 20px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+ .spacing {
+    margin: 0 120px; /* 원하는 간격 값을 지정합니다. */
+  }
+
+.btn_heart {
+	text-decoration: none; 
+	color: #8c8c8c; 
+	font-weight: bold; 
+	font-size: 20px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.btn_heart.active {
+	text-decoration: none; 
+	color:	#989bed;
+	font-weight: bold; 
+	font-size: 20px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
 }
 
 </style>
@@ -180,7 +231,18 @@
 			<button type="button" id="btn_profileEdit">프로필편집</button>
 			<button type="button" id="btn_logout">로그아웃</button>
 		</c:if>
+		
 	</div>
+	<br>
+	<hr>
+	<br>
+	
+	<div id="click_txt">
+		<a class="btn_feed active"><span>피드</span></a>
+		<span class="spacing"></span>
+		<a class="btn_heart"><span>마음</span></a>
+	</div>
+	
 	<br>
 	<hr>
 	<br>
@@ -194,6 +256,34 @@
 			var followerCnt =parseInt($('#followerCntValue').val());
 			console.log('followercnt ' + followerCnt);
 			followcheck();
+			
+			if ($('.btn_feed').hasClass('active')) {
+				getAllList();
+			} else if ($('.btn_heart').hasClass('active')) {
+			       getAllHeart();
+			}
+			
+			$(document).on('click', '.btn_feed', function() {
+				// 피드를 누르면
+				// 피드가 파랑색(active) 마음이 회색 
+				if (!$('.btn_feed').hasClass('active')) {
+					$('.btn_feed').addClass('active');
+				}
+			    $('.btn_heart').not(this).removeClass('active');
+			    
+			    getAllList();
+			})// end click.btn_feed
+			
+			$(document).on('click', '.btn_heart', function() {
+				// 마음을 누르면
+				// 피드가 회색 마음이 파랑색(active)
+				
+				$('.btn_feed').not(this).removeClass('active');
+				$('.btn_heart').addClass('active');
+				
+				getAllHeart();
+				
+			})// end click.btn_heart
 			
 			function followcheck(){
 				console.log('followcheck()');
@@ -435,7 +525,7 @@
 									+ '</div>';
 
 
-							});// end data.funchion;
+							});// end data.function;
 						} else {
 							console.log('피드가 없음');
 							list += '<br>' 
@@ -446,10 +536,82 @@
 				}//end function(data);
 			);// end getJSON();
 		}// end getAllList();
+		
+		function getAllHeart() {
+			//var likeId = $('#likeId').val();
+			const userId = document.getElementById("userId").textContent;
+			//var feedId = $('#feedId').val();
+			//console.log('좋아요 아이디 : ' + likeId + ", 좋아요 누른 피드 번호 : " + feedId);
+			
+			var url = '../feeds/mylist/' + userId;
+			$.getJSON(
+				url,
+				function(data) {
+					console.log(data);
+					var datasize = data.length;
+					console.log('피드 개수 : ' + datasize);
+					var list = '';
+					
+					if(data.length > 0) {
+						$(data).each(function() {
+							var feedDate = new Date(this.feedDate);
+							var yyyy = feedDate.getFullYear();
+							var mm = String(feedDate.getMonth() + 1).padStart(2, '0');
+							var dd = String(feedDate.getDate()).padStart(2, '0');
+							var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
+							
+							if(this.feedPhoto != 'null') {
+								var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
+								console.log('photo : ' + this.feedPhoto);
+								console.log('tag : ' + imageUrl);
+							} else if(this.feedPhoto == 'null') {
+								var imageUrl = '';
+							}
+							
+							if(this.likeCount > 0) {
+								var heart = $('.btn_like').addClass('liked');
+								heart = true;
+							}
+							
+							list += '<br>'
+								+ '<div class="div_post">'
+								+ '<div class="post_item">'
+								
+								+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
+								+ '<p>' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</p>'
+								+ '<p>' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
+								+ feedDate
+								+ '&nbsp;&nbsp;'
+								+'<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
+								+ imageUrl
+								+ '<hr>'
+								
+								+ '<div class="like_item">'
+								+ '좋아요' 
+								+ '<input type="hidden" id="likeCount" value="${feedvo.likeCount }">' + this.likeCount + '개'
+								+ '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">'
+								+ '<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>'
+								+ '</svg>'
+								+ '</div>'
+								
+								+ '</div>'
+								+ '</div>';
+						
+						});// end each
+					} else {
+						console.log('피드가 없음');
+						list += '<br>' 
+						+ '<p><i>좋아요를 찍어보세요.</i></p>';
+					}
+						
+				$('#feeds').html(list);
+				}// end data
+			);// end getJSON();
+		}// end getAllHeart();
 			
 			
 			
-		});// end ready.function();
+});// end ready.function();
 	</script>
 </body>
 </html>
