@@ -71,22 +71,20 @@ public class UserController {
 			logger.info("로그인 성공");
 			HttpSession session = request.getSession();
 			session.setAttribute("userId", userId);
-			
-			
-			
 			// 세션에서 targetURL 가져오기
-			//String targetURL = (String) session.getAttribute("targetURL");
-		//	if(targetURL != null) {
-			//	session.removeAttribute("targetURL");
-				//return "redirect:" + targetURL;
-			//} else {
-				//return "redirect:/feed/list";
-			//}
+			String targetURL = (String) session.getAttribute("targetURL");
+			if(targetURL != null) {
+				session.removeAttribute("targetURL");
+				
+				return "redirect:../" + targetURL;
+			} else {
+				return "redirect:/feed/main";
+			}
 			
 		//} else {
 			//logger.info("로그인 실패");
-			model.addAttribute("userId",userId);
-			return "redirect:/feed/main";
+			
+			
 		}
 		else {
 			return "redirect:/user/login";

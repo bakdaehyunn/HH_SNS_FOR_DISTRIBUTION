@@ -321,22 +321,25 @@
 				e.preventDefault();
 				//var feedId = ${userinfovo.userId};
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
-				var userId = "<c:out value='${userId}' />";
-				if(userId != ''){
-					var obj = {
-						'userinfoUserId'  : userinfoUserId,
-						'userId' : userId
-					}	
-					console.log(obj);
+				var params = "userId=" + userinfoUserId;
+					//var obj = {
+						//'userinfoUserId'  : userinfoUserId,
+						//'userId' : userId
+					//}	
+					
 					if(!$(this).hasClass('following')){
 						console.log('post');
 						$.ajax({
 							type : 'POST',
-							url : '../users/follow',
+							url : '../users/follow?' + params,
 							headers : {
 								'content-Type' : 'application/json'
 							},
-							data : JSON.stringify(obj),
+							//data : JSON.stringify(obj),
+							//data : userinfoUserId,
+							beforeSend : function(xmlHttpRequest){
+								xmlHttpRequest.setRequestHeader("AJAX", "true");
+							},
 							success: function(result){
 								console.log(result);
 								if(result == 1){
@@ -344,6 +347,13 @@
 									followcheck();
 									followerCnt = followerCnt + 1;
 									$('#followerCnt').text("팔로워 : "+ followerCnt );
+								}
+							},
+							error: function(e){
+								if(e.status==400){
+									var target = encodeURI('/ex06/user/login');
+									location = target;
+									alert("로그인이 필요합니다.");
 								}
 							}
 						})
@@ -368,10 +378,7 @@
 						})
 						
 					}
-				} else{
-					alert("로그인 해주세요.");
-					location.href="../user/login";
-				}
+				
 			});
 
 			$('#btn_login').click(function(){

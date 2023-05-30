@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,14 +85,23 @@ public class UserRESTController {
 	}
 	
 	@PostMapping("/follow")
-	public ResponseEntity<Integer>follow(@RequestBody Map<String,Object> param){
+	//public ResponseEntity<Integer>follow(@RequestBody Map<String,Object> param){
+//	public ResponseEntity<Integer>follow( @RequestBody String userinfoUserId, HttpServletRequest request, Model model){
+	//public ResponseEntity<Integer>follow(@PathVariable("userinfoUserId") String userinfoUserId, HttpServletRequest request){
+	public ResponseEntity<Integer>follow(@RequestParam("userinfoUserId") String userinfoUserId, HttpServletRequest request){
 		logger.info("follow() ");
-		logger.info("userinfoUserId : "+param.get("userinfoUserId").toString());
-		logger.info("userId"+param.get("userId").toString());
-	
-		String userinfoUserId = (String) param.get("userinfoUserId");
-		String userId = (String) param.get("userId");
-		int result = followService.create(userId, userinfoUserId);
+		//logger.info("userinfoUserId : "+param.get("userinfoUserId").toString());
+		//logger.info("userId"+param.get("userId").toString());
+		//String userinfoUserId = (String) param.get("userinfoUserId");
+		//String userId = (String) param.get("userId");
+		logger.info(userinfoUserId);
+		int result =0;
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userId") != null) {
+			String userId = (String) session.getAttribute("userId");
+			result = followService.create(userId, userinfoUserId);
+		}
+		
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	

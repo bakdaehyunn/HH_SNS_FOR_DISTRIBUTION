@@ -38,9 +38,6 @@ public class ReplyRESTController {
 	@Autowired
 	private ReplyService replyService;
 	
-	@Autowired
-	private FeedService feedservice;
-	
 	@PostMapping // POST : 댓글 입력
 	public ResponseEntity<Integer> createReply(@RequestBody ReplyVO vo){
 		// @RequestBody
