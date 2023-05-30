@@ -49,13 +49,22 @@
 }
 
 .btn_like {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .btn_like.liked {
-  fill: #e74c3c; 
+	fill: #e74c3c; 
 }
 
+.reply_item {
+	margin-right: 1500px;
+}
+
+#btn_comment {
+	border: none;
+	color: #6164c9;
+	cursor: pointer;
+}
 
 </style>
 <meta charset="UTF-8">
@@ -98,7 +107,7 @@
 			<input type="hidden" id="checkuserId" value="${likevo.userId }">
 			<input type="hidden" id="checkfeedId" value="${likevo.feedId }">
 				<div class="like_item">
-					좋아요 <input type="hidden" id="likeCount" value="${feedvo.likeCount }">${feedvo.likeCount }개 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" 
+					좋아요 <input type="hidden" id="likeCount" value="${feedvo.likeCount }"><p>${feedvo.likeCount }개</p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" 
 					stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">
 					<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>
 					</svg>
@@ -110,8 +119,8 @@
 		<div id="feeds"></div>
 	</div>
 
-	
 	<hr>
+	<br>
 	
 	<!-- -----------------------댓글 파트 ------------------------------ -->
 	
@@ -131,9 +140,12 @@
 		</c:if>
 	</div>
 	
+	<br>
+	<hr>
 	<div style="text-align: center;">
 		<div id="replies"></div>
 	</div>
+	
 	
 	<script type="text/javascript"> 
 	<!-- ----------------------- 피드 디테일 ------------------------------ -->
@@ -145,9 +157,9 @@
 		$('#btn_update').click(function() {
 			console.log(this);
 			
-			var feedId = $(this).prevAll('#feedId').val();
-			var feedContent = $(this).prevAll('#feedContent').val();
-			var userId = $(this).prevAll('#userId').val();
+			var feedId = $('#feedId').val();
+			var feedContent = $('#feedContent').text();
+			const userId = document.getElementById("userId").textContent;
 			console.log ("아이디 : " + userId);
 			console.log("선택된 피드 번호 : " + feedId + ", 피드 내용 : " + feedContent);
 			
@@ -180,10 +192,7 @@
 		$('#btn_delete').click(function() {
 			console.log(this);
 			
-			var feedId = $(this).prevAll('#feedId').val();
-
-			var userId = $(this).prevAll('#userId').val();
-			console.log('피드 : ' + feedId + ' 유저 : ' + userId);
+			var feedId = $('#feedId').val();
 
 			$.ajax({
 				type : 'DELETE', 
@@ -191,7 +200,6 @@
 				headers : {
 					'Content-Type' : 'application/json'
 				},
-				data : feedId,
 				success : function(result) {
 					console.log(result);
 					if(result == 1) {
@@ -246,6 +254,9 @@
 			});
 		}); // end btn_add.click()
 		
+		var btn_comment = '<button id="btn_comment"><a>답글</a></button>';
+		var comments = '';
+		
 		// 게시판 댓글 전체 가져오기
 		function getAllReplies() {
 			var feedId = $('#feedId').val();
@@ -287,7 +298,11 @@
 							+ '&nbsp;&nbsp;'
 							+ '<button class="btn_update" ' + disabled + '>수정</button>'
 							+ '<button class="btn_delete" ' + disabled + '>삭제</button>'
-							+ '</pre>'
+							+ '<br>'
+							+ btn_comment
+							+ comments;
+							+ '</pre>' 
+							+ '<br>'
 							+ '</div>';
 					}); // end each()
 						
@@ -345,9 +360,22 @@
 			});
 		});
 		
+	//--------------------------대댓글 파트-------------------------------------
+	
+	$(document).on('click', '#btn_comment', function() {
+		console.log(this);
+		getAllReplies();		
+		
+		var list = '';
+		
+		list += '<p>뭐요 ㅜ</p>';
+		
+		console.log(list);
+	});// end btn_comment.click(); 
+		
 	//--------------------------좋아요 파트-------------------------------------
 	var likeCnt = parseInt($('#likeCount').val());
-	console.log(likeCount);
+	console.log('좋아요 : ' + likeCnt + '개');
 	likecheck();
 	
 	function likecheck() {
@@ -416,8 +444,10 @@
 					if (result == 1) {
 						console.log($btnLike);
 						console.log('★ 좋아요 등록 성공');
-						likeCnt = likeCnt + 1;
 						$btnLike.addClass('liked');
+						likeCnt += 1; // 좋아요 수 업데이트
+			            $('#likeCount').val(likeCnt); // 엘리먼트 값 업데이트
+			            $('.like_item p').text(likeCnt + '개'); // 텍스트 업데이트
 					} else {
 						console.log('★ 좋아요 등록 실패');
 					}
@@ -454,8 +484,10 @@
  				console.log(this);
 	 			if (result == 1) {
 	 				console.log('★ 좋아요 삭제 성공');
-	 				likeCnt = likeCnt - 1;
 	 				$btnLike.removeClass('liked');
+	 				likeCnt -= 1; // 좋아요 수 감소
+	 				$('#likeCount').val(likeCnt); // 엘리먼트 값 업데이트
+	 				$('.like_item p').text(likeCnt + '개'); // 텍스트 업데이트
 	 			} else{
 	 				console.log('★ 좋아요 삭제 실패');
 	 			}

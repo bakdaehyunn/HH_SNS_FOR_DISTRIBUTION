@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.ex06.CommentInfoMapper">
+	<insert id="insert">
+		insert into ${comment_info}
+		(${commentId}, ${replyId}, ${userId}, ${userNickname}, ${userProfile}, ${commentContent})
+		values (comment_info_seq.nextval, #{replyId}, #{userId}, #{userNickname}, #{userProfile}, #{commentContent})
+	</insert>
+	
+	<select id="select_commentid" resultType="CommentInfoVO">
+		select * from ${comment_info}
+		where ${commentId} = #{commentId}
+	</select>
+	
+	<update id="update">
+		update ${comment_info}
+		set ${commentContent} = #{commentContent}, ${commentDate} = sysdate
+		where ${commentId} = #{commentId}
+	</update>
+	
+	<delete id="delete">
+		delete from ${comment_info}
+		where ${commentId} = #{commentId}
+	</delete>
+</mapper>

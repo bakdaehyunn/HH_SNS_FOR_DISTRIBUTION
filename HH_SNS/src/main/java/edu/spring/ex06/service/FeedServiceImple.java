@@ -6,9 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.spring.ex06.domain.FeedVO;
+import edu.spring.ex06.domain.LikeInfoVO;
+import edu.spring.ex06.domain.ReplyVO;
 import edu.spring.ex06.persistence.FeedDAO;
+import edu.spring.ex06.persistence.LikeInfoDAO;
+import edu.spring.ex06.persistence.ReplyDAO;
 
 @Service
 public class FeedServiceImple implements FeedService{
@@ -17,6 +22,12 @@ public class FeedServiceImple implements FeedService{
 	
 	@Autowired
 	private FeedDAO feeddao;
+	
+	@Autowired
+	private LikeInfoDAO likedao;
+	
+	@Autowired
+	private ReplyDAO replydao;
 
 	@Override
 	public int create(FeedVO feedvo) {
@@ -52,11 +63,28 @@ public class FeedServiceImple implements FeedService{
 		logger.info("feedId = " + feedId + " feedContent = " + feedContent);
 		return feeddao.update_content(feedId, feedContent);
 	}
-
+	
+	@Transactional(value= "transactionManager")
 	@Override
 	public int delete(int feedId) {
 		logger.info("★ FeedServiceImple 삭제 : " + feedId);
-		return feeddao.delete(feedId);
+		feeddao.delete(feedId);
+		logger.info("피드 삭제 완료");
+		
+		List<LikeInfoVO> likelist = likedao.select_all(feedId);
+		for(LikeInfoVO likevo : likelist) {
+			logger.info("??? : " + likevo.toString());
+			likedao.delete(likevo.getLikeId());
+			logger.info("좋아요 삭제 완료");			
+		}
+		
+		List<ReplyVO> replylist = replydao.select(feedId);
+		for(ReplyVO replyvo : replylist) {
+			replydao.delete(replyvo.getReplyId());
+			logger.info("댓글 삭제 완료");
+		}
+		
+		return 1;
 	}
 
 
