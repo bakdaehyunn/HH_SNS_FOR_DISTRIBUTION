@@ -42,18 +42,30 @@
 					console.log('post');
 					$.ajax({
 						type : 'POST',
-						url : '../users/follow',
-						context: this,
+						url : '../users/follow?' + params,
 						headers : {
 							'content-Type' : 'application/json'
 						},
-						data : JSON.stringify(obj),
+						//data : JSON.stringify(obj),
+						//data : userinfoUserId,
+						beforeSend : function(xmlHttpRequest){
+							xmlHttpRequest.setRequestHeader("AJAX", "true");
+						},
 						success: function(result){
 							console.log(result);
-							if(this == 1){
+							if(result == 1){
 								alert("팔로우 완료");
-								$(this).addClass('following');
-								$(this).text('팔로우 중');
+								followcheck();
+								followerCnt = followerCnt + 1;
+								$('#followerCnt').text("팔로워 : "+ followerCnt );
+							}
+						},
+						error: function(e){
+							if(e.status==400){
+								var target = encodeURI('/ex06/user/login');
+								location = target;
+								console.log
+								alert("로그인이 필요합니다.");
 							}
 						}
 					})
