@@ -1,6 +1,7 @@
 package edu.spring.ex06.persistence;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -35,6 +36,18 @@ public class CommentInfoDAOImple implements CommentInfoDAO{
 	}	
 
 	@Override
+	public CommentInfoVO select_reply(int replyId) {
+		logger.info("★ CommentInfoDAOImple 대댓글의 댓글번호 찾기 : " + replyId);
+		return sqlSession.selectOne(NAMESPACE + ".select_replyid", replyId);
+	}
+
+	@Override
+	public List<CommentInfoVO> select_all(int replyId) {
+		logger.info("★ CommentInfoDAOImple 대댓글 전체 찾기 : " + replyId);
+		return sqlSession.selectList(NAMESPACE + ".select_all_replyid", replyId);
+	}
+
+	@Override
 	public int update(int commentId, String commentContent) {
 		logger.info("★ CommentInfoDAOImple 대댓글 수정 : 대댓글 번호 = " + commentId + ", 대댓글 내용 = " + commentContent);
 		Map<String, Object> args = new HashMap();
@@ -48,7 +61,5 @@ public class CommentInfoDAOImple implements CommentInfoDAO{
 		logger.info("★ CommentInfoDAOImple 대댓글 삭제 번호 : " + commentId);
 		return sqlSession.delete(NAMESPACE+ ".delete", commentId);
 	}
-
-
 
 }

@@ -264,8 +264,6 @@
 				var formData = new FormData();
 				var feedPicture = $('#upload')[0].files[0];
 				
-				
-				
 				console.log(formData);
 				
 				// 현재 문제점 :
@@ -320,6 +318,7 @@
 
 					function getAllMain() {
 						var feedId = $('#feedId').val();
+						console.log('♣ : ' + feedId);
 
 						var url = '../feeds/all/' + feedId;
 							$.getJSON(

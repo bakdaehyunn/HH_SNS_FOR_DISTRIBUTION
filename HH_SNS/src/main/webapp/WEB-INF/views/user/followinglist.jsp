@@ -86,8 +86,8 @@
 		
 		$('.followButton').each(function(index,item){
 			
-			var userinfoUserId = $(this).prevAll('#userinfoUserId').val();
-			var userId = "<c:out value='${userId}' />";
+			var userinfoUserId = $(this).prevAll('#userinfoUserId').val(); // 상대 아이디
+			var userId = "<c:out value='${userId}' />"; // 세션 아이디
 			console.log(userinfoUserId);
 			if(userId != ''){
 				$.ajax({
