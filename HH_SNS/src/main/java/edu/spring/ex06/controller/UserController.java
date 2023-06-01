@@ -59,6 +59,14 @@ public class UserController {
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 	
+	@GetMapping("/noti")
+	public void notiGET(){
+		logger.info("notiGET() 호출");
+		
+	}
+	
+	
+	
 	@GetMapping("/login")
 	public void loginGET() {
 		logger.info("loginGET() 호출");

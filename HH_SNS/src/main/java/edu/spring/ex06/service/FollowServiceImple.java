@@ -8,9 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.FollowDAO;
+import edu.spring.ex06.persistence.NotiDAO;
 
 
 @Service
@@ -19,25 +21,31 @@ public class FollowServiceImple implements FollowService {
 			LoggerFactory.getLogger(FollowServiceImple.class);
 
 	@Autowired
-	private FollowDAO dao;
+	private FollowDAO followdao;
 	
+	@Autowired
+	private NotiDAO notiDAO;
+	
+	@Transactional(value= "transactionManager")
 	@Override
-	public int create(String followerUserId, String followingUserId) {
+	public int create(String followerUserId, String followingUserId) throws Exception{
 		logger.info("create() 호출 ");
 		logger.info("followerUserId : " + followerUserId);
 		logger.info("followingUserId" + followingUserId);
-		return dao.insert(followerUserId, followingUserId);
+		followdao.insert(followerUserId, followingUserId);
+		notiDAO.insert(followerUserId, followingUserId, "follow");
+		return 1;
 	}
 
 	@Override
 	public int readFollowerCnt(String followerUserId) {
 		logger.info("readFollower() 호출 : followerUserId = " + followerUserId);
-		return dao.selectFollowerCnt(followerUserId);
+		return followdao.selectFollowerCnt(followerUserId);
 	}
 	
 	public int readFollowingCnt(String followingUserId) {
 		logger.info("readFollowing() 호출 : followingUserId = " + followingUserId);
-		return dao.selectFollowingCnt(followingUserId);
+		return followdao.selectFollowingCnt(followingUserId);
 	}
 	
 
@@ -46,21 +54,21 @@ public class FollowServiceImple implements FollowService {
 		logger.info("delete() 호출 ");
 		logger.info("followerUserId : " + followerUserId);
 		logger.info("followerUserId : " + followingUserId );
-		return dao.delete(followerUserId, followingUserId);
+		return followdao.delete(followerUserId, followingUserId);
 	}
 	
 	@Override
 	public List<UserInfoVO> readFollowerList(String followerUserId) {
 		logger.info("readFollowerList() 호출");
 		logger.info("followerUserId : " + followerUserId);
-		return dao.selectFollowerList(followerUserId);
+		return followdao.selectFollowerList(followerUserId);
 	}
 
 	@Override
 	public List<UserInfoVO> readFollowingList(String followingUserId) {
 		logger.info("readFollowingList() 호출");
 		logger.info("followingUserId : " + followingUserId);
-		return dao.selectFollowingList(followingUserId);
+		return followdao.selectFollowingList(followingUserId);
 	}
 
 	@Override
@@ -68,7 +76,7 @@ public class FollowServiceImple implements FollowService {
 		logger.info("readFollowingCheck() 호출");
 		logger.info("followerUserId : " + followerUserId);
 		logger.info("followingUserId : " + followingUserId);
-		return dao.selectFollowingCheck(followerUserId, followingUserId);
+		return followdao.selectFollowingCheck(followerUserId, followingUserId);
 	}
 
 	

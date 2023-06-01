@@ -50,7 +50,7 @@
 						data : JSON.stringify(obj),
 						success: function(result){
 							console.log(result);
-							if(result == 1){
+							if(this == 1){
 								alert("팔로우 완료");
 								$(this).addClass('following');
 								$(this).text('팔로우 중');

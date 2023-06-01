@@ -1,6 +1,7 @@
 package edu.spring.ex06.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,19 +40,27 @@ public class ReplyRESTController {
 	private ReplyService replyService;
 	
 	@PostMapping // POST : 댓글 입력
-	public ResponseEntity<Integer> createReply(@RequestBody ReplyVO vo){
+	public ResponseEntity<Integer>createReply(@RequestBody Map<String,Object> param){
+	//public ResponseEntity<Integer> createReply(@RequestBody ReplyVO vo){
 		// @RequestBody
 		// - 클라이언트에서 전송받은 json 데이터를 
 		//   자바 객체로 변환해주는 annotation
-		logger.info("createReply() 호출 : vo = " + vo.toString());
+		logger.info("createReply() 호출 : vo = " + param.toString());
 		
 		// ResponseEntity<T> : Rest 방식에서 데이터를 리턴할 때 쓰이는 객체
 		// - 데이터 HttpStatus를 전송
 		// - <T> : 보내고자 하는 데이터 타입
+		int feedId = Integer.parseInt((String) param.get("feedId"));
+		String userId =(String) param.get("userId");
+		String userNickname=(String) param.get("userNickname");
+		String replyContent=(String) param.get("replyContent");
+		String userProfile=(String) param.get("userProfile");
+		String feedUserId=(String) param.get("feedUserId");
 		
+		ReplyVO vo = new ReplyVO(0, feedId, userId, userNickname, userProfile, replyContent, null, feedId, feedId);
 		int result = 0;
 		try {
-			result = replyService.create(vo);
+			result = replyService.create(vo,feedUserId);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

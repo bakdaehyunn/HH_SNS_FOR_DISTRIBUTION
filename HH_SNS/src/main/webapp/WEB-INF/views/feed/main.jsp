@@ -148,6 +148,7 @@
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
 		<div class="input_feed">
+		<p id="userId"><a href="../user/noti">알람</a></p>
 		<c:if test="${empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /></p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>

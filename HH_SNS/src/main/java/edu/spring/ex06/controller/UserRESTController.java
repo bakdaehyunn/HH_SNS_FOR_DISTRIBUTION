@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import edu.spring.ex06.domain.NotiVO;
 import edu.spring.ex06.service.FollowService;
+import edu.spring.ex06.service.NotiService;
 import edu.spring.ex06.service.UserInfoService;
 
 @RestController
@@ -44,10 +46,37 @@ public class UserRESTController {
 	private FollowService followService;
 	
 	@Autowired
+	private NotiService notiService;
+	
+	@Autowired
 	private JavaMailSenderImpl mailSender;
 	
 	
+	
 	private int authNumber;
+	
+	@GetMapping("/notiCheck")
+	public ResponseEntity<Integer>checkNoti(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		int result = 0;
+		if(session.getAttribute("userId") != null) {
+			String userId = (String) session.getAttribute("userId");
+			result= notiService.readCheck(userId);
+		}
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@GetMapping("/notiList")
+	public ResponseEntity<List<NotiVO>>readNotiList(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		List<NotiVO> list = null ;
+		if(session.getAttribute("userId") != null) {
+			String userId = (String) session.getAttribute("userId");
+			list= notiService.readList(userId);
+		}
+		
+		return new ResponseEntity<List<NotiVO>>(list,HttpStatus.OK);
+	}
 	
 	@GetMapping("/userId/{userId}")
 	public ResponseEntity<Integer> readUserId(
@@ -88,7 +117,7 @@ public class UserRESTController {
 	//public ResponseEntity<Integer>follow(@RequestBody Map<String,Object> param){
 //	public ResponseEntity<Integer>follow( @RequestBody String userinfoUserId, HttpServletRequest request, Model model){
 	//public ResponseEntity<Integer>follow(@PathVariable("userinfoUserId") String userinfoUserId, HttpServletRequest request){
-	public ResponseEntity<Integer>follow(@RequestParam("userinfoUserId") String userinfoUserId, HttpServletRequest request){
+	public ResponseEntity<Integer>follow(@RequestParam("userId") String userinfoUserId, HttpServletRequest request){
 		logger.info("follow() ");
 		//logger.info("userinfoUserId : "+param.get("userinfoUserId").toString());
 		//logger.info("userId"+param.get("userId").toString());
@@ -99,7 +128,13 @@ public class UserRESTController {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userId") != null) {
 			String userId = (String) session.getAttribute("userId");
-			result = followService.create(userId, userinfoUserId);
+			try {
+				result = followService.create(userId, userinfoUserId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);

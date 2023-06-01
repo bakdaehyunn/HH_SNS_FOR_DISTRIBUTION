@@ -218,13 +218,15 @@
 			var userId = $('#userId').val(); // 유저 ID
 			var userNickname = $('#userNickname').val();// 유저 닉네임
 			var replyContent = $('#replyContent').val(); // 댓글 내용
-			var userProfile = $('#userProfile').val();;// 유저 프로필 사진
+			var userProfile = $('#userProfile').val();// 유저 프로필 사진
+			var feedUserId = "<c:out value='${feedvo.userId }' />";
 			var obj = {
 					'feedId' : feedId,
 					'userId' : userId,
 					'userNickname' : userNickname,
 					'replyContent' : replyContent,
-					'userProfile' : userProfile
+					'userProfile' : userProfile,
+					'feedUserId'  : feedUserId
 			}
 			console.log(obj);
 			
@@ -235,7 +237,7 @@
 				headers : {
 					'Content-Type' : 'application/json'
 				}, 
-				data : JSON.stringify(obj), // JSON으로 변환
+				data : JSON.stringify(obj),// JSON으로 변환
 				success : function(result) {
 					console.log(result);
 					if(result == 1) {
@@ -281,7 +283,7 @@
 							+ '<div><a href="../feed/mylist?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" /></a></div>'
 							+ '<div><a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@'+this.userId +"("+this.userNickname+")"+'</b></a></div>'
 							+ '&nbsp;&nbsp;' // 공백
-							+ '<div><input type="text" ' + readonly + ' id="replyContent" value="'+ this.replyContent +'"></div>'
+							+ '<input type="text" ' + readonly + ' id="replyContent" value="'+ this.replyContent +'">'
 							+ '&nbsp;&nbsp;'
 							+ replyDateCreated
 							+ '&nbsp;&nbsp;'
@@ -389,13 +391,14 @@
 	    var likeId = $('#likeId').val();
 	    const userId = $('#userId').val();
 	    var feedId = $('#feedId').val();
-		
+	    var feedUserId = "<c:out value='${feedvo.userId }' />";
 		$btnLike = $(this);
 	    
 	    var obj = {
-			'likeId' : likeId,
 			'userId' : userId,
-			'feedId' : feedId
+			'feedId' : feedId,
+			'feedUserId'  :feedUserId
+			
 		}
 		console.log(obj)
 		
@@ -431,7 +434,7 @@
     	var likeId = $('#likeId').val();
 	    const userId = $('#userId').val();
 	    var feedId = $('#feedId').val();
-    	
+    	var
     	$btnLike = $(this);
     	
     	var obj = {

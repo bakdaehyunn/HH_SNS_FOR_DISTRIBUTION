@@ -1,6 +1,7 @@
 package edu.spring.ex06.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -39,19 +40,24 @@ public class LikeRESTController {
 	private LikeInfoService likeInfoService;
 
 	@PostMapping
-	public ResponseEntity<Integer> createLike(@RequestBody LikeInfoVO likeinfovo, HttpSession session) {
+	public ResponseEntity<Integer>createLike(@RequestBody Map<String,Object> param){
+	//public ResponseEntity<Integer> createLike(@RequestBody LikeInfoVO likeinfovo, @RequestParam("feedUserId") String feedUserId) {
 		// @RequestBody
 		// - 클라이언트에서 전송받은 json 데이터를
 		// 자바 객체로 변환해주는 annotation
-		logger.info("★ LikeRESTController : " + likeinfovo.toString());
+		logger.info("★ LikeRESTController : " + param.toString());
 		
 		// 좋아요 db에 같은 피드 아이디 존재 X
 		// 좋아요 db에 같은 유저 아이디 존재 X
 		// 즉 이미 좋아요 누른 사람은 X
+		String userId=(String) param.get("userId");
+		int feedId = Integer.parseInt((String) param.get("feedId"));
+		String feedUserId = (String) param.get("feedUserId");
 		
+		LikeInfoVO vo = new LikeInfoVO(0, userId,feedId, 0, 0, null);
 		int result = 0; // 예외처리
 		
-		int feedId = likeinfovo.getFeedId();
+		
 		
 		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
 		
@@ -60,7 +66,7 @@ public class LikeRESTController {
 		}
 		
 		try {
-			result = likeInfoService.create(likeinfovo);
+			result = likeInfoService.create(vo,feedUserId);
 			logger.info("result : " + result);
 			logger.info("---------------------------------------------------------------");
 		} catch (Exception e) {
