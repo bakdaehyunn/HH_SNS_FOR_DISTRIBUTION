@@ -321,8 +321,12 @@
 				e.preventDefault();
 				//var feedId = ${userinfovo.userId};
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
+<<<<<<< HEAD
 				var params = "userId=" + userinfoUserId;
 				console.log(params);
+=======
+				var params = "userId=" + userinfoUserId; //****************상대방 유저아이디******************************
+>>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 					//var obj = {
 						//'userinfoUserId'  : userinfoUserId,
 						//'userId' : userId
@@ -577,11 +581,6 @@
 								var imageUrl = '';
 							}
 							
-							if(this.likeCount > 0) {
-								var heart = $('.btn_like').addClass('liked');
-								heart = true;
-							}
-							
 							list += '<br>'
 								+ '<div class="div_post">'
 								+ '<div class="post_item">'
@@ -598,7 +597,7 @@
 								+ '<div class="like_item">'
 								+ '좋아요' 
 								+ '<input type="hidden" id="likeCount" value="${feedvo.likeCount }">' + this.likeCount + '개'
-								+ '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">'
+								+ '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like liked">'
 								+ '<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>'
 								+ '</svg>'
 								+ '</div>'

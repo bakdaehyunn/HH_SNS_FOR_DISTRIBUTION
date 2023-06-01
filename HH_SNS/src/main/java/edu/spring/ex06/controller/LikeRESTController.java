@@ -91,9 +91,6 @@ public class LikeRESTController {
 	public ResponseEntity<Integer> deleteLike(
 			@PathVariable("likeId") int likeId) {
 		logger.info("likeId = " + likeId);
-	
-		LikeInfoVO likeinfovo = likeInfoService.read(likeId);
-		logger.info("★ LikeRESTController 찾은 좋아요 번호 : " + likeinfovo);
 		
 		int result = 0; // 예외처리
 		try {
