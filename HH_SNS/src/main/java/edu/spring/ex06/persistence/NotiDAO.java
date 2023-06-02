@@ -11,7 +11,7 @@ public interface NotiDAO {
 	int insert(String senderId, String receiverId, String notiCategory);
 	List<NotiVO> selectList(String receiverId);
 	int selectCheck(String receiverId);
-	int delete(int notiId);
+	int delete(String senderId, String receiverId);
 	int update(int notiId);
 
 }

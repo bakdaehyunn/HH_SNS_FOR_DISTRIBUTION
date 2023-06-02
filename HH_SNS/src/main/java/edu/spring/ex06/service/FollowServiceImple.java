@@ -48,13 +48,15 @@ public class FollowServiceImple implements FollowService {
 		return followdao.selectFollowingCnt(followingUserId);
 	}
 	
-
+	@Transactional(value= "transactionManager")
 	@Override
-	public int delete(String followerUserId, String followingUserId) {
+	public int delete(String followerUserId, String followingUserId) throws Exception{
 		logger.info("delete() 호출 ");
 		logger.info("followerUserId : " + followerUserId);
 		logger.info("followerUserId : " + followingUserId );
-		return followdao.delete(followerUserId, followingUserId);
+		followdao.delete(followerUserId, followingUserId);
+		notiDAO.delete(followerUserId, followingUserId);
+		return 1;
 	}
 	
 	@Override

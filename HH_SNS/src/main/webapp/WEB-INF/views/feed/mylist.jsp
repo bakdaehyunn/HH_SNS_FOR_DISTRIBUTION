@@ -321,12 +321,11 @@
 				e.preventDefault();
 				//var feedId = ${userinfovo.userId};
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
-<<<<<<< HEAD
+
 				var params = "userId=" + userinfoUserId;
 				console.log(params);
-=======
-				var params = "userId=" + userinfoUserId; //****************상대방 유저아이디******************************
->>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
+
+
 					//var obj = {
 						//'userinfoUserId'  : userinfoUserId,
 						//'userId' : userId
