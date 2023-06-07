@@ -14,6 +14,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${commentId} = #{commentId}
 	</select>
 	
+	<select id="select_replyid" resultType="CommentInfoVO">
+		select * from ${comment_info}
+		where ${replyId} = #{replyId}
+	</select>
+	
+	<select id="select_all_replyid" resultType="CommentInfoVO">
+	 	select * from ${comment_info}
+	 	where ${replyId} = #{replyId}
+	 	order by ${commentId}
+	 </select>
+	
 	<update id="update">
 		update ${comment_info}
 		set ${commentContent} = #{commentContent}, ${commentDate} = sysdate

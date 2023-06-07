@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import edu.spring.ex06.domain.CommentInfoVO;
 import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.LikeInfoVO;
+import edu.spring.ex06.domain.ReplyVO;
 import edu.spring.ex06.domain.UserInfoVO;
+import edu.spring.ex06.service.CommentInfoService;
 import edu.spring.ex06.service.FeedService;
 import edu.spring.ex06.service.FollowService;
 import edu.spring.ex06.service.LikeInfoService;
@@ -53,6 +56,9 @@ public class FeedController {
 	
 	@Autowired
 	private FollowService followingService;
+	
+	@Autowired
+	private CommentInfoService commentInfoService;
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath;

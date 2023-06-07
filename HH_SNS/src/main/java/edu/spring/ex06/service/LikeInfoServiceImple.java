@@ -35,12 +35,12 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	
 	@Transactional(value= "transactionManager")
 	@Override
-	public int create(LikeInfoVO vo, String userId) throws Exception{
+	public int create(LikeInfoVO vo, String feedUserId) throws Exception{
 		logger.info("★ LikeServiceImple 등록 : vo = " + vo.toString());
 		likeDAO.insert(vo);
 		logger.info("좋아요 등록");
-		if(!(vo.getUserId().equals(userId))) {
-		notiDAO.insert(vo.getUserId(), userId, "like");
+		if(!(vo.getUserId().equals(feedUserId))) {
+		notiDAO.insert(vo.getUserId(), feedUserId, "like");
 		}
 		feedDAO.updateLikeCnt(1, vo.getFeedId());
 		return 1;

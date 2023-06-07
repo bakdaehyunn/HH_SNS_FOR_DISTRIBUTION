@@ -182,6 +182,8 @@
 	empty = null 
 	userId = session
 	-->
+	
+	<div style="border-color:  "></div>
 		
 		<!-- 세션아이디값 X -->
 		<c:if test="${empty userId}">
@@ -210,6 +212,7 @@
 			</div>
 			<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 			</div>
+			<div id="check_feedContent" style="display: none;"></div>
 			
 			<form id="uploadForm" enctype="multipart/form-data">
   			<input type="file" id="upload" style="display: none;" accept=".gif, .jpg, .png" />
@@ -225,8 +228,6 @@
 			</svg>
 			</button>
 			
-			
-			<div id="check_feedContent" style="display: none;"></div>
 			<br>
 			<button type="button" id="btn_profileEdit">프로필편집</button>
 			<button type="button" id="btn_logout">로그아웃</button>
@@ -321,15 +322,8 @@
 				e.preventDefault();
 				//var feedId = ${userinfovo.userId};
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
-
-				var params = "userId=" + userinfoUserId;
+				var params = "userId=" + userinfoUserId; //****************상대방 유저아이디******************************
 				console.log(params);
-
-
-					//var obj = {
-						//'userinfoUserId'  : userinfoUserId,
-						//'userId' : userId
-					//}	
 					
 					if(!$(this).hasClass('following')){
 						console.log('post');
@@ -432,7 +426,7 @@
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
-				var feedContent = $('#feedContent').text();
+				var feedContent = $('#feedContent').text(); 
 				
 				console.log(feedContent);
 	
