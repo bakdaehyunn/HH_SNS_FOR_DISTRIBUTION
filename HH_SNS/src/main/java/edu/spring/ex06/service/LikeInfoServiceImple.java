@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.spring.ex06.domain.LikeInfoVO;
+import edu.spring.ex06.domain.NotiVO;
 import edu.spring.ex06.persistence.FeedDAO;
 import edu.spring.ex06.persistence.LikeInfoDAO;
+import edu.spring.ex06.persistence.NotiDAO;
 import edu.spring.ex06.persistence.UserInfoDAO;
 
 @Service
@@ -26,15 +28,20 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	
 	@Autowired
 	private LikeInfoDAO likeDAO;
+	
+	@Autowired
+	private NotiDAO notiDAO; 
 
 	
 	@Transactional(value= "transactionManager")
 	@Override
-	public int create(LikeInfoVO vo) throws Exception{
+	public int create(LikeInfoVO vo, String feedUserId) throws Exception{
 		logger.info("★ LikeServiceImple 등록 : vo = " + vo.toString());
 		likeDAO.insert(vo);
 		logger.info("좋아요 등록");
-		
+		if(!(vo.getUserId().equals(feedUserId))) {
+		notiDAO.insert(vo.getUserId(), feedUserId, "like");
+		}
 		feedDAO.updateLikeCnt(1, vo.getFeedId());
 		return 1;
 	}
@@ -92,15 +99,4 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	}
 
 
-
-
-
-
-
-
-
-
-
-	
-	
 }

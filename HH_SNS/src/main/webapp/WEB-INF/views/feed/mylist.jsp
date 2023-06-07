@@ -322,7 +322,9 @@
 				e.preventDefault();
 				//var feedId = ${userinfovo.userId};
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
+
 				var params = "userId=" + userinfoUserId; //****************상대방 유저아이디******************************
+
 					//var obj = {
 						//'userinfoUserId'  : userinfoUserId,
 						//'userId' : userId
@@ -354,6 +356,7 @@
 								if(e.status==400){
 									var target = encodeURI('/ex06/user/login');
 									location = target;
+									console.log
 									alert("로그인이 필요합니다.");
 								}
 							}

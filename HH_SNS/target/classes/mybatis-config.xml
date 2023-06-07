@@ -8,7 +8,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<properties>
 		<!-- * property - name : mapper.xml에서 사용될 이름 - value : DB테이블 및 컬럼 이름 -->
 
-
 		<property name="user_info" value="user_info" />
 		<property name="userId" value="user_id" />
 		<property name="userPassword" value="user_password" />
@@ -68,6 +67,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="musicArtist" value="music_artist"/>
 		<property name="musicLocation" value="music_location"/>
 		<property name="musicArt" value="music_art"/>
+		
+		<property name="noti" value="noti"/>
+		<property name="notiId" value="noti_id"/>
+		<property name="senderId" value="sender_id"/>
+		<property name="receiverId" value="receiver_id"/>
+		<property name="notiCategory" value="noti_category"/>
+		<property name="notiRead" value="noti_read"/>
+		<property name="feedId" value="feed_id"/>
 		
 	</properties>
 

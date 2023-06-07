@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.spring.ex06.domain.ReplyVO;
 import edu.spring.ex06.persistence.FeedDAO;
+import edu.spring.ex06.persistence.NotiDAO;
 import edu.spring.ex06.persistence.ReplyDAO;
 
 
@@ -24,6 +25,9 @@ public class ReplyServiceImple implements ReplyService{
 	@Autowired
 	private FeedDAO feedDAO;
 	
+	@Autowired
+	private NotiDAO notiDAO; 
+	
 	// @Transactional
 	// - 두 개의 데이터베이스 변경이 생길 때,
 	// 위의 쿼리는 수행이 되었고, 아래 쿼리가 에러가 발생하면
@@ -33,7 +37,7 @@ public class ReplyServiceImple implements ReplyService{
 	
 	@Transactional(value = "transactionManager")
 	@Override
-	public int create(ReplyVO vo) throws Exception{
+	public int create(ReplyVO vo,String feedUserId) throws Exception{
 		
 		// 댓글(test_reply)의 데이터가 증가하면
 		// 게시판(test_board)의 댓글 개수(reply_cnt)가 변경되어야 한다.
@@ -42,6 +46,9 @@ public class ReplyServiceImple implements ReplyService{
 		
 		logger.info("create() 호출 : vo = " + vo.toString());
 		replyDAO.insert(vo);
+		if(!(vo.getUserId().equals(feedUserId))) {
+			notiDAO.insert(vo.getUserId(), feedUserId, "reply");
+		}
 		logger.info("댓글 입력 성공");
 		feedDAO.updateReplyCnt(1, vo.getFeedId());
 		return 1;

@@ -8,7 +8,7 @@ import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.UserInfoVO;
 
 public interface FollowService {
-	int create(String followerUserId,String followingUserId);
+	int create(String followerUserId,String followingUserId)throws Exception;
 	int readFollowerCnt(String followerUserId);
 	int readFollowingCnt(String followingUserId);
 	int delete(String followerUserId, String followingUserId);

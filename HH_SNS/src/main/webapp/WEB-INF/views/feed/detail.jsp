@@ -237,13 +237,15 @@
 			var userId = $('#userId').val(); // 유저 ID
 			var userNickname = $('#userNickname').val();// 유저 닉네임
 			var replyContent = $('#replyContent').val(); // 댓글 내용
-			var userProfile = $('#userProfile').val();;// 유저 프로필 사진
+			var userProfile = $('#userProfile').val();// 유저 프로필 사진
+			var feedUserId = "<c:out value='${feedvo.userId }' />";
 			var obj = {
 					'feedId' : feedId,
 					'userId' : userId,
 					'userNickname' : userNickname,
 					'replyContent' : replyContent,
-					'userProfile' : userProfile
+					'userProfile' : userProfile,
+					'feedUserId'  : feedUserId
 			}
 			console.log(obj);
 			
@@ -254,7 +256,7 @@
 				headers : {
 					'Content-Type' : 'application/json'
 				}, 
-				data : JSON.stringify(obj), // JSON으로 변환
+				data : JSON.stringify(obj),// JSON으로 변환
 				success : function(result) {
 					console.log(result);
 					if(result == 1) {
@@ -314,7 +316,7 @@
 							+ '<br>'
 							+ '<button class="btn_comment"><a>답글</a></button>'
 							+ '<br>'
-							+ '<div type="hidden" id="comments"></div>'
+							+ '<div type="hidden" class="comments"></div>'
 							+ '</pre>' 
 							+ '<br>'
 							+ '</div>';
@@ -380,7 +382,7 @@
 	$('#replies').on('click', '.reply_item .btn_comment', function() {
 		console.log(this);
 		
-		var comments = $(this).nextAll('#comments');
+		var comments = $(this).nextAll('.comments');
 		
 		var replyId = $(this).prevAll('#replyId').val();
 		const userId = $("#userId").val();
@@ -389,6 +391,7 @@
 		
 		console.log('유저 아이디 : ' + userId + ', 댓글 번호 : ' + replyId);
 		
+	// 대댓글 작성 하는게 만들어져야한다. = (#replies)comments
 		var list = '';
 		list += '<div class="comment_item">'
 				+ '<input type="hidden" id="commentId" value="1">'
@@ -400,68 +403,80 @@
 				+ '</div>'
 				+ '&nbsp;&nbsp;'
 				+ '<input style="margin-right: 30px;" id="commentContent">'
-				+ '<input style="height: 30px;" type="submit" id="btn_add_comment" value="등록">'
-				+ '</div>'
+				+ '<input style="height: 30px;" type="submit" class="btn_add_comment" value="등록">'
 				+ '<div id="check_comment" style="display: none;"></div>'
-				+ '<hr>';
-		
-		// ㅎ-ㅎ comments를 가져오고 있는데 얘가 visible 근데 태그에 hidden인뎁
-		var commentsType = $('#comments').attr('type');
+				+ '<hr>'
+				+ '<div class="commentList"></div>'
+				+ '</div>';
+				
+		var commentsType = $('.comments').attr('type');
 		console.log(commentsType);
 		
+	
+		//console.log('멍 : ' + commentList.val());
+		
+	// '답글'을 눌렀을 때 펼쳐져야한다.
+	
 		if(commentsType == 'hidden') {
 			comments.html(list).show();
-			$('#comments').attr('type', 'visible');
+			$('.commentList').addClass('asd');
+			$('.comments').attr('type', 'visible');
+			//$('.asd').text('뜬다');
+			
+			 getAllComment(replyId);
 			console.log('펼친다.');
-			getAllComment();
 		} else {
 			comments.hide();
 			console.log('접는다.');
-			$('#comments').attr('type', 'hidden');
+			$('.commentList').removeClass('asd');
+			$('.comments').attr('type', 'hidden');
 		}
 	});// end on.click
 	
-	function getAllComment() {
-		console.log('★ : ' + replyId);
-		
-		// replyId, userId, userNickname, userProfile, commentContent
-		
-		console.log('댓글 번호 : ' + replyId + ', 유저 아이디 : ' + userId + ', 대댓글 내용 : ' + commentContent + ', 유저 닉네임 : ' + userNickname + ', 유저 프로필 : ' + userProfile);
-		
-		var url = '../comments/all/' + replyId;
-		
-		$.getJSON(
+	
+	
+	function getAllComment(replyId) {
+	    console.log('★ : ' + replyId);
+	    var commentList = '';
+	// 대댓글이 작성 된 댓글의 replyId값과 같은 replyId의 값을 가진 대댓글의 리스트가 보여야한다. = commentList
+	    var url = '../comments/all/' + replyId;
+	    $.getJSON(
 				url,
 				function(data) {
-					console.log('♡ : ' + data);
-					var commentList = '';
-						$(data).each(function() {
-							console.log(this);
-							
-							commentList += '<div class="comment_item">'
-								+ '<input type="hidden" id="commentId" value="1">'
-								+ '<input type="hidden" id="replyId" value="' + replyId + '">'
-								+ '<br>'
-								+ '<div><a href="../feed/mylist?userId=' + userId + '">' + '<img style="margin-right: 10px;" width="80px" height="80px" src="display?fileName=' + userProfile + '" /></a>'
-								+ '<br>'
-								+ '<a href="../feed/mylist?userId=' + userId + '">' + '<b>@'+ userId +"(" + userNickname + ")" + '</b></a>'
-								+ '</div>'
-								+ '&nbsp;&nbsp;'
-								+ '<input style="margin-right: 30px;" id="commentContent">'
-								
-								
-								+ '</div>'
-								+ '<div id="check_comment" style="display: none;"></div>';
-		
+					console.log(data);
+					
+					$(data).each(function() {
+						console.log(this);
+						
+	// '답글'을 눌렀을 때 다른 '답글'을 눌러도 해당하는 replyId값과 일치하는 데이터만 보여야한다.
+						commentList += '<div class="commentlist_item">'
+							+ '<input type="hidden" id="replyId" value="' + this.replyId + '">'
+							+ '<br>'
+							+ '<div><a href="../feed/mylist?userId=' + this.userId + '">' 
+							+ '<img style="margin-right: 10px;" width="80px" height="80px" src="display?fileName=' + this.userProfile + '" /></a>'
+							+ '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@'+ this.userId +"(" + this.userNickname + ")" + '</b></a>'
+							+ '</div>'
+							+ '&nbsp;&nbsp;'
+							+ '<div id="commentContent" contentEditable="true">' + this.commentContent + '</div>'
+							+ '</div>';
+						//	 s="나는 성공한다.";
+							//var asd=$('.commentList .asd');
+							//$('.commentList .asd').text('asd');
+						
 				});// end data.funchion;
-				$('#comments').append(commentList);
-			
+					$('.asd').html(commentList);
+					//$('.asd').show();
+					$('.commentList').removeClass('asd');
 			}//end function(data);
+			
 		);// end getJSON();
-	}// end getAllComment();
+		
+	   
+	}
+
 	
 	
-	$(document).on('click', '#btn_add_comment', function() {
+	$(document).on('click', '.btn_add_comment', function() {
 	    var btn = $(this);
 	    console.log(btn);
 	    
@@ -493,6 +508,16 @@
 			'userProfile' : userProfile,
 			'commentContent' : commentContent
 		}
+	    
+	    var commentList = $(this).nextAll('.commentList');
+		commentList.addClass('asd');
+		console.log(commentList.hasClass('asd'));
+		if (commentList.hasClass('asd')) {
+		    console.log('된다');
+		} else {
+		    console.log('안된다');
+		    return;
+		}
 		
 		$.ajax({
 			type : 'POST',
@@ -505,7 +530,11 @@
 				console.log(result);
 				if (result == 1) {
 					console.log('★ 대댓글 등록 성공');
-					getAllComment();
+					// 작성 = btn_add_comment 을 눌렀을 때 getAllComment에서 $('.commentList').html로 바로 출력해야한다. 
+					commentList.addClass('asd');
+					$('.asd').text('된다');
+					getAllComment(replyId);
+					
 				} else {
 					console.log('★ 대댓글 등록 실패');
 				}
@@ -562,12 +591,14 @@
 			alert('로그인을 해주세요');
 			return;
 		}
+	    var feedUserId = "<c:out value='${feedvo.userId }' />";
 		$btnLike = $(this);
 	    
 	    var obj = {
-			'likeId' : likeId,
 			'userId' : userId,
-			'feedId' : feedId
+			'feedId' : feedId,
+			'feedUserId'  :feedUserId
+			
 		}
 		console.log(obj)
 		

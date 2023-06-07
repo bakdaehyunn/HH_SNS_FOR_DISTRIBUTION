@@ -1,27 +1,28 @@
 package edu.spring.ex06.controller;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.spring.ex06.domain.CommentInfoVO;
-import edu.spring.ex06.domain.FeedVO;
-import edu.spring.ex06.domain.ReplyVO;
 import edu.spring.ex06.service.CommentInfoService;
-import edu.spring.ex06.service.FeedService;
-import edu.spring.ex06.service.ReplyService;
+import edu.spring.ex06.util.MediaUtil;
 
 
 
@@ -39,6 +40,9 @@ public class CommentRESTController {
 	
 	@Autowired
 	private CommentInfoService commentService;
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 	
 	@PostMapping // POST : 댓글 입력
 	public ResponseEntity<Integer> createComment(@RequestBody CommentInfoVO vo){
@@ -71,6 +75,40 @@ public class CommentRESTController {
 		List<CommentInfoVO> list = commentService.read_all(replyId);
 		logger.info("---------------------------------------------------------------");
 		return new ResponseEntity<List<CommentInfoVO>>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("/display")
+	public ResponseEntity<byte[]> display(String fileName) {
+		logger.info("display() 호출");
+		
+		ResponseEntity<byte[]> entity = null;
+		InputStream in = null;
+		
+		String filePath = uploadPath + fileName;
+		try {
+			in = new FileInputStream(filePath);
+			
+			// 파일 확장자
+			String extension =
+					filePath.substring(filePath.lastIndexOf(".") + 1);
+			logger.info(extension);
+			
+			// 응답 해더(response header)에 Content-Type 설정
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.setContentType(MediaUtil.getMediaType(extension));
+			
+			//데이터 전송
+			entity = new ResponseEntity<byte[]>(
+						IOUtils.toByteArray(in), // 파일에서 읽은 데이터
+						httpHeaders, // 응답 해더
+						HttpStatus.OK
+					);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return entity;
+		
 	}
 	
 
