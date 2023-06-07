@@ -33,6 +33,7 @@
 	min-height: 80px; 
 	height: auto; 
 	margin-right: 20px;
+	word-break:break-all;
 }
 
 .feedContent {
@@ -136,7 +137,7 @@
 <meta charset="UTF-8">
 <title>H&H</title>
 </head>
-<body>
+<body ">
 
 	<!-- ▼ 아래 히든인 이유는 1씩 올리는것뿐인걸 굳이 보일필요 X -->
 	<input type="hidden" id="feedId" value="1">
@@ -162,10 +163,14 @@
 		<input type="submit" id="btn_login" value="로그인">
 		</c:if>
 		<c:if test="${not empty userId }">
-		<div style="display: flex;">
+		<div >
 		<div id="feedContent" contentEditable='true'>
+		<a href="../feed/mylist?userId=${userinfovo.userId }">asda</a>
 		</div>
+		
 		<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
+		<br>
+		<div id ="feedHashtagList" style="position: relative;"></div>
 		</div>
 		
 		<form id="uploadForm" enctype="multipart/form-data">
@@ -251,12 +256,24 @@
 			$('#preview').prop('contentEditable', false);
 			$('#preview').css('pointer-events', 'none');
 			
+			$('#feedContent').on('input',function(){
+				var feedContent =$(this).text();
+				var feedHashtagList = $('#feedHashtagList');
+				console.log(feedContent);
+				console.log('첫번째 글자 : '+ feedContent.substr(-2));
+				if((feedContent.substr(0,1) =='@')||feedContent.substr(-2) == ' @'){
+					console.log('aasdsad');
+					$('#feedHashtagList').append('asdsad <br>');
+				}else{
+					$('#feedHashtagList').text('');
+				}
+			});
+			
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
 				var feedContent = $('#feedContent').text();
-				
 				console.log(feedContent);
 				
 				// ▼ 문제점 ----------------------------------------------

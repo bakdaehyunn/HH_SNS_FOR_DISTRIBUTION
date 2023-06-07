@@ -15,4 +15,5 @@ public interface FollowService {
 	List<UserInfoVO> readFollowingList(String followingUserId);
 	List<UserInfoVO> readFollowerList(String followerUserId);
 	int readFollowingCheck(String followerUserId, String followingUserId);
+	List<UserInfoVO> readTagList(String followerUserId, String followingUserId);
 }

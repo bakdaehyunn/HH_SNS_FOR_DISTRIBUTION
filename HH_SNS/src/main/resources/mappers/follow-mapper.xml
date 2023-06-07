@@ -40,5 +40,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(${followingUserId}) from ${follow}
 		where ${followerUserId} = #{followerUserId} and ${followingUserId} = #{followingUserId}
 	</select>
+	
+	<select id="select_tag_list" resultType="UserInfoVO">
+		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
+		join ${follow} f on u.${userId} = f.${followingUserId} where f.${followerUserId} = #{followerUserId} and f.${followingUserId} like '%' || #{followingUserId} || '%' 
+	</select>
 
 </mapper>

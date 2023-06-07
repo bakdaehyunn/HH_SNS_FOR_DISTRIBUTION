@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +34,7 @@ import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.LikeInfoVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.service.FeedService;
+import edu.spring.ex06.service.FollowService;
 import edu.spring.ex06.service.LikeInfoService;
 import edu.spring.ex06.service.UserInfoService;
 import edu.spring.ex06.util.MediaUtil;
@@ -56,8 +59,22 @@ public class FeedRESTController {
 	@Autowired
 	private LikeInfoService likeInfoService;
 	
+	@Autowired
+	private FollowService followService;
+	
 	@Resource(name = "uploadPath")
 	private String uploadPath;
+	
+	@GetMapping("/tagList/{followingUserId}")
+	public ResponseEntity<List<UserInfoVO>> readTagList(@PathVariable("followingUserId") String followingUserId,HttpServletRequest request){
+		HttpSession session = request.getSession();
+		List<UserInfoVO> list = null;
+		if(session.getAttribute("userId") != null) {
+			String userId = (String) session.getAttribute("userId");
+			list=followService.readTagList(userId, followingUserId);
+		}
+		return new ResponseEntity<List<UserInfoVO>>(list,HttpStatus.OK);
+	}
 
 	@PostMapping
 	public ResponseEntity<Integer> createFeed(FeedVO feedvo, MultipartFile feedPicture,  HttpSession session) {

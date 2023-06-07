@@ -38,9 +38,20 @@ public class FollowDAOTest {
 		//followerTestSelect();
 		//followingCntTestSelect();
 		//followingCntTestDelete();
-		followingListTestSelect();
-		followerListTestSelect();
+		//followingListTestSelect();
+		//followerListTestSelect();
+		tagListSelect();
 	}// end testDAO()
+
+	private void tagListSelect() {
+		String followerUserId ="a";
+		String followingUserId ="s";
+		List<UserInfoVO> list = followDao.selectTagList( followerUserId,followingUserId);
+		for(UserInfoVO vo : list) {
+			logger.info(vo.toString());
+		}
+		
+	}
 
 	private void followerListTestSelect() {
 		

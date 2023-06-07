@@ -80,6 +80,18 @@ public class FollowDAOImple implements FollowDAO{
 		args.put("followingUserId", followingUserId);
 		return sqlSession.selectOne(NAMESPACE + ".select_following_check", args);
 	}
+
+	@Override
+	public List<UserInfoVO> selectTagList( String followerUserId, String followingUserId) {
+		logger.info("selectHashtagList() 호출");
+		logger.info("followerUserId : " + followerUserId);
+		logger.info("followingUserId : "+ followingUserId);
+		
+		Map<String, String> args = new HashMap<String, String>();
+		args.put("followerUserId", followerUserId);
+		args.put("followingUserId", followingUserId);
+		return sqlSession.selectList(NAMESPACE + ".select_tag_list", args);
+	}
 	
 	
 

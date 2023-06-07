@@ -81,6 +81,14 @@ public class FollowServiceImple implements FollowService {
 		return followdao.selectFollowingCheck(followerUserId, followingUserId);
 	}
 
+	@Override
+	public List<UserInfoVO> readTagList(String followerUserId, String followingUserId) {
+		logger.info("readTagList() 호출");
+		logger.info("followerUserId : " + followerUserId);
+		logger.info("followingUserId : " + followingUserId);
+		return followdao.selectTagList(followerUserId, followingUserId);
+	}
+
 	
 
 }
