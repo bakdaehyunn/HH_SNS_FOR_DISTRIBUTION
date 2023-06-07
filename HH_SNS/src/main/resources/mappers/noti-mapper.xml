@@ -35,10 +35,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${notiId} = #{notiId}
 	</update>
 	
-	<!--  회원 알람 삭제 -->
+	<!--  회원 알람 삭제 
 	<delete id="delete">
 		delete from ${noti}
-		where ${notiId} = #{notiId}
+		where ${notiId} = #{notiId} 
+	</delete>
+	-->
+	
+	<!--  회원 팔로우 알람 삭제 -->
+	<delete id="delete">
+		delete from ${noti}
+		where ${senderId} = #{senderId} and ${receiverId} = #{receiverId} and ${notiCategory} = 'follow'
 	</delete>
 	<!--
 	

@@ -322,13 +322,8 @@
 				e.preventDefault();
 				//var feedId = ${userinfovo.userId};
 				var userinfoUserId = "<c:out value='${userinfovo.userId }' />";
-
 				var params = "userId=" + userinfoUserId; //****************상대방 유저아이디******************************
-
-					//var obj = {
-						//'userinfoUserId'  : userinfoUserId,
-						//'userId' : userId
-					//}	
+				console.log(params);
 					
 					if(!$(this).hasClass('following')){
 						console.log('post');

@@ -11,7 +11,7 @@ public interface FollowService {
 	int create(String followerUserId,String followingUserId)throws Exception;
 	int readFollowerCnt(String followerUserId);
 	int readFollowingCnt(String followingUserId);
-	int delete(String followerUserId, String followingUserId);
+	int delete(String followerUserId, String followingUserId)throws Exception;
 	List<UserInfoVO> readFollowingList(String followingUserId);
 	List<UserInfoVO> readFollowerList(String followerUserId);
 	int readFollowingCheck(String followerUserId, String followingUserId);

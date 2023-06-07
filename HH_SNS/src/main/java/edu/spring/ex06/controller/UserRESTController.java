@@ -74,7 +74,6 @@ public class UserRESTController {
 			String userId = (String) session.getAttribute("userId");
 			list= notiService.readList(userId);
 		}
-		
 		return new ResponseEntity<List<NotiVO>>(list,HttpStatus.OK);
 	}
 	
@@ -147,7 +146,12 @@ public class UserRESTController {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userId") != null) {
 			String userId = (String) session.getAttribute("userId");
-			result = followService.delete(userId,userinfoUserId);
+			try {
+				result = followService.delete(userId,userinfoUserId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}

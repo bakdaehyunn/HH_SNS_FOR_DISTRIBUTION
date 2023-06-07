@@ -41,11 +41,11 @@ public class NotiServiceImple implements NotiService {
 		return dao.update(notiId);
 	}
 
-	@Override
-	public int delete(int notiId) {
-		logger.info("delete() notiId : " + notiId);
-		return dao.delete(notiId);
-	}
+//	@Override
+//	public int delete(int notiId) {
+//		logger.info("delete() notiId : " + notiId);
+//		return dao.delete(notiId);
+//	}
 
 	@Override
 	public int readCheck(String receiverId) {

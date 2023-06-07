@@ -69,6 +69,13 @@
 	margin: 20px;
 }
 
+.comment_item hr {
+	flex-grow: 1;
+	border: none;
+	border-top: 1px solid #000;
+	margin: auto 10px;
+}
+
 .btn_comment {
 	border: none;
 	color: #6164c9;
@@ -393,21 +400,35 @@
 		
 	// 대댓글 작성 하는게 만들어져야한다. = (#replies)comments
 		var list = '';
-		list += '<div class="comment_item">'
-				+ '<input type="hidden" id="commentId" value="1">'
-				+ '<input type="hidden" id="replyId" value="' + replyId + '">'
-				+ '<br>'
-				+ '<div><a href="../feed/mylist?userId=' + userId + '">' + '<img style="margin-right: 10px;" width="80px" height="80px" src="display?fileName=' + userProfile + '" /></a>'
-				+ '<br>'
-				+ '<a href="../feed/mylist?userId=' + userId + '">' + '<b>@'+ userId +"(" + userNickname + ")" + '</b></a>'
-				+ '</div>'
-				+ '&nbsp;&nbsp;'
+		if(userId != '') {
+			list += '<div class="comment_item">'
 				+ '<input style="margin-right: 30px;" id="commentContent">'
 				+ '<input style="height: 30px;" type="submit" class="btn_add_comment" value="등록">'
 				+ '<div id="check_comment" style="display: none;"></div>'
+				+ '<br>'
 				+ '<hr>'
+				+ '<br>'
 				+ '<div class="commentList"></div>'
 				+ '</div>';
+		} else {
+			list += '<div class="comment_item">'
+					+ '<input type="hidden" id="commentId" value="1">'
+					+ '<input type="hidden" id="replyId" value="' + replyId + '">'
+					+ '<br>'
+					+ '<div><a href="../feed/mylist?userId=' + userId + '">' + '<img style="margin-right: 10px;" width="80px" height="80px" src="display?fileName=' + userProfile + '" /></a>'
+					+ '<br>'
+					+ '<a href="../feed/mylist?userId=' + userId + '">' + '<b>@'+ userId +"(" + userNickname + ")" + '</b></a>'
+					+ '</div>'
+					+ '&nbsp;&nbsp;'
+					+ '<input style="margin-right: 30px;" id="commentContent">'
+					+ '<input style="height: 30px;" type="submit" class="btn_add_comment" value="등록">'
+					+ '<div id="check_comment" style="display: none;"></div>'
+					+ '<br>'
+					+ '<hr>'
+					+ '<br>'
+					+ '<div class="commentList"></div>'
+					+ '</div>';
+		}
 				
 		var commentsType = $('.comments').attr('type');
 		console.log(commentsType);

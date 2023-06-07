@@ -41,10 +41,14 @@ public class NotiDAOImple implements NotiDAO {
 	}
 
 	@Override
-	public int delete(int notiId) {
+	public int delete(String senderId, String receiverId) {
 		logger.info("delete() 호출");
-		logger.info("notiId : " + notiId);
-		return sqlSession.delete(NAMESPACE + ".delete", notiId);
+		logger.info("senderId : " + senderId);
+		logger.info("receiverId : " + receiverId);
+		Map<String,String> args = new HashMap<String, String>();
+		args.put("senderId", senderId);
+		args.put("receiverId", receiverId);
+		return sqlSession.update(NAMESPACE + ".delete", args);
 	}
 
 	@Override
