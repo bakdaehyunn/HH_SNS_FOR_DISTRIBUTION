@@ -14,18 +14,19 @@
 	
 	
 	<script type="text/javascript">
-		var s=false;
+		var onTag=false;
 		$('#feedContent').on('input',function(){
 			var feedContent =$(this).text();
 			var feedTagList = $('#feedTagList');
 			console.log(feedContent);
 			
+			
 			console.log('첫번째 글자 : '+ feedContent.length);
-			if((feedContent =='@')||feedContent.substr(-2) == ' @'|| (s===true&&!(feedContent.substr(-1).trim().length == 0) )){
+			if((feedContent =='@')||feedContent.substr(-2) == ' @'|| (onTag===true&&!(feedContent.substr(-1).trim().length == 0) )){
 				console.log('태그시작');
 				var pos = feedContent.lastIndexOf('@');
 				console.log('위치: '+(pos));
-				s=true;
+				onTag=true;
 				var followingUserId = feedContent.substr(pos+1);
 				if(!followingUserId){
 					console.log('아이디값 아직 없음');
@@ -61,10 +62,10 @@
 				
 				
 				
-			}else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || s===false ){
+			}else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || onTag===false ){
 				$('#feedTagList').text('');
 				console.log('태그아님');
-				s=false;
+				onTag=false;
 				
 			} // if else 문 끝
 		});// input 이벤트

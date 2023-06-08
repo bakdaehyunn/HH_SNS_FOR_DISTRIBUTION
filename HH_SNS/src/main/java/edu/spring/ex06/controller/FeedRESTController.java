@@ -96,7 +96,6 @@ public class FeedRESTController {
 			
 			String userNickname = userinfovo.getUserNickname();
 			String userProfile = userinfovo.getUserProfile();
-			String musicTitle = "X";
 	
 			if (feedPicture != null && feedPicture.getSize() > 0) {
 			    // 파일이 업로드된 경우
@@ -113,7 +112,7 @@ public class FeedRESTController {
 			// feedContent 값은 항상 유지
 //			String feedContent = feedvo.getFeedContent();
 //			feedvo.setFeedContent(feedContent);
-			feedvo = new FeedVO(0, feedvo.getFeedContent(), userId, userNickname, userProfile, 0, 0, null, musicTitle, feedvo.getFeedPhoto());
+			feedvo = new FeedVO(0, feedvo.getFeedContent(), userId, userNickname, userProfile, 0, 0, null, feedvo.getFeedPhoto());
 			
 
 			logger.info("★ 등록할 정보 : " + feedvo.toString());

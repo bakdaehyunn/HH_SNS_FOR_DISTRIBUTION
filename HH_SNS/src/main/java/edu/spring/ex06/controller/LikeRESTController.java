@@ -87,6 +87,11 @@ public class LikeRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 	
+//	@GetMapping("/check/{userId}")
+//	public ResponseEntity<List<LikeInfoVO>> read_check_userId(
+//			return new 
+//	)
+	
 	@DeleteMapping("/{likeId}") // DELETE
 	public ResponseEntity<Integer> deleteLike(
 			@PathVariable("likeId") int likeId) {

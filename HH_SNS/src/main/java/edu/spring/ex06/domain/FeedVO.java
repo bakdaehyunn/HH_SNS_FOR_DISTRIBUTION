@@ -11,13 +11,12 @@ public class FeedVO {
 	private int replyCount;
 	private int likeCount;
 	private Date feedDate;
-	private String musicTitle;
 	private String feedPhoto;
 	
 	public FeedVO() {}
 
 	public FeedVO(int feedId, String feedContent, String userId, String userNickname, String userProfile,
-			int replyCount, int likeCount, Date feedDate, String musicTitle, String feedPhoto) {
+			int replyCount, int likeCount, Date feedDate, String feedPhoto) {
 		super();
 		this.feedId = feedId;
 		this.feedContent = feedContent;
@@ -27,7 +26,6 @@ public class FeedVO {
 		this.replyCount = replyCount;
 		this.likeCount = likeCount;
 		this.feedDate = feedDate;
-		this.musicTitle = musicTitle;
 		this.feedPhoto = feedPhoto;
 	}
 
@@ -95,14 +93,6 @@ public class FeedVO {
 		this.feedDate = feedDate;
 	}
 
-	public String getMusicTitle() {
-		return musicTitle;
-	}
-
-	public void setMusicTitle(String musicTitle) {
-		this.musicTitle = musicTitle;
-	}
-
 	public String getFeedPhoto() {
 		return feedPhoto;
 	}
@@ -115,7 +105,7 @@ public class FeedVO {
 	public String toString() {
 		return "FeedVO [feedId=" + feedId + ", feedContent=" + feedContent + ", userId=" + userId + ", userNickname="
 				+ userNickname + ", userProfile=" + userProfile + ", replyCount=" + replyCount + ", likeCount="
-				+ likeCount + ", feedDate=" + feedDate + ", musicTitle=" + musicTitle + ", feedPhoto=" + feedPhoto
+				+ likeCount + ", feedDate=" + feedDate + ", feedPhoto=" + feedPhoto
 				+ "]";
 	}
 

@@ -137,7 +137,7 @@
 <meta charset="UTF-8">
 <title>H&H</title>
 </head>
-<body ">
+<body >
 
 	<!-- ▼ 아래 히든인 이유는 1씩 올리는것뿐인걸 굳이 보일필요 X -->
 	<input type="hidden" id="feedId" value="1">
@@ -149,7 +149,7 @@
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
 		<div class="input_feed">
-		<p id="userId"><a href="../user/noti">알람</a></p>
+		<p><a href="../user/noti">알람</a></p>
 		<c:if test="${empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /></p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
@@ -164,13 +164,11 @@
 		</c:if>
 		<c:if test="${not empty userId }">
 		<div >
-		<div id="feedContent" contentEditable='true'>
-		<a href="../feed/mylist?userId=${userinfovo.userId }">asda</a>
-		</div>
+		<div id="feedContent" contentEditable='true'></div>
 		
 		<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 		<br>
-		<div id ="feedHashtagList" style="position: relative;"></div>
+		<div id ="feedTagList" style="position: absolute; background-color: white;  height:100px;  width : 700px;"></div>
 		</div>
 		
 		<form id="uploadForm" enctype="multipart/form-data">
@@ -217,6 +215,7 @@
 		$(document).ready(function() {
 			
 			getAllMain();
+			likecheck();
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -273,8 +272,8 @@
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
-				var feedContent = $('#feedContent').text();
-				console.log(feedContent);
+				var feedContent = $('#feedContent').html();
+				console.log('피드 번호  : ' + feedId + ', 유저 아이디 : ' + userId + ', 피드 내용 : ' + feedContent);
 				
 				// ▼ 문제점 ----------------------------------------------
 
@@ -377,8 +376,10 @@
 											+ feedDate
 											+ '&nbsp;&nbsp;'
 											+ '<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent + '</a>' + '</p>'
-						                    + imageUrl
+											+ imageUrl
 											+ '<hr>'
+											
+											+ '<input type="hidden" id="likeId" value="${likevo.likeId}">'
 											
 											+ '<div class="like_item">'
 											+ '좋아요' 
@@ -393,13 +394,117 @@
 											+ '</div>'
 											+ '</div>';
 											
-											$('#feeds').html(list);
 									});// end data.funchion;
+										$('#feeds').html(list);
+										likecheck(likeId);
 									
 							}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
+				
+				function likecheck(likeId) {
+					const userId = $('#userId').html();
+					var feedId = $('#feedId').val();
+					
+					console.log('유저 아이디 :  ' + userId + ', 피드 번호 : ' + feedId);
+					
+					var obj = {
+							'userId' : userId,
+							'feedId' : feedId
+						}
+					
+					$.ajax({
+						type : 'GET',
+						url : '../likes/check',
+						data : obj,
+						success : function(result) {
+							if(result == 1) {
+								$('.btn_like').addClass('liked');
+							} else {
+								$('.btn_like').removeClass('liked');
+							}
+						}
+					});//end ajax
+					
+					
+				}// end likecheck
+				
+				// ************** 태그 관련 ***************
+				var onTag=false;
+				$('#feedContent').on('input',function(){
+					var feedContent =$(this).text();
+					var feedTagList = $('#feedTagList');
+					console.log(feedContent);
+					
+					
+					console.log('첫번째 글자 : '+ feedContent.length);
+					if((feedContent =='@')||feedContent.substr(-2) == ' @'||feedContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(feedContent.substr(-1).trim().length == 0) )){
+						console.log('태그시작');
+						var pos = feedContent.lastIndexOf('@');
+						console.log('위치: '+(pos));
+						onTag=true;
+						var followingUserId = feedContent.substr(pos+1);
+						if(!followingUserId){
+							console.log('아이디값 아직 없음');
 							
+						}
+						else{
+							console.log('아이디값 있음');
+							console.log('followingUserId:' + followingUserId);
+							$.ajax({
+								type: 'GET',
+								url : '../feeds/tagList/'+followingUserId,
+								hdeaders : {
+									'Content-Type' : 'application/json'
+								},
+								success: function(data){
+									var list = '';
+									if(data==''){
+										$('#feedTagList').html(followingUserId+'에 대한 검색 결과가 없습니다.');
+									}else{
+										$(data).each(function(){
+											console.log(this);
+											list += '<div class="tag_item">'
+											+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+											+'@'+this.userId +'('+this.userNickname+')'
+											+'<input type="hidden" class="userId" value="'+this.userId+'">'
+											+'</div>'
+											+'<hr>';
+										})
+										$('#feedTagList').html(list);
+									}
+								}
+								
+							});// ajax()
+						}
+						
+						
+						
+						
+						
+					}else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || onTag===false ){
+						$('#feedTagList').text('');
+						console.log('태그아님');
+						onTag=false;
+						
+					} // if else 문 끝
+				});// input 이벤트
+				
+				$('#feedTagList').on('click', '.tag_item', function(){
+					var feedContent =$('#feedContent').html();
+					var pos = feedContent.lastIndexOf('@');
+					console.log('위치: '+pos);
+					var list = feedContent.substr(0,pos);
+					
+					var userId = $(this).find('.userId').val();
+					list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
+					$('#feedContent').html(list);
+					$('#feedTagList').text('');
+					onTag=false;
+				});
+			//	$('#feedContent').on('blur',function(){
+					//$('#feedTagList').text('');
+				//});
 			}); // end ready();
 	</script>
 

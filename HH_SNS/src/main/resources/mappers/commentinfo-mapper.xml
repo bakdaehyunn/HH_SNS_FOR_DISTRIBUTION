@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="update">
 		update ${comment_info}
-		set ${commentContent} = #{commentContent}, ${commentDate} = sysdate
+		set ${commentContent} = #{commentContent}
 		where ${commentId} = #{commentId}
 	</update>
 	
