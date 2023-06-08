@@ -68,6 +68,10 @@ public class FeedController {
 	public void replyGet() {
 		logger.info("replyGET() 호출");
 	}
+	@GetMapping("/tag")
+	public void tagGet() {
+		
+	}
 
 //	------------------------------------------------------------------
 	@GetMapping("/main")

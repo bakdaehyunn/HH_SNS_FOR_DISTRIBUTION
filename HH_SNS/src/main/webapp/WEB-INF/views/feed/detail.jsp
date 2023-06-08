@@ -432,28 +432,28 @@
 		}
 		
 	// '답글'을 눌렀을 때 펼쳐져야한다.
-		var commentsType = $('.comments').attr('type');
+		var commentsType = comments.attr('type');
 		console.log(commentsType);
 	
 		if(commentsType == 'hidden') {
 			comments.html(list).show();
-			$('.comments').attr('type', 'visible');
-			getAllComment(replyId);
+			comments.attr('type', 'visible');
+			getAllComment(replyId, comments.find('.commentList'));
 			console.log('펼친다.');
 			
 //			$('.commentList').addClass('addList');
 		} else if(commentsType == 'visible') {
 			comments.hide();
-			$('.comments').attr('type', 'hidden');
+			comments.attr('type', 'hidden');
 			console.log('접는다.');
 			
 //			$('.commentList').removeClass('addList');
 		}
 	});// end on.click
 	
-	function getAllComment(replyId) {
+	function getAllComment(replyId, commentList) {
 	    console.log('★ : ' + replyId);
-	    var commentList = '';
+	    var commentLists = '';
 	    
 	    const userId = $("#userId").val();
 	    console.log('♣ : ' + userId);
@@ -478,7 +478,7 @@
 						
 						if(replyId == this.replyId) {
 		// '답글'을 눌렀을 때 다른 '답글'을 눌러도 해당하는 replyId값과 일치하는 데이터만 보여야한다.
-							commentList += '<div class="commentlist_item">'
+							commentLists += '<div class="commentlist_item">'
 							    + '<input type="hidden" id="replyId" value="' + this.replyId + '">'
 							    + '<input type="hidden" id="commentId" value="' + this.commentId + '">'
 							    + '<br>'
@@ -496,7 +496,7 @@
 						}
 						
 				});// end data.funchion;
-					$('.commentList').html(commentList);
+					commentList.html(commentLists);
 					//$('.asd').show();
 					//$('.commentList').removeClass('addList');
 					

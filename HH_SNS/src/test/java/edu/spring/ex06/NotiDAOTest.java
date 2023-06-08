@@ -44,11 +44,11 @@ public class NotiDAOTest {
 
 	private void notiTestDelete() {
 		int notiId = 1;
-		int result = notiDao.delete(notiId);
-		if(result == 1) {
-			logger.info("delete 성공");
-		}
-		
+		//int result = notiDao.delete(notiId);
+//		if(result == 1) {
+//			logger.info("delete 성공");
+//		}
+//		
 	}
 
 	private void notiTestUpdate() {
