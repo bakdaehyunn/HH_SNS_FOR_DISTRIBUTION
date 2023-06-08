@@ -111,8 +111,6 @@
 			</c:if>
 			    <hr>
 			<input type="hidden" id="likeId" value="${likevo.likeId }">
-			<input type="hidden" id="checkuserId" value="${likevo.userId }">
-			<input type="hidden" id="checkfeedId" value="${likevo.feedId }">
 				<div class="like_item">
 					좋아요 <input type="hidden" id="likeCount" value="${feedvo.likeCount }"><p>${feedvo.likeCount }개</p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" 
 					stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">

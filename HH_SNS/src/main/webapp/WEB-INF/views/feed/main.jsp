@@ -149,7 +149,7 @@
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
 		<div class="input_feed">
-		<p id="userId"><a href="../user/noti">알람</a></p>
+		<p><a href="../user/noti">알람</a></p>
 		<c:if test="${empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /></p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
@@ -217,6 +217,7 @@
 		$(document).ready(function() {
 			
 			getAllMain();
+			likecheck();
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -273,8 +274,8 @@
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
-				var feedContent = $('#feedContent').text();
-				console.log(feedContent);
+				var feedContent = $('#feedContent').html();
+				console.log('피드 번호  : ' + feedId + ', 유저 아이디 : ' + userId + ', 피드 내용 : ' + feedContent);
 				
 				// ▼ 문제점 ----------------------------------------------
 
@@ -377,8 +378,10 @@
 											+ feedDate
 											+ '&nbsp;&nbsp;'
 											+ '<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent + '</a>' + '</p>'
-						                    + imageUrl
+											+ imageUrl
 											+ '<hr>'
+											
+											+ '<input type="hidden" id="likeId" value="${likevo.likeId}">'
 											
 											+ '<div class="like_item">'
 											+ '좋아요' 
@@ -393,12 +396,40 @@
 											+ '</div>'
 											+ '</div>';
 											
-											$('#feeds').html(list);
 									});// end data.funchion;
+										$('#feeds').html(list);
+										likecheck(likeId);
 									
 							}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
+				
+				function likecheck(likeId) {
+					const userId = $('#userId').html();
+					var feedId = $('#feedId').val();
+					
+					console.log('유저 아이디 :  ' + userId + ', 피드 번호 : ' + feedId);
+					
+					var obj = {
+							'userId' : userId,
+							'feedId' : feedId
+						}
+					
+					$.ajax({
+						type : 'GET',
+						url : '../likes/check',
+						data : obj,
+						success : function(result) {
+							if(result == 1) {
+								$('.btn_like').addClass('liked');
+							} else {
+								$('.btn_like').removeClass('liked');
+							}
+						}
+					});//end ajax
+					
+					
+				}// end likecheck
 							
 			}); // end ready();
 	</script>

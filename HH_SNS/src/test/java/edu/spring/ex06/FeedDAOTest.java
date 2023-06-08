@@ -63,7 +63,7 @@ public class FeedDAOTest {
 			return;
 		}
 
-		FeedVO feedvo = new FeedVO(0, "시간확인", uservo.getUserId(), uservo.getUserNickname(), uservo.getUserProfile(), 0, 0, null, "음악제목", "X");
+		FeedVO feedvo = new FeedVO(0, "시간확인", uservo.getUserId(), uservo.getUserNickname(), uservo.getUserProfile(), 0, 0, null, "X");
 
 
 
@@ -128,7 +128,7 @@ public class FeedDAOTest {
 			return;
 		}
 
-		FeedVO vo = new FeedVO(6, null, null, null, null, 0, 0, null, null, null);
+		FeedVO vo = new FeedVO(6, null, null, null, null, 0, 0, null, null);
 
 
 		int result = feeddao.delete(11);

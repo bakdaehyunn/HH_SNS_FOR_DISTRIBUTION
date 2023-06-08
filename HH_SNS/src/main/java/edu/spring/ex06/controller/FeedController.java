@@ -89,6 +89,13 @@ public class FeedController {
 		FeedVO feedvo = new FeedVO();
 		int likeCount = feedvo.getLikeCount();
 		model.addAttribute("likeCount", likeCount);
+		
+		int feedId = feedvo.getFeedId();
+		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
+		for(LikeInfoVO likevo : list) {
+			logger.info(likevo.toString());
+			model.addAttribute("likevo", likevo);
+		}
 
 	}
 
