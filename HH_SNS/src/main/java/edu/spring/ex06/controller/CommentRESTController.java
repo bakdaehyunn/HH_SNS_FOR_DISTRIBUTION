@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,6 +77,33 @@ public class CommentRESTController {
 		List<CommentInfoVO> list = commentService.read_all(replyId);
 		logger.info("---------------------------------------------------------------");
 		return new ResponseEntity<List<CommentInfoVO>>(list, HttpStatus.OK);
+	}
+	
+	@PutMapping("/{commentId}") // PUT : 댓글 수정
+	public ResponseEntity<Integer> updateComment(
+			@PathVariable("commentId") int commentId,
+			@RequestBody String commentContent
+			// front에서 json으로 데이터를 가져온다는뜻
+			){
+		int result = commentService.update(commentId, commentContent);
+		logger.info("---------------------------------------------------------------");
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{commentId}") // DELETE
+	public ResponseEntity<Integer> deleteFeeds(
+			@PathVariable("commentId") int commentId) {
+		logger.info("commentId = " + commentId);
+		
+		int result = 0; // 예외처리
+		try {
+			result = commentService.delete(commentId);
+			logger.info("---------------------------------------------------------------");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 	
 	@GetMapping("/display")

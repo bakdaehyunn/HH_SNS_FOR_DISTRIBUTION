@@ -63,25 +63,14 @@
 	clear: left;
 }
 
-.comment_item {
-	display: flex;
-	clear: left;
-	margin: 20px;
-}
-
-.comment_item hr {
-	flex-grow: 1;
-	border: none;
-	border-top: 1px solid #000;
-	margin: auto 10px;
-}
-
 .btn_comment {
 	border: none;
 	color: #6164c9;
 	cursor: pointer;
 	display: flex;
 	justify-content: flex-start;
+	height: 30px;
+    margin-left: 10px;
 }
 
 </style>
@@ -400,65 +389,74 @@
 		
 	// 대댓글 작성 하는게 만들어져야한다. = (#replies)comments
 		var list = '';
-		if(userId != '') {
+	
+		if(userId == null) {
 			list += '<div class="comment_item">'
-				+ '<input style="margin-right: 30px;" id="commentContent">'
-				+ '<input style="height: 30px;" type="submit" class="btn_add_comment" value="등록">'
-				+ '<div id="check_comment" style="display: none;"></div>'
-				+ '<br>'
-				+ '<hr>'
-				+ '<br>'
-				+ '<div class="commentList"></div>'
-				+ '</div>';
+			    + '<div style="display: flex;">'
+			    + '<input style="height: 100px; width: 300px;" id="commentContent">'
+			    + '<input style="height: 30px; margin-left: 10px;" type="submit" class="btn_add_comment" value="등록">'
+			    + '</div>'
+			    + '<div id="check_comment" style="display: none;"></div>'
+			    + '<hr style="border-top: 1px solid #ccc; margin: 10px 0;">'
+			    + '<div style="float: left; margin-left: 10px;" class="commentList"></div>'
+			    + '</div>';
 		} else {
 			list += '<div class="comment_item">'
-					+ '<input type="hidden" id="commentId" value="1">'
-					+ '<input type="hidden" id="replyId" value="' + replyId + '">'
-					+ '<br>'
-					+ '<div><a href="../feed/mylist?userId=' + userId + '">' + '<img style="margin-right: 10px;" width="80px" height="80px" src="display?fileName=' + userProfile + '" /></a>'
-					+ '<br>'
-					+ '<a href="../feed/mylist?userId=' + userId + '">' + '<b>@'+ userId +"(" + userNickname + ")" + '</b></a>'
-					+ '</div>'
-					+ '&nbsp;&nbsp;'
-					+ '<input style="margin-right: 30px;" id="commentContent">'
-					+ '<input style="height: 30px;" type="submit" class="btn_add_comment" value="등록">'
-					+ '<div id="check_comment" style="display: none;"></div>'
-					+ '<br>'
-					+ '<hr>'
-					+ '<br>'
-					+ '<div class="commentList"></div>'
-					+ '</div>';
+			    + '<input type="hidden" id="commentId" value="1">'
+			    + '<input type="hidden" id="replyId" value="' + replyId + '">'
+			    + '<br>'
+			    + '<div><a href="../feed/mylist?userId=' + userId + '">' + '<img style="margin-right: 10px;" width="80px" height="80px" src="display?fileName=' + userProfile + '" /></a>'
+			    + '<br>'
+			    + '<a href="../feed/mylist?userId=' + userId + '">' + '<b>@'+ userId +"(" + userNickname + ")" + '</b></a>'
+			    + '</div>'
+			    + '&nbsp;&nbsp;'
+			    + '<input style="height: 100px; width: 300px;" id="commentContent">'
+			    + '<input style="height: 30px; margin-left: 10px;" type="submit" class="btn_add_comment" value="등록">'
+			    + '</div>'
+			    + '<div id="check_comment" style="display: none;">'
+			    + '</div>'
+			    + '<hr style="border-top: 1px solid #ccc; margin: 10px 0;">'
+			    + '<div style="float: left; margin-left: 10px;" class="commentList">'
+			    + '</div>';
 		}
 				
-		var commentsType = $('.comments').attr('type');
-		console.log(commentsType);
-		
-	
 		//console.log('멍 : ' + commentList.val());
 		
+		$(document).on('click', '#commentContent', showAlert);
+
+		function showAlert() {
+			if(userId == null) {
+			    alert('로그인을 해주세요.');
+			    return;
+			}
+		}
+		
 	// '답글'을 눌렀을 때 펼쳐져야한다.
+		var commentsType = $('.comments').attr('type');
+		console.log(commentsType);
 	
 		if(commentsType == 'hidden') {
 			comments.html(list).show();
-			$('.commentList').addClass('asd');
 			$('.comments').attr('type', 'visible');
-			//$('.asd').text('뜬다');
-			
-			 getAllComment(replyId);
+			getAllComment(replyId);
 			console.log('펼친다.');
-		} else {
+			
+//			$('.commentList').addClass('addList');
+		} else if(commentsType == 'visible') {
 			comments.hide();
-			console.log('접는다.');
-			$('.commentList').removeClass('asd');
 			$('.comments').attr('type', 'hidden');
+			console.log('접는다.');
+			
+//			$('.commentList').removeClass('addList');
 		}
 	});// end on.click
-	
-	
 	
 	function getAllComment(replyId) {
 	    console.log('★ : ' + replyId);
 	    var commentList = '';
+	    
+	    const userId = $("#userId").val();
+	    console.log('♣ : ' + userId);
 	// 대댓글이 작성 된 댓글의 replyId값과 같은 replyId의 값을 가진 대댓글의 리스트가 보여야한다. = commentList
 	    var url = '../comments/all/' + replyId;
 	    $.getJSON(
@@ -469,33 +467,42 @@
 					$(data).each(function() {
 						console.log(this);
 						
-	// '답글'을 눌렀을 때 다른 '답글'을 눌러도 해당하는 replyId값과 일치하는 데이터만 보여야한다.
-						commentList += '<div class="commentlist_item">'
-							+ '<input type="hidden" id="replyId" value="' + this.replyId + '">'
-							+ '<br>'
-							+ '<div><a href="../feed/mylist?userId=' + this.userId + '">' 
-							+ '<img style="margin-right: 10px;" width="80px" height="80px" src="display?fileName=' + this.userProfile + '" /></a>'
-							+ '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@'+ this.userId +"(" + this.userNickname + ")" + '</b></a>'
-							+ '</div>'
-							+ '&nbsp;&nbsp;'
-							+ '<div id="commentContent" contentEditable="true">' + this.commentContent + '</div>'
-							+ '</div>';
-						//	 s="나는 성공한다.";
-							//var asd=$('.commentList .asd');
-							//$('.commentList .asd').text('asd');
+						var disabled = 'disabled';
+						var readonly = 'readonly';
+						if(userId == this.userId) { 
+							disabled = '';
+							readonly = '';
+						}
+						
+						console.log(replyId + ' == ' + this.replyId + ' : 일치?');
+						
+						if(replyId == this.replyId) {
+		// '답글'을 눌렀을 때 다른 '답글'을 눌러도 해당하는 replyId값과 일치하는 데이터만 보여야한다.
+							commentList += '<div class="commentlist_item">'
+							    + '<input type="hidden" id="replyId" value="' + this.replyId + '">'
+							    + '<input type="hidden" id="commentId" value="' + this.commentId + '">'
+							    + '<br>'
+							    + '<div><a href="../feed/mylist?userId=' + this.userId + '">' 
+							    + '<img style="margin-right: 10px;" width="80px" height="80px" src="display?fileName=' + this.userProfile + '" /></a>'
+							    + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@'+ this.userId +"(" + this.userNickname + ")" + '</b></a>'
+							    + '</div>'
+							    + '<div style="display: flex; align-items: center;">'
+							    + '<div style="text-align: left; width: auto; min-width: 200px;" id="commentContent" contentEditable="true">' + this.commentContent + '</div>'
+							    + '<button class="btn_update_comment" ' + disabled + '>수정</button>'
+							    + '<button class="btn_delete_comment" ' + disabled + '>삭제</button>'
+							    + '</div>'
+							    + '</div>'
+							    + '<hr>';
+						}
 						
 				});// end data.funchion;
-					$('.asd').html(commentList);
+					$('.commentList').html(commentList);
 					//$('.asd').show();
-					$('.commentList').removeClass('asd');
+					//$('.commentList').removeClass('addList');
+					
 			}//end function(data);
-			
 		);// end getJSON();
-		
-	   
 	}
-
-	
 	
 	$(document).on('click', '.btn_add_comment', function() {
 	    var btn = $(this);
@@ -531,14 +538,14 @@
 		}
 	    
 	    var commentList = $(this).nextAll('.commentList');
-		commentList.addClass('asd');
-		console.log(commentList.hasClass('asd'));
-		if (commentList.hasClass('asd')) {
-		    console.log('된다');
-		} else {
-		    console.log('안된다');
-		    return;
-		}
+		//commentList.addClass('addList');
+		//console.log(commentList.hasClass('addList'));
+		//if (commentList.hasClass('addList')) {
+		    //console.log('된다');
+		//} else {
+		    //console.log('안된다');
+		    //return;
+		//}
 		
 		$.ajax({
 			type : 'POST',
@@ -551,9 +558,7 @@
 				console.log(result);
 				if (result == 1) {
 					console.log('★ 대댓글 등록 성공');
-					// 작성 = btn_add_comment 을 눌렀을 때 getAllComment에서 $('.commentList').html로 바로 출력해야한다. 
-					commentList.addClass('asd');
-					$('.asd').text('된다');
+					// 작성 = btn_add_comment 을 눌렀을 때 getAllComment에서 $('.commentList').html로 바로 출력해야한다.
 					getAllComment(replyId);
 					
 				} else {
@@ -562,6 +567,52 @@
 			}
 		});//end ajax
 	});// btn_add_comment.click
+	
+	$(document).on('click', '.btn_update_comment', function() {
+	    var commentId = $(this).closest('.commentlist_item').find('#commentId').val();
+	    var commentContent = $(this).closest('.commentlist_item').find('#commentContent').text();
+	    console.log('★ : ' + commentId + ', ' + commentContent);
+	    
+	    $.ajax({
+			type : 'PUT', 
+			url : '../comments/' + commentId,
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			data : commentContent, 
+			success : function(result) {
+				console.log(result);
+				if(result == 1) {
+					console.log('★ 대댓글 수정 완료');
+				} else {
+					console.log('★ 대댓글 수정 실패');
+				}
+			}
+		});// end ajax
+	    
+	});// btn_update_comment.click
+	
+	$(document).on('click', '.btn_delete_comment', function() {
+		console.log(this);
+		
+		 var commentId = $(this).closest('.commentlist_item').find('#commentId').val();
+		 var replyId = $(this).closest('.commentlist_item').find('#replyId').val();
+		 console.log('★ : ' + commentId + ', ' + replyId);
+		
+		$.ajax({
+			type : 'DELETE', 
+			url : '../comments/' + commentId,
+			headers : {'Content-Type' : 'application/json' },
+			success : function(result) {
+				console.log(result);
+				if(result == 1) {
+					console.log('★ 대댓글 삭제 성공');
+					getAllComment(replyId);
+				}
+			}
+		});
+		
+	});// btn_delete_comment.click
 		
 	//--------------------------좋아요 파트-------------------------------------
 	var likeCnt = parseInt($('#likeCount').val());
