@@ -500,7 +500,7 @@
 				});
 				$('#feedContent').on('blur',function(){
 					$('#feedTagList').hide();
-					
+					 
 				});
 				$('#feedContent').on('focus',function(){
 					var feedContent =$(this).text();
@@ -510,7 +510,6 @@
 					}else{
 						console.log('클릭 시 태그 상황 아님');
 					};
-					
 					
 				});
 			}); // end ready();
