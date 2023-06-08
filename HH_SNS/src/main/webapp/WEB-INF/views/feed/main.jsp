@@ -168,7 +168,7 @@
 		
 		<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 		<br>
-		<div id ="feedTagList" style="position: absolute; background-color: white;  height:100px;  width : 700px;"></div>
+		<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>
 		</div>
 		
 		<form id="uploadForm" enctype="multipart/form-data">
@@ -471,8 +471,10 @@
 											+'</div>'
 											+'<hr>';
 										})
+										
 										$('#feedTagList').html(list);
 									}
+									$('#feedTagList').show();
 								}
 								
 							});// ajax()
@@ -490,7 +492,8 @@
 					} // if else 문 끝
 				});// input 이벤트
 				
-				$('#feedTagList').on('click', '.tag_item', function(){
+				$('#feedTagList').on('mousedown', '.tag_item', function(e){
+					e.preventDefault();
 					var feedContent =$('#feedContent').html();
 					var pos = feedContent.lastIndexOf('@');
 					console.log('위치: '+pos);
@@ -500,11 +503,24 @@
 					list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
 					$('#feedContent').html(list);
 					$('#feedTagList').text('');
+					$('#feedTagList').hide();
 					onTag=false;
 				});
-			//	$('#feedContent').on('blur',function(){
-					//$('#feedTagList').text('');
-				//});
+				$('#feedContent').on('blur',function(){
+					$('#feedTagList').hide();
+					
+				});
+				$('#feedContent').on('focus',function(){
+					var feedContent =$(this).text();
+					if((feedContent =='@')||feedContent.substr(-2) == ' @'||feedContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(feedContent.substr(-1).trim().length == 0) )){
+						console.log('클릭 시 태그 상황 맞음');
+						$('#feedTagList').show();
+					}else{
+						console.log('클릭 시 태그 상황 아님');
+					};
+					
+					
+				});
 			}); // end ready();
 	</script>
 
