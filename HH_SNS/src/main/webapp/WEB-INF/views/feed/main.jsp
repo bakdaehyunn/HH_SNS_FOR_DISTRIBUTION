@@ -371,13 +371,15 @@
 											
 											list += '<div class="div_post">'
 											+ '<div class="post_item">'
+											+ '<div class="post_tag" onclick="handleClick(\'' + this.feedId + '\')">'
 											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
 											+ '<p id="userId">' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' +'</a>' + '</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'
-											+ '<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent + '</a>' + '</p>'
+											+ '<p class="feedContent">' + this.feedContent + '</p>'
 											+ imageUrl
+											+ '</div>'
 											+ '<hr>'
 											
 											+ '<div class="like_item">'
@@ -398,6 +400,16 @@
 							}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
+				
+				function handleClick(feedId) {
+				    var url = '../feed/detail?feedId=' + feedId;
+				    window.location.href = url;
+				}
+				
+				$(document).on('click', '.post_tag.clickable', function() {
+				    var feedId = $(this).data('feedId');
+				    handleClick(feedId);
+				});
 				
 				function likecheck(likeId) {
 					const userId = $('#userId').html();

@@ -164,6 +164,7 @@
 	<input type="hidden" id="feedId" value="1">
 
 	<h1><a href="../feed/main">H&H</a></h1> <br>
+	<a style="cursor: pointer;"></a>
 	
 	<!-- 
 	not empty: 변수가 null이 아니고 값이 비어있지 않은 경우 참을 반환합니다.
