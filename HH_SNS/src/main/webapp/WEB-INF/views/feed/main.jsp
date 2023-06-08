@@ -201,6 +201,7 @@
 		<div id="feeds">
 		</div>
 	</div>
+	
 
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장
 	<input type="hidden" id="insertAlert" value="${insert_result }">
@@ -215,7 +216,7 @@
 		$(document).ready(function() {
 			
 			getAllMain();
-			likecheck();
+			likecheck(feedId);
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -336,14 +337,14 @@
 					function getAllMain() {
 						var feedId = $('#feedId').val();
 						console.log('♣ : ' + feedId);
+						const userId = document.getElementById("userId").textContent;
+						console.log(userId);
 
 						var url = '../feeds/all/' + feedId;
 							$.getJSON(
 								url,
 								function(data) {
 									console.log(data);
-									const userId = document.getElementById("userId").textContent;
-									console.log(userId);
 									var list = '';
 										$(data).each(function() {
 											console.log(this);
@@ -379,8 +380,6 @@
 											+ imageUrl
 											+ '<hr>'
 											
-											+ '<input type="hidden" id="likeId" value="${likevo.likeId}">'
-											
 											+ '<div class="like_item">'
 											+ '좋아요' 
 											+ this.likeCount + '개' 
@@ -396,8 +395,6 @@
 											
 									});// end data.funchion;
 										$('#feeds').html(list);
-										likecheck(likeId);
-									
 							}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
@@ -446,7 +443,6 @@
 						var followingUserId = feedContent.substr(pos+1);
 						if(!followingUserId){
 							console.log('아이디값 아직 없음');
-							
 						}
 						else{
 							console.log('아이디값 있음');
@@ -479,10 +475,6 @@
 								
 							});// ajax()
 						}
-						
-						
-						
-						
 						
 					}else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || onTag===false ){
 						$('#feedTagList').text('');

@@ -77,7 +77,7 @@ public class FeedController {
 	@GetMapping("/main")
 	public void mainGET(Model model, HttpServletRequest request,String userId) {
 		logger.info("★ FeedControllerGET 호출");
-		logger.info("asdfsdafsdafasfdsdafsadfsadfsdafsadfsdaf"+userId);
+		logger.info("유저 아이디 : " + userId);
 		// 로그인 필요 X
 		HttpSession session = request.getSession();
 		if (session.getAttribute("userId") != null) {

@@ -60,6 +60,15 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 	}
 	
 //	-----------------------------------------------------------
+	
+	@Override
+	public List<LikeInfoVO> select_check_all_Id(String userId) {
+		logger.info("★ LikeInfoDAOImple 좋아요 체크 유저 아이디 : " + userId );
+		return sqlSession.selectList(NAMESPACE + ".select_check_all_userid", userId);
+	}
+	
+//	-----------------------------------------------------------
+
 
 	@Override
 	public List<LikeInfoVO> select_all(int feedId) {
