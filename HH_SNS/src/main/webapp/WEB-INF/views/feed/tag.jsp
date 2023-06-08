@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div id="feedContent" class="editable" contenteditable="true"></div>
-	<div id ="feedHashtagList" style="position: relative;"></div>
+	<div id ="feedTagList" style="position: relative;"></div>
 		</div>
 	
 	
@@ -17,14 +17,14 @@
 		var s=false;
 		$('#feedContent').on('input',function(){
 			var feedContent =$(this).text();
-			var feedHashtagList = $('#feedHashtagList');
+			var feedTagList = $('#feedTagList');
 			console.log(feedContent);
 			
 			console.log('첫번째 글자 : '+ feedContent.length);
 			if((feedContent =='@')||feedContent.substr(-2) == ' @'|| (s===true&&!(feedContent.substr(-1).trim().length == 0) )){
 				console.log('태그시작');
 				var pos = feedContent.lastIndexOf('@');
-				console.log('위치: '+(pos+1));
+				console.log('위치: '+(pos));
 				s=true;
 				var followingUserId = feedContent.substr(pos+1);
 				if(!followingUserId){
@@ -44,7 +44,14 @@
 							var list = '';
 							$(data).each(function(){
 								console.log(this);
+								list += '<div class="tag_item">'
+								+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+								+'@'+this.userId +'('+this.userNickname+')'
+								+'<input type="hidden" class="userId" value="'+this.userId+'">'
+								+'</div>'
+								+'<hr>';
 							})
+							$('#feedTagList').html(list);
 						}
 						
 					});// ajax()
@@ -53,14 +60,25 @@
 				
 				
 				
-				$('#feedHashtagList').append('aasdasd <br>');
+				
 			}else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || s===false ){
-				$('#feedHashtagList').text('');
+				$('#feedTagList').text('');
 				console.log('태그아님');
 				s=false;
 				
 			} // if else 문 끝
 		});// input 이벤트
+		
+		$('#feedTagList').on('click', '.tag_item', function(){
+			var feedContent =$('#feedContent').text();
+			var pos = feedContent.lastIndexOf('@');
+			console.log('위치: '+pos);
+			var list = feedContent.substr(0,pos);
+			
+			var userId = $(this).find('.userId').val();
+			list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>'
+			$('#feedContent').html(list);
+		});
 	</script>
 </body>
 </html>
