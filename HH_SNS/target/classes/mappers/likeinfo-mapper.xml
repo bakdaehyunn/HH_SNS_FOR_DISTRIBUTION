@@ -35,6 +35,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	select count(*) from ${like_info} where ${userId} = #{userId} and ${feedId} = #{feedId}
 	 </select>
 	 
+	 <select id="select_check_all_userid" resultType="LikeInfoVO">
+	 	select * from ${like_info}
+		where ${userId} = #{userId}
+	 </select>
+	 
 	 <select id="select_all_id" resultType="FeedVO">
 		select f. * from ${feed} f
 		join ${like_info} l on f.${feedId} = l.${feedId} where l.${userId} = #{userId} 

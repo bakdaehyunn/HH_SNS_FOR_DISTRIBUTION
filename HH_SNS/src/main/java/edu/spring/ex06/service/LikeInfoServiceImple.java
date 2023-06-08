@@ -64,6 +64,12 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		logger.info("★ LikeServiceImple 좋아요 중복체크 : " + userId + ", " + feedId);
 		return likeDAO.select_check(userId, feedId);
 	}
+	
+	@Override
+	public List<LikeInfoVO> read_check_all_id(String userId) {
+		logger.info("★ LikeServiceImple 좋아요 아이디 확인 : " + userId);
+		return likeDAO.select_check_all_Id(userId);
+	}
 
 	@Override
 	public List<LikeInfoVO> read_all(int feedId) {
@@ -97,6 +103,7 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		
 		return 1;
 	}
+
 
 
 }

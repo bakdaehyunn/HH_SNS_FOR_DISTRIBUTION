@@ -203,6 +203,7 @@
 		<div id="feeds">
 		</div>
 	</div>
+	
 
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장
 	<input type="hidden" id="insertAlert" value="${insert_result }">
@@ -217,7 +218,7 @@
 		$(document).ready(function() {
 			
 			getAllMain();
-			likecheck();
+			likecheck(feedId);
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -338,14 +339,14 @@
 					function getAllMain() {
 						var feedId = $('#feedId').val();
 						console.log('♣ : ' + feedId);
+						const userId = document.getElementById("userId").textContent;
+						console.log(userId);
 
 						var url = '../feeds/all/' + feedId;
 							$.getJSON(
 								url,
 								function(data) {
 									console.log(data);
-									const userId = document.getElementById("userId").textContent;
-									console.log(userId);
 									var list = '';
 										$(data).each(function() {
 											console.log(this);
@@ -381,8 +382,6 @@
 											+ imageUrl
 											+ '<hr>'
 											
-											+ '<input type="hidden" id="likeId" value="${likevo.likeId}">'
-											
 											+ '<div class="like_item">'
 											+ '좋아요' 
 											+ this.likeCount + '개' 
@@ -398,40 +397,11 @@
 											
 									});// end data.funchion;
 										$('#feeds').html(list);
-										likecheck(likeId);
-									
 							}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
-				
-				function likecheck(likeId) {
-					const userId = $('#userId').html();
-					var feedId = $('#feedId').val();
-					
-					console.log('유저 아이디 :  ' + userId + ', 피드 번호 : ' + feedId);
-					
-					var obj = {
-							'userId' : userId,
-							'feedId' : feedId
-						}
-					
-					$.ajax({
-						type : 'GET',
-						url : '../likes/check',
-						data : obj,
-						success : function(result) {
-							if(result == 1) {
-								$('.btn_like').addClass('liked');
-							} else {
-								$('.btn_like').removeClass('liked');
-							}
-						}
-					});//end ajax
-					
-					
-				}// end likecheck
 							
-			}); // end ready();
+		}); // end ready();
 	</script>
 
 

@@ -9,6 +9,7 @@ public interface LikeInfoDAO {
 	LikeInfoVO select(int likeId);
 	LikeInfoVO select_feedId(int feedId);
 	int select_check(String userId, int feedId);
+	List<LikeInfoVO> select_check_all_Id(String userId);
 	List<LikeInfoVO> select_all(int feedId);
 	List<LikeInfoVO> select_all_Id(String userId);
 	int delete(int likeId);

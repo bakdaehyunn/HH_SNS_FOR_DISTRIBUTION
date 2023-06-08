@@ -415,9 +415,7 @@
 				  }
 				
 				preview.append(img);
-				
-				
-				
+	
 			})
 			
 			$('#preview').prop('contentEditable', false);

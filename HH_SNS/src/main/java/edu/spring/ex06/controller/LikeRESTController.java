@@ -3,8 +3,6 @@ package edu.spring.ex06.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,10 +85,16 @@ public class LikeRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 	
-//	@GetMapping("/check/{userId}")
-//	public ResponseEntity<List<LikeInfoVO>> read_check_userId(
-//			return new 
-//	)
+	@GetMapping("/check/{userId}")
+	public ResponseEntity<List<LikeInfoVO>> read_check_userId(
+					@PathVariable("userId") String userId) {
+		logger.info("★ LikeRESTController 유저아이디로 검색 : " + userId);
+		
+		List<LikeInfoVO> list = likeInfoService.read_check_all_id(userId);
+		logger.info("♥ 아이디 기준 총 정보 : " + list.size());
+		logger.info("---------------------------------------------------------------");
+		return new ResponseEntity<List<LikeInfoVO>>(list, HttpStatus.OK);
+	}
 	
 	@DeleteMapping("/{likeId}") // DELETE
 	public ResponseEntity<Integer> deleteLike(
