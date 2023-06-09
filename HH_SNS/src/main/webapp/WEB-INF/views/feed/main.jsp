@@ -201,7 +201,10 @@
 		<div id="feeds">
 		</div>
 	</div>
-
+	
+	<c:forEach var="likevo" items="${list}">
+		<input type="hidden" id="likefeedId" value=${likevo.feedId }>	
+	</c:forEach>
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장
 	<input type="hidden" id="insertAlert" value="${insert_result }">
 	 -->
@@ -381,8 +384,6 @@
 											+ '</div>'
 											+ '<hr>'
 											
-											+ '<input type="hidden" id="likefeedId" value=${likevo.feedId }>'
-											
 											+ '<div class="like_item">'
 											+ '좋아요' 
 											+ this.likeCount + '개' 
@@ -415,27 +416,23 @@
 				function likecheck() {
 					  const userId = document.getElementById("userId").textContent;
 					  
-					  var likefeedId = $('#likefeedId').val();
-					  console.log('＆ : ' + likefeedId);
+					  var url = '../likes/check/' + userId;
+						$.getJSON(
+							url,
+							function(data) {
+								console.log(data);
+									$(data).each(function() {
+										console.log('☎ : ' + this.feedId);		
+										var search = document.getElementsByClassName('like_item');
+										var feedId = $(search[0]).prevAll('#feedId').val();
+										console.log('♡ : ' + feedId);
+										
+								});// end data.funchion;
+							}//end function(data);
+						);// end getJSON();
 					  
-					  $.ajax({
-					    type: 'GET',
-					    url: '../likes/check/' + userId,
-					    success: function(data) {
-					      console.log(data);
-					      if (data.length > 0) {
-					        data.forEach(function(item) {
-					          console.log('＊');
-					          console.log(item.feedId);
-					          console.log(likefeedId);
-					          if (item.feedId != '') {
-					            $('.btn_like').addClass('liked');
-					          }
-					        });
-					      }
-					    }
-					  });
-					}
+					  
+					}// end likecheck()
 				
 				// ************** 태그 관련 ***************
 				var onTag=false;

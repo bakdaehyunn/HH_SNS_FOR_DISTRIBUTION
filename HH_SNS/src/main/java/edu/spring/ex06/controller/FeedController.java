@@ -149,10 +149,7 @@ public class FeedController {
 		logger.info("피드 정보 : " + feedvo);
 		
 		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
-		for(LikeInfoVO likevo : list) {
-			logger.info(likevo.toString());
-			model.addAttribute("likevo", likevo);
-		}
+		model.addAttribute("list", list);
 		
 	}
 

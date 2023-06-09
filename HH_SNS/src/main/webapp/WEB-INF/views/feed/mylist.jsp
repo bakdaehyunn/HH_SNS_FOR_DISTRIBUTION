@@ -589,7 +589,7 @@
 							list += '<br>'
 								+ '<div class="div_post">'
 								+ '<div class="post_item">'
-								
+								+ '<div style="cursor: pointer;" class="post_tag clickable" data-feedId="' + this.feedId + '">'
 								+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 								+ '<p>' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</p>'
 								+ '<p>' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
@@ -597,6 +597,7 @@
 								+ '&nbsp;&nbsp;'
 								+'<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
 								+ imageUrl
+								+ '</div>'
 								+ '<hr>'
 								
 								+ '<div class="like_item">'
@@ -621,6 +622,17 @@
 				}// end data
 			);// end getJSON();
 		}// end getAllHeart();
+		
+		function detailClick(feedId) {
+		    var url = '../feed/detail?feedId=' + feedId;
+		    window.location.href = url;
+		}
+		
+		$(document).on('click', '.post_tag.clickable', function() {
+		    var feedId = $(this).data('feedid');
+		    detailClick(feedId);
+		});
+		
 		var onTag=false;
 		$('#feedContent').on('input',function(){
 			var feedContent =$(this).text();
