@@ -164,7 +164,6 @@
 	<input type="hidden" id="feedId" value="1">
 
 	<h1><a href="../feed/main">H&H</a></h1> <br>
-	<a style="cursor: pointer;"></a>
 	
 	<!-- 
 	not empty: 변수가 null이 아니고 값이 비어있지 않은 경우 참을 반환합니다.
@@ -255,6 +254,7 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
+			
 			var followerCnt =parseInt($('#followerCntValue').val());
 			console.log('followercnt ' + followerCnt);
 			followcheck();
@@ -509,13 +509,15 @@
 									list += '<br>'
 									+ '<div class="div_post">'
 									+ '<div class="post_item">'
+									+ '<div style="cursor: pointer;" class="post_tag clickable" data-feedId="' + this.feedId + '">'
 									+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 									+ '<p>' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</p>'
 									+ '<p>' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
 									+ feedDate
 									+ '&nbsp;&nbsp;'
-									+'<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
+									+'<p class="feedContent">' + this.feedContent +'</p>'
 									+ imageUrl
+									+ '</div>'
 									+ '<hr>'
 									
 									+ '<div class="like_item">'
@@ -541,6 +543,16 @@
 				}//end function(data);
 			);// end getJSON();
 		}// end getAllList();
+		
+		function detailClick(feedId) {
+		    var url = '../feed/detail?feedId=' + feedId;
+		    window.location.href = url;
+		}
+		
+		$(document).on('click', '.post_tag.clickable', function() {
+		    var feedId = $(this).data('feedid');
+		    detailClick(feedId);
+		});
 		
 		function getAllHeart() {
 			//var likeId = $('#likeId').val();

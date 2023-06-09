@@ -201,7 +201,6 @@
 		<div id="feeds">
 		</div>
 	</div>
-	
 
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장
 	<input type="hidden" id="insertAlert" value="${insert_result }">
@@ -216,7 +215,7 @@
 		$(document).ready(function() {
 			
 			getAllMain();
-			likecheck(feedId);
+			likecheck();
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -371,16 +370,18 @@
 											
 											list += '<div class="div_post">'
 											+ '<div class="post_item">'
-											+ '<div class="post_tag" onclick="handleClick(\'' + this.feedId + '\')">'
+											+ '<div style="cursor: pointer;" class="post_tag clickable" data-feedId="' + this.feedId + '">'
 											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
-											+ '<p id="userId">' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' +'</a>' + '</p>'
+											+ '<p id="userId">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'
 											+ '<p class="feedContent">' + this.feedContent + '</p>'
 											+ imageUrl
 											+ '</div>'
 											+ '<hr>'
+											
+											+ '<input type="hidden" id="likefeedId" value=${likevo.feedId }>'
 											
 											+ '<div class="like_item">'
 											+ '좋아요' 
@@ -401,42 +402,40 @@
 					);// end getJSON();
 				}// end getAllMain();
 				
-				function handleClick(feedId) {
+				function detailClick(feedId) {
 				    var url = '../feed/detail?feedId=' + feedId;
 				    window.location.href = url;
 				}
 				
 				$(document).on('click', '.post_tag.clickable', function() {
-				    var feedId = $(this).data('feedId');
-				    handleClick(feedId);
+				    var feedId = $(this).data('feedid');
+				    detailClick(feedId);
 				});
 				
-				function likecheck(likeId) {
-					const userId = $('#userId').html();
-					var feedId = $('#feedId').val();
-					
-					console.log('유저 아이디 :  ' + userId + ', 피드 번호 : ' + feedId);
-					
-					var obj = {
-							'userId' : userId,
-							'feedId' : feedId
-						}
-					
-					$.ajax({
-						type : 'GET',
-						url : '../likes/check',
-						data : obj,
-						success : function(result) {
-							if(result == 1) {
-								$('.btn_like').addClass('liked');
-							} else {
-								$('.btn_like').removeClass('liked');
-							}
-						}
-					});//end ajax
-					
-					
-				}// end likecheck
+				function likecheck() {
+					  const userId = document.getElementById("userId").textContent;
+					  
+					  var likefeedId = $('#likefeedId').val();
+					  console.log('＆ : ' + likefeedId);
+					  
+					  $.ajax({
+					    type: 'GET',
+					    url: '../likes/check/' + userId,
+					    success: function(data) {
+					      console.log(data);
+					      if (data.length > 0) {
+					        data.forEach(function(item) {
+					          console.log('＊');
+					          console.log(item.feedId);
+					          console.log(likefeedId);
+					          if (item.feedId == likefeedId) {
+					            $('.btn_like').addClass('liked');
+					          }
+					        });
+					      }
+					    }
+					  });
+					}
 				
 				// ************** 태그 관련 ***************
 				var onTag=false;
