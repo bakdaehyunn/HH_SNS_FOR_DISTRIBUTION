@@ -587,19 +587,20 @@
 			    + '</div>'
 			    + '&nbsp;&nbsp;'
 			    //+ '<input style="height: 100px; width: 300px;" id="commentContent">'
-			    + '<div id="commentContent" contentEditable="true" style="height: 100px; width: 300px;" >'
+			    + '<div class="commentContent" contentEditable="true" style="display: inline-block; height: 100px; width: 300px;" ></div>'
 			    + '<input style="height: 30px; margin-left: 10px;" type="submit" class="btn_add_comment" value="등록">'
-			    + '</div>'
+			 	+ '<div class ="commentTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>'
 			    + '<div id="check_comment" style="display: none;">'
 			    + '</div>'
 			    + '<hr style="border-top: 1px solid #ccc; margin: 10px 0;">'
 			    + '<div style="float: left; margin-left: 10px;" class="commentList">'
 			    + '</div>';
+			    + '</div>';
 		}
 				
 		//console.log('멍 : ' + commentList.val());
 		
-		$(document).on('click', '#commentContent', showAlert);
+		$(document).on('click', '.commentContent', showAlert);
 
 		function showAlert() {
 			if(userId == null) {
@@ -689,7 +690,7 @@
 		const userId = $("#userId").val();
 		var userProfile = $('#userProfile').val();;
 		var userNickname = $('#userNickname').val();
-		var commentContent = $(this).prevAll('#commentContent').val();
+		var commentContent = $(this).prevAll('.commentContent').val();
 		
 		console.log('댓글 번호 : ' + replyId + ', 유저 아이디 : ' + userId + ', 대댓글 내용 : ' + commentContent + ', 유저 닉네임 : ' + userNickname + ', 유저 프로필 : ' + userProfile);
 		
@@ -790,7 +791,94 @@
 		});
 		
 	});// btn_delete_comment.click
+	
+	var onTag=false;
+	$(document).on('input','.commentContent',function(){
+		var commentContent =$(this).text();
+		var commentTagList = $('.commentTagList');
+		console.log(commentContent);
 		
+		
+		console.log('첫번째 글자 : '+ commentContent.length);
+		if((commentContent =='@')||commentContent.substr(-2) == ' @'||commentContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(commentContent.substr(-1).trim().length == 0) )){
+			console.log('태그시작');
+			var pos = commentContent.lastIndexOf('@');
+			console.log('위치: '+(pos));
+			onTag=true;
+			var followingUserId = commentContent.substr(pos+1);
+			if(!followingUserId){
+				console.log('아이디값 아직 없음');
+				commentTagList.html('');
+				commentTagList.hide();
+			}
+			else{
+				console.log('아이디값 있음');
+				console.log('followingUserId:' + followingUserId);
+				$.ajax({
+					type: 'GET',
+					url : '../feeds/tagList/'+followingUserId,
+					hdeaders : {
+						'Content-Type' : 'application/json'
+					},
+					success: function(data){
+						var list = '';
+						if(data==''){
+							commentTagList.html(followingUserId+'에 대한 검색 결과가 없습니다.');
+						}else{
+							$(data).each(function(){
+								console.log(this);
+								list += '<div class="tag_item">'
+								+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+								+'@'+this.userId +'('+this.userNickname+')'
+								+'<input type="hidden" class="userId" value="'+this.userId+'">'
+								+'</div>'
+								+'<hr>';
+							})
+							
+							commentTagList.html(list);
+						}
+						commentTagList.show();
+					}
+					
+				});// ajax()
+			}
+			
+		}else if (commentContent.substr(-1).trim().length == 0 ||  commentContent.substr(-2) =='@@' || onTag===false ){
+			commentTagList.text('');
+			console.log('태그아님');
+			onTag=false;
+			
+		} // if else 문 끝
+	});// input 이벤트
+	
+	$(document).on('mousedown', '.commentTagList', function(){
+		var commentContent =$(this).prevAll('.commentContent').html();
+		
+		var pos = commentContent.lastIndexOf('@');
+		console.log('위치: '+pos);
+		var list = commentContent.substr(0,pos);
+		
+		var userId = $(this).find('.userId').val();
+		list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
+		$(this).prevAll('.commentContent').html(list);
+		$(this).text('');
+		$(this).hide();
+		onTag=false;
+	});
+	$(document).on('blur','.commentContent',function(){
+		$(this).nextAll('.commentTagList').hide();
+		 
+	});
+	$(document).on('focus','.commentContent',function(){
+		var commentContent =$(this).text();
+		if((commentContent =='@')||commentContent.substr(-2) == ' @'||commentContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(commentContent.substr(-1).trim().length == 0) )){
+			console.log('클릭 시 태그 상황 맞음');
+			$(this).nextAll('.commentTagList').show();
+		}else{
+			console.log('클릭 시 태그 상황 아님');
+		};
+		
+	});
 	//--------------------------좋아요 파트-------------------------------------
 	var likeCnt = parseInt($('#likeCount').val());
 	console.log('좋아요 : ' + likeCnt + '개');
