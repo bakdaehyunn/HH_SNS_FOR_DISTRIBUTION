@@ -428,7 +428,7 @@
 					          console.log('＊');
 					          console.log(item.feedId);
 					          console.log(likefeedId);
-					          if (item.feedId == likefeedId) {
+					          if (item.feedId != '') {
 					            $('.btn_like').addClass('liked');
 					          }
 					        });
@@ -443,7 +443,6 @@
 					var feedContent =$(this).text();
 					var feedTagList = $('#feedTagList');
 					console.log(feedContent);
-					
 					
 					console.log('첫번째 글자 : '+ feedContent.length);
 					if((feedContent =='@')||feedContent.substr(-2) == ' @'||feedContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(feedContent.substr(-1).trim().length == 0) )){
