@@ -208,10 +208,10 @@
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">
 			<div style="display: flex;">
-			<div id="feedContent" contentEditable='true'>
-			</div>
+			<div id="feedContent" contentEditable='true'></div>
 			<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 			</div>
+			<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>
 			<div id="check_feedContent" style="display: none;"></div>
 			
 			<form id="uploadForm" enctype="multipart/form-data">
@@ -526,6 +526,7 @@
 									+ '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">'
 									+ '<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>'
 									+ '</svg>'
+									+' 댓글' + this.replyCount + '개'
 									+ '</div>'
 									
 									+ '</div>'
@@ -604,8 +605,8 @@
 								+ '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like liked">'
 								+ '<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>'
 								+ '</svg>'
+								+' 댓글' + this.replyCount + '개'
 								+ '</div>'
-								
 								+ '</div>'
 								+ '</div>';
 						
@@ -620,7 +621,93 @@
 				}// end data
 			);// end getJSON();
 		}// end getAllHeart();
+		var onTag=false;
+		$('#feedContent').on('input',function(){
+			var feedContent =$(this).text();
+			var feedTagList = $('#feedTagList');
+			console.log(feedContent);
 			
+			
+			console.log('첫번째 글자 : '+ feedContent.length);
+			if((feedContent =='@')||feedContent.substr(-2) == ' @'||feedContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(feedContent.substr(-1).trim().length == 0) )){
+				console.log('태그시작');
+				var pos = feedContent.lastIndexOf('@');
+				console.log('위치: '+(pos));
+				onTag=true;
+				var followingUserId = feedContent.substr(pos+1);
+				if(!followingUserId){
+					console.log('아이디값 아직 없음');
+					$('#feedTagList').html('');
+					$('#feedTagList').hide();
+				}
+				else{
+					console.log('아이디값 있음');
+					console.log('followingUserId:' + followingUserId);
+					$.ajax({
+						type: 'GET',
+						url : '../feeds/tagList/'+followingUserId,
+						hdeaders : {
+							'Content-Type' : 'application/json'
+						},
+						success: function(data){
+							var list = '';
+							if(data==''){
+								$('#feedTagList').html(followingUserId+'에 대한 검색 결과가 없습니다.');
+							}else{
+								$(data).each(function(){
+									console.log(this);
+									list += '<div class="tag_item">'
+									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+									+'@'+this.userId +'('+this.userNickname+')'
+									+'<input type="hidden" class="userId" value="'+this.userId+'">'
+									+'</div>'
+									+'<hr>';
+								})
+								
+								$('#feedTagList').html(list);
+							}
+							$('#feedTagList').show();
+						}
+						
+					});// ajax()
+				}
+				
+			}else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || onTag===false ){
+				$('#feedTagList').text('');
+				console.log('태그아님');
+				onTag=false;
+				
+			} // if else 문 끝
+		});// input 이벤트
+		
+		$('#feedTagList').on('mousedown', '.tag_item', function(e){
+			e.preventDefault();
+			var feedContent =$('#feedContent').html();
+			var pos = feedContent.lastIndexOf('@');
+			console.log('위치: '+pos);
+			var list = feedContent.substr(0,pos);
+			
+			var userId = $(this).find('.userId').val();
+			list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
+			$('#feedContent').html(list);
+			$('#feedTagList').text('');
+			$('#feedTagList').hide();
+			onTag=false;
+		});
+		$('#feedContent').on('blur',function(){
+			$('#feedTagList').hide();
+			 
+		});
+		$('#feedContent').on('focus',function(){
+			var feedContent =$(this).text();
+			if((feedContent =='@')||feedContent.substr(-2) == ' @'||feedContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(feedContent.substr(-1).trim().length == 0) )){
+				console.log('클릭 시 태그 상황 맞음');
+				$('#feedTagList').show();
+			}else{
+				console.log('클릭 시 태그 상황 아님');
+			};
+			
+		});	
 			
 			
 });// end ready.function();

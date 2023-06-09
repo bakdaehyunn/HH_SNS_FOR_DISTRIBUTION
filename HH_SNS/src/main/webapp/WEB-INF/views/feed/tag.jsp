@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-	<div id="feedContent" class="editable" contenteditable="true"></div>
+	<div id="feedContent"  contenteditable="true"></div>
 	<div id ="feedTagList" style="position: relative;"></div>
 		</div>
 	

@@ -104,6 +104,7 @@
 			    <input type="submit" id="btn_update" value="수정">
 			    <input type="submit" id="btn_delete" value="삭제">
 			</c:if>
+			<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>
 			</div>
 			<c:if test="${feedvo.feedPhoto ne 'null'}">
 				<br>
@@ -116,7 +117,9 @@
 					stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="btn_like">
 					<path d="M20.84,4.32a5.5,5.5,0,0,0-7.78,0L12,5.46l-1.06-1.14a5.5,5.5,0,0,0-7.78,7.78L12,21.46l8.84-8.84a5.5,5.5,0,0,0,0-7.78Z"></path>
 					</svg>
+					댓글 ${feedvo.replyCount}개
 				</div>
+				
 		</div>
 	</div>
 	
@@ -130,7 +133,7 @@
 	<!-- -----------------------댓글 파트 ------------------------------ -->
 	
 	<input type="hidden" id="feedId" value="${feedvo.feedId}">
-	<div style="text-align: center;">
+	<div >
 		<c:if test="${empty userId }">
 			<a href="../user/login">로그인 하러 가기</a>
 		</c:if>
@@ -140,8 +143,11 @@
 			<input type="hidden" id="userProfile"  value="${userinfovo.userProfile }">
 			<div><a href="../feed/mylist?userId=${feedvo.userId}"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></div>
 			<div><a href="../feed/mylist?userId=${userinfovo.userId } "><b>@${userinfovo.userId}(${userinfovo.userNickname})</b></a></div>
-			<input type="text" id="replyContent">
-		<button id="btn_add">작성</button>
+			<div>
+			<div id="replyContent" style=" width : 700px; height:100px;display: inline-block;margin: 0 auto;" contenteditable="true"></div>
+		<button id="btn_add"style="display: inline-block" >작성</button>
+		</div>
+		<div id ="replyTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>
 		</c:if>
 	</div>
 	
@@ -222,7 +228,93 @@
 				}
 			});//end ajax
 		}); // end feeds.delete
+		var onTag=false;
+		$('#feedContent').on('input',function(){
+			var feedContent =$(this).text();
+			var feedTagList = $('#feedTagList');
+			console.log(feedContent);
+			
+			
+			console.log('첫번째 글자 : '+ feedContent.length);
+			if((feedContent =='@')||feedContent.substr(-2) == ' @'||feedContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(feedContent.substr(-1).trim().length == 0) )){
+				console.log('태그시작');
+				var pos = feedContent.lastIndexOf('@');
+				console.log('위치: '+(pos));
+				onTag=true;
+				var followingUserId = feedContent.substr(pos+1);
+				if(!followingUserId){
+					console.log('아이디값 아직 없음');
+					$('#feedTagList').html('');
+					$('#feedTagList').hide();
+				}
+				else{
+					console.log('아이디값 있음');
+					console.log('followingUserId:' + followingUserId);
+					$.ajax({
+						type: 'GET',
+						url : '../feeds/tagList/'+followingUserId,
+						hdeaders : {
+							'Content-Type' : 'application/json'
+						},
+						success: function(data){
+							var list = '';
+							if(data==''){
+								$('#feedTagList').html(followingUserId+'에 대한 검색 결과가 없습니다.');
+							}else{
+								$(data).each(function(){
+									console.log(this);
+									list += '<div class="tag_item">'
+									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+									+'@'+this.userId +'('+this.userNickname+')'
+									+'<input type="hidden" class="userId" value="'+this.userId+'">'
+									+'</div>'
+									+'<hr>';
+								})
+								
+								$('#feedTagList').html(list);
+							}
+							$('#feedTagList').show();
+						}
+						
+					});// ajax()
+				}
+				
+			}else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || onTag===false ){
+				$('#feedTagList').text('');
+				console.log('태그아님');
+				onTag=false;
+				
+			} // if else 문 끝
+		});// input 이벤트
 		
+		$('#feedTagList').on('mousedown', '.tag_item', function(e){
+			e.preventDefault();
+			var feedContent =$('#feedContent').html();
+			var pos = feedContent.lastIndexOf('@');
+			console.log('위치: '+pos);
+			var list = feedContent.substr(0,pos);
+			
+			var userId = $(this).find('.userId').val();
+			list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
+			$('#feedContent').html(list);
+			$('#feedTagList').text('');
+			$('#feedTagList').hide();
+			onTag=false;
+		});
+		$('#feedContent').on('blur',function(){
+			$('#feedTagList').hide();
+			 
+		});
+		$('#feedContent').on('focus',function(){
+			var feedContent =$(this).text();
+			if((feedContent =='@')||feedContent.substr(-2) == ' @'||feedContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(feedContent.substr(-1).trim().length == 0) )){
+				console.log('클릭 시 태그 상황 맞음');
+				$('#feedTagList').show();
+			}else{
+				console.log('클릭 시 태그 상황 아님');
+			};
+			
+		});
 		//--------------------------댓글 파트-------------------------------------
 		getAllReplies();
 		
@@ -230,7 +322,7 @@
 			var feedId = $('#feedId').val(); // 게시판 번호 데이터
 			var userId = $('#userId').val(); // 유저 ID
 			var userNickname = $('#userNickname').val();// 유저 닉네임
-			var replyContent = $('#replyContent').val(); // 댓글 내용
+			var replyContent = $('#replyContent').html(); // 댓글 내용
 			var userProfile = $('#userProfile').val();// 유저 프로필 사진
 			var feedUserId = "<c:out value='${feedvo.userId }' />";
 			var obj = {
@@ -371,6 +463,92 @@
 				}
 			});
 		});
+		var onTag=false;
+		$('#replyContent').on('input',function(){
+			var replyContent =$(this).text();
+			var replyTagList = $('#replyTagList');
+			console.log(replyContent);
+			
+			
+			console.log('첫번째 글자 : '+ replyContent.length);
+			if((replyContent =='@')||replyContent.substr(-2) == ' @'||replyContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(replyContent.substr(-1).trim().length == 0) )){
+				console.log('태그시작');
+				var pos = replyContent.lastIndexOf('@');
+				console.log('위치: '+(pos));
+				onTag=true;
+				var followingUserId = replyContent.substr(pos+1);
+				if(!followingUserId){
+					console.log('아이디값 아직 없음');
+					$('#replyTagList').html('');
+					$('#replyTagList').hide();
+				}
+				else{
+					console.log('아이디값 있음');
+					console.log('followingUserId:' + followingUserId);
+					$.ajax({
+						type: 'GET',
+						url : '../feeds/tagList/'+followingUserId,
+						hdeaders : {
+							'Content-Type' : 'application/json'
+						},
+						success: function(data){
+							var list = '';
+							if(data==''){
+								$('#replyTagList').html(followingUserId+'에 대한 검색 결과가 없습니다.');
+							}else{
+								$(data).each(function(){
+									console.log(this);
+									list += '<div class="tag_item">'
+									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+									+'@'+this.userId +'('+this.userNickname+')'
+									+'<input type="hidden" class="userId" value="'+this.userId+'">'
+									+'</div>'
+									+'<hr>';
+								})
+								
+								$('#replyTagList').html(list);
+							}
+							$('#replyTagList').show();
+						}
+						
+					});// ajax()
+				}
+				
+			}else if (replyContent.substr(-1).trim().length == 0 ||  replyContent.substr(-2) =='@@' || onTag===false ){
+				$('#replyTagList').text('');
+				console.log('태그아님');
+				onTag=false;
+				
+			} // if else 문 끝
+		});// input 이벤트
+		
+		$('#replyTagList').on('mousedown', '.tag_item', function(e){
+			var replyContent =$('#replyContent').html();
+			var pos = replyContent.lastIndexOf('@');
+			console.log('위치: '+pos);
+			var list = replyContent.substr(0,pos);
+			
+			var userId = $(this).find('.userId').val();
+			list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
+			$('#replyContent').html(list);
+			$('#replyTagList').text('');
+			$('#replyTagList').hide();
+			onTag=false;
+		});
+		$('#replyContent').on('blur',function(){
+			$('#replyTagList').hide();
+			 
+		});
+		$('#replyContent').on('focus',function(){
+			var replyContent =$(this).text();
+			if((replyContent =='@')||replyContent.substr(-2) == ' @'||replyContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(replyContent.substr(-1).trim().length == 0) )){
+				console.log('클릭 시 태그 상황 맞음');
+				$('#replyTagList').show();
+			}else{
+				console.log('클릭 시 태그 상황 아님');
+			};
+			
+		});
 	//--------------------------대댓글 파트-------------------------------------
 	
 	$('#replies').on('click', '.reply_item .btn_comment', function() {
@@ -408,7 +586,8 @@
 			    + '<a href="../feed/mylist?userId=' + userId + '">' + '<b>@'+ userId +"(" + userNickname + ")" + '</b></a>'
 			    + '</div>'
 			    + '&nbsp;&nbsp;'
-			    + '<input style="height: 100px; width: 300px;" id="commentContent">'
+			    //+ '<input style="height: 100px; width: 300px;" id="commentContent">'
+			    + '<div id="commentContent" contentEditable="true" style="height: 100px; width: 300px;" >'
 			    + '<input style="height: 30px; margin-left: 10px;" type="submit" class="btn_add_comment" value="등록">'
 			    + '</div>'
 			    + '<div id="check_comment" style="display: none;">'

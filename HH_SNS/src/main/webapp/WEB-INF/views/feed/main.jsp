@@ -454,6 +454,8 @@
 						var followingUserId = feedContent.substr(pos+1);
 						if(!followingUserId){
 							console.log('아이디값 아직 없음');
+							$('#feedTagList').html('');
+							$('#feedTagList').hide();
 						}
 						else{
 							console.log('아이디값 있음');
