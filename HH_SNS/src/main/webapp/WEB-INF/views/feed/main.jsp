@@ -139,8 +139,6 @@
 </head>
 <body >
 
-	<!-- ▼ 아래 히든인 이유는 1씩 올리는것뿐인걸 굳이 보일필요 X -->
-	<input type="hidden" id="feedId" value="1">
 	
 	<!-- 
 	▼ 등록버튼은 절 대 form안에 넣지말기 ㅎ-ㅎ 
@@ -201,10 +199,7 @@
 		<div id="feeds">
 		</div>
 	</div>
-	
-	<c:forEach var="likevo" items="${list}">
-		<input type="hidden" id="likefeedId" value=${likevo.feedId }>	
-	</c:forEach>
+
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장
 	<input type="hidden" id="insertAlert" value="${insert_result }">
 	 -->
@@ -218,7 +213,6 @@
 		$(document).ready(function() {
 			
 			getAllMain();
-			likecheck();
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -273,10 +267,9 @@
 			
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
-				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
 				var feedContent = $('#feedContent').html();
-				console.log('피드 번호  : ' + feedId + ', 유저 아이디 : ' + userId + ', 피드 내용 : ' + feedContent);
+				console.log('유저 아이디 : ' + userId + ', 피드 내용 : ' + feedContent);
 				
 				// ▼ 문제점 ----------------------------------------------
 
@@ -294,7 +287,6 @@
 				
 				console.log('파일 : ' + feedPicture);
 				  
-				formData.append('feedId', feedId);
 				formData.append('userId', userId);
 				formData.append('feedContent', feedContent);
 				formData.append('feedPicture', feedPicture);
@@ -337,12 +329,10 @@
 					//	'.c1' : 클래스
 
 					function getAllMain() {
-						var feedId = $('#feedId').val();
-						console.log('♣ : ' + feedId);
 						const userId = document.getElementById("userId").textContent;
 						console.log(userId);
 
-						var url = '../feeds/all/' + feedId;
+						var url = '../feeds/all';
 							$.getJSON(
 								url,
 								function(data) {
@@ -397,6 +387,28 @@
 											+ '</div>'
 											+ '</div>';
 											
+											var feedId = this.feedId;
+											
+											$.ajax({
+											    type: 'GET',
+											    url: '../likes/check/' + userId,
+											    success: function(data) {
+											        console.log(data);
+											        if (data.length > 0) {
+											        data.forEach(function(item) {
+														console.log('＊');
+														console.log(item.feedId);
+														console.log(feedId);
+														
+													if (item.feedId == feedId) {
+														$('.btn_like').addClass('liked');
+														
+														}
+													});
+												}
+											}.bind(this) // 현재 컨텍스트 유지
+										});// end ajax
+											
 									});// end data.funchion;
 										$('#feeds').html(list);
 							}//end function(data);
@@ -413,26 +425,6 @@
 				    detailClick(feedId);
 				});
 				
-				function likecheck() {
-					  const userId = document.getElementById("userId").textContent;
-					  
-					  var url = '../likes/check/' + userId;
-						$.getJSON(
-							url,
-							function(data) {
-								console.log(data);
-									$(data).each(function() {
-										console.log('☎ : ' + this.feedId);		
-										var search = document.getElementsByClassName('like_item');
-										var feedId = $(search[0]).prevAll('#feedId').val();
-										console.log('♡ : ' + feedId);
-										
-								});// end data.funchion;
-							}//end function(data);
-						);// end getJSON();
-					  
-					  
-					}// end likecheck()
 				
 				// ************** 태그 관련 ***************
 				var onTag=false;
@@ -493,8 +485,8 @@
 					} // if else 문 끝
 				});// input 이벤트
 				
-				$('#feedTagList').on('mousedown', '.tag_item', function(e){
-					e.preventDefault();
+				$('#feedTagList').on('mousedown', '.tag_item', function(){
+					
 					var feedContent =$('#feedContent').html();
 					var pos = feedContent.lastIndexOf('@');
 					console.log('위치: '+pos);

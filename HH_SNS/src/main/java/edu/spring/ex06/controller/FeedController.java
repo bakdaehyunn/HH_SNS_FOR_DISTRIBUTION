@@ -148,9 +148,6 @@ public class FeedController {
 		model.addAttribute("feedvo", feedvo);
 		logger.info("피드 정보 : " + feedvo);
 		
-		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
-		model.addAttribute("list", list);
-		
 	}
 
 	@GetMapping("/display")

@@ -187,12 +187,11 @@ public class FeedRESTController {
 	}
 
 
-	@GetMapping("/all/{feedId}") 
-	public ResponseEntity<List<FeedVO>> readFeeds(
-			@PathVariable("feedId") int feedId) {
+	@GetMapping("/all") 
+	public ResponseEntity<List<FeedVO>> readFeeds() {
 		// PathVariable("boardId") : /all/{boardId} 값을 설정된 변수에 저장
 		// 실제로 할 때는 /all/1 -> 이런식으로 한당 ㅎㅅㅎ
-		logger.info("★ FeedRESTController 전체검색 : " + feedId);
+		logger.info("★ FeedRESTController 전체검색");
 		
 		List<FeedVO> list = feedService.readAll();
 		logger.info("---------------------------------------------------------------");
