@@ -587,9 +587,16 @@
 			    + '</div>'
 			    + '&nbsp;&nbsp;'
 			    //+ '<input style="height: 100px; width: 300px;" id="commentContent">'
+<<<<<<< HEAD
 			    + '<div class="commentContent" contentEditable="true" style="display: inline-block; height: 100px; width: 300px;" ></div>'
+=======
+			    + '<div id="commentContent" contentEditable="true" style="  display: inline-block; height: 100px; width: 300px;" ></div>'
+>>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 			    + '<input style="height: 30px; margin-left: 10px;" type="submit" class="btn_add_comment" value="등록">'
+<<<<<<< HEAD
 			 	+ '<div class ="commentTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>'
+=======
+>>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 			    + '<div id="check_comment" style="display: none;">'
 			    + '</div>'
 			    + '<hr style="border-top: 1px solid #ccc; margin: 10px 0;">'
