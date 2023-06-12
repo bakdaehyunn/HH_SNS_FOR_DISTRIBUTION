@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.spring.ex06.domain.CommentInfoVO;
 import edu.spring.ex06.domain.FeedVO;
@@ -32,11 +33,14 @@ public class CommentInfoServiceImple implements CommentInfoService{
 	
 	@Autowired
 	private CommentInfoDAO commentdao;
-
+    
+	@Transactional(value = "transactionManager")
 	@Override
 	public int create(CommentInfoVO commentvo) {
 		logger.info("★ CommentInfoServiceImple 대댓글 등록 = " + commentvo.toString());
-		return commentdao.insert(commentvo);
+		commentdao.insert(commentvo);
+		replydao.updateCommentCnt(1, commentvo.getReplyId());
+		return 1;
 	}// end create()
 	
 	@Override
@@ -63,11 +67,15 @@ public class CommentInfoServiceImple implements CommentInfoService{
 		logger.info("대댓글 번호 = " + commentId + ", 대댓글 내용 = " + commentContent);
 		return commentdao.update(commentId, commentContent);
 	}
-
+	
+	@Transactional(value = "transactionManager")
 	@Override
 	public int delete(int commentId) {
 		logger.info("★ CommentInfoServiceImple 대댓글 삭제");
-		return commentdao.delete(commentId);
+		commentdao.delete(commentId);
+		CommentInfoVO vo = commentdao.select(commentId);
+		replydao.updateCommentCnt(-1, vo.getReplyId());
+		return 1;
 	}
 
 

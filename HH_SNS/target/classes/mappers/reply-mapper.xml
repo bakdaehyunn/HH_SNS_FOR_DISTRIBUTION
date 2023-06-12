@@ -25,4 +25,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${reply}
 		where ${replyId} = #{replyId}
 	</delete>
+	
+	<update id="update_comment_cnt">
+		update ${reply}
+		set ${commentCount} = ${commentCount} + #{amount}
+		where ${replyId} = #{replyId}
+	</update>
 </mapper>
