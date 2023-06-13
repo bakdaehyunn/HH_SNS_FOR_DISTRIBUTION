@@ -15,6 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by ${replyId}
 	</select>
 	
+	<select id="select_feedid_by_replyid" resultType="Integer">
+		select ${feedId} from ${reply}
+		where ${replyId} = #{replyId}
+	</select>
+	
 	<update id="update">
 		update ${reply}
 		set ${replyContent} = #{replyContent}, ${replyDate} = sysdate
