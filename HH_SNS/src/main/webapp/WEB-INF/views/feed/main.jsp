@@ -386,34 +386,17 @@
 											
 											+ '</div>'
 											+ '</div>';
-											
-											var feedId = this.feedId;
-											
-											$.ajax({
-											    type: 'GET',
-											    url: '../likes/check/' + userId,
-											    success: function(data) {
-											        console.log(data);
-											        if (data.length > 0) {
-											        data.forEach(function(item) {
-														console.log('＊');
-														console.log(item.feedId);
-														console.log(feedId);
-														
-													if (item.feedId == feedId) {
-														$('.btn_like').addClass('liked');
-														
-														}
-													});
-												}
-											}.bind(this) // 현재 컨텍스트 유지
-										});// end ajax
-											
 									});// end data.funchion;
 										$('#feeds').html(list);
 							}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
+				
+				$('.btn_like').each(function(index,item){
+					var userId = $(this).closest('#userId').val();
+					console.log('떠!!!!!!!!!!!!!!!!!!!!');
+					console.log(userId);
+				});// end each
 				
 				function detailClick(feedId) {
 				    var url = '../feed/detail?feedId=' + feedId;
