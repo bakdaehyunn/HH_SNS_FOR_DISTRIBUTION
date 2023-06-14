@@ -20,10 +20,15 @@
 	<input type="hidden" id="insertAlert" value="${insert_result }">
 	
 	<script type="text/javascript">
-		var result = $('#insertAlert').val();
-		if(result == 'success') {
-			alert('회원 가입 성공!');
-		}
+		$(document).ready(function(){
+			var result = $('#insertAlert').val();
+			if(result == 'signUpSuccess') {
+				alert('회원 가입 성공!');
+			}else if (result =='logInUnsuccess'){
+				alert('로그인 실패!');
+			}
+		})
+		
 	</script>
 </body>
 </html>

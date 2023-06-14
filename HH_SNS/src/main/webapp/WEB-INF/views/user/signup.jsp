@@ -120,7 +120,7 @@
 				})
 				
 			});
-			var emailInputBool = false;
+			var emailVerifBool = false;
 			$('#emailVerifInput').blur(function(){
 				var list ='';
 				if($('#emailVerifInput').val() != null){
@@ -278,8 +278,9 @@
 					$('#userEmailGuide').html(warn);
 					$('#userEmailGuide').show();
 					
-				}else if(EmailInputBool == false){
+				}else if(emailVerifBool == false){
 					e.preventDefault();
+					warn='이메일 인증을 진행해주세요.'
 					$('#emailVerifInput').focus();
 					$('#emailVerifInputGuide').html(warn);
 					$('#emailVerifInputGuid').show();
