@@ -24,6 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	where ${replyId} = #{replyId}
 	 	order by ${commentId}
 	 </select>
+	 
+	 <select id="select_all_commentid" resultType="CommentInfoVO">
+	 	select * from ${comment_info}
+	 	where ${commentId} = #{commentId}
+	 	order by ${commentId}
+	 </select>
 	
 	<update id="update">
 		update ${comment_info}
@@ -35,4 +41,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${comment_info}
 		where ${commentId} = #{commentId}
 	</delete>
+	
+	<update id="update_comment_cnt">
+		update ${comment_info}
+		set ${commentCount} = ${commentCount} + #{amount}
+		where ${commentId} = #{commentId}
+	</update>
 </mapper>

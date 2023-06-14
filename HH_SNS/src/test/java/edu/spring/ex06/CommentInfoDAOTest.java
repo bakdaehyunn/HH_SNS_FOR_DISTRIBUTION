@@ -60,7 +60,7 @@ public class CommentInfoDAOTest {
 //		(comment_id, reply_id, user_id, user_nickname, user_profile, comment_content) 
 //		values (comment_info_seq.nextval, ?, ?, ?, ?, ?)
 
-		CommentInfoVO commentvo = new CommentInfoVO(0, 7, userid, uservo.getUserNickname(), uservo.getUserProfile(), "아 배고파..", null, 0);
+		CommentInfoVO commentvo = new CommentInfoVO(0, 7, userid, uservo.getUserNickname(), uservo.getUserProfile(), "아 배고파..", null, 0, 0);
 
 		int result = commentdao.insert(commentvo);
 		logger.info("♠ 결과 : " + result + "행 삽입");

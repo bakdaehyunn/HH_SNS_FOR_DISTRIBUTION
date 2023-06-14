@@ -394,14 +394,16 @@
 							+ '<div><a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@'+this.userId +"("+this.userNickname+")"+'</b></a></div>'
 							+ '&nbsp;&nbsp;' // 공백
 							//+ '<input type="text" ' + readonly + ' id="replyContent" value="'+ this.replyContent +'"><br>'
-							+ '<div style="text-align: left; width: auto; min-width: 200px;" class="replyContent" contentEditable="true">' + this.replyContent  + '</div>'
+							+ '<div style="text-align: left; width: auto; min-width: 200px;" class="getReplyContent" contentEditable="true">' + this.replyContent  + '</div>'
 							+ '&nbsp;&nbsp;'
 							+ replyDateCreated
 							+ '&nbsp;&nbsp;'
 							+ '<button class="btn_update" ' + disabled + '>수정</button>'
 							+ '<button class="btn_delete" ' + disabled + '>삭제</button>'
+							+ '<div class ="getReplyTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>'
 							+ '<br>'
-							+ '<button class="btn_comment"><a>답글</a></button>'
+							+ '<input type="hidden" value="' + commentCount + '">'
+							+ '<button class="btn_comment"><a>답글 (' + commentCount + ')</a></button>'
 							+ '<br>'
 							+ '<div type="hidden" class="comments"></div>'
 							+ '</pre>' 
@@ -423,7 +425,7 @@
 			// 선택된 댓글의 replyId, replyContent 값을 저장
 			// prevAll() : 선택된 노드 이전에 있는 모든 형제 노드를 접근
 			var replyId = $(this).prevAll('#replyId').val();
-			var replyContent = $(this).prevAll('#replyContent').val();
+			var replyContent = $(this).prevAll('.getReplyContent').html();
 			console.log("선택된 댓글 번호 : " + replyId + ", 댓글 내용 : " + replyContent);
 			
 			// ajax 요청
@@ -464,6 +466,7 @@
 				}
 			});
 		});
+		/////////// 댓글 태그 적용
 		var onTag=false;
 		$('#replyContent').on('input',function(){
 			var replyContent =$(this).text();
@@ -550,6 +553,95 @@
 			};
 			
 		});
+		// 불러온 댓글 태그 적용-----
+		var onTag=false;
+		$(document).on('input','.getReplyContent',function(){
+			var getReplyContent =$(this).text();
+			var getReplyTagList = $('.getReplyTagList');
+			console.log(getReplyContent);
+			
+			
+			console.log('첫번째 글자 : '+ getReplyContent.length);
+			if((getReplyContent =='@')||getReplyContent.substr(-2) == ' @'||getReplyContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(getReplyContent.substr(-1).trim().length == 0) )){
+				console.log('태그시작');
+				var pos = getReplyContent.lastIndexOf('@');
+				console.log('위치: '+(pos));
+				onTag=true;
+				var followingUserId = getReplyContent.substr(pos+1);
+				if(!followingUserId){
+					console.log('아이디값 아직 없음');
+					getReplyTagList.html('');
+					getReplyTagList.hide();
+				}
+				else{
+					console.log('아이디값 있음');
+					console.log('followingUserId:' + followingUserId);
+					$.ajax({
+						type: 'GET',
+						url : '../feeds/tagList/'+followingUserId,
+						hdeaders : {
+							'Content-Type' : 'application/json'
+						},
+						success: function(data){
+							var list = '';
+							if(data==''){
+								getReplyTagList.html(followingUserId+'에 대한 검색 결과가 없습니다.');
+							}else{
+								$(data).each(function(){
+									console.log(this);
+									list += '<div class="tag_item">'
+									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+									+'@'+this.userId +'('+this.userNickname+')'
+									+'<input type="hidden" class="userId" value="'+this.userId+'">'
+									+'</div>'
+									+'<hr>';
+								})
+								
+								getReplyTagList.html(list);
+							}
+							getReplyTagList.show();
+						}
+						
+					});// ajax()
+				}
+				
+			}else if (getReplyContent.substr(-1).trim().length == 0 ||  getReplyContent.substr(-2) =='@@' || onTag===false ){
+				getCommentTagList.text('');
+				console.log('태그아님');
+				onTag=false;
+				
+			} // if else 문 끝
+		});// input 이벤트
+		
+		$(document).on('mousedown', '.getReplyTagList', function(){
+			var getReplyContent =$(this).prevAll('.getReplyContent').html();
+			
+			var pos = getReplyContent.lastIndexOf('@');
+			console.log('위치: '+pos);
+			var list = getReplyContent.substr(0,pos);
+			
+			var userId = $(this).find('.userId').val();
+			list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
+			$(this).prevAll('.getReplyContent').html(list);
+			$(this).text('');
+			$(this).hide();
+			onTag=false;
+		});
+		$(document).on('blur','.getReplyContent',function(){
+			$(this).nextAll('.getReplyTagList').hide();
+			 
+		});
+		$(document).on('focus','.getReplyContent',function(){
+			var getReplyContent =$(this).text();
+			if((getReplyContent =='@')||getReplyContent.substr(-2) == ' @'||getReplyContent.substr(-2) == String.fromCharCode(160)+'@'|| (onTag===true&&!(getReplyContent.substr(-1).trim().length == 0) )){
+				console.log('클릭 시 태그 상황 맞음');
+				$(this).nextAll('.getReplyTagList').show();
+			}else{
+				console.log('클릭 시 태그 상황 아님');
+			};
+			
+		});
+		
 	//--------------------------대댓글 파트-------------------------------------
 	
 	$('#replies').on('click', '.reply_item .btn_comment', function() {
@@ -741,6 +833,7 @@
 				console.log(result);
 				if (result == 1) {
 					console.log('★ 대댓글 등록 성공');
+					
 					// 작성 = btn_add_comment 을 눌렀을 때 getAllComment에서 $('.commentList').html로 바로 출력해야한다.
 					getAllComment(replyId,commentList);
 					
@@ -791,6 +884,7 @@
 				console.log(result);
 				if(result == 1) {
 					console.log('★ 대댓글 삭제 성공');
+					
 					getAllComment(replyId,commentList);
 				}
 			}

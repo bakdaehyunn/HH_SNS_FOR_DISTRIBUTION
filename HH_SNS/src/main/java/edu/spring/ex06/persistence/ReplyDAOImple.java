@@ -51,4 +51,15 @@ public class ReplyDAOImple implements ReplyDAO{
 		return sqlSession.delete(NAMESPACE+ ".delete", replyId);
 	}
 
+	@Override
+	public int updateCommentCnt(int amount, int replyId) {
+		logger.info("updateCommentCnt");
+		logger.info("amount : " + amount);
+		logger.info("replyId : " + replyId);
+		Map<String, Integer> args = new HashMap<String, Integer>();
+		args.put("amount", amount);
+		args.put("replyId", replyId);
+		return sqlSession.update(NAMESPACE + ".update_comment_cnt", args);
+	}
+
 }

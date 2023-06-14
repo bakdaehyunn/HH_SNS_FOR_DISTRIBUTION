@@ -366,7 +366,7 @@
 											+ '<div style="cursor: pointer;" class="post_tag clickable" data-feedId="' + this.feedId + '">'
 											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
-											+ '<p id="userId">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
+											+ '<p id="userId">' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</a>' +'</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'
 											+ '<p class="feedContent">' + this.feedContent + '</p>'
@@ -386,9 +386,9 @@
 											
 											+ '</div>'
 											+ '</div>';
-									});// end data.funchion;
-										$('#feeds').html(list);
-							}//end function(data);
+							});// end data.funchion;
+							$('#feeds').html(list);
+						}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
 				

@@ -11,11 +11,12 @@ public class CommentInfoVO {
 	private String commentContent;
 	private Date commentDate;
 	private int likeCount;
+	private int commentCount;
 	
 	public CommentInfoVO() {}
 
 	public CommentInfoVO(int commentId, int replyId, String userId, String userNickname, String userProfile,
-			String commentContent, Date commentDate, int likeCount) {
+			String commentContent, Date commentDate, int likeCount, int commentCount) {
 		super();
 		this.commentId = commentId;
 		this.replyId = replyId;
@@ -25,6 +26,7 @@ public class CommentInfoVO {
 		this.commentContent = commentContent;
 		this.commentDate = commentDate;
 		this.likeCount = likeCount;
+		this.commentCount = commentCount;
 	}
 
 	public int getCommentId() {
@@ -91,13 +93,20 @@ public class CommentInfoVO {
 		this.likeCount = likeCount;
 	}
 
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+
 	@Override
 	public String toString() {
 		return "CommentInfoVO [commentId=" + commentId + ", replyId=" + replyId + ", userId=" + userId
 				+ ", userNickname=" + userNickname + ", userProfile=" + userProfile + ", commentContent="
-				+ commentContent + ", commentDate=" + commentDate + ", likeCount=" + likeCount + "]";
+				+ commentContent + ", commentDate=" + commentDate + ", likeCount=" + likeCount + ", commentCount="
+				+ commentCount + "]";
 	}
-
-	
 
 }

@@ -130,7 +130,7 @@ public class FeedController {
 	}
 
 	@GetMapping("/detail")
-	public void detail(Model model, @ModelAttribute(name = "feedId") int feedId, FeedVO feedvo, LikeInfoVO likeinfovo,
+	public void detail(Model model, @ModelAttribute(name = "feedId") int feedId, FeedVO feedvo,
 			HttpServletRequest request) {
 		logger.info("★ FeedController detail 호출");
 
@@ -147,6 +147,13 @@ public class FeedController {
 		feedvo = feedService.read(feedId);
 		model.addAttribute("feedvo", feedvo);
 		logger.info("피드 정보 : " + feedvo);
+		
+		CommentInfoVO commentvo = new CommentInfoVO();
+		int commentId = commentvo.getCommentId();
+		if(commentId != 0) {
+			commentvo = (CommentInfoVO) commentInfoService.read_all_commentid(commentId);
+			model.addAttribute("commentvo", commentvo);
+		}
 		
 	}
 

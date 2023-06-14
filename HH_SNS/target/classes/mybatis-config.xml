@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="commentContent" value="comment_content"/>
 		<property name="commentDate" value="comment_date"/>
 		<property name="likeCount" value="like_count"/>
+		<property name="commentCount" value="comment_count"/>
 
 		<property name="like_info" value="like_info"/>
 		<property name="likeId" value="like_id"/>

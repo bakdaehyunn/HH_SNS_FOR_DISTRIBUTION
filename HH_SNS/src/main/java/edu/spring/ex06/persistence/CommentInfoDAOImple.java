@@ -46,6 +46,12 @@ public class CommentInfoDAOImple implements CommentInfoDAO{
 		logger.info("★ CommentInfoDAOImple 대댓글 전체 찾기 : " + replyId);
 		return sqlSession.selectList(NAMESPACE + ".select_all_replyid", replyId);
 	}
+	
+	@Override
+	public List<CommentInfoVO> select_all_commentid(int commentId) {
+		logger.info("★ CommentInfoDAOImple 대댓글 전체 찾기 : " + commentId);
+		return sqlSession.selectList(NAMESPACE + ".select_all_commentid", commentId);
+	}
 
 	@Override
 	public int update(int commentId, String commentContent) {
@@ -61,5 +67,14 @@ public class CommentInfoDAOImple implements CommentInfoDAO{
 		logger.info("★ CommentInfoDAOImple 대댓글 삭제 번호 : " + commentId);
 		return sqlSession.delete(NAMESPACE+ ".delete", commentId);
 	}
+
+	@Override
+	public int updateCommentCnt(int amount, int commentId) {
+		Map<String, Integer> args = new HashMap<String, Integer>();
+		args.put("amount", amount);
+		args.put("commentId", commentId);
+		return sqlSession.update(NAMESPACE + ".update_comment_cnt", args);
+	}
+
 
 }

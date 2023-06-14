@@ -11,5 +11,6 @@ public interface ReplyDAO {
 	List<ReplyVO> select(int feedId);
 	int update(int replyId, String replyContent);
 	int delete(int replyId);
+	int updateCommentCnt(int amount, int replyId);
 	
 }
