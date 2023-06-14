@@ -15,6 +15,7 @@ import edu.spring.ex06.domain.ReplyVO;
 import edu.spring.ex06.persistence.CommentInfoDAO;
 import edu.spring.ex06.persistence.FeedDAO;
 import edu.spring.ex06.persistence.LikeInfoDAO;
+import edu.spring.ex06.persistence.NotiDAO;
 import edu.spring.ex06.persistence.ReplyDAO;
 
 @Service
@@ -26,7 +27,7 @@ public class CommentInfoServiceImple implements CommentInfoService{
 	private FeedDAO feeddao;
 	
 	@Autowired
-	private LikeInfoDAO likedao;
+	private NotiDAO notidao;
 	
 	@Autowired
 	private ReplyDAO replydao;
@@ -40,7 +41,9 @@ public class CommentInfoServiceImple implements CommentInfoService{
 		logger.info("★ CommentInfoServiceImple 대댓글 등록 = " + commentvo.toString());
 		commentdao.insert(commentvo);
 		replydao.updateCommentCnt(1, commentvo.getReplyId());
-		commentdao.updateCommentCnt(1, commentvo.getCommentId());
+		int feedId = replydao.selectFeedId(commentvo.getReplyId());
+		feeddao.updateReplyCnt(1, feedId);
+
 		return 1;
 	}// end create()
 	
@@ -80,9 +83,14 @@ public class CommentInfoServiceImple implements CommentInfoService{
 	public int delete(int commentId) throws Exception{
 		logger.info("★ CommentInfoServiceImple 대댓글 삭제");
 		CommentInfoVO vo = commentdao.select(commentId);
+
+		int feedId = replydao.selectFeedId(vo.getReplyId());
+
 		commentdao.delete(commentId);
 		replydao.updateCommentCnt(-1, vo.getReplyId());
-		commentdao.updateCommentCnt(-1, vo.getCommentId());
+
+		feeddao.updateReplyCnt(-1, feedId);
+
 		return 1;
 	}
 

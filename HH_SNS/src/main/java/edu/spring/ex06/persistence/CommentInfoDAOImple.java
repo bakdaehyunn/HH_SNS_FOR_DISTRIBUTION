@@ -68,13 +68,6 @@ public class CommentInfoDAOImple implements CommentInfoDAO{
 		return sqlSession.delete(NAMESPACE+ ".delete", commentId);
 	}
 
-	@Override
-	public int updateCommentCnt(int amount, int commentId) {
-		Map<String, Integer> args = new HashMap<String, Integer>();
-		args.put("amount", amount);
-		args.put("commentId", commentId);
-		return sqlSession.update(NAMESPACE + ".update_comment_cnt", args);
-	}
 
 
 }

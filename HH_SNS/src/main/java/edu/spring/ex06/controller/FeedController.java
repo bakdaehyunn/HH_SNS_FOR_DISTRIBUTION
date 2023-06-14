@@ -127,6 +127,11 @@ public class FeedController {
 		for (FeedVO feedvo : list) {
 			model.addAttribute("feedvo", feedvo);
 		}
+		
+		List<LikeInfoVO> likelist = likeInfoService.read_check_all_id(userId);
+		for(LikeInfoVO likevo : likelist) {
+			model.addAttribute("likevo", likevo);			
+		}
 	}
 
 	@GetMapping("/detail")
@@ -148,11 +153,9 @@ public class FeedController {
 		model.addAttribute("feedvo", feedvo);
 		logger.info("피드 정보 : " + feedvo);
 		
-		CommentInfoVO commentvo = new CommentInfoVO();
-		int commentId = commentvo.getCommentId();
-		if(commentId != 0) {
-			commentvo = (CommentInfoVO) commentInfoService.read_all_commentid(commentId);
-			model.addAttribute("commentvo", commentvo);
+		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
+		for(LikeInfoVO likevo : list) {
+			model.addAttribute("likevo", likevo);			
 		}
 		
 	}

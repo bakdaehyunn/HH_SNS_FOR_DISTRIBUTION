@@ -161,7 +161,7 @@
 <title>회원 상세 페이지</title>
 </head>
 <body>
-	<input type="hidden" id="feedId" value="1">
+	<!-- <input type="hidden" id="feedId" value="1"> -->
 
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
@@ -238,6 +238,9 @@
 	<hr>
 	<br>
 	
+	<input type="hidden" id="likeId" value="${likevo.likeId }">
+	<input type="hidden" id="feedId" value="${feedvo.feedId }">
+	
 	<div id="click_txt">
 		<a class="btn_feed active"><span>피드</span></a>
 		<span class="spacing"></span>
@@ -254,6 +257,7 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
+			likecheck();
 			
 			var followerCnt =parseInt($('#followerCntValue').val());
 			console.log('followercnt ' + followerCnt);
@@ -720,6 +724,37 @@
 			};
 			
 		});	
+		
+		function likecheck() {
+			var likeId = $('#likeId').val();
+			const userId = document.getElementById("userId").textContent;
+			var feedId = $('#feedId').val();
+			
+			var btn_like = document.getElementsByClassName("btn_like");
+			console.log(btn_like);
+			console.log('likecheck : ' + likeId + ', ' + userId + ', ' + feedId);
+			
+			var obj = {
+					'likeId' : likeId,
+					'userId' : userId,
+					'feedId' : feedId
+				}
+			
+			$.ajax({
+				type : 'GET',
+				url : '../likes/check',
+				data : obj,
+				success : function(result) {
+					if(result == 1) {
+						$('.btn_like').addClass('liked');
+					} else {
+						$('.btn_like').removeClass('liked');
+					}
+				}
+			});//end ajax
+			
+			
+		}// end likecheck
 			
 			
 });// end ready.function();

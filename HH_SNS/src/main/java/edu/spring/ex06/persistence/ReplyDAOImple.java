@@ -62,4 +62,10 @@ public class ReplyDAOImple implements ReplyDAO{
 		return sqlSession.update(NAMESPACE + ".update_comment_cnt", args);
 	}
 
+	@Override
+	public int selectFeedId(int replyId) {
+		logger.info("selectFeedId replyId : " + replyId);
+		return sqlSession.selectOne(NAMESPACE + ".select_feedid_by_replyid", replyId);
+	}
+
 }
