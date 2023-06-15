@@ -24,6 +24,7 @@
 		if(result == 'success') {
 			alert('회원 가입 성공!');
 		}
+		
 	</script>
 </body>
 </html>
