@@ -9,11 +9,13 @@
 </head>
 <body>
 	<h1>로그인</h1>
-	<form action="login" method="POST">
-		<input type="text" name="userId"><br>
-		<input type="password" name="userPassword">
-		<input type="submit" value="로그인"></button>
+	<form id="loginForm" action="login" method="POST">
+		<input type="text" id="userId" name="userId"><br>
+		<input type="password" id="userPassword" name="userPassword">
+		<input type="submit" value="로그인">
+		<div id="loginGuide" style="display: none ;"></div>
 	</form>
+	
 	<a href="signup">회원가입</a>
 	
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장 -->
@@ -22,11 +24,30 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var result = $('#insertAlert').val();
+			var result = $('#insertAlert').val();
 			if(result == 'signUpSuccess') {
 				alert('회원 가입 성공!');
-			}else if (result =='logInUnsuccess'){
-				alert('로그인 실패!');
+			}else if(result == 'logInUnsuccess'){
+				$('#loginGuide').text('아이디 또는 비밀번호를 잘못 입력했습니다.');
+				$('#loginGuide').show();
 			}
+			
+			$('#loginForm').submit(function(e){
+				var userId= $('#userId').val();
+				var userPassword = $('#userPassword').val();
+				if(userId ==''){
+					e.preventDefault();
+					$('#userId').focus();
+					$('#loginGuide').text('아이디를 입력해주세요.');
+					$('#loginGuide').show();
+				}else if(userPassword == ''){
+					e.preventDefault();
+					$('#userPassword').focus();
+					$('#loginGuide').text('비밀번호를 입력해주세요.');
+					$('#loginGuide').show();
+				}
+				return true;
+			});
 		})
 		
 	</script>

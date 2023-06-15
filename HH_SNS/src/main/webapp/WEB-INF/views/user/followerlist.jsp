@@ -64,7 +64,7 @@
 							if(e.status==400){
 								var target = encodeURI('/ex06/user/login');
 								location = target;
-								console.log
+							
 								alert("로그인이 필요합니다.");
 							}
 						}

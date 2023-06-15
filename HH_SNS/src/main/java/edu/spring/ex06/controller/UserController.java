@@ -65,8 +65,7 @@ public class UserController {
 		
 	}
 	
-	
-	
+
 	@GetMapping("/login")
 	public void loginGET() {
 		logger.info("loginGET() 호출");
@@ -81,7 +80,7 @@ public class UserController {
 			session.setAttribute("userId", userId);
 			// 세션에서 targetURL 가져오기
 			String targetURL = (String) session.getAttribute("targetURL");
-			reAttr.addFlashAttribute("insert_result", "logInSuccess");
+			
 			if(targetURL != null) {
 				session.removeAttribute("targetURL");
 				return "redirect:../" + targetURL;
