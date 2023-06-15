@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.spring.ex06.domain.NotiVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.FollowDAO;
 import edu.spring.ex06.persistence.NotiDAO;
@@ -33,7 +34,8 @@ public class FollowServiceImple implements FollowService {
 		logger.info("followerUserId : " + followerUserId);
 		logger.info("followingUserId" + followingUserId);
 		followdao.insert(followerUserId, followingUserId);
-		notiDAO.insert(followerUserId, followingUserId, "follow");
+		NotiVO vo = new NotiVO(0, followerUserId, followingUserId, "follow", 0, 0);
+		notiDAO.insert(vo);
 		return 1;
 	}
 

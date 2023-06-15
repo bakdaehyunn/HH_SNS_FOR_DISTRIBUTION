@@ -8,7 +8,7 @@ import edu.spring.ex06.domain.UserInfoVO;
 
 
 public interface NotiDAO {
-	int insert(String senderId, String receiverId, String notiCategory);
+	int insert(NotiVO vo);
 	List<NotiVO> selectList(String receiverId);
 	int selectCheck(String receiverId);
 	int delete(String senderId, String receiverId);

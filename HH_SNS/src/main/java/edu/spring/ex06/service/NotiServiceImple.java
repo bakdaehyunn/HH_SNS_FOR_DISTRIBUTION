@@ -23,11 +23,7 @@ public class NotiServiceImple implements NotiService {
 	@Autowired
 	private NotiDAO dao;
 
-	@Override
-	public int create(String senderId, String receiverId, String category) {
-		logger.info("create() 호출");
-		return dao.insert(senderId, receiverId, category);
-	}
+
 
 	@Override
 	public List<NotiVO> readList(String receiverId) {

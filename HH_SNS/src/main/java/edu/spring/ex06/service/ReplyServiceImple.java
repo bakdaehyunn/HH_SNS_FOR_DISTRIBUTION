@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.spring.ex06.domain.NotiVO;
 import edu.spring.ex06.domain.ReplyVO;
 import edu.spring.ex06.persistence.FeedDAO;
 import edu.spring.ex06.persistence.NotiDAO;
@@ -47,7 +48,8 @@ public class ReplyServiceImple implements ReplyService{
 		logger.info("create() 호출 : vo = " + vo.toString());
 		replyDAO.insert(vo);
 		if(!(vo.getUserId().equals(feedUserId))) {
-			notiDAO.insert(vo.getUserId(), feedUserId, "reply");
+			NotiVO NotiVO = new NotiVO(0, vo.getUserId(), feedUserId, "reply", 0, vo.getFeedId());
+			notiDAO.insert(NotiVO);
 		}
 		logger.info("댓글 입력 성공");
 		feedDAO.updateReplyCnt(1, vo.getFeedId());

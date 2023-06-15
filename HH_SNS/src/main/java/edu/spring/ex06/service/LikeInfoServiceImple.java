@@ -40,7 +40,8 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		likeDAO.insert(vo);
 		logger.info("좋아요 등록");
 		if(!(vo.getUserId().equals(feedUserId))) {
-		notiDAO.insert(vo.getUserId(), feedUserId, "like");
+			NotiVO notiVO = new NotiVO(0, vo.getUserId(), feedUserId, "like", 0, vo.getFeedId());
+			notiDAO.insert(notiVO);
 		}
 		feedDAO.updateLikeCnt(1, vo.getFeedId());
 		return 1;

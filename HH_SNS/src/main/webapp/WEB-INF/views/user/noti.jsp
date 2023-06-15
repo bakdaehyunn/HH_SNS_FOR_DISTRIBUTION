@@ -68,19 +68,25 @@
 					var list = '';
 					$(data).each(function() {
 						console.log(this);
-						if(this.notiCategory =='reply'){
-							list +='<div class="noti_item">'
-							+ this.senderId +'님이 회원님의 게시물에 댓글을 달았습니다.'
-							+'</div>'
-							+'<hr>'
-						}else if(this.notiCategory == 'like'){
-							list +='<div class="noti_item">'
-								+ this.senderId +'님이 회원님의 댓글에 좋아요를 눌렀습니다.'
+						if(this.feedId != ''){
+							if(this.notiCategory =='reply'){
+								list +='<div class="noti_reply">'
+								+ this.senderId +'님이 회원님의 게시물에 댓글을 달았습니다.'
+								+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 								+'</div>'
 								+'<hr>'
-						}else if(this.notiCategory == 'follow'){
-							list +='<div class="noti_item">'
+							}else if(this.notiCategory == 'like'){
+								list +='<div class="noti_like">'
+									+ this.senderId +'님이 회원님의 댓글에 좋아요를 눌렀습니다.'
+									+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
+									+'</div>'
+									+'<hr>'
+							}
+						}
+						else if(this.notiCategory == 'follow'){
+							list +='<div class="noti_follow">'
 								+ this.senderId +'님이 회원님을 팔로우 합니다.'
+								+ '<input type="hidden" id="receiverId" value="' + this.receiverId + '">'
 								+'</div>'
 								+'<hr>'
 						}
@@ -91,7 +97,23 @@
 
 			});// ajax()
 		}
-	});// read()
+		$(document).on('click','.noti_follow',function(){
+			var receiverId = $(this).find('#receiverId').val();
+			var target =encodeURI('/ex06/feed/mylist?userId='+receiverId);
+			location = target;
+		});
+		$(document).on('click','.noti_reply',function(){
+			var feedId = $(this).find('#feedId').val();
+			var target =encodeURI('/ex06/feed/detail?feedId='+feedId);
+			location = target;
+		});
+		$(document).on('click','.noti_like',function(){
+			var feedId = $(this).find('#feedId').val();
+			var target =encodeURI('/ex06/feed/detail?feedId='+feedId);
+			location = target;
+		});
+		
+	});// ready()
 	</script>
 </body>
 </html>
