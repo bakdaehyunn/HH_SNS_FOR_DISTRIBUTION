@@ -37,16 +37,6 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 		logger.info("likeId : " + likeId);
 		return sqlSession.selectOne(NAMESPACE + ".select", likeId);
 	}
-	
-//	-----------------------------------------------------------
-	
-
-	@Override
-	public LikeInfoVO select_feedId(int feedId) {
-		logger.info("★ LikeInfoDAOImple 좋아요 피드 번호 찾기");
-		logger.info("feedId : " + feedId);
-		return sqlSession.selectOne(NAMESPACE + ".select_feedid", feedId);
-	}
 
 //	-----------------------------------------------------------
 	
@@ -92,6 +82,5 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 		return sqlSession.delete(NAMESPACE + ".delete", likeId);
 	}// end delete
 //	-----------------------------------------------------------
-
 	
 }

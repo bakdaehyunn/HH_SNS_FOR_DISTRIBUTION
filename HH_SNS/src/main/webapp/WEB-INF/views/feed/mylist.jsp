@@ -257,7 +257,6 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			likecheck();
 			
 			var followerCnt =parseInt($('#followerCntValue').val());
 			console.log('followercnt ' + followerCnt);
@@ -478,7 +477,6 @@
 			
 			
 			function getAllList() {
-				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
 				console.log('아이디 : ' + userId);
 
@@ -535,6 +533,19 @@
 									
 									+ '</div>'
 									+ '</div>';
+								
+									var feedId = this.feedId;
+									
+									$.ajax({
+										type : 'GET',
+										url : '../likes/check/' + userId,
+										success : function(data) {
+										$(data).each(function() {
+										
+										});
+									}
+								});//end ajax
+								
 
 
 							});// end data.function;
@@ -724,37 +735,6 @@
 			};
 			
 		});	
-		
-		function likecheck() {
-			var likeId = $('#likeId').val();
-			const userId = document.getElementById("userId").textContent;
-			var feedId = $('#feedId').val();
-			
-			var btn_like = document.getElementsByClassName("btn_like");
-			console.log(btn_like);
-			console.log('likecheck : ' + likeId + ', ' + userId + ', ' + feedId);
-			
-			var obj = {
-					'likeId' : likeId,
-					'userId' : userId,
-					'feedId' : feedId
-				}
-			
-			$.ajax({
-				type : 'GET',
-				url : '../likes/check',
-				data : obj,
-				success : function(result) {
-					if(result == 1) {
-						$('.btn_like').addClass('liked');
-					} else {
-						$('.btn_like').removeClass('liked');
-					}
-				}
-			});//end ajax
-			
-			
-		}// end likecheck
 			
 			
 });// end ready.function();

@@ -72,7 +72,7 @@ public class UserController {
 		logger.info("loginGET() 호출");
 	}
 	@PostMapping("/login")
-	public String loginPOST(Model model, String userId, String userPassword, HttpServletRequest request ) {
+	public String loginPOST(Model model, String userId, String userPassword, HttpServletRequest request, RedirectAttributes reAttr ) {
 		logger.info("loginPOST() 호출");
 		int result = userInfoservice.read(userId, userPassword);
 		if(result == 1) {
@@ -81,25 +81,18 @@ public class UserController {
 			session.setAttribute("userId", userId);
 			// 세션에서 targetURL 가져오기
 			String targetURL = (String) session.getAttribute("targetURL");
+			reAttr.addFlashAttribute("insert_result", "logInSuccess");
 			if(targetURL != null) {
 				session.removeAttribute("targetURL");
-				
 				return "redirect:../" + targetURL;
 			} else {
 				return "redirect:/feed/main";
 			}
-			
-		//} else {
-			//logger.info("로그인 실패");
-			
-			
 		}
 		else {
+			reAttr.addFlashAttribute("insert_result", "logInUnsuccess");
 			return "redirect:/user/login";
 		}
-			
-			
-		//}
 	}
 	
 	@GetMapping("/signup")
@@ -115,7 +108,7 @@ public class UserController {
 		int result = userInfoservice.create(vo);
 		logger.info(result+"개의 계정 생성");
 		if(result == 1) {
-			reAttr.addFlashAttribute("insert_result", "success");
+			reAttr.addFlashAttribute("insert_result", "signUpSuccess");
 			return "redirect:/user/login";
 		}
 		return "redirect:/user/signup";

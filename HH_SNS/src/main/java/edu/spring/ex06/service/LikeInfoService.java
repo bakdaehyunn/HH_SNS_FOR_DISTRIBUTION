@@ -7,7 +7,6 @@ import edu.spring.ex06.domain.LikeInfoVO;
 public interface LikeInfoService {
 	int create(LikeInfoVO vo, String feedUserId) throws Exception;
 	LikeInfoVO read(int likeId);
-	LikeInfoVO read_feedId(int feedId);
 	int read_check(String userId, int feedId);
 	List<LikeInfoVO> read_check_all_id(String userId);
 	List<LikeInfoVO> read_all(int feedId);

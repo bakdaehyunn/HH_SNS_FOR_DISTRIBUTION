@@ -12,8 +12,9 @@
 	<form action="login" method="POST">
 		<input type="text" name="userId"><br>
 		<input type="password" name="userPassword">
-		<input type="submit" value="로그인"></button>
+		<input type="submit" value="로그인">
 	</form>
+	
 	<a href="signup">회원가입</a>
 	
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장 -->
@@ -24,6 +25,14 @@
 		if(result == 'success') {
 			alert('회원 가입 성공!');
 		}
+		$(document).ready(function(){
+			var result = $('#insertAlert').val();
+			if(result == 'signUpSuccess') {
+				alert('회원 가입 성공!');
+			}else if (result =='logInUnsuccess'){
+				alert('로그인 실패!');
+			}
+		})
 		
 	</script>
 </body>
