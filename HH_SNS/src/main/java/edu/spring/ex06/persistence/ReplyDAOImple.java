@@ -68,4 +68,18 @@ public class ReplyDAOImple implements ReplyDAO{
 		return sqlSession.selectOne(NAMESPACE + ".select_feedid_by_replyid", replyId);
 	}
 
+	@Override
+	public int update_profile(String userNickname, String userProfile, String userId) {
+		logger.info("updateProfile()");
+		logger.info("userNickname : " + userNickname);
+		logger.info("userProfile : "  + userProfile);
+		logger.info("userId : " + userId);
+		Map<String, String>  args = new HashMap<>();
+		args.put("userNickname", userNickname);
+		args.put("userProfile", userProfile);
+		args.put("userId", userId);
+		logger.info(args.toString());
+		return sqlSession.update(NAMESPACE + ".update_profile", args);
+	}
+
 }

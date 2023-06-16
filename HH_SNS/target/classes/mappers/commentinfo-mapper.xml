@@ -42,4 +42,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${commentId} = #{commentId}
 	</delete>
 	
+	<update id="update_profile">
+		update ${comment_info}
+		set ${userNickname} = #{userNickname}, ${userProfile} = #{userProfile}
+		where ${userId} = #{userId}
+	</update>
+	
 </mapper>

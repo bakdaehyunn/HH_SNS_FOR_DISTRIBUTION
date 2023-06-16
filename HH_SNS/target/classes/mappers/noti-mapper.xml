@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <!-- 인서트 -->
 	 <insert id="insert">
 	 	insert into ${noti}
-	 	values (noti_seq.nextval, #{senderId}, #{receiverId}, #{notiCategory}, 0, 0 )
+	 	values (noti_seq.nextval, #{senderId}, #{receiverId}, #{notiCategory}, 0, #{feedId} )
 	 </insert>
 	 
 	 <!-- 회원 알림 사항 체크 -->

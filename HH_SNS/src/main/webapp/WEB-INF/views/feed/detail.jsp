@@ -606,7 +606,7 @@
 				}
 				
 			}else if (getReplyContent.substr(-1).trim().length == 0 ||  getReplyContent.substr(-2) =='@@' || onTag===false ){
-				getCommentTagList.text('');
+				getReplyTagList.text('');
 				console.log('태그아님');
 				onTag=false;
 				

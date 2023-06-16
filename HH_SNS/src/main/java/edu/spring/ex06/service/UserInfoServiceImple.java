@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.spring.ex06.domain.UserInfoVO;
+import edu.spring.ex06.persistence.CommentInfoDAO;
 import edu.spring.ex06.persistence.FeedDAO;
+import edu.spring.ex06.persistence.ReplyDAO;
 import edu.spring.ex06.persistence.UserInfoDAO;
 
 @Service
@@ -20,6 +22,12 @@ public class UserInfoServiceImple implements UserInfoService {
 	
 	@Autowired
 	private FeedDAO feedDAO;
+	
+	@Autowired
+	private ReplyDAO replyDAO;
+	
+	@Autowired
+	private CommentInfoDAO commentDAO;
 	
 	@Override
 	public int create(UserInfoVO vo) {
@@ -53,7 +61,12 @@ public class UserInfoServiceImple implements UserInfoService {
 		logger.info("updateProfile() 호출 : vo = " + vo.toString());
 		dao.updateProfile(vo);
 		logger.info("update_feedprofile()");
-		feedDAO.update_profile(vo.getUserNickname(),vo.getUserProfile(),vo.getUserId());
+		String userNicknamne = vo.getUserNickname();
+		String userProfile = vo.getUserProfile();
+		String userId = vo.getUserId();
+		feedDAO.update_profile(userNicknamne, userProfile, userId);
+		replyDAO.update_profile(userNicknamne, userProfile, userId);
+		commentDAO.update_profile(userNicknamne, userProfile, userId);
 		return 1;
 	}
 

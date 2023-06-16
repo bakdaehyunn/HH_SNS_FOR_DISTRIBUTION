@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.spring.ex06.domain.NotiVO;
 import edu.spring.ex06.service.FollowService;
@@ -91,7 +92,7 @@ public class UserRESTController {
 		int result = userinfoService.readUserEmail(userEmail);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-
+	
 	@PostMapping("/emailVerif")
 	public ResponseEntity<Integer>emailVerif(@RequestBody String userEmail){
 		logger.info("emailVerif()");

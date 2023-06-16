@@ -21,16 +21,17 @@ public class NotiDAOImple implements NotiDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public int insert(String senderId, String receiverId, String notiCategory) {
+	public int insert(NotiVO vo) {
 		logger.info("insert() 호출");
-		logger.info("senderId : " + senderId);
-		logger.info("receiverId : " + receiverId);
-		logger.info("notiCategory : "  + notiCategory);
-		Map<String,String> args = new HashMap<String, String>();
-		args.put("senderId", senderId);
-		args.put("receiverId", receiverId);
-		args.put("notiCategory", notiCategory);
-		return sqlSession.insert(NAMESPACE + ".insert", args);
+		logger.info("VO :"+vo.toString());
+//		logger.info("senderId : " + senderId);
+//		logger.info("receiverId : " + receiverId);
+//		logger.info("notiCategory : "  + notiCategory);
+//		Map<String,String> args = new HashMap<String, String>();
+//		args.put("senderId", senderId);
+//		args.put("receiverId", receiverId);
+//		args.put("notiCategory", notiCategory);
+		return sqlSession.insert(NAMESPACE + ".insert", vo);
 	}
 
 	@Override
