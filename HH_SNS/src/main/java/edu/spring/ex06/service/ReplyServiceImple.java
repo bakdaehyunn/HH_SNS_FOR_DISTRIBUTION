@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.spring.ex06.domain.CommentInfoVO;
 import edu.spring.ex06.domain.NotiVO;
 import edu.spring.ex06.domain.ReplyVO;
+import edu.spring.ex06.persistence.CommentInfoDAO;
 import edu.spring.ex06.persistence.FeedDAO;
 import edu.spring.ex06.persistence.NotiDAO;
 import edu.spring.ex06.persistence.ReplyDAO;
@@ -27,7 +29,10 @@ public class ReplyServiceImple implements ReplyService{
 	private FeedDAO feedDAO;
 	
 	@Autowired
-	private NotiDAO notiDAO; 
+	private NotiDAO notiDAO;
+	
+	@Autowired
+	private CommentInfoDAO commentDAO; 
 	
 	// @Transactional
 	// - 두 개의 데이터베이스 변경이 생길 때,
@@ -76,6 +81,14 @@ public class ReplyServiceImple implements ReplyService{
 		replyDAO.delete(replyId);
 		logger.info("댓글 삭제 성공");
 		feedDAO.updateReplyCnt(-1, feedId);
+		
+		List<CommentInfoVO> list = commentDAO.select_all(replyId);
+		for(CommentInfoVO commentvo : list) {
+			int commentId = commentvo.getCommentId();
+			commentDAO.delete(commentId);
+			logger.info("대댓글 삭제 성공");
+		}
+		
 		return 1;
 	}
 

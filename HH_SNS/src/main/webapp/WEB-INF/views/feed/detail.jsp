@@ -186,14 +186,15 @@
 					if(result == 1) {
 						console.log('★ 피드수정 완료');
 						alert('수정 완료');
-						location = '../feed/main';
-						// http://localhost:8080/ex06/mylist?userId=asss
+						var target = encodeURI('/ex06/feed/detail?feedId=' + feedId);
+						location = target;
 						// http://localhost:8080/ex06/feed/mylist?userId=asss
 						getAllMain();
 					} else {
 						console.log('★ 피드수정 실패');
 						alert('수정 실패');
-						location = '../feed/main';
+						var target = encodeURI('/ex06/feed/detail?feedId=' + feedId);
+						location = target;
 					}
 				}
 			});// end ajax
@@ -204,6 +205,8 @@
 			console.log(this);
 			
 			var feedId = $('#feedId').val();
+			const userId = $('#userId').val();
+			console.log(userId);
 
 			$.ajax({
 				type : 'DELETE', 
@@ -214,16 +217,17 @@
 				success : function(result) {
 					console.log(result);
 					if(result == 1) {
-						location.replace("../feed/main");
 						console.log('★ 피드삭제 완료');
 						alert('삭제 완료');
-						location = '../feed/main';
+						var target = encodeURI('/ex06/feed/mylist?userId=' + userId);
+						location = target;
 						getAllMain();
 						
 					} else {
 						console.log('★ 피드삭제 실패');
 						alert('삭제 실패');
-						location = '../feed/main';
+						var target = encodeURI('/ex06/feed/mylist?userId=' + userId);
+						location = target;
 					}
 				}
 			});//end ajax
@@ -701,7 +705,8 @@
 		function showAlert() {
 			if(userId == null) {
 			    alert('로그인을 해주세요.');
-			    return;
+			    var target = encodeURI('/ex06/user/login');
+				location = target;
 			}
 		}
 		
@@ -1084,12 +1089,7 @@
 				'userId' : userId,
 				'feedId' : feedId
 			}
-		
-		//if(userId == null) {
-			//alert('로그인을 해주세요');
-			//return;
-		//}
-		
+
 		$.ajax({
 			type : 'GET',
 			url : '../likes/check',
@@ -1129,7 +1129,8 @@
 		
 		if(userId == null) {
 			alert('로그인을 해주세요');
-			return;
+			var target = encodeURI('/ex06/user/login');
+			location = target;
 		}
 	    if(!$(this).hasClass('liked')){
 			$.ajax({

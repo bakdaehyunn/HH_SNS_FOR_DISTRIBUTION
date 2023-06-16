@@ -108,7 +108,6 @@ public class FeedRESTController {
 			    // 파일이 업로드되지 않은 경우
 			    feedvo.setFeedPhoto("null");
 			}
-
 			// feedContent 값은 항상 유지
 //			String feedContent = feedvo.getFeedContent();
 //			feedvo.setFeedContent(feedContent);

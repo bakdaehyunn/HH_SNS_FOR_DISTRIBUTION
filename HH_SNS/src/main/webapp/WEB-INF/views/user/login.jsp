@@ -15,7 +15,10 @@
 		<input type="password" id="userPassword" name="userPassword">
 		<input type="submit" value="로그인">
 		<div id="loginGuide" style="display: none ;"></div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 	</form>
 	
 	<a href="signup">회원가입</a>

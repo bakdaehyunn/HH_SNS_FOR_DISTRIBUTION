@@ -412,8 +412,10 @@
 				var srcURL = URL.createObjectURL(file);
 				
 				var img = $('<img>').attr('src', srcURL).css({ width: '60%', height: '60%' });
+				// attr = img 태그의 src속성의 값 가져옴
 				
 				if (preview.children().length >= 1) {
+					// preview의 직계 자식
 				    alert('사진은 최대 한 개까지만 가능합니다.');
 				    return;
 				  }
@@ -423,6 +425,7 @@
 			})
 			
 			$('#preview').prop('contentEditable', false);
+			// prop = 선택한 요소의 프로퍼티의 값을 가져와서 지정해준다.
 			$('#preview').css('pointer-events', 'none');
 			
 			$('#btn_add').click(function() {
@@ -446,14 +449,14 @@
 				formData.append('feedPicture', feedPicture);
 
 				var list = '';
-				if(feedContent == '') {
+				if(feedPicture == '' || feedContent == null) {
 					list += '<i style="font-size: 14px">피드를 입력해주세요.</i>'
 					$('#check_feedContent').html(list);
 					$('#check_feedContent').show();
 					return;
 				}
 				
-				if(userId != '' || feedPicture == '') {
+				if(userId != '') {
 					$.ajax({
 						type : 'POST',
 						method : 'POST',
@@ -508,6 +511,13 @@
 										var imageUrl = '';
 									}
 									
+									if(this.feedContent != null) {
+										var feedContent = '<p class="feedContent">' + this.feedContent + '</p>';
+									} else {
+										console.log('작성된 문자 없음');
+										var feedContent = '';
+									}
+									
 									list += '<br>'
 									+ '<div class="div_post">'
 									+ '<div class="post_item">'
@@ -517,7 +527,8 @@
 									+ '<p>' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
 									+ feedDate
 									+ '&nbsp;&nbsp;'
-									+'<p class="feedContent">' + this.feedContent +'</p>'
+									+ '<br>'
+									+ feedContent
 									+ imageUrl
 									+ '</div>'
 									+ '<hr>'
@@ -560,15 +571,15 @@
 			);// end getJSON();
 		}// end getAllList();
 		
-		function detailClick(feedId) {
-		    var url = '../feed/detail?feedId=' + feedId;
-		    window.location.href = url;
-		}
-		
 		$(document).on('click', '.post_tag.clickable', function() {
 		    var feedId = $(this).data('feedid');
 		    detailClick(feedId);
 		});
+		
+		function detailClick(feedId) {
+		    var url = '../feed/detail?feedId=' + feedId;
+		    window.location.href = url;
+		}
 		
 		function getAllHeart() {
 			//var likeId = $('#likeId').val();
@@ -601,6 +612,13 @@
 								var imageUrl = '';
 							}
 							
+							if(this.feedContent != null) {
+								var feedContent = '<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>';
+							} else {
+								console.log('작성된 문자 없음');
+								var feedContent = '';
+							}
+							
 							list += '<br>'
 								+ '<div class="div_post">'
 								+ '<div class="post_item">'
@@ -610,7 +628,7 @@
 								+ '<p>' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
 								+ feedDate
 								+ '&nbsp;&nbsp;'
-								+'<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
+								+ feedContent
 								+ imageUrl
 								+ '</div>'
 								+ '<hr>'
@@ -638,15 +656,15 @@
 			);// end getJSON();
 		}// end getAllHeart();
 		
-		function detailClick(feedId) {
-		    var url = '../feed/detail?feedId=' + feedId;
-		    window.location.href = url;
-		}
-		
 		$(document).on('click', '.post_tag.clickable', function() {
 		    var feedId = $(this).data('feedid');
 		    detailClick(feedId);
 		});
+		
+		function detailClick(feedId) {
+		    var url = '../feed/detail?feedId=' + feedId;
+		    window.location.href = url;
+		}
 		
 		var onTag=false;
 		$('#feedContent').on('input',function(){
