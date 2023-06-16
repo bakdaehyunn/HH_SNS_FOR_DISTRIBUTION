@@ -161,7 +161,7 @@
 <title>회원 상세 페이지</title>
 </head>
 <body>
-	<input type="hidden" id="feedId" value="1">
+	<!-- <input type="hidden" id="feedId" value="1"> -->
 
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
@@ -237,6 +237,9 @@
 	<br>
 	<hr>
 	<br>
+	
+	<input type="hidden" id="likeId" value="${likevo.likeId }">
+	<input type="hidden" id="feedId" value="${feedvo.feedId }">
 	
 	<div id="click_txt">
 		<a class="btn_feed active"><span>피드</span></a>
@@ -474,7 +477,6 @@
 			
 			
 			function getAllList() {
-				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
 				console.log('아이디 : ' + userId);
 
@@ -531,6 +533,19 @@
 									
 									+ '</div>'
 									+ '</div>';
+								
+									var feedId = this.feedId;
+									
+									$.ajax({
+										type : 'GET',
+										url : '../likes/check/' + userId,
+										success : function(data) {
+										$(data).each(function() {
+										
+										});
+									}
+								});//end ajax
+								
 
 
 							});// end data.function;
@@ -589,7 +604,7 @@
 							list += '<br>'
 								+ '<div class="div_post">'
 								+ '<div class="post_item">'
-								
+								+ '<div style="cursor: pointer;" class="post_tag clickable" data-feedId="' + this.feedId + '">'
 								+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 								+ '<p>' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</p>'
 								+ '<p>' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
@@ -597,6 +612,7 @@
 								+ '&nbsp;&nbsp;'
 								+'<p class="feedContent">' + '<a href="../feed/detail?feedId=' + this.feedId + '">' + this.feedContent +'</a>' +'</p>'
 								+ imageUrl
+								+ '</div>'
 								+ '<hr>'
 								
 								+ '<div class="like_item">'
@@ -621,6 +637,17 @@
 				}// end data
 			);// end getJSON();
 		}// end getAllHeart();
+		
+		function detailClick(feedId) {
+		    var url = '../feed/detail?feedId=' + feedId;
+		    window.location.href = url;
+		}
+		
+		$(document).on('click', '.post_tag.clickable', function() {
+		    var feedId = $(this).data('feedid');
+		    detailClick(feedId);
+		});
+		
 		var onTag=false;
 		$('#feedContent').on('input',function(){
 			var feedContent =$(this).text();

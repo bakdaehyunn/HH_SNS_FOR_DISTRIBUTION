@@ -7,7 +7,6 @@ import edu.spring.ex06.domain.LikeInfoVO;
 public interface LikeInfoDAO {
 	int insert(LikeInfoVO vo);
 	LikeInfoVO select(int likeId);
-	LikeInfoVO select_feedId(int feedId);
 	int select_check(String userId, int feedId);
 	List<LikeInfoVO> select_check_all_Id(String userId);
 	List<LikeInfoVO> select_all(int feedId);

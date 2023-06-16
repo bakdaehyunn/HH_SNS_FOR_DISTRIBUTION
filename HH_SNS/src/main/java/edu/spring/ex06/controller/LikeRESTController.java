@@ -86,7 +86,7 @@ public class LikeRESTController {
 	}
 	
 	@GetMapping("/check/{userId}")
-	public ResponseEntity<List<LikeInfoVO>> read_check_userId(
+	public ResponseEntity<List<LikeInfoVO>> read_check_id(
 					@PathVariable("userId") String userId) {
 		logger.info("★ LikeRESTController 유저아이디로 검색 : " + userId);
 		

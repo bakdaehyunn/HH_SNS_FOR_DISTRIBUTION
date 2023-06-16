@@ -169,7 +169,7 @@
 			console.log(this);
 			
 			var feedId = $('#feedId').val();
-			var feedContent = $('#feedContent').text();
+			var feedContent = $('#feedContent').html();
 			const userId = document.getElementById("userId").textContent;
 			console.log ("아이디 : " + userId);
 			console.log("선택된 피드 번호 : " + feedId + ", 피드 내용 : " + feedContent);
@@ -402,7 +402,8 @@
 							+ '<button class="btn_delete" ' + disabled + '>삭제</button>'
 							+ '<div class ="getReplyTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>'
 							+ '<br>'
-							+ '<button class="btn_comment"><a>답글</a></button>'
+							+ '<input type="hidden" value="' + this.commentCount + '">'
+							+ '<button class="btn_comment"><a>답글 (' + this.commentCount + ')</a></button>'
 							+ '<br>'
 							+ '<div type="hidden" class="comments"></div>'
 							+ '</pre>' 
@@ -678,7 +679,7 @@
 			    + '<a href="../feed/mylist?userId=' + userId + '">' + '<b>@'+ userId +"(" + userNickname + ")" + '</b></a>'
 			    + '</div>'
 			    + '&nbsp;&nbsp;'
-			    //+ '<input style="height: 100px; width: 300px;" id="commentContent">'
+
 			    + '<div class="commentContent" contentEditable="true" style="display: inline-block; height: 100px; width: 300px;" ></div>'
 
 			    + '<input style="height: 30px; margin-left: 10px;" type="submit" class="btn_add_comment" value="등록">'
@@ -832,6 +833,7 @@
 				console.log(result);
 				if (result == 1) {
 					console.log('★ 대댓글 등록 성공');
+					
 					// 작성 = btn_add_comment 을 눌렀을 때 getAllComment에서 $('.commentList').html로 바로 출력해야한다.
 					getAllComment(replyId,commentList);
 					
@@ -871,6 +873,7 @@
 		
 		 var commentId = $(this).closest('.commentlist_item').find('#commentId').val();
 		 var replyId = $(this).closest('.commentlist_item').find('#replyId').val();
+		 var commentList = $(this).closest('.commentList');
 		 console.log('★ : ' + commentId + ', ' + replyId);
 		
 		$.ajax({
@@ -881,7 +884,8 @@
 				console.log(result);
 				if(result == 1) {
 					console.log('★ 대댓글 삭제 성공');
-					getAllComment(replyId);
+					
+					getAllComment(replyId,commentList);
 				}
 			}
 		});

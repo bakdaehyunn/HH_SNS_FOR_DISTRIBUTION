@@ -127,10 +127,15 @@ public class FeedController {
 		for (FeedVO feedvo : list) {
 			model.addAttribute("feedvo", feedvo);
 		}
+		
+		List<LikeInfoVO> likelist = likeInfoService.read_check_all_id(userId);
+		for(LikeInfoVO likevo : likelist) {
+			model.addAttribute("likevo", likevo);			
+		}
 	}
 
 	@GetMapping("/detail")
-	public void detail(Model model, @ModelAttribute(name = "feedId") int feedId, FeedVO feedvo, LikeInfoVO likeinfovo,
+	public void detail(Model model, @ModelAttribute(name = "feedId") int feedId, FeedVO feedvo,
 			HttpServletRequest request) {
 		logger.info("★ FeedController detail 호출");
 
@@ -150,8 +155,7 @@ public class FeedController {
 		
 		List<LikeInfoVO> list = likeInfoService.read_all(feedId);
 		for(LikeInfoVO likevo : list) {
-			logger.info(likevo.toString());
-			model.addAttribute("likevo", likevo);
+			model.addAttribute("likevo", likevo);			
 		}
 		
 	}

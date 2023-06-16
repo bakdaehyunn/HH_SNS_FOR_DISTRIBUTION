@@ -98,6 +98,4 @@ public class CommentInfoVO {
 				+ commentContent + ", commentDate=" + commentDate + ", likeCount=" + likeCount + "]";
 	}
 
-	
-
 }

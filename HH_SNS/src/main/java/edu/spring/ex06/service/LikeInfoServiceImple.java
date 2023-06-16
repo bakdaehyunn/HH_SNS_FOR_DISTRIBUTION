@@ -52,13 +52,6 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		logger.info("★ LikeServiceImple 좋아요 번호 : " + likeId);
 		return likeDAO.select(likeId);
 	}
-	
-	@Override
-	public LikeInfoVO read_feedId(int feedId) {
-		logger.info("★ LikeServiceImple 좋아요 피드 아이디 : " + feedId);
-		return likeDAO.select(feedId);
-	}
-	
 
 	@Override
 	public int read_check(String userId, int feedId) {
@@ -104,6 +97,7 @@ public class LikeInfoServiceImple implements LikeInfoService{
 		
 		return 1;
 	}
+
 
 
 

@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.spring.ex06.domain.CommentInfoVO;
 import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.LikeInfoVO;
 import edu.spring.ex06.domain.ReplyVO;
+import edu.spring.ex06.persistence.CommentInfoDAO;
 import edu.spring.ex06.persistence.FeedDAO;
 import edu.spring.ex06.persistence.LikeInfoDAO;
 import edu.spring.ex06.persistence.ReplyDAO;
@@ -28,6 +30,9 @@ public class FeedServiceImple implements FeedService{
 	
 	@Autowired
 	private ReplyDAO replydao;
+	
+	@Autowired
+	private CommentInfoDAO commentdao;
 
 	@Override
 	public int create(FeedVO feedvo) {
@@ -80,9 +85,20 @@ public class FeedServiceImple implements FeedService{
 		
 		List<ReplyVO> replylist = replydao.select(feedId);
 		for(ReplyVO replyvo : replylist) {
-			replydao.delete(replyvo.getReplyId());
+			int replyId = replyvo.getReplyId();
+			replydao.delete(replyId);
 			logger.info("댓글 삭제 완료");
+			
+			List<CommentInfoVO> commentlist = commentdao.select_all(replyId);
+			for(CommentInfoVO commentvo : commentlist) {
+				commentdao.delete(commentvo.getCommentId());
+				logger.info("대댓글 삭제 완료");
+			}
+			
+		
 		}
+		
+		
 		
 		return 1;
 	}

@@ -139,8 +139,6 @@
 </head>
 <body >
 
-	<!-- ▼ 아래 히든인 이유는 1씩 올리는것뿐인걸 굳이 보일필요 X -->
-	<input type="hidden" id="feedId" value="1">
 	
 	<!-- 
 	▼ 등록버튼은 절 대 form안에 넣지말기 ㅎ-ㅎ 
@@ -215,7 +213,6 @@
 		$(document).ready(function() {
 			
 			getAllMain();
-			likecheck();
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -270,10 +267,9 @@
 			
 			// 피드 작성버튼
 			$('#btn_add').click(function() {
-				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
 				var feedContent = $('#feedContent').html();
-				console.log('피드 번호  : ' + feedId + ', 유저 아이디 : ' + userId + ', 피드 내용 : ' + feedContent);
+				console.log('유저 아이디 : ' + userId + ', 피드 내용 : ' + feedContent);
 				
 				// ▼ 문제점 ----------------------------------------------
 
@@ -291,7 +287,6 @@
 				
 				console.log('파일 : ' + feedPicture);
 				  
-				formData.append('feedId', feedId);
 				formData.append('userId', userId);
 				formData.append('feedContent', feedContent);
 				formData.append('feedPicture', feedPicture);
@@ -334,12 +329,10 @@
 					//	'.c1' : 클래스
 
 					function getAllMain() {
-						var feedId = $('#feedId').val();
-						console.log('♣ : ' + feedId);
 						const userId = document.getElementById("userId").textContent;
 						console.log(userId);
 
-						var url = '../feeds/all/' + feedId;
+						var url = '../feeds/all';
 							$.getJSON(
 								url,
 								function(data) {
@@ -373,15 +366,13 @@
 											+ '<div style="cursor: pointer;" class="post_tag clickable" data-feedId="' + this.feedId + '">'
 											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
-											+ '<p id="userId">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</p>'
+											+ '<p id="userId">' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</a>' +'</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'
 											+ '<p class="feedContent">' + this.feedContent + '</p>'
 											+ imageUrl
 											+ '</div>'
 											+ '<hr>'
-											
-											+ '<input type="hidden" id="likefeedId" value=${likevo.feedId }>'
 											
 											+ '<div class="like_item">'
 											+ '좋아요' 
@@ -395,12 +386,17 @@
 											
 											+ '</div>'
 											+ '</div>';
-											
-									});// end data.funchion;
-										$('#feeds').html(list);
-							}//end function(data);
+							});// end data.funchion;
+							$('#feeds').html(list);
+						}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
+				
+				$('.btn_like').each(function(index,item){
+					var userId = $(this).closest('#userId').val();
+					console.log('떠!!!!!!!!!!!!!!!!!!!!');
+					console.log(userId);
+				});// end each
 				
 				function detailClick(feedId) {
 				    var url = '../feed/detail?feedId=' + feedId;
@@ -412,30 +408,6 @@
 				    detailClick(feedId);
 				});
 				
-				function likecheck() {
-					  const userId = document.getElementById("userId").textContent;
-					  
-					  var likefeedId = $('#likefeedId').val();
-					  console.log('＆ : ' + likefeedId);
-					  
-					  $.ajax({
-					    type: 'GET',
-					    url: '../likes/check/' + userId,
-					    success: function(data) {
-					      console.log(data);
-					      if (data.length > 0) {
-					        data.forEach(function(item) {
-					          console.log('＊');
-					          console.log(item.feedId);
-					          console.log(likefeedId);
-					          if (item.feedId != '') {
-					            $('.btn_like').addClass('liked');
-					          }
-					        });
-					      }
-					    }
-					  });
-					}
 				
 				// ************** 태그 관련 ***************
 				var onTag=false;

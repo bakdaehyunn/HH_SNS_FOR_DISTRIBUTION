@@ -9,11 +9,13 @@
 </head>
 <body>
 	<h1>로그인</h1>
+
 	<form id="loginForm" action="login" method="POST">
 		<input type="text" id="userId" name="userId"><br>
 		<input type="password" id="userPassword" name="userPassword">
 		<input type="submit" value="로그인">
 		<div id="loginGuide" style="display: none ;"></div>
+
 	</form>
 	
 	<a href="signup">회원가입</a>
@@ -22,6 +24,10 @@
 	<input type="hidden" id="insertAlert" value="${insert_result }">
 	
 	<script type="text/javascript">
+		var result = $('#insertAlert').val();
+		if(result == 'success') {
+			alert('회원 가입 성공!');
+		}
 		$(document).ready(function(){
 			var result = $('#insertAlert').val();
 			var result = $('#insertAlert').val();

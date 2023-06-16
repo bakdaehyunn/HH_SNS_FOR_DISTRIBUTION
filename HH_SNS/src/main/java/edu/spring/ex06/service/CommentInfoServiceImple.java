@@ -37,12 +37,13 @@ public class CommentInfoServiceImple implements CommentInfoService{
     
 	@Transactional(value = "transactionManager")
 	@Override
-	public int create(CommentInfoVO commentvo) {
+	public int create(CommentInfoVO commentvo) throws Exception{
 		logger.info("★ CommentInfoServiceImple 대댓글 등록 = " + commentvo.toString());
 		commentdao.insert(commentvo);
 		replydao.updateCommentCnt(1, commentvo.getReplyId());
 		int feedId = replydao.selectFeedId(commentvo.getReplyId());
 		feeddao.updateReplyCnt(1, feedId);
+
 		return 1;
 	}// end create()
 	
@@ -65,6 +66,12 @@ public class CommentInfoServiceImple implements CommentInfoService{
 	}
 	
 	@Override
+	public List<CommentInfoVO> read_all_commentid(int commentId) {
+		logger.info("★ CommentInfoServiceImple 전체 검색 : = " + commentId);
+		return commentdao.select_all_commentid(commentId);
+	}
+	
+	@Override
 	public int update(int commentId, String commentContent) {
 		logger.info("★ CommentInfoServiceImple 수정");
 		logger.info("대댓글 번호 = " + commentId + ", 대댓글 내용 = " + commentContent);
@@ -73,18 +80,19 @@ public class CommentInfoServiceImple implements CommentInfoService{
 	
 	@Transactional(value = "transactionManager")
 	@Override
-	public int delete(int commentId) {
+	public int delete(int commentId) throws Exception{
 		logger.info("★ CommentInfoServiceImple 대댓글 삭제");
 		CommentInfoVO vo = commentdao.select(commentId);
+
 		int feedId = replydao.selectFeedId(vo.getReplyId());
+
 		commentdao.delete(commentId);
 		replydao.updateCommentCnt(-1, vo.getReplyId());
+
 		feeddao.updateReplyCnt(-1, feedId);
+
 		return 1;
 	}
-
-
-
 
 
 }

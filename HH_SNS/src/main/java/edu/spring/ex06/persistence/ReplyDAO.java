@@ -13,5 +13,6 @@ public interface ReplyDAO {
 	int update(int replyId, String replyContent);
 	int delete(int replyId);
 	int updateCommentCnt(int amount, int replyId);
+	int update_profile(String userNickname, String userProfile, String userId);
 	
 }
