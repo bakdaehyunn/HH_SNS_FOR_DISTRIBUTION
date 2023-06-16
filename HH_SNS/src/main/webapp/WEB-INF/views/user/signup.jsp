@@ -19,7 +19,9 @@
 		<div id="userNameGuide" style="display: none;"></div>
 		<div>닉네임 : <input type="text" id="userNickname" name="userNickname" placeholder="닉네임"  maxlength='20' ></div>
 		<div id="userNicknameGuide" style="display: none;"></div>
-		<%-- 이메일 인증(비동기) 이메일 @(옵션)  생년월일 생년월일 옵션  --%>
+		<%-- 생년월일 생년월일  이메일 인증(비동기) 이메일    --%>
+		<div>생년월일 : <input type="text" name="userBirth" id="userBirth" ></div>
+		<div id="userBirthGuide" style="display: none;"></div>
 		<div>이메일 : <input type="text" id="userEmail" name="userEmail" > 
 			<button type="button" id="emailVerifSend">인증번호 받기</button>
 		</div> 
@@ -28,7 +30,8 @@
 			인증번호 : <input type="text" id="emailVerifInput" readonly>
 		</div>
 		<div id="emailVerifInputGuide" style="display: none;"></div>
-		<div>생년월일 : <input type="date" name="userBirth" id="userBirth" required></div>
+		
+		<!-- <div>생년월일 : <input type="date" name="userBirth" id="userBirth" required></div> -->
 		<input type="hidden" name="userProfile" value=""></div>
 		<input type="submit" value="가입">
 	</form>
@@ -36,14 +39,27 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			
+			function isBirthday(asValue){
+				var regExp=/^[1-2]{1}[0-9]{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+				return regExp.test(asValue);
+			}
+			function isBirthdayB(asValue){
+				var regExp=/^(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+				return regExp.test(asValue);
+			}
+			function isNum(asValue) {
+				var regExp= /^[0-9]{8}$/
+				return regExp.test(asValue);
+				//숫자 8자리 입력 가능
+			}
 			function isUserid(asValue) {
 			    var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{1,8}$/;
 			    return regExp.test(asValue);
-			}//아이디는 8-15자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능
+			}//아이디는 1-8자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능
 			function isPassword(asValue) {
 			    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
 			    return regExp.test(asValue);
-			}//영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용
+			}//영문과 숫자 조합의 8-20자의 비밀번호를 설정. 특수문자(!@#$%^&*)도 사용
 			function isEmail(asValue) {
 				var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				return regExp.test(asValue);
@@ -242,6 +258,59 @@
 					$('#userNicknameGuide').show();
 				}
 			});
+			var userBirthBool = false;
+			$('#userBirth').focus(function(){
+				var userBirth =$(this).val();
+				console.log(userBirth);
+				if(userBirthBool == true && isBirthdayB(userBirth)){
+					$('#userBirth').val('');
+					$('#userBirthGuide').text('');
+					$('#userBirthGuide').show();
+				}
+			});
+			$('#userBirth').blur(function(){
+				var userBirth =$(this).val();
+				console.log(userBirth);
+				if(userBirth != ''){
+					if(isNum(userBirth)){
+						if(isBirthday(userBirth)){
+							var  bYear = userBirth.substr(0,4);
+							var bMonth =  userBirth.substr(4,2);
+							var bDay = userBirth.substr(6,2);
+							var  birthYear = parseInt(userBirth.substr(0,4));
+							var birthMonth =  parseInt(userBirth.substr(4,2));
+							var birthDay =  parseInt(userBirth.substr(6,2));
+							var today = new Date();
+							var year =  parseInt(today.getFullYear());
+							var month =  parseInt(('0' + (today.getMonth() + 1)).slice(-2));
+							var day =  parseInt(('0' + today.getDate()).slice(-2));
+							if(birthYear>year ||(birthYear == year && birthMonth > month) || (birthYear == year && birthMonth == month && birthDay > day)){
+								list = '미래에서 오셨군요.';
+							}else if(birthYear < 1900||(birthYear==1900 && birthMonth<01)||(birthYear == 1900 && birthMonth == 01 && birthDay < 1)){
+								list = '과거에서 오셨군요.';
+							}else{
+								userBirthBool = true;
+								list = '';
+								$('#userBirth').val(bYear+'-'+bMonth+'-'+bDay);
+							}
+						}else{
+							list = '생년월일을 다시 확인해주세요';
+						}
+					}else if(userBirthBool == true && isBirthdayB(userBirth)){
+						$('#userBirth').val('');
+					}
+					else{
+						userBirthBool = false;
+						list = '생년월일은 8자리 숫자로 입력해 주세요. ';
+					}
+					$('#userBirthGuide').text(list);
+					$('#userBirthGuide').show();
+				}else{
+					list = '생년월일을 입력해 주세요. ';
+					$('#userBirthGuide').text(list);
+					$('#userBirthGuide').show();
+				}
+			});
 			
 			$('#signUpForm').submit(function(e){
 				warn="필수 입력 사항입니다.";
@@ -270,7 +339,11 @@
 					$('#userNickname').focus();
 					$('#userNicknameGuide').html(warn);
 					$('#userNicknameGuide').show();
-					
+				}else if(userBirthBool == false){
+					e.preventDefault();
+					$('#userBirth').focus();
+					$('#userBirthGuide').html(warn);
+					$('#userBirthGuide').show();
 				}else if(EmailSendBool == false){
 					e.preventDefault();
 					warn='이메일 인증을 진행해주세요.'
