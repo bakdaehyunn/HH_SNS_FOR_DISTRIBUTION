@@ -33,40 +33,26 @@
 			var userId = "<c:out value='${userId}' />";
 			
 			if(userId != ''){
-				var obj = {
-					'userinfoUserId'  : userinfoUserId,
-					'userId' : userId
-				}	
-				console.log(obj);
+				var params = "userId=" + userinfoUserId; //****************상대방 유저아이디******************************
+				console.log(params);
 				if(!$(this).hasClass('following')){
 					console.log('post');
 					$.ajax({
 						type : 'POST',
 						url : '../users/follow?' + params,
+						context: this,
 						headers : {
 							'content-Type' : 'application/json'
 						},
 						//data : JSON.stringify(obj),
 						//data : userinfoUserId,
-						beforeSend : function(xmlHttpRequest){
-							xmlHttpRequest.setRequestHeader("AJAX", "true");
-						},
+						
 						success: function(result){
 							console.log(result);
 							if(result == 1){
 								alert("팔로우 완료");
-								followcheck();
-								followerCnt = followerCnt + 1;
-								$('#followerCnt').text("팔로워 : "+ followerCnt );
-							}
-						},
-						error: function(e){
-							if(e.status==400){
-								alert("로그인이 필요합니다.");
-								var target = encodeURI('/ex06/user/login');
-								location = target;
-								
-								
+								$(this).addClass('following');
+								$(this).text('팔로우 중');
 							}
 						}
 					})
