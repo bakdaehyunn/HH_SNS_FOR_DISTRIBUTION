@@ -147,12 +147,12 @@
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
 		<div class="input_feed">
-		<p><a href="../user/noti">알람</a></p>
 		<c:if test="${empty userId}">
-		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /></p>
+		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /> ₒ₍₊˒₃˓₎ₒ▁▂▃▅▆▓▒░✩★</p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">
+		<p><a href="../user/noti">알람</a></p>
 		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
@@ -294,14 +294,14 @@
 				// ---------------------------------------------------
 
 				var list = '';
-				if(feedContent == '') {
+				if(feedPicture == '' || feedContent == null) {
 					list += '<i style="font-size: 14px">피드를 입력해주세요.</i>'
 					$('#check_feedContent').html(list);
 					$('#check_feedContent').show();
 					return;
 				}
 				
-				if(userId != '' || feedPicture == '') {
+				if(userId != '' ) {
 					$.ajax({
 						type : 'POST',
 						method : 'POST',
@@ -354,6 +354,13 @@
 											} else if(this.feedPhoto == 'null') {
 												var imageUrl = '';
 											}
+											
+											if(this.feedContent != null) {
+												var feedContent = '<p class="feedContent">' + this.feedContent + '</p>';
+											} else {
+												console.log('작성된 문자 없음');
+												var feedContent = '';
+											}
 											// 회원이어야지만 작성은 가능하나
 											// 회원이 아니여도 피드를 볼 수 있고
 											// 피드에 있는 링크를 통해 그 회원의 개인 피드(=list), 회원의 전체 피드(=main / detail) 볼 수 있다.
@@ -369,7 +376,8 @@
 											+ '<p id="userId">' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@' + this.userId + "(" + this.userNickname + ")" + '</b>' + '</a>' +'</p>'
 											+ feedDate
 											+ '&nbsp;&nbsp;'
-											+ '<p class="feedContent">' + this.feedContent + '</p>'
+											+ '<br>'
+											+ feedContent
 											+ imageUrl
 											+ '</div>'
 											+ '<hr>'
@@ -398,16 +406,15 @@
 					console.log(userId);
 				});// end each
 				
-				function detailClick(feedId) {
-				    var url = '../feed/detail?feedId=' + feedId;
-				    window.location.href = url;
-				}
-				
 				$(document).on('click', '.post_tag.clickable', function() {
 				    var feedId = $(this).data('feedid');
 				    detailClick(feedId);
 				});
 				
+				function detailClick(feedId) {
+				    var url = '../feed/detail?feedId=' + feedId;
+				    window.location.href = url;
+				}
 				
 				// ************** 태그 관련 ***************
 				var onTag=false;

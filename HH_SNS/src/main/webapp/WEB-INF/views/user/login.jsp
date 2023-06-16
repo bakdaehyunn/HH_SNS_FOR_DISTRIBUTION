@@ -9,18 +9,12 @@
 </head>
 <body>
 	<h1>로그인</h1>
-<<<<<<< HEAD
-	<form action="login" method="POST">
-		<input type="text" name="userId"><br>
-		<input type="password" name="userPassword">
-		<input type="submit" value="로그인">
-=======
+
 	<form id="loginForm" action="login" method="POST">
 		<input type="text" id="userId" name="userId"><br>
 		<input type="password" id="userPassword" name="userPassword">
 		<input type="submit" value="로그인">
 		<div id="loginGuide" style="display: none ;"></div>
->>>>>>> branch 'master' of https://github.com/bakdaehyunn/HH_SNS.git
 	</form>
 	
 	<a href="signup">회원가입</a>
