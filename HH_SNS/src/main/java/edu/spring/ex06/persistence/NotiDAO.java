@@ -13,7 +13,7 @@ public interface NotiDAO {
 	int selectCheck(String receiverId);
 	int delete(String senderId, String receiverId);
 	int update(String receiverId);
-	
+	int deleteNotiId(int notiId);
 	int deleteSenderId(String senderId);
 	int deleteReceiverId(String receiverId);
 

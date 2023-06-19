@@ -80,13 +80,15 @@
 								list +='<div class="noti_reply" id="notificationItem" >'
 								+ this.senderId +'님이 회원님의 게시물에 댓글을 달았습니다.'
 								+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
-								+'</div>'
+								+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
+								+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
 								
 							}else if(this.notiCategory == 'like'){
 								list +='<div class="noti_like" id="notificationItem">'
 									+ this.senderId +'님이 회원님의 댓글에 좋아요를 눌렀습니다.'
 									+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
-									+'</div>'
+									+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
+									+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
 									
 							}
 						}
@@ -94,7 +96,8 @@
 							list +='<div class="noti_follow" id="notificationItem">'
 								+ this.senderId +'님이 회원님을 팔로우 합니다.'
 								+ '<input type="hidden" id="receiverId" value="' + this.receiverId + '">'
-								+'</div>'
+								+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
+								+'<button class="delete"style="display: inline-block;">X</button>'+'</div>'
 								
 						}
 						$('#notis').html(list);
@@ -104,6 +107,27 @@
 
 			});// ajax()
 		}
+		$(document).on('click','.delete',function(e){
+			e.stopPropagation();
+			var notiId = $(this).prevAll('#notiId').val();
+			$.ajax({
+				type : 'DELETE',
+				url : '../users/notiDelete/' + notiId,
+				context: this,
+				headers : {
+					'content-Type' : 'application/json'
+				},
+				success: function(result){
+					console.log(result);
+					if(result == 1){
+						console.log('알림 삭제 성공');
+						getNotiList();
+						
+					}
+				}
+			})
+		});
+	
 		$(document).on('click','.noti_follow',function(){
 			var receiverId = $(this).find('#receiverId').val();
 			var target =encodeURI('/ex06/feed/mylist?userId='+receiverId);

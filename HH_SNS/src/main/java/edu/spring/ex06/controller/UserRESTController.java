@@ -89,6 +89,11 @@ public class UserRESTController {
 		}
 		return new ResponseEntity<List<NotiVO>>(list,HttpStatus.OK);
 	}
+	@DeleteMapping("/notiDelete/{notiId}")
+	public ResponseEntity<Integer> deleteNoti(@PathVariable("notiId") int notiId){
+		int result = notiService.delete(notiId);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
 	
 	@GetMapping("/userId/{userId}")
 	public ResponseEntity<Integer> readUserId(

@@ -77,4 +77,10 @@ public class NotiDAOImple implements NotiDAO {
 
 	}
 
+	@Override
+	public int deleteNotiId(int notiId) {
+		logger.info("deleteNotiId : " +notiId);
+		return sqlSession.delete(NAMESPACE + ".delete_notiId", notiId);
+	}
+
 }

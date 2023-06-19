@@ -55,6 +55,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${receiverId} = #{receiverId}
 	</delete>
 	
+	<delete id="delete_notiId">
+		delete from ${noti}
+		where ${notiId} = #{notiId}
+	</delete>
 	
 	
 
