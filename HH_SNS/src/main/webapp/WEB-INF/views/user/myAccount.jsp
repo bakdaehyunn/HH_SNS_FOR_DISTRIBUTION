@@ -46,7 +46,7 @@
 		<div id="userNameGuide" style="display: none;"></div>
 	    <fmt:formatDate value="${vo.userBirth  }"
 		pattern="yyyy-MM-dd" var="userBirth" />
-		<div>생년월일 : <input type="text" name="userBirth" id="userBirth" value="${userBirth }" readonly ></div>
+		<div>생년월일 : <input type="text" name="userBirth" id="userBirth" value="${userBirth }"  ></div>
 		<div id="userBirthGuide" style="display: none;"></div>
 		<div>이메일 : <input type="text" id="userEmail" name="userEmail" value="${vo.userEmail }" > 
 			<button type="button" id="emailVerifSend">인증번호 받기</button>
