@@ -1,8 +1,6 @@
 package edu.spring.ex06.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -13,17 +11,14 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,12 +26,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import edu.spring.ex06.domain.FollowVO;
+
+
 import edu.spring.ex06.domain.NotiVO;
-import edu.spring.ex06.domain.UserInfoVO;
+
 import edu.spring.ex06.service.FollowService;
 import edu.spring.ex06.service.NotiService;
 import edu.spring.ex06.service.UserInfoService;

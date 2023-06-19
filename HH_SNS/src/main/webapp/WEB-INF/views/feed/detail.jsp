@@ -104,7 +104,7 @@
 			    <input type="submit" id="btn_update" value="수정">
 			    <input type="submit" id="btn_delete" value="삭제">
 			</c:if>
-			<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>
+			<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>
 			</div>
 			<c:if test="${feedvo.feedPhoto ne 'null'}">
 				<br>
@@ -147,7 +147,7 @@
 			<div id="replyContent" style=" width : 700px; height:100px;display: inline-block;margin: 0 auto;" contenteditable="true"></div>
 		<button id="btn_add"style="display: inline-block" >작성</button>
 		</div>
-		<div id ="replyTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>
+		<div id ="replyTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>
 		</c:if>
 	</div>
 	
@@ -268,7 +268,7 @@
 								$(data).each(function(){
 									console.log(this);
 									list += '<div class="tag_item">'
-									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 									+'@'+this.userId +'('+this.userNickname+')'
 									+'<input type="hidden" class="userId" value="'+this.userId+'">'
 									+'</div>'
@@ -406,7 +406,7 @@
 							+ '&nbsp;&nbsp;'
 							+ '<button class="btn_update" ' + disabled + '>수정</button>'
 							+ '<button class="btn_delete" ' + disabled + '>삭제</button>'
-							+ '<div class ="getReplyTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>'
+							+ '<div class ="getReplyTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>'
 							+ '<br>'
 							+ '<input type="hidden" value="' + this.commentCount + '">'
 							+ '<button class="btn_comment"><a>답글 (' + this.commentCount + ')</a></button>'
@@ -509,7 +509,7 @@
 								$(data).each(function(){
 									console.log(this);
 									list += '<div class="tag_item">'
-									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 									+'@'+this.userId +'('+this.userNickname+')'
 									+'<input type="hidden" class="userId" value="'+this.userId+'">'
 									+'</div>'
@@ -596,7 +596,7 @@
 								$(data).each(function(){
 									console.log(this);
 									list += '<div class="tag_item">'
-									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 									+'@'+this.userId +'('+this.userNickname+')'
 									+'<input type="hidden" class="userId" value="'+this.userId+'">'
 									+'</div>'
@@ -690,7 +690,7 @@
 
 			    + '<input style="height: 30px; margin-left: 10px;" type="submit" class="btn_add_comment" value="등록">'
 
-			 	+ '<div class ="commentTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>'
+			 	+ '<div class ="commentTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px; overflow: auto; border: 1px solid #ccc;"></div>'
 
 			    + '<div id="check_comment" style="display: none;">'
 			    + '</div>'
@@ -750,9 +750,11 @@
 						
 						var disabled = 'disabled';
 						var readonly = 'readonly';
+						var contentEditable = '';
 						if(userId == this.userId) { 
 							disabled = '';
 							readonly = '';
+							contentEditable ='contentEditable="true"';
 						}
 						
 						console.log(replyId + ' == ' + this.replyId + ' : 일치?');
@@ -768,11 +770,11 @@
 							    + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@'+ this.userId +"(" + this.userNickname + ")" + '</b></a>'
 							    + '</div>'
 							    
-							    + '<div style="text-align:left; width: auto; min-width: 200px; display: inline-block;" class="getCommentContent" contentEditable="true">' + this.commentContent + '</div>'
+							    + '<div style="text-align:left; width: auto; min-width: 200px; display: inline-block;" class="getCommentContent" '+contentEditable+'>' + this.commentContent + '</div>'
 							    + '<button class="btn_update_comment" ' + disabled + '>수정</button>'
 							    + '<button class="btn_delete_comment" ' + disabled + '>삭제</button>'
 							   
-							    + '<div class ="getCommentTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>'
+							    + '<div class ="getCommentTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>'
 							    + '<hr>'
 							    + '</div>';
 						}
@@ -935,7 +937,7 @@
 							$(data).each(function(){
 								console.log(this);
 								list += '<div class="tag_item">'
-								+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+								+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 								+'@'+this.userId +'('+this.userNickname+')'
 								+'<input type="hidden" class="userId" value="'+this.userId+'">'
 								+'</div>'
@@ -1023,7 +1025,7 @@
 							$(data).each(function(){
 								console.log(this);
 								list += '<div class="tag_item">'
-								+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+								+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 								+'@'+this.userId +'('+this.userNickname+')'
 								+'<input type="hidden" class="userId" value="'+this.userId+'">'
 								+'</div>'

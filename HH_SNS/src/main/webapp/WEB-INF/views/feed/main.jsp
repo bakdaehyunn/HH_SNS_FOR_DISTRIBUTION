@@ -167,7 +167,7 @@
 		
 		<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 		<br>
-		<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>
+		<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px; overflow: auto; border: 1px solid #ccc;"></div>
 		</div>
 		
 		<form id="uploadForm" enctype="multipart/form-data">
@@ -493,7 +493,7 @@
 										$(data).each(function(){
 											console.log(this);
 											list += '<div class="tag_item">'
-											+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+											+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 											+'@'+this.userId +'('+this.userNickname+')'
 											+'<input type="hidden" class="userId" value="'+this.userId+'">'
 											+'</div>'
