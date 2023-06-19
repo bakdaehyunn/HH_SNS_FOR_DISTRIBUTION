@@ -92,6 +92,18 @@ public class FollowDAOImple implements FollowDAO{
 		args.put("followingUserId", followingUserId);
 		return sqlSession.selectList(NAMESPACE + ".select_tag_list", args);
 	}
+
+	@Override
+	public int deleteFollower(String followerUserId) {
+		logger.info("deleteFollower : " + followerUserId);
+		return sqlSession.delete(NAMESPACE + ".delete_follower", followerUserId);
+	}
+
+	@Override
+	public int deleteFollowing(String followingUserId) {
+		logger.info("deleteFollowing : " + followingUserId);
+		return sqlSession.delete(NAMESPACE + ".delete_following", followingUserId);
+	}
 	
 	
 

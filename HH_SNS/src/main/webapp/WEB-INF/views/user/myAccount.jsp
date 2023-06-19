@@ -1,29 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+#myAccountForm {
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 350px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#myAccountForm div {
+  margin-bottom: 10px;
+}
+
+#myAccountForm input[type="submit"] {
+  margin-top: 10px;
+}
+
+#accountDeleteLink {
+  display: block;
+  margin-top: 20px;
+}
+#title{
+ text-align: center;
+}
+</style>
 <meta charset="UTF-8">
-<title>Sign Up</title>
+<title>my account</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <h1><a href="../feed/main">H&H</a></h1> <br>
-<%-- 아이디 비밀번호 이름 닉네임, 생일 이메일 --%>
-	<form id="signUpForm" action="signup" method="post">
-		<%-- 아이디 중복 체크(비동기) 및 정규식 --%>
-		<div>아이디 : <input type="text" id="userId" name="userId" placeholder="아이디"></div>
+	<h1 id="title">회원정보 수정</h1>
+	<form id="myAccountForm" action="myAccount" method="post">
+		<div>아이디 : <input type="text" id="userId" name="userId" value="${vo.userId }" readonly></div>
 		<div id="userIdGuide" style="display: none;"></div>
-		<div>패스워드 : <input type="password" id="userPassword" name="userPassword" placeholder="패스워드" ></div>
+		<div>패스워드 : <input type="password" id="userPassword" name="userPassword" value="${vo.userName }" ></div>
 		<div id="userPasswordGuide" style="display: none;"></div>
-		<div> 이름: <input type="text" id="userName" name="userName" placeholder="이름" maxlength='20' ></div>
+		<div> 이름: <input type="text" id="userName" name="userName" value="${vo.userName }" maxlength='20' ></div>
 		<div id="userNameGuide" style="display: none;"></div>
-		<div>닉네임 : <input type="text" id="userNickname" name="userNickname" placeholder="닉네임"  maxlength='20' ></div>
-		<div id="userNicknameGuide" style="display: none;"></div>
-		<%-- 생년월일 생년월일  이메일 인증(비동기) 이메일    --%>
-		<div>생년월일 : <input type="text" name="userBirth" id="userBirth" ></div>
+	    <fmt:formatDate value="${vo.userBirth  }"
+		pattern="yyyy-MM-dd" var="userBirth" />
+		<div>생년월일 : <input type="text" name="userBirth" id="userBirth" value="${userBirth }" readonly ></div>
 		<div id="userBirthGuide" style="display: none;"></div>
-		<div>이메일 : <input type="text" id="userEmail" name="userEmail" > 
+		<div>이메일 : <input type="text" id="userEmail" name="userEmail" value="${vo.userEmail }" > 
 			<button type="button" id="emailVerifSend">인증번호 받기</button>
 		</div> 
 		<div id="userEmailGuide" style="display: none;"></div>
@@ -32,10 +57,11 @@
 		</div>
 		<div id="emailVerifInputGuide" style="display: none;"></div>
 		
-		<!-- <div>생년월일 : <input type="date" name="userBirth" id="userBirth" required></div> -->
+		
 		<input type="hidden" name="userProfile" value=""></div>
-		<input type="submit" value="가입">
+		<input type="submit" value="수정">
 	</form>
+	<a href="accDelete" id="accountDeleteLink">회원탈퇴</a>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -69,61 +95,14 @@
 				var regExp = /^[가-힣a-zA-Z]*$/;
 				return regExp.test(asValue);
 			}
-			function isNickname(asValue){
-				var regExp = /^[가-힣a-zA-Z0-9]*$/;
-				return regExp.test(asValue);
-			};
-			$('#userBirth').blur(function(){
-				var userBirth = $('#userBirth').val();
-				
-				
-			});
 			
-			var userIdBool =false;
-			$('#userId').keyup(function(){
-				var userId = $('#userId').val();
-				console.log(userId);
-				var list = '';
-				if(userId != '' ){
-					if(isUserid(userId)){
-						// $.ajax로 송수신
-						$.ajax({
-							type : 'GET',
-							url : '../users/userId/'+userId,
-							headers : {'Content-Type' : 'application/json' },
-							success :function(data){
-								console.log(data);
-								if(data == 1){
-									list ='해당 아이디는 이미 사용 중 입니다. ';
-									userIdBool = false;
-								} else if(data == 0){
-									list = '해당 아이디는 사용 가능 합니다.';
-									userIdBool = true;
-								}
-								$('#userIdGuide').html(list);
-								$('#userIdGuide').show();
-							} //end function()
-							
-						}); // end ajax
-					}
-					else {
-						userIdBool =false;
-						list = '아이디는 1-8자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능';
-						$('#userIdGuide').html(list);
-					}
-				} else {
-					userIdBool =false;
-					list ='아이디를 입력해주세요. ';
-					$('#userIdGuide').html(list);
-					$('#userIdGuide').show();
-					//$('#userIdGuide').hide();
-				}
-				
-			});//end userid.keyup event 
+			
+			
+			
 			
 			var emailVerifCode ='-1'; // 발급된 이메일 인증번호 저장 변수
 			
-			var EmailSendBool = false;
+			var EmailSendBool = true;
 			$('#emailVerifSend').click(function(){
 				var userEmail = $('#userEmail').val();
 				$.ajax({
@@ -142,7 +121,7 @@
 				})
 				
 			});
-			var emailVerifBool = false;
+			var emailVerifBool = true;
 			$('#emailVerifInput').blur(function(){
 				var list ='';
 				if($('#emailVerifInput').val() != null){
@@ -158,8 +137,13 @@
 					$('#emailVerifInputGuide').html(list);
 				}
 			});
-			
+			$('#userEmail').mousedown(function(){
+				$('#userEmail').val('');
+				emailVerifBool = true;
+				EmailSendBool = true;
+			});
 			$('#userEmail').keyup(function(){
+				
 				var userEmail = $('#userEmail').val();
 				console.log(userEmail);
 				var list = '';
@@ -197,7 +181,11 @@
 					$('#userEmailGuide').show();
 				}
 			});
-			var userPasswordBool = false;
+			var userPasswordBool = true;
+			$('#userPassword').mousedown(function(){
+				$('#userPassword').val('');
+				userPasswordBool= false;
+			});
 			$('#userPassword').keyup(function(){
 				var userPassword = $('#userPassword').val();
 				console.log(userPassword);
@@ -219,7 +207,11 @@
 					userPasswordBool = false;
 				}
 			});
-			var userNameBool = false;
+			var userNameBool = true;
+			$('#userName').mousedown(function(){
+				$('#userName').val('');
+				userNameBool =false;
+			});
 			$('#userName').blur(function(){
 				var userName = $('#userName').val();
 				console.log(userName);
@@ -241,30 +233,9 @@
 					$('#userNameGuide').show();
 				}
 			});
-			var userNicknameBool = false;
-			$('#userNickname').blur(function(){
-				var userNickname =  $('#userNickname').val();
-				console.log(userNickname);
-				var list = '';
-				if(userNickname != ''){
-					if(isNickname(userNickname)){
-						userNicknameBool = true;
-						list = '';
-				
-					}else{
-						userNicknameBool = false;
-						list = '한글, 영어, 숫자로만 입력 가능합니다.';
-						
-					}$('#userNicknameGuide').html(list);
-					$('#userNicknameGuide').show();
-				}else{
-					userNicknameBool = false;
-					var list = '닉네임을 입력해주세요.';
-					$('#userNicknameGuide').html(list);
-					$('#userNicknameGuide').show();
-				}
-			});
-			var userBirthBool = false;
+		
+			
+			var userBirthBool = true;
 			$('#userBirth').focus(function(){
 				var userBirth =$(this).val();
 				console.log(userBirth);
@@ -273,6 +244,7 @@
 					$('#userBirthGuide').text('');
 					$('#userBirthGuide').show();
 				}
+				
 			});
 			$('#userBirth').blur(function(){
 				var userBirth =$(this).val();
@@ -319,16 +291,9 @@
 				
 			});
 			
-			$('#signUpForm').submit(function(e){
+			$('#myAccountForm').submit(function(e){
 				warn="필수 입력 사항입니다.";
-				if(userIdBool == false){
-					e.preventDefault();
-					$('#userId').focus();
-					$('#userIdGuide').html(warn);
-					$('#userIdGuide').show();
-					
-				}	
-				else if(userPasswordBool==false){
+				if(userPasswordBool==false){
 					e.preventDefault();
 					$('#userPassword').focus();
 					$('#userPasswordGuide').html(warn);
@@ -341,11 +306,6 @@
 					$('#userNameGuide').html(warn);
 					$('#userNameGuide').show();
 					
-				}else if(userNicknameBool == false){
-					e.preventDefault();
-					$('#userNickname').focus();
-					$('#userNicknameGuide').html(warn);
-					$('#userNicknameGuide').show();
 				}else if(userBirthBool == false){
 					e.preventDefault();
 					$('#userBirth').focus();

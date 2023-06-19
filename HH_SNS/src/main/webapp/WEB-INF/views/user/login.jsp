@@ -8,6 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
+<h1><a href="../feed/main">H&H</a></h1> <br>
 	<h1>로그인</h1>
 
 	<form id="loginForm" action="login" method="POST">
@@ -15,24 +16,18 @@
 		<input type="password" id="userPassword" name="userPassword">
 		<input type="submit" value="로그인">
 		<div id="loginGuide" style="display: none ;"></div>
-<<<<<<< HEAD
-
-=======
->>>>>>> branch 'master' of https://github.com/H-H-SNS/HH_SNS.git
 	</form>
 	
 	<a href="signup">회원가입</a>
 	
 	<!--  BoardController -> registerPOST()에서 보낸 데이터 저장 -->
 	<input type="hidden" id="insertAlert" value="${insert_result }">
-	
+	<input type="hidden" id="deleteAlert" value="${delete_result }">
 	<script type="text/javascript">
-		var result = $('#insertAlert').val();
-		if(result == 'success') {
-			alert('회원 가입 성공!');
-		}
+		
+		
 		$(document).ready(function(){
-			var result = $('#insertAlert').val();
+			var deleteResult =$('#deleteAlert').val();
 			var result = $('#insertAlert').val();
 			if(result == 'signUpSuccess') {
 				alert('회원 가입 성공!');
@@ -40,6 +35,11 @@
 				$('#loginGuide').text('아이디 또는 비밀번호를 잘못 입력했습니다.');
 				$('#loginGuide').show();
 			}
+			
+			if(deleteResult == 'accDeleteSuccess' ){
+				alert('회원 탈퇴가 완료되었습니다.')
+			}
+			
 			
 			$('#loginForm').submit(function(e){
 				var userId= $('#userId').val();

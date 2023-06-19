@@ -64,4 +64,17 @@ public class NotiDAOImple implements NotiDAO {
 		return sqlSession.selectOne(NAMESPACE + ".select_check", receiverId);
 	}
 
+	@Override
+	public int deleteSenderId(String senderId) {
+		logger.info("deleteSenderId : " + senderId);
+		return sqlSession.delete(NAMESPACE + ".delete_senderId", senderId);
+	}
+
+	@Override
+	public int deleteReceiverId(String receiverId) {
+		logger.info("deleteReceiverId : " +receiverId);
+		return sqlSession.delete(NAMESPACE + ".delete_receiverId", receiverId);
+
+	}
+
 }

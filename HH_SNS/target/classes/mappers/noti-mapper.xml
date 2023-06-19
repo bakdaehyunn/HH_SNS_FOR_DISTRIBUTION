@@ -36,10 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!--  회원 알람 삭제 
-	<delete id="delete">
-		delete from ${noti}
-		where ${notiId} = #{notiId} 
-	</delete>
+	
 	-->
 	
 	<!--  회원 팔로우 알람 삭제 -->
@@ -47,71 +44,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${noti}
 		where ${senderId} = #{senderId} and ${receiverId} = #{receiverId} and ${notiCategory} = 'follow'
 	</delete>
-	<!--
 	
-	<insert id="insert">
-		insert into ${feed}
-		values (FEED_SEQ.NEXTVAL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, sysdate, #{musicTitle}, #{feedPhoto})
-	</insert>
-		
-	<select id="select_all" resultType="FeedVO">
-	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle}, ${feedPhoto} from ${feed}
-	 	order by ${feedDate} desc
-	 </select>
-	 
-	 <select id="select_all_by_userid" resultType="FeedVO">
-	 	select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle}, ${feedPhoto} from ${feed}
-	 	where ${userId} = #{userId}
-	 	order by ${feedDate} desc
-	 </select>
-	 
-	 <select id="select" resultType="FeedVO">
-		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle}, ${feedPhoto} from ${feed}
-		where ${feedId} = #{feedId}
-	 </select>
-	 
-	 <select id="select_by_userid" resultType="FeedVO">
-		select ${feedId}, ${feedContent}, ${userId}, ${userNickname}, ${userProfile},  
-	 	${replyCount}, ${likeCount}, ${feedDate}, ${musicTitle}, ${feedPhoto} from ${feed}
-		where ${userId} = #{userId}
-	 </select>
+	<delete id="delete_senderId">
+		delete from ${noti}
+		where ${senderId} = #{senderId} 
+	</delete>
 	
-	 <update id="update_content">
-	 	update ${feed} 
-	 	set 
-	 	${feedContent} = #{feedContent}
-	 	where ${feedId} = #{feedId}
-	 </update>
-	 
-	 <delete id="delete">
-	 	delete from ${feed}
-	 	where ${feedId} = #{feedId}
-	 </delete>
-	 
-	 <select id="total_like" resultType="Integer">
-		select count(*) total_like from ${feed}
-	</select>
+	<delete id="delete_receiverId">
+		delete from ${noti}
+		where ${receiverId} = #{receiverId}
+	</delete>
 	
-	<update id="update_like_cnt">
-		update ${feed} 
-		set ${likeCount} = ${likeCount} + #{amount} 
-		where ${feedId} = #{feedId}
-	</update>
 	
-	<update id="update_reply_cnt">
-		update ${feed}
-		set ${replyCount} = ${replyCount} + #{amount}
-		where ${feedId} = #{feedId}
-	</update>
 	
-	<update id="update_profile">
-		update ${feed}
-		set ${userNickname} = #{userNickname}, ${userProfile} = #{userProfile}
-		where ${userId} = #{userId}
-	</update>
-	 -->
 
 </mapper>
