@@ -387,9 +387,11 @@
 						
 						var disabled = 'disabled';
 						var readonly = 'readonly';
+						var contentEditable = '';
 						if(userId == this.userId) { 
 							disabled = '';
 							readonly = '';
+							contentEditable ='contentEditable="true"';
 						}
 						list += '<div class="reply_item">'
 							+ '<pre>'
@@ -398,7 +400,7 @@
 							+ '<div><a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@'+this.userId +"("+this.userNickname+")"+'</b></a></div>'
 							+ '&nbsp;&nbsp;' // 공백
 							//+ '<input type="text" ' + readonly + ' id="replyContent" value="'+ this.replyContent +'"><br>'
-							+ '<div style="text-align: left; width: auto; min-width: 200px;" class="getReplyContent" contentEditable="true">' + this.replyContent  + '</div>'
+							+ '<div style="text-align: left; width: auto; min-width: 200px;" class="getReplyContent"'+contentEditable+'>' + this.replyContent  + '</div>'
 							+ '&nbsp;&nbsp;'
 							+ replyDateCreated
 							+ '&nbsp;&nbsp;'
@@ -561,7 +563,7 @@
 		var onTag=false;
 		$(document).on('input','.getReplyContent',function(){
 			var getReplyContent =$(this).text();
-			var getReplyTagList = $('.getReplyTagList');
+			var getReplyTagList = $(this).nextAll('.getReplyTagList').hide();
 			console.log(getReplyContent);
 			
 			
@@ -757,7 +759,7 @@
 						
 						if(replyId == this.replyId) {
 		// '답글'을 눌렀을 때 다른 '답글'을 눌러도 해당하는 replyId값과 일치하는 데이터만 보여야한다.
-							commentLists += '<div class="commentlist_item">'
+							commentLists += '<div style="border:1px solid #d8d8e3; padding: 20px; " class="commentlist_item">'
 							    + '<input type="hidden" id="replyId" value="' + this.replyId + '">'
 							    + '<input type="hidden" id="commentId" value="' + this.commentId + '">'
 							    + '<br>'
@@ -766,13 +768,13 @@
 							    + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<b>@'+ this.userId +"(" + this.userNickname + ")" + '</b></a>'
 							    + '</div>'
 							    
-							    + '<div style="text-align:  left; width: auto; min-width: 200px; display: inline-block;" class="getCommentContent" contentEditable="true">' + this.commentContent + '</div>'
+							    + '<div style="text-align:left; width: auto; min-width: 200px; display: inline-block;" class="getCommentContent" contentEditable="true">' + this.commentContent + '</div>'
 							    + '<button class="btn_update_comment" ' + disabled + '>수정</button>'
 							    + '<button class="btn_delete_comment" ' + disabled + '>삭제</button>'
 							   
 							    + '<div class ="getCommentTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>'
-							    + '</div>'
-							    + '<hr>';
+							    + '<hr>'
+							    + '</div>';
 						}
 						
 				});// end data.funchion;
@@ -1075,113 +1077,132 @@
 	//--------------------------좋아요 파트-------------------------------------
 	var likeCnt = parseInt($('#likeCount').val());
 	console.log('좋아요 : ' + likeCnt + '개');
+	var likeId = $('#likeId').val();
+	
 	likecheck();
-	
-	function likecheck() {
-		var likeId = $('#likeId').val();
-		const userId = $('#userId').val();
-		var feedId = $('#feedId').val();
-		
-		console.log('likecheck : ' + likeId + ', ' + userId + ', ' + feedId);
-		
-		var obj = {
-				'likeId' : likeId,
-				'userId' : userId,
-				'feedId' : feedId
-			}
 
-		$.ajax({
-			type : 'GET',
-			url : '../likes/check',
-			data : obj,
-			success : function(result) {
-				if(result == 1) {
-					$('.btn_like').addClass('liked');
-				} else {
-					$('.btn_like').removeClass('liked');
-				}
-			}
-		});//end ajax
-		
-		
-	}// end likecheck
-	
-    // 좋아요 버튼 클릭 이벤트 핸들러
-    $(document).on('click', '.btn_like', function() {
-	    var likeId = $('#likeId').val();
-	    const userId = $('#userId').val();
-	    var feedId = $('#feedId').val();
-	    
-	  	if(userId == null) {
-			alert('로그인을 해주세요');
-			return;
-		}
-	    var feedUserId = "<c:out value='${feedvo.userId }' />";
-		$btnLike = $(this);
-	    
-	    var obj = {
-			'userId' : userId,
-			'feedId' : feedId,
-			'feedUserId'  :feedUserId
-			
-		}
-		console.log(obj)
-		
-		if(userId == null) {
-			alert('로그인을 해주세요');
-			var target = encodeURI('/ex06/user/login');
-			location = target;
-		}
-	    if(!$(this).hasClass('liked')){
-			$.ajax({
-					type : 'POST',
-					url : '../likes',
-					headers : {
-						'Content-Type' : 'application/json'
-					},
-					data : JSON.stringify(obj),
-					success : function(result) {
-						console.log(result);
-						if (result == 1) {
-							console.log($btnLike);
-							console.log('★ 좋아요 등록 성공');
-							$btnLike.addClass('liked');
-							likeCnt += 1; // 좋아요 수 업데이트
-				            $('#likeCount').val(likeCnt); // 엘리먼트 값 업데이트
-				            $('.like_item p').text(likeCnt + '개'); // 텍스트 업데이트
-						} else {
-							console.log('★ 좋아요 등록 실패');
-						}
+    function likecheck() {
+        console.log('------------------');
+        const userId = $('#userId').val();
+        var feedId = $('#feedId').val();
+        var btn_like = $('.btn_like');
+        console.log(btn_like);
+
+        console.log('좋아요 번호 : ' + likeId + ', 유저 아이디 : ' + userId + ', 피드 번호 : ' + feedId);
+
+        var url = '../likes/checkClass/' + userId + '/' + feedId;
+		$.getJSON(
+			url,
+			function(data) {
+				console.log(data);
+				var isLike = false; // 좋아요 상태 변수 추가
+				for (var i = 0; i < data.length; i++) {
+					var item = data[i];
+					if (userId == item.userId && feedId == item.feedId) {
+						isLike = true; // 좋아요 상태 갱신
+						likeId = item.likeId; // likeId 업데이트
+		                break; // 반복문 종료
 					}
-				});//end ajax
+				}
+
+				if (isLike) {
+					btn_like.addClass('liked');
+					console.log('클래스 추가 완료');
+					return;
+				} else {
+					btn_like.removeClass('liked');
+					console.log('클래스 삭제 완료');
+					return;
+				}
+			}// function
+		);// end getJSON
+    }// end likecheck()
+
+	// 좋아요 등록 이벤트 핸들러
+	$(document).on('click', '.btn_like:not(.liked)', function() {
+	    console.log(this);
+	    var userId = $('#userId').val();
+	    var feedId = $('#feedId').val();
+	    var btn_like = $(this);
+
+	    var feedUserId = "<c:out value='${feedvo.userId }' />";
+
+	    var obj = {
+	        'userId': userId,
+	        'feedId': feedId,
+	        'feedUserId': feedUserId
+	    };
+	    console.log(obj);
+
+	    if (userId == null) {
+	        alert('로그인을 해주세요');
+	        var target = encodeURI('/ex06/user/login');
+	        location = target;
 	    } else {
-	    	$.ajax({
-	    		type : 'DELETE', 
-				url : '../likes/' + likeId,
-	 			headers : {
-	 				'Content-Type' : 'application/json'
-	 			},
-	 			data : JSON.stringify(obj),
-	 			success : function(result) {
-	 				console.log(result);
-	 				console.log(this);
-		 			if (result == 1) {
-		 				console.log('★ 좋아요 삭제 성공');
-		 				$btnLike.removeClass('liked');
-		 				likeCnt -= 1; // 좋아요 수 감소
-		 				$('#likeCount').val(likeCnt); // 엘리먼트 값 업데이트
-		 				$('.like_item p').text(likeCnt + '개'); // 텍스트 업데이트
-		 			} else{
-		 				console.log('★ 좋아요 삭제 실패');
-		 			}
-	 			}
-	 		});// end ajax()
+	        $.ajax({
+	            type: 'POST',
+	            url: '../likes',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	            data: JSON.stringify(obj),
+	            success: function(result) {
+	                console.log(result);
+	                if (result == 1) {
+	                    console.log('★ 좋아요 등록 성공');
+	                    likecheck();
+	                    console.log('likeId 값: ' + likeId);
+	                    btn_like.addClass('liked');
+	                    likeCnt += 1; // 좋아요 수 업데이트
+	                    $('#likeCount').val(likeCnt); // 엘리먼트 값 업데이트
+	                    $('.like_item p').text(likeCnt + '개'); // 텍스트 업데이트
+	                    
+	                    var likeId = result;
+	                    $('#likeId').val(likeId);
+	                } else {
+	                    console.log('★ 좋아요 등록 실패');
+	                }
+	            }
+	        });// end ajax
 	    }
+	});// end not liked
+	
+	// 좋아요 삭제 이벤트 핸들러
+	$(document).on('click', '.btn_like.liked', function() {
+	    console.log(this);
+	    var userId = $('#userId').val();
+	    var feedId = $('#feedId').val();
+	    var btn_like = $(this);
+
 	    
-	    });// end click not liked()
-	
-	}); // end ready();
-	
+
+	    if (likeId) {
+	        $.ajax({
+	            type: 'DELETE',
+	            url: '../likes/' + likeId,
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	            success: function(result) {
+	                console.log(result);
+	                console.log(this);
+	                if (result == 1) {
+	                    console.log('★ 좋아요 삭제 성공');
+	                    likecheck();
+	                    console.log('likeId 값: ' + likeId);
+	                    btn_like.removeClass('liked');
+	                    likeCnt -= 1; // 좋아요 수 감소
+	                    $('#likeCount').val(likeCnt); // 엘리먼트 값 업데이트
+	                    $('.like_item p').text(likeCnt + '개'); // 텍스트 업데이트
+	                } else {
+	                    console.log('★ 좋아요 삭제 실패');
+	                }
+	            }
+	        });// end ajax
+	    }
+	});// has liked
+
+}); // end ready();
 	
 	</script>
 		

@@ -102,6 +102,12 @@ public class FeedDAOImple implements FeedDAO{
 		return sqlSession.update(NAMESPACE + ".update_profile", args);
 	}
 
+	@Override
+	public int deleteUserId(String userId) {
+		logger.info("deleteUserId() : "+userId);
+		return sqlSession.delete(NAMESPACE + ".delete_userId", userId);
+	}
+
 	
 
 

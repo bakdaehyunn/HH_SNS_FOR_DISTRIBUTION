@@ -269,7 +269,6 @@
 			$('#btn_add').click(function() {
 				const userId = document.getElementById("userId").textContent;
 				var feedContent = $('#feedContent').html();
-				console.log('유저 아이디 : ' + userId + ', 피드 내용 : ' + feedContent);
 				
 				// ▼ 문제점 ----------------------------------------------
 
@@ -290,16 +289,20 @@
 				formData.append('userId', userId);
 				formData.append('feedContent', feedContent);
 				formData.append('feedPicture', feedPicture);
+				console.log('유저 아이디 : ' + userId);
+				console.log('피드 내용 : ' + feedContent);
 				
 				// ---------------------------------------------------
 
 				var list = '';
-				if(feedPicture == '' || feedContent == null) {
+				if(feedPicture == undefined && feedContent == '') {
+					console.log('둘 다 없음');
 					list += '<i style="font-size: 14px">피드를 입력해주세요.</i>'
 					$('#check_feedContent').html(list);
 					$('#check_feedContent').show();
 					return;
 				}
+				
 				
 				if(userId != '' ) {
 					$.ajax({
