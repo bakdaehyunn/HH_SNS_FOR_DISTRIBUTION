@@ -74,15 +74,18 @@ public class LikeRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 	
-	@GetMapping("/check") 
-	public ResponseEntity<Integer> read_check( 
-			@RequestParam("userId") String userId,
-	        @RequestParam("feedId") int feedId)  {
+	@GetMapping("/checkClass/{userId}/{feedId}")
+	public ResponseEntity<List<LikeInfoVO>> read_check(
+			@PathVariable("userId") String userId,
+			@PathVariable("feedId") int feedId)  {
 		
 		logger.info("★ LikeRESTController 중복 검색 : " + userId  + ", "+ feedId);
 		
-		int result = likeInfoService.read_check(userId, feedId);
-		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+		List<LikeInfoVO> list = likeInfoService.read_check(userId, feedId);
+		for(LikeInfoVO vo : list) {
+			logger.info("♥ 중복확인 총 정보 : " + vo.toString());
+		}
+		return new ResponseEntity<List<LikeInfoVO>>(list, HttpStatus.OK);
 	}
 	
 	@GetMapping("/check/{userId}")

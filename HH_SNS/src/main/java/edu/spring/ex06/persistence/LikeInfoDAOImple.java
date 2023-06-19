@@ -41,12 +41,12 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 //	-----------------------------------------------------------
 	
 	@Override
-	public int select_check(String userId, int feedId) {
+	public List<LikeInfoVO> select_check(String userId, int feedId) {
 		logger.info("★ LikeInfoDAOImple 좋아요 중복확인");
 		Map<String, Object>  args = new HashMap<>();
 		args.put("userId", userId);
 		args.put("feedId", feedId);
-		return sqlSession.selectOne(NAMESPACE + ".select_check", args);
+		return sqlSession.selectList(NAMESPACE + ".select_check", args);
 	}
 	
 //	-----------------------------------------------------------

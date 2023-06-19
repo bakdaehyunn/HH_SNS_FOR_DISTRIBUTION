@@ -54,7 +54,7 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	}
 
 	@Override
-	public int read_check(String userId, int feedId) {
+	public List<LikeInfoVO> read_check(String userId, int feedId) {
 		logger.info("★ LikeServiceImple 좋아요 중복체크 : " + userId + ", " + feedId);
 		return likeDAO.select_check(userId, feedId);
 	}
@@ -82,10 +82,13 @@ public class LikeInfoServiceImple implements LikeInfoService{
 	public int delete(int likeId) throws Exception{
 		
 		// likeId에 해당하는 좋아요 정보 가져오기
-	    LikeInfoVO likeInfo = likeDAO.select(likeId);
-	    int feedId = likeInfo.getFeedId(); // 가져온 좋아요 정보에서 feedId 얻기
+	    LikeInfoVO likevo = likeDAO.select(likeId);
+	    int feedId = likevo.getFeedId(); // 가져온 좋아요 정보에서 feedId 얻기
+	    String userId = likevo.getUserId();
 	    
-	    likeDAO.delete(likeId); // 좋아요 삭제
+	    if(userId != null && feedId != 0) {
+	    	likeDAO.delete(likevo.getLikeId()); // 좋아요 삭제	    	
+	    }
 	    
 	    logger.info("좋아요 삭제 완료 : " + likeId);
 	    

@@ -27,8 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 </select>
 
 	 
-	 <select id="select_check" resultType="Integer">
-	 	select count(*) from ${like_info} where ${userId} = #{userId} and ${feedId} = #{feedId}
+	 <select id="select_check" resultType="LikeInfoVO">
+	 	select * from ${like_info} where ${userId} = #{userId} and ${feedId} = #{feedId}
 	 </select>
 	 
 	 <select id="select_check_all_userid" resultType="LikeInfoVO">

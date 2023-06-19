@@ -449,7 +449,8 @@
 				formData.append('feedPicture', feedPicture);
 
 				var list = '';
-				if(feedPicture == '' || feedContent == null) {
+				if(feedPicture == undefined && feedContent == '') {
+					console.log('둘 다 없음');
 					list += '<i style="font-size: 14px">피드를 입력해주세요.</i>'
 					$('#check_feedContent').html(list);
 					$('#check_feedContent').show();

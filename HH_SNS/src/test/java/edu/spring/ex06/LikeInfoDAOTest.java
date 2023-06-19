@@ -49,8 +49,8 @@ public class LikeInfoDAOTest {
 		String userId = "ss";
 		int feedId = 107;
 		
-		int result = likedao.select_check(userId, feedId);
-		logger.info("결과값 : " + result);
+		List<LikeInfoVO> list = likedao.select_check(userId, feedId);
+		logger.info("결과값 : " + list);
 		
 	}
 
