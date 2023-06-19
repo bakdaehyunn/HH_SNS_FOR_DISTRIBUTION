@@ -62,7 +62,8 @@
 				
 				
 				
-			}else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || onTag===false ){
+			}
+			else if (feedContent.substr(-1).trim().length == 0 ||  feedContent.substr(-2) =='@@' || onTag===false ){
 				$('#feedTagList').text('');
 				console.log('태그아님');
 				onTag=false;
