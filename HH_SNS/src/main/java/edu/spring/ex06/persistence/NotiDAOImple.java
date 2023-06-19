@@ -53,9 +53,9 @@ public class NotiDAOImple implements NotiDAO {
 	}
 
 	@Override
-	public int update(int notiId) {
-		logger.info("update() 호출 notiId : " + notiId);
-		return sqlSession.update(NAMESPACE + ".update", notiId);
+	public int update(String receiverId) {
+		logger.info("update() 호출 notiId : " + receiverId);
+		return sqlSession.update(NAMESPACE + ".update", receiverId);
 	}
 
 	@Override

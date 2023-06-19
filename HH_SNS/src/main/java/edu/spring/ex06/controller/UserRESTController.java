@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,7 +63,16 @@ public class UserRESTController {
 	
 	private int authNumber;
 	
-	
+	@PutMapping("/notiRead")
+	public ResponseEntity<Integer>readNoti(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		int result = 0;
+		if(session.getAttribute("userId") != null) {
+			String userId = (String) session.getAttribute("userId");
+			result= notiService.update(userId);
+		}
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
 	
 	@GetMapping("/notiCheck")
 	public ResponseEntity<Integer>checkNoti(HttpServletRequest request){

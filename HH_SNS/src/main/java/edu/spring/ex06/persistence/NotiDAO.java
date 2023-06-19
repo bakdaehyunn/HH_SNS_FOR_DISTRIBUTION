@@ -12,7 +12,7 @@ public interface NotiDAO {
 	List<NotiVO> selectList(String receiverId);
 	int selectCheck(String receiverId);
 	int delete(String senderId, String receiverId);
-	int update(int notiId);
+	int update(String receiverId);
 	
 	int deleteSenderId(String senderId);
 	int deleteReceiverId(String receiverId);

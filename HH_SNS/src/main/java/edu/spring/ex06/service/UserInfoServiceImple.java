@@ -86,6 +86,7 @@ public class UserInfoServiceImple implements UserInfoService {
 		notiDAO.deleteReceiverId(userId);
 		followDAO.deleteFollower(userId);
 		followDAO.deleteFollowing(userId);
+		replyDAO.deleteUserId(userId);
 		return 1;
 	}
 

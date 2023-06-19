@@ -7,7 +7,7 @@
 .accDeleteContainer {
   border: 1px solid #ccc;
   padding: 20px;
-  width: 350px;
+  width: 550px;
   margin: 0 auto;
   text-align: center;
 }
@@ -42,7 +42,7 @@
 	<h1>회원탈퇴</h1>
 	
 	<form id="accDeleteForm" action="accDelete" method="POST">
-		<div>탈퇴 시 피드, 팔로우, 알림, 정보가 사라집니다.(댓글 제외)</div>
+		<div>탈퇴 시 회원님의 피드, 댓글, 팔로우, 알림 정보가 사라집니다.</div>
 		<div> 탈퇴하기 위해서 비밀번호를 입력해주세요.</div>
 		<div>비밀번호 : <input type="password" id="userPassword" name="userPassword"><div></div>
 		<input type="submit" value="회원탈퇴">

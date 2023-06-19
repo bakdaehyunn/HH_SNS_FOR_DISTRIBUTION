@@ -169,7 +169,12 @@ public class UserController {
 		String userId = (String) session.getAttribute("userId");
 		int result = userInfoservice.read(userId, userPassword);
 		if(result == 1) {
-			userInfoservice.delete(userId);
+			try {
+				userInfoservice.delete(userId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			session.removeAttribute("userId");
 			reAttr.addFlashAttribute("delete_result", "accDeleteSuccess");
 			return "redirect:/user/login";

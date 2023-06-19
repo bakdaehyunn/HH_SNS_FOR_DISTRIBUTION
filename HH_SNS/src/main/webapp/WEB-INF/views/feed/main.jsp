@@ -7,6 +7,7 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 <style type="text/css">
 .input_feed {
 	display: block;
@@ -152,7 +153,7 @@
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">
-		<p><a href="../user/noti">알람</a></p>
+		<p><a id="notiT" href="../user/noti">알람</a></p>
 		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
@@ -213,6 +214,43 @@
 		$(document).ready(function() {
 			
 			getAllMain();
+			setInterval(checkNoti,1000);
+			function checkNoti(){
+				$.ajax({
+					type: 'GET',
+					url : '../users/notiCheck',
+					headers : {
+						'content-Type' : 'application/json'
+					},
+					success: function(data){
+						console.log(data);
+						if(data >= 1){
+							$('#notiT').text('알람(New)');
+							console.log("성공");
+						}else {
+							$('#notiT').text('알람');
+							console.log("다시");
+						}
+					}//success
+
+				});// ajax()
+			}// checkNoTi()
+			$('#notiT').mousedown(function(){
+				$.ajax({
+					type: 'PUT',
+					url : '../users/notiRead',
+					headers : {
+						'content-Type' : 'application/json'
+					},
+					success: function(data){
+						console.log(data);
+						if(data >= 1){
+							console.log("읽음");
+						}
+					}//success
+
+				});// ajax()
+			})
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;

@@ -23,13 +23,14 @@
   background-color: #f8f8f8;
 }
 </style>
+<script src="https://kit.fontawesome.com/def66b134a.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <meta charset="UTF-8">
 <title>Profile Edit</title>
 </head>
 <body>
 <h1><a href="../feed/main">H&H</a></h1> <br>
-	<h1 id="title">알림창</h1>
+	<h1 id="title">알림창<i id="notiIcon"></i></h1>
 	<br>
 	<br>
 	
