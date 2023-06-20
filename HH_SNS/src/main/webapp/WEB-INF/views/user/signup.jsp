@@ -3,13 +3,43 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+#signUpForm {
+    width: 300px; 
+    margin: 0 auto; 
+    border: 1px solid #ccc; 
+    padding: 20px; 
+}
+
+#signUpForm div {
+    margin-bottom: 10px; 
+}
+
+#signUpForm input[type="text"],
+#signUpForm input[type="password"] {
+    width: 100%;
+    padding: 5px;
+}
+
+#signUpForm input[type="submit"] {
+    width: 100%; 
+    padding: 10px; 
+    border: none; 
+    cursor: pointer; 
+}
+#title{
+ text-align: center;
+}
+</style>
 <meta charset="UTF-8">
 <title>Sign Up</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <h1><a href="../feed/main">H&H</a></h1> <br>
+<h1 id="title">회원가입</i></h1>
 <%-- 아이디 비밀번호 이름 닉네임, 생일 이메일 --%>
+
 	<form id="signUpForm" action="signup" method="post">
 		<%-- 아이디 중복 체크(비동기) 및 정규식 --%>
 		<div>아이디 : <input type="text" id="userId" name="userId" placeholder="아이디"></div>
@@ -33,7 +63,7 @@
 		<div id="emailVerifInputGuide" style="display: none;"></div>
 		
 		<!-- <div>생년월일 : <input type="date" name="userBirth" id="userBirth" required></div> -->
-		<input type="hidden" name="userProfile" value=""></div>
+		<input type="hidden" name="userProfile" value="">
 		<input type="submit" value="가입">
 	</form>
 	
