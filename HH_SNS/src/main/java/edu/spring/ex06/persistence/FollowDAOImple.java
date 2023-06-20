@@ -94,16 +94,11 @@ public class FollowDAOImple implements FollowDAO{
 	}
 
 	@Override
-	public int deleteFollower(String followerUserId) {
+	public int deleteFollow(String followerUserId) {
 		logger.info("deleteFollower : " + followerUserId);
-		return sqlSession.delete(NAMESPACE + ".delete_follower", followerUserId);
+		return sqlSession.delete(NAMESPACE + ".delete_follow", followerUserId);
 	}
 
-	@Override
-	public int deleteFollowing(String followingUserId) {
-		logger.info("deleteFollowing : " + followingUserId);
-		return sqlSession.delete(NAMESPACE + ".delete_following", followingUserId);
-	}
 	
 	
 

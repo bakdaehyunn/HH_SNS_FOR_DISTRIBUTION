@@ -33,9 +33,6 @@
 	<h1 id="title">알림창</i></h1>
 	<br>
 	<br>
-	
-	 
-	
 	 <div id="notis"></div>
 	<script type="text/javascript">
 	$(document).ready(function() {
@@ -72,6 +69,9 @@
 					'content-Type' : 'application/json'
 				},
 				success: function(data){
+					if(data ==''){
+						$('#notis').html('알림 내역이 없습니다.!!');
+					}
 					var list = '';
 					$(data).each(function() {
 						console.log(this);
@@ -90,12 +90,19 @@
 									+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
 									+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
 									
+							}else if(this.notiCategory =='comment'){
+								list +='<div class="noti_comment" id="notificationItem" >'
+									+ this.senderId +'님이 회원님의 댓글에 대댓글을 달았습니다.'
+									+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
+									+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
+									+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
+							
 							}
 						}
 						else if(this.notiCategory == 'follow'){
 							list +='<div class="noti_follow" id="notificationItem">'
 								+ this.senderId +'님이 회원님을 팔로우 합니다.'
-								+ '<input type="hidden" id="receiverId" value="' + this.receiverId + '">'
+								+ '<input type="hidden" id="senderId" value="' + this.senderId + '">'
 								+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
 								+'<button class="delete"style="display: inline-block;">X</button>'+'</div>'
 								
@@ -129,8 +136,8 @@
 		});
 	
 		$(document).on('click','.noti_follow',function(){
-			var receiverId = $(this).find('#receiverId').val();
-			var target =encodeURI('/ex06/feed/mylist?userId='+receiverId);
+			var senderId = $(this).find('#senderId').val();
+			var target =encodeURI('/ex06/feed/mylist?userId='+senderId);
 			location = target;
 		});
 		$(document).on('click','.noti_reply',function(){
@@ -139,6 +146,11 @@
 			location = target;
 		});
 		$(document).on('click','.noti_like',function(){
+			var feedId = $(this).find('#feedId').val();
+			var target =encodeURI('/ex06/feed/detail?feedId='+feedId);
+			location = target;
+		});
+		$(document).on('click','.noti_comment',function(){
 			var feedId = $(this).find('#feedId').val();
 			var target =encodeURI('/ex06/feed/detail?feedId='+feedId);
 			location = target;

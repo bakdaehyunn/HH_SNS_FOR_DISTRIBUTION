@@ -45,14 +45,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${senderId} = #{senderId} and ${receiverId} = #{receiverId} and ${notiCategory} = 'follow'
 	</delete>
 	
-	<delete id="delete_senderId">
-		delete from ${noti}
-		where ${senderId} = #{senderId} 
-	</delete>
+	
 	
 	<delete id="delete_receiverId">
 		delete from ${noti}
-		where ${receiverId} = #{receiverId}
+		where ${receiverId} = #{receiverId} or ${senderId} = #{receiverId} 
 	</delete>
 	
 	<delete id="delete_notiId">
