@@ -95,12 +95,14 @@
 			<fmt:formatDate value="${feedvo.feedDate}" var="feedDate" pattern="yyyy년 MM월 dd일"/>
 			<p>${feedDate }</p>
 			<div style="display: flex;">
-			<div id="feedContent" contentEditable='true'>${feedvo.feedContent}</div>
+			
 			<c:if test="${empty userId or feedvo.userId ne userId}">
+				<div id="feedContent" >${feedvo.feedContent}</div>
 			    <input type="submit" id="btn_update" disabled value="수정">
 			    <input type="submit" id="btn_delete" disabled value="삭제">
 			</c:if>
 			<c:if test="${not empty userId and feedvo.userId eq userId}">
+				<div id="feedContent" contentEditable='true'>${feedvo.feedContent}</div>
 			    <input type="submit" id="btn_update" value="수정">
 			    <input type="submit" id="btn_delete" value="삭제">
 			</c:if>
