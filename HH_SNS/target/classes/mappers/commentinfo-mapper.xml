@@ -47,5 +47,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set ${userNickname} = #{userNickname}, ${userProfile} = #{userProfile}
 		where ${userId} = #{userId}
 	</update>
+	<delete id="delete_userId">
+		delete from ${comment_info}
+		where ${userId} = #{userId}
+	</delete>
 	
 </mapper>
