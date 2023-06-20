@@ -53,15 +53,34 @@ public class NotiDAOImple implements NotiDAO {
 	}
 
 	@Override
-	public int update(int notiId) {
-		logger.info("update() 호출 notiId : " + notiId);
-		return sqlSession.update(NAMESPACE + ".update", notiId);
+	public int update(String receiverId) {
+		logger.info("update() 호출 notiId : " + receiverId);
+		return sqlSession.update(NAMESPACE + ".update", receiverId);
 	}
 
 	@Override
 	public int selectCheck(String receiverId) {
 		logger.info("select_check() 호출");
 		return sqlSession.selectOne(NAMESPACE + ".select_check", receiverId);
+	}
+
+	@Override
+	public int deleteSenderId(String senderId) {
+		logger.info("deleteSenderId : " + senderId);
+		return sqlSession.delete(NAMESPACE + ".delete_senderId", senderId);
+	}
+
+	@Override
+	public int deleteReceiverId(String receiverId) {
+		logger.info("deleteReceiverId : " +receiverId);
+		return sqlSession.delete(NAMESPACE + ".delete_receiverId", receiverId);
+
+	}
+
+	@Override
+	public int deleteNotiId(int notiId) {
+		logger.info("deleteNotiId : " +notiId);
+		return sqlSession.delete(NAMESPACE + ".delete_notiId", notiId);
 	}
 
 }

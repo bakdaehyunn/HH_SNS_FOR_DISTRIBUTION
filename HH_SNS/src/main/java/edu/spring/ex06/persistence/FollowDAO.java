@@ -15,5 +15,7 @@ public interface FollowDAO {
 	List<UserInfoVO> selectFollowerList(String followerUserId);
 	int selectFollowingCheck(String followerUserId, String followingUserId);
 	List<UserInfoVO> selectTagList(String followerUserId, String followingUserId);
+	int deleteFollower(String followerUserId);
+	int deleteFollowing(String followingUserId);
 	
 }

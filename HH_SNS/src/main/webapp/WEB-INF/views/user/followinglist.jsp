@@ -4,16 +4,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <meta charset="UTF-8">
 <title>Profile Edit</title>
 </head>
 <body>
+<h1><a href="../feed/main">H&H</a></h1> <br>
 	<h1>팔로잉 리스트</h1>
 	<br>
 	<br>
 	<c:forEach var="vo" items="${list }">
-	<div onclick="location.href='../feed/mylist?userId=${vo.userId }';">
+	<div onclick="location.href='../feed/mylist?userId=${vo.userId }';"  >
 	<img id="profileImage" src="display?fileName=${vo.userProfile }" alt="img" width="100" height="100" />
  	<input type="hidden" id=userinfoUserId value="${vo.userId }">
  	@${vo.userId } (${vo.userNickname })

@@ -76,5 +76,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${userId} = #{userId}
 	</update>
 	
+	<delete id="delete_userId">
+	 	delete from ${feed}
+	 	where ${userId} = #{userId}
+	 </delete>
+	 
+
+	
+	
+	
 
 </mapper>

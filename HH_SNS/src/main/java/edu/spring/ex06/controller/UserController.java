@@ -71,7 +71,7 @@ public class UserController {
 		logger.info("loginGET() 호출");
 	}
 	@PostMapping("/login")
-	public String loginPOST(Model model, String userId, String userPassword, HttpServletRequest request, RedirectAttributes reAttr ) {
+	public String loginPOST( String userId, String userPassword, HttpServletRequest request, RedirectAttributes reAttr ) {
 		logger.info("loginPOST() 호출");
 		int result = userInfoservice.read(userId, userPassword);
 		if(result == 1) {
@@ -139,13 +139,52 @@ public class UserController {
 		model.addAttribute("list", list);
 	}
 	
-	@GetMapping("/userInfoEdit")
-	public void userInfoEditGET() {
-		logger.info("userinfoEditGET()");
+	@GetMapping("/myAccount")
+	public void myAccountGET(Model model, HttpServletRequest request) {
+		logger.info("myAccountGET()");
+		HttpSession session =request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		UserInfoVO vo = userInfoservice.read(userId);
+		model.addAttribute("vo",vo);
 	}
-	@PostMapping("/userInfoEdit")
-	public void  userInfoEditPOST() {
-		logger.info("userinfoEditPOST()");
+	@PostMapping("/myAccount")
+	public String  myAccountPOST(UserInfoVO vo,  RedirectAttributes reAttr) {
+		logger.info("myAccountPOST()");
+		int result = userInfoservice.update(vo);
+		logger.info(result+"개의 계정 정보 변경");
+		if(result == 1) {
+			return "redirect:/user/profileEdit";
+		}
+		return "redirect:/user/myAccount";
+	}
+	@GetMapping("/accDelete")
+	public void accDeleteGET() {
+		logger.info("accDeleteGET()");
+	}
+	@PostMapping("/accDelete")
+	public String  accDeletePOST(String userPassword, HttpServletRequest request, RedirectAttributes reAttr) {
+		logger.info("accDeletePOST()");
+		HttpSession session = request.getSession();
+		
+		String userId = (String) session.getAttribute("userId");
+		int result = userInfoservice.read(userId, userPassword);
+		if(result == 1) {
+			try {
+				userInfoservice.delete(userId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			session.removeAttribute("userId");
+			reAttr.addFlashAttribute("delete_result", "accDeleteSuccess");
+			return "redirect:/user/login";
+		}else {
+			reAttr.addFlashAttribute("delete_result", "accDeleteUnsuccess");
+			return "redirect:/user/accDelete";
+		}
+	
+		
+		
 	}
 	
 	@GetMapping("/profileEdit")

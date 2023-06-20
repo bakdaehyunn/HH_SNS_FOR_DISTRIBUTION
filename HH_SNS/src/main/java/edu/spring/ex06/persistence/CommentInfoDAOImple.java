@@ -82,6 +82,12 @@ public class CommentInfoDAOImple implements CommentInfoDAO{
 		return sqlSession.update(NAMESPACE + ".update_profile", args);
 	}
 
+	@Override
+	public int deleteUserId(String userId) {
+		logger.info("delelteUserId() : "+userId);
+		return sqlSession.delete(NAMESPACE + ".delete_userId", userId);
+	}
+
 
 
 

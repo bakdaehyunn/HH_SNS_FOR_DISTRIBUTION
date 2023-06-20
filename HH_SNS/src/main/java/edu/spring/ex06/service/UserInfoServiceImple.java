@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.CommentInfoDAO;
 import edu.spring.ex06.persistence.FeedDAO;
+import edu.spring.ex06.persistence.FollowDAO;
+import edu.spring.ex06.persistence.NotiDAO;
 import edu.spring.ex06.persistence.ReplyDAO;
 import edu.spring.ex06.persistence.UserInfoDAO;
 
@@ -25,6 +27,12 @@ public class UserInfoServiceImple implements UserInfoService {
 	
 	@Autowired
 	private ReplyDAO replyDAO;
+	
+	@Autowired
+	private NotiDAO notiDAO;
+	
+	@Autowired
+	private FollowDAO followDAO;
 	
 	@Autowired
 	private CommentInfoDAO commentDAO;
@@ -69,11 +77,18 @@ public class UserInfoServiceImple implements UserInfoService {
 		commentDAO.update_profile(userNicknamne, userProfile, userId);
 		return 1;
 	}
-
+	@Transactional(value= "transactionManager")
 	@Override
-	public int delete(String userId) {
+	public int delete(String userId) throws Exception{
 		logger.info("delete() 호출 : userId = " + userId);
-		return dao.delete(userId);
+		dao.delete(userId);
+		feedDAO.deleteUserId(userId);
+		notiDAO.deleteReceiverId(userId);
+		followDAO.deleteFollower(userId);
+		followDAO.deleteFollowing(userId);
+		replyDAO.deleteUserId(userId);
+		commentDAO.deleteUserId(userId);
+		return 1;
 	}
 
 	@Override

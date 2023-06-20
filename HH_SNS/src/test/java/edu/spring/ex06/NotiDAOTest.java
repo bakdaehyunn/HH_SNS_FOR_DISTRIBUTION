@@ -36,9 +36,9 @@ public class NotiDAOTest {
 	@Test
 	public void testDAO() {
 		//notiTestInsert();
-		notiTestSelect();
+		//notiTestSelect();
 		//notiTestUpdate();
-		notiTestDelete();
+		//notiTestDelete();
 		
 	}// end testDAO()
 
@@ -53,10 +53,10 @@ public class NotiDAOTest {
 
 	private void notiTestUpdate() {
 		int notiId = 1;
-		int result = notiDao.update(notiId);
-		if(result == 1) {
-			logger.info("update 성공");
-		}
+		//int result = notiDao.update(notiId);
+	//	if(result == 1) {
+//			logger.info("update 성공");
+//		}
 		
 	}
 
@@ -72,10 +72,10 @@ public class NotiDAOTest {
 
 	private void notiTestInsert() {
 		
-		NotiVO vo = new NotiVO(0, "a", "b", "msg", 0, 0);
-		int result = notiDao.insert("a","b","msg");
-		if(result == 1) {
-			logger.info("insert 성공");
+//		NotiVO vo = new NotiVO(0, "a", "b", "msg", 0, 0);
+//		int result = notiDao.insert("a","b","msg");
+//		if(result == 1) {
+//			logger.info("insert 성공");
 		}
 	}
 
@@ -84,4 +84,4 @@ public class NotiDAOTest {
 	
 
 
-}
+

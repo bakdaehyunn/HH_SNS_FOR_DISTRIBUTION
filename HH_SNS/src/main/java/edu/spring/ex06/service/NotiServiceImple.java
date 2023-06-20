@@ -24,7 +24,7 @@ public class NotiServiceImple implements NotiService {
 	private NotiDAO dao;
 
 
-
+	
 	@Override
 	public List<NotiVO> readList(String receiverId) {
 		logger.info("read() receiverId : " + receiverId);
@@ -32,16 +32,16 @@ public class NotiServiceImple implements NotiService {
 	}
 
 	@Override
-	public int update(int notiId) {
-		logger.info("update() notiId : " + notiId);
-		return dao.update(notiId);
+	public int update(String receiverId) {
+		logger.info("update() notiId : " + receiverId);
+		return dao.update(receiverId);
 	}
 
-//	@Override
-//	public int delete(int notiId) {
-//		logger.info("delete() notiId : " + notiId);
-//		return dao.delete(notiId);
-//	}
+	@Override
+	public int delete(int notiId) {
+		logger.info("delete() notiId : " + notiId);
+		return dao.deleteNotiId(notiId);
+	}
 
 	@Override
 	public int readCheck(String receiverId) {

@@ -7,6 +7,7 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 <style type="text/css">
 .input_feed {
 	display: block;
@@ -152,7 +153,7 @@
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">
-		<p><a href="../user/noti">알람</a></p>
+		<p><a id="notiT" href="../user/noti">알람</a></p>
 		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
@@ -166,7 +167,7 @@
 		
 		<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 		<br>
-		<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;"></div>
+		<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px; overflow: auto; border: 1px solid #ccc;"></div>
 		</div>
 		
 		<form id="uploadForm" enctype="multipart/form-data">
@@ -213,6 +214,43 @@
 		$(document).ready(function() {
 			
 			getAllMain();
+			setInterval(checkNoti,1000);
+			function checkNoti(){
+				$.ajax({
+					type: 'GET',
+					url : '../users/notiCheck',
+					headers : {
+						'content-Type' : 'application/json'
+					},
+					success: function(data){
+						console.log(data);
+						if(data >= 1){
+							$('#notiT').text('알람(New)');
+							console.log("성공");
+						}else {
+							$('#notiT').text('알람');
+							console.log("다시");
+						}
+					}//success
+
+				});// ajax()
+			}// checkNoTi()
+			$('#notiT').mousedown(function(){
+				$.ajax({
+					type: 'PUT',
+					url : '../users/notiRead',
+					headers : {
+						'content-Type' : 'application/json'
+					},
+					success: function(data){
+						console.log(data);
+						if(data >= 1){
+							console.log("읽음");
+						}
+					}//success
+
+				});// ajax()
+			})
 			$('#btn_login').click(function(){
 				var target = encodeURI('/ex06/user/login');
 				location = target;
@@ -455,7 +493,7 @@
 										$(data).each(function(){
 											console.log(this);
 											list += '<div class="tag_item">'
-											+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="100" height="100" />'
+											+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 											+'@'+this.userId +'('+this.userNickname+')'
 											+'<input type="hidden" class="userId" value="'+this.userId+'">'
 											+'</div>'

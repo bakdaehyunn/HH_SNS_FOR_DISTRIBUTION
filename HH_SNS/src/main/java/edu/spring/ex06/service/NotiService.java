@@ -8,6 +8,6 @@ public interface NotiService {
 	
 	List<NotiVO> readList(String receiverId);
 	int readCheck(String receiverId);
-	int update(int notiId);
-//	int delete(int notiId);
+	int update(String receiverId);
+	int delete(int notiId);
 }

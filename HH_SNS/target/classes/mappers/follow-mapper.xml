@@ -45,5 +45,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
 		join ${follow} f on u.${userId} = f.${followingUserId} where f.${followerUserId} = #{followerUserId} and f.${followingUserId} like '%' || #{followingUserId} || '%' 
 	</select>
+	
+	<delete id="delete_follower">
+		delete from ${follow}
+		where ${followerUserId} = #{followerUserId}
+	</delete>
+	
+	<delete id="delete_following">
+		delete from ${follow}
+		where ${followingUserId} = #{followingUserId}
+	</delete>
 
 </mapper>

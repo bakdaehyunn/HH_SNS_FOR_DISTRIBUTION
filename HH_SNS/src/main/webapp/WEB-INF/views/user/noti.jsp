@@ -4,29 +4,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+#notis{
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 520px;
+  margin: 0 auto;
+  text-align: center;
+}
+#title{
+ text-align: center;
+}
+#notificationItem {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width:500px;
+  margin-bottom: 10px;
+  background-color: #f8f8f8;
+}
+</style>
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <meta charset="UTF-8">
 <title>Profile Edit</title>
 </head>
 <body>
-	<h1>알림창</h1>
+<h1><a href="../feed/main">H&H</a></h1> <br>
+	<h1 id="title">알림창</i></h1>
 	<br>
 	<br>
-	<%--
-	<c:forEach var="vo" items="${list }">
-	<div onclick="location.href='../feed/mylist?userId=${vo.userId }';">
-	<img id="profileImage" src="display?fileName=${vo.userProfile }" alt="img" width="100" height="100" />
- 	@${vo.userId } (${vo.userNickname })
- 	<input type="hidden" id=userinfoUserId value="${vo.userId }">
- 	<c:if test="${empty userId or userId ne vo.userId }">
- 	<button class="followButton" >팔로우 하기</button>
- 	</c:if>
- 	
-	</div>
 	
-	<hr>	
-	</c:forEach>
-	 --%>
 	 
 	
 	 <div id="notis"></div>
@@ -70,25 +77,28 @@
 						console.log(this);
 						if(this.feedId != ''){
 							if(this.notiCategory =='reply'){
-								list +='<div class="noti_reply">'
+								list +='<div class="noti_reply" id="notificationItem" >'
 								+ this.senderId +'님이 회원님의 게시물에 댓글을 달았습니다.'
 								+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
-								+'</div>'
-								+'<hr>'
+								+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
+								+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
+								
 							}else if(this.notiCategory == 'like'){
-								list +='<div class="noti_like">'
+								list +='<div class="noti_like" id="notificationItem">'
 									+ this.senderId +'님이 회원님의 댓글에 좋아요를 눌렀습니다.'
 									+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
-									+'</div>'
-									+'<hr>'
+									+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
+									+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
+									
 							}
 						}
 						else if(this.notiCategory == 'follow'){
-							list +='<div class="noti_follow">'
+							list +='<div class="noti_follow" id="notificationItem">'
 								+ this.senderId +'님이 회원님을 팔로우 합니다.'
 								+ '<input type="hidden" id="receiverId" value="' + this.receiverId + '">'
-								+'</div>'
-								+'<hr>'
+								+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
+								+'<button class="delete"style="display: inline-block;">X</button>'+'</div>'
+								
 						}
 						$('#notis').html(list);
 						
@@ -97,6 +107,27 @@
 
 			});// ajax()
 		}
+		$(document).on('click','.delete',function(e){
+			e.stopPropagation();
+			var notiId = $(this).prevAll('#notiId').val();
+			$.ajax({
+				type : 'DELETE',
+				url : '../users/notiDelete/' + notiId,
+				context: this,
+				headers : {
+					'content-Type' : 'application/json'
+				},
+				success: function(result){
+					console.log(result);
+					if(result == 1){
+						console.log('알림 삭제 성공');
+						getNotiList();
+						
+					}
+				}
+			})
+		});
+	
 		$(document).on('click','.noti_follow',function(){
 			var receiverId = $(this).find('#receiverId').val();
 			var target =encodeURI('/ex06/feed/mylist?userId='+receiverId);
