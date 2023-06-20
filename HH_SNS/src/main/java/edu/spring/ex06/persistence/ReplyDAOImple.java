@@ -63,7 +63,7 @@ public class ReplyDAOImple implements ReplyDAO{
 	}
 
 	@Override
-	public int selectFeedId(int replyId) {
+	public ReplyVO selectFeedId(int replyId) {
 		logger.info("selectFeedId replyId : " + replyId);
 		return sqlSession.selectOne(NAMESPACE + ".select_feedid_by_replyid", replyId);
 	}

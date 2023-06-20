@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.spring.ex06.domain.CommentInfoVO;
 import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.LikeInfoVO;
+import edu.spring.ex06.domain.NotiVO;
 import edu.spring.ex06.domain.ReplyVO;
 import edu.spring.ex06.persistence.CommentInfoDAO;
 import edu.spring.ex06.persistence.FeedDAO;
@@ -41,8 +42,13 @@ public class CommentInfoServiceImple implements CommentInfoService{
 		logger.info("★ CommentInfoServiceImple 대댓글 등록 = " + commentvo.toString());
 		commentdao.insert(commentvo);
 		replydao.updateCommentCnt(1, commentvo.getReplyId());
-		int feedId = replydao.selectFeedId(commentvo.getReplyId());
-		feeddao.updateReplyCnt(1, feedId);
+		ReplyVO replyVO= replydao.selectFeedId(commentvo.getReplyId());
+		feeddao.updateReplyCnt(1, replyVO.getFeedId());
+		if(!(commentvo.getUserId().equals(replyVO.getUserId()))) {
+			NotiVO notiVO = new NotiVO(0, commentvo.getUserId(), replyVO.getUserId(), "comment", 0, replyVO.getFeedId());
+			notidao.insert(notiVO);
+		}
+		
 
 		return 1;
 	}// end create()
@@ -84,12 +90,12 @@ public class CommentInfoServiceImple implements CommentInfoService{
 		logger.info("★ CommentInfoServiceImple 대댓글 삭제");
 		CommentInfoVO vo = commentdao.select(commentId);
 
-		int feedId = replydao.selectFeedId(vo.getReplyId());
+		ReplyVO replyVO = replydao.selectFeedId(vo.getReplyId());
 
 		commentdao.delete(commentId);
 		replydao.updateCommentCnt(-1, vo.getReplyId());
 
-		feeddao.updateReplyCnt(-1, feedId);
+		feeddao.updateReplyCnt(-1, replyVO.getFeedId());
 
 		return 1;
 	}
