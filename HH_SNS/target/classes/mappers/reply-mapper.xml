@@ -15,8 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by ${replyId}
 	</select>
 	
-	<select id="select_feedid_by_replyid" resultType="Integer">
-		select ${feedId} from ${reply}
+	<select id="select_feedid_by_replyid" resultType="ReplyVO">
+		select * from ${reply}
 		where ${replyId} = #{replyId}
 	</select>
 	

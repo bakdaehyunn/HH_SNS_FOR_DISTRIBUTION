@@ -53,8 +53,8 @@ public class ReplyServiceImple implements ReplyService{
 		logger.info("create() 호출 : vo = " + vo.toString());
 		replyDAO.insert(vo);
 		if(!(vo.getUserId().equals(feedUserId))) {
-			NotiVO NotiVO = new NotiVO(0, vo.getUserId(), feedUserId, "reply", 0, vo.getFeedId());
-			notiDAO.insert(NotiVO);
+			NotiVO notiVO = new NotiVO(0, vo.getUserId(), feedUserId, "reply", 0, vo.getFeedId());
+			notiDAO.insert(notiVO);
 		}
 		logger.info("댓글 입력 성공");
 		feedDAO.updateReplyCnt(1, vo.getFeedId());
