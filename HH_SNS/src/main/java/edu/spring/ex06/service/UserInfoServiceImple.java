@@ -83,9 +83,8 @@ public class UserInfoServiceImple implements UserInfoService {
 		logger.info("delete() 호출 : userId = " + userId);
 		dao.delete(userId);
 		feedDAO.deleteUserId(userId);
-		notiDAO.deleteReceiverId(userId);
-		followDAO.deleteFollower(userId);
-		followDAO.deleteFollowing(userId);
+		notiDAO.deleteUserId(userId);
+		followDAO.deleteFollow(userId);
 		replyDAO.deleteUserId(userId);
 		commentDAO.deleteUserId(userId);
 		return 1;
