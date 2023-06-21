@@ -516,7 +516,7 @@
 					} // if else 문 끝
 				});// input 이벤트
 				
-				$('#feedTagList').on('mousedown', '.tag_item', function(){
+				$(document).on('mousedown', '.tag_item', function(){
 					
 					var feedContent =$('#feedContent').html();
 					var pos = feedContent.lastIndexOf('@');

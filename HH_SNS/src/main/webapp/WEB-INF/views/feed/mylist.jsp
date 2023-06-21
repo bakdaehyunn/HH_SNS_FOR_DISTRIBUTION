@@ -183,8 +183,10 @@
 	userId = session
 	-->
 	
-	<div style="border-color:  "></div>
-		
+	<div></div>
+		<c:if test="${not empty userId and userId eq userinfovo.userId}">
+		<p><a id="notiT" href="../user/noti">알람</a></p>
+		</c:if>
 		<!-- 세션아이디값 X -->
 		<c:if test="${empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></p>
@@ -257,7 +259,43 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			
+			setInterval(checkNoti,1000);
+			function checkNoti(){
+				$.ajax({
+					type: 'GET',
+					url : '../users/notiCheck',
+					headers : {
+						'content-Type' : 'application/json'
+					},
+					success: function(data){
+						console.log(data);
+						if(data >= 1){
+							$('#notiT').text('알람(New)');
+							console.log("성공");
+						}else {
+							$('#notiT').text('알람');
+							console.log("다시");
+						}
+					}//success
+
+				});// ajax()
+			}// checkNoTi()
+			$('#notiT').mousedown(function(){
+				$.ajax({
+					type: 'PUT',
+					url : '../users/notiRead',
+					headers : {
+						'content-Type' : 'application/json'
+					},
+					success: function(data){
+						console.log(data);
+						if(data >= 1){
+							console.log("읽음");
+						}
+					}//success
+
+				});// ajax()
+			})
 			var followerCnt =parseInt($('#followerCntValue').val());
 			console.log('followercnt ' + followerCnt);
 			followcheck();
@@ -726,8 +764,8 @@
 			} // if else 문 끝
 		});// input 이벤트
 		
-		$('#feedTagList').on('mousedown', '.tag_item', function(e){
-			e.preventDefault();
+		$(document).on('mousedown', '.tag_item', function(e){
+			
 			var feedContent =$('#feedContent').html();
 			var pos = feedContent.lastIndexOf('@');
 			console.log('위치: '+pos);

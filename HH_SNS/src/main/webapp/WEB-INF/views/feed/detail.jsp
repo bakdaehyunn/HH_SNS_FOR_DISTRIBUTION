@@ -293,8 +293,8 @@
 			} // if else 문 끝
 		});// input 이벤트
 		
-		$('#feedTagList').on('mousedown', '.tag_item', function(e){
-			e.preventDefault();
+		$(document).on('mousedown', '.tag_item', function(e){
+			
 			var feedContent =$('#feedContent').html();
 			var pos = feedContent.lastIndexOf('@');
 			console.log('위치: '+pos);
@@ -510,7 +510,7 @@
 							}else{
 								$(data).each(function(){
 									console.log(this);
-									list += '<div class="tag_item">'
+									list += '<div class="rtag_item">'
 									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 									+'@'+this.userId +'('+this.userNickname+')'
 									+'<input type="hidden" class="userId" value="'+this.userId+'">'
@@ -534,7 +534,7 @@
 			} // if else 문 끝
 		});// input 이벤트
 		
-		$('#replyTagList').on('mousedown', '.tag_item', function(e){
+		$(document).on('mousedown', '.rtag_item', function(e){
 			var replyContent =$('#replyContent').html();
 			var pos = replyContent.lastIndexOf('@');
 			console.log('위치: '+pos);
@@ -565,7 +565,7 @@
 		var onTag=false;
 		$(document).on('input','.getReplyContent',function(){
 			var getReplyContent =$(this).text();
-			var getReplyTagList = $(this).nextAll('.getReplyTagList').hide();
+			var getReplyTagList = $(this).nextAll('.getReplyTagList');
 			console.log(getReplyContent);
 			
 			
@@ -597,7 +597,7 @@
 							}else{
 								$(data).each(function(){
 									console.log(this);
-									list += '<div class="tag_item">'
+									list += '<div class="grtag_item">'
 									+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 									+'@'+this.userId +'('+this.userNickname+')'
 									+'<input type="hidden" class="userId" value="'+this.userId+'">'
@@ -621,8 +621,8 @@
 			} // if else 문 끝
 		});// input 이벤트
 		
-		$(document).on('mousedown', '.getReplyTagList', function(){
-			var getReplyContent =$(this).prevAll('.getReplyContent').html();
+		$(document).on('mousedown', '.grtag_item', function(){
+			var getReplyContent =$(this).closest('.getReplyTagList').prevAll('.getReplyContent').html();
 			
 			var pos = getReplyContent.lastIndexOf('@');
 			console.log('위치: '+pos);
@@ -630,9 +630,9 @@
 			
 			var userId = $(this).find('.userId').val();
 			list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
-			$(this).prevAll('.getReplyContent').html(list);
-			$(this).text('');
-			$(this).hide();
+			$(this).closest('.getReplyTagList').prevAll('.getReplyContent').html(list);
+			$(this).closest('.getReplyTagList').text('');
+			$(this).closest('.getReplyTagList').hide();
 			onTag=false;
 		});
 		$(document).on('blur','.getReplyContent',function(){
@@ -906,7 +906,7 @@
 	var onTag=false;
 	$(document).on('input','.commentContent',function(){
 		var commentContent =$(this).text();
-		var commentTagList = $('.commentTagList');
+		var commentTagList = $(this).nextAll('.commentTagList');
 		console.log(commentContent);
 		
 		
@@ -938,7 +938,7 @@
 						}else{
 							$(data).each(function(){
 								console.log(this);
-								list += '<div class="tag_item">'
+								list += '<div class="ctag_item">'
 								+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 								+'@'+this.userId +'('+this.userNickname+')'
 								+'<input type="hidden" class="userId" value="'+this.userId+'">'
@@ -962,18 +962,17 @@
 		} // if else 문 끝
 	});// input 이벤트
 	
-	$(document).on('mousedown', '.commentTagList', function(){
-		var commentContent =$(this).prevAll('.commentContent').html();
-		
+	$(document).on('mousedown', '.ctag_item', function(){
+		var commentContent =$(this).closest('.commentTagList').prevAll('.commentContent').html();
 		var pos = commentContent.lastIndexOf('@');
 		console.log('위치: '+pos);
 		var list = commentContent.substr(0,pos);
 		
 		var userId = $(this).find('.userId').val();
 		list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
-		$(this).prevAll('.commentContent').html(list);
-		$(this).text('');
-		$(this).hide();
+		$(this).closest('.commentTagList').prevAll('.commentContent').html(list);
+		$(this).closest('.commentTagList').text('');
+		$(this).closest('.commentTagList').hide();
 		onTag=false;
 	});
 	$(document).on('blur','.commentContent',function(){
@@ -994,7 +993,7 @@
 	var onTag=false;
 	$(document).on('input','.getCommentContent',function(){
 		var getCommentContent =$(this).text();
-		var getCommentTagList = $('.getCommentTagList');
+		var getCommentTagList =  $(this).nextAll('.getCommentTagList');
 		console.log(getCommentContent);
 		
 		
@@ -1026,7 +1025,7 @@
 						}else{
 							$(data).each(function(){
 								console.log(this);
-								list += '<div class="tag_item">'
+								list += '<div class="gctag_item">'
 								+'<img id="profileImage" src ="display?fileName='+ this.userProfile+'"alt="img" width="40" height="40" />'
 								+'@'+this.userId +'('+this.userNickname+')'
 								+'<input type="hidden" class="userId" value="'+this.userId+'">'
@@ -1050,18 +1049,17 @@
 		} // if else 문 끝
 	});// input 이벤트
 	
-	$(document).on('mousedown', '.getCommentTagList', function(){
-		var getCommentContent =$(this).prevAll('.getCommentContent').html();
-		
+	$(document).on('mousedown', '.gctag_item', function(){
+		var getCommentContent =$(this).closest('.getCommentTagList').prevAll('.getCommentContent').html();
 		var pos = getCommentContent.lastIndexOf('@');
 		console.log('위치: '+pos);
 		var list = getCommentContent.substr(0,pos);
 		
 		var userId = $(this).find('.userId').val();
 		list  +=  '<a href="../feed/mylist?userId=' + userId + '">' + '@'+userId +'</a>&nbsp;';
-		$(this).prevAll('.getCommentContent').html(list);
-		$(this).text('');
-		$(this).hide();
+		$(this).closest('.getCommentTagList').prevAll('.getCommentContent').html(list);
+		$(this).closest('.getCommentTagList').text('');
+		$(this).closest('.getCommentTagList').hide();
 		onTag=false;
 	});
 	$(document).on('blur','.getCommentContent',function(){
