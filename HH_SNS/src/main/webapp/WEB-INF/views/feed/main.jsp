@@ -214,6 +214,7 @@
 		$(document).ready(function() {
 			
 			getAllMain();
+			//likecheck(feedId);
 			setInterval(checkNoti,1000);
 			function checkNoti(){
 				$.ajax({
@@ -356,6 +357,8 @@
 							if (result == 1) {
 								console.log('★ 피드작성 완료');
 			                    getAllMain();
+			                    $('#feedContent').html('');
+			                    $('#preview').html('');
 							} else {
 								console.log('★ 피드작성 실패');
 							}
@@ -435,17 +438,14 @@
 											
 											+ '</div>'
 											+ '</div>';
+											
+											var feedId = this.feedId;
+											//likecheck(feedId);
 							});// end data.funchion;
 							$('#feeds').html(list);
 						}//end function(data);
 					);// end getJSON();
 				}// end getAllMain();
-				
-				$('.btn_like').each(function(index,item){
-					var userId = $(this).closest('#userId').val();
-					console.log('떠!!!!!!!!!!!!!!!!!!!!');
-					console.log(userId);
-				});// end each
 				
 				$(document).on('click', '.post_tag.clickable', function() {
 				    var feedId = $(this).data('feedid');
@@ -516,7 +516,7 @@
 					} // if else 문 끝
 				});// input 이벤트
 				
-				$('#feedTagList').on('mousedown', '.tag_item', function(){
+				$(document).on('mousedown', '.tag_item', function(){
 					
 					var feedContent =$('#feedContent').html();
 					var pos = feedContent.lastIndexOf('@');
@@ -544,6 +544,44 @@
 					};
 					
 				});
+				
+				 /* function likecheck(feedId) {
+				        console.log('------------------');
+				        const userId = document.getElementById("userId").textContent;
+				        var btn_like = $('.btn_like');
+				        console.log(btn_like);
+
+				        console.log('유저 아이디 : ' + userId + ', 피드 번호 : ' + feedId);
+
+				        var url = '../likes/checkClass/' + userId + '/' + feedId;
+						$.getJSON(
+							url,
+							function(data) {
+								console.log(data);
+								var isLike = false; // 좋아요 상태 변수 추가
+								for (var i = 0; i < data.length; i++) {
+									var item = data[i];
+									if (userId == item.userId && feedId == item.feedId) {
+										isLike = true; // 좋아요 상태 갱신
+										likeId = item.likeId; // likeId 새로운걸로 다시 가져옴 ㅎㅎ
+						                break; // 반복문 종료
+									}
+								}
+
+								if (isLike) {
+									btn_like.addClass('liked');
+									console.log('클래스 추가 완료');
+									return;
+								} else {
+									btn_like.removeClass('liked');
+									console.log('클래스 삭제 완료');
+									return;
+								}
+							}// function
+						);// end getJSON
+				    }// end likecheck() */
+				
+				
 			}); // end ready();
 	</script>
 
