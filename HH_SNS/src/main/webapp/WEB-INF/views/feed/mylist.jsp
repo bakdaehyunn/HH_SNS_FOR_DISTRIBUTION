@@ -31,6 +31,7 @@
 	min-height: 80px; 
 	height: auto; 
 	margin-right: 20px;
+	word-break:break-all;
 }
 
 .feedContent {
@@ -154,6 +155,12 @@
 	border: none;
 	cursor: pointer;
 }
+
+.img_photo {
+	max-width: 250px;
+	max-height: 250px;
+}
+
 
 </style>
 <meta charset="UTF-8">
@@ -505,7 +512,7 @@
 									var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
 									
 									if(this.feedPhoto != 'null') {
-										var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
+										var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img class="img_photo" src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
 										console.log('photo : ' + this.feedPhoto);
 										console.log('tag : ' + imageUrl);
 									} else if(this.feedPhoto == 'null') {
@@ -606,7 +613,7 @@
 							var feedDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
 							
 							if(this.feedPhoto != 'null') {
-								var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
+								var imageUrl = '<a href="../feed/detail?feedId=' + this.feedId + '"><img class="img_photo" src="display?fileName=' + this.feedPhoto + '" alt="img"/></a>';
 								console.log('photo : ' + this.feedPhoto);
 								console.log('tag : ' + imageUrl);
 							} else if(this.feedPhoto == 'null') {

@@ -1104,7 +1104,7 @@
 					var item = data[i];
 					if (userId == item.userId && feedId == item.feedId) {
 						isLike = true; // 좋아요 상태 갱신
-						likeId = item.likeId; // likeId 업데이트
+						likeId = item.likeId; // likeId 새로운걸로 다시 가져옴 ㅎㅎ
 		                break; // 반복문 종료
 					}
 				}

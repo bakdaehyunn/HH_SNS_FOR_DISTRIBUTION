@@ -149,7 +149,7 @@
 	
 		<div class="input_feed">
 		<c:if test="${empty userId}">
-		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" /> ₒ₍₊˒₃˓₎ₒ▁▂▃▅▆▓▒░✩★</p>
+		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" />　　로그인시 이용 가능합니다.</p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">

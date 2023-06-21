@@ -40,7 +40,7 @@
 	<form id="myAccountForm" action="myAccount" method="post">
 		<div>아이디 : <input type="text" id="userId" name="userId" value="${vo.userId }" readonly></div>
 		<div id="userIdGuide" style="display: none;"></div>
-		<div>패스워드 : <input type="password" id="userPassword" name="userPassword" value="${vo.userName }" ></div>
+		<div>패스워드 : <input type="password" id="userPassword" name="userPassword" value="${vo.userPassword }" ></div>
 		<div id="userPasswordGuide" style="display: none;"></div>
 		<div> 이름: <input type="text" id="userName" name="userName" value="${vo.userName }" maxlength='20' ></div>
 		<div id="userNameGuide" style="display: none;"></div>
