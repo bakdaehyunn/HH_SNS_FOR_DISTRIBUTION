@@ -12,6 +12,7 @@ public interface LikeInfoDAO {
 	List<LikeInfoVO> select_all(int feedId);
 	List<LikeInfoVO> select_all_Id(String userId);
 	int delete(int likeId);
+	int deleteUserid(String userId);
 	/*
 	 * 좋아요 저장 = 등록
 	 * 좋아요 개수 = 수정

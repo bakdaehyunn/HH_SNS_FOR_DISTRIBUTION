@@ -799,6 +799,7 @@
 		var userProfile = $('#userProfile').val();;
 		var userNickname = $('#userNickname').val();
 		var commentContent = $(this).prevAll('.commentContent').html();
+		var commentContent2 = $(this).prevAll('.commentContent');
 		
 		console.log('댓글 번호 : ' + replyId + ', 유저 아이디 : ' + userId + ', 대댓글 내용 : ' + commentContent + ', 유저 닉네임 : ' + userNickname + ', 유저 프로필 : ' + userProfile);
 		
@@ -844,7 +845,8 @@
 				console.log(result);
 				if (result == 1) {
 					console.log('★ 대댓글 등록 성공');
-					
+					commentContent2.html('');
+					alert('대댓글 작성 완료');
 					// 작성 = btn_add_comment 을 눌렀을 때 getAllComment에서 $('.commentList').html로 바로 출력해야한다.
 					getAllComment(replyId,commentList);
 					
@@ -871,6 +873,7 @@
 				console.log(result);
 				if(result == 1) {
 					console.log('★ 대댓글 수정 완료');
+					alert('대댓글 수정 완료');
 				} else {
 					console.log('★ 대댓글 수정 실패');
 				}
@@ -895,6 +898,7 @@
 				console.log(result);
 				if(result == 1) {
 					console.log('★ 대댓글 삭제 성공');
+					alert('대댓글 삭제 완료');
 					
 					getAllComment(replyId,commentList);
 				}
@@ -1102,7 +1106,7 @@
 					var item = data[i];
 					if (userId == item.userId && feedId == item.feedId) {
 						isLike = true; // 좋아요 상태 갱신
-						likeId = item.likeId; // likeId 업데이트
+						likeId = item.likeId; // likeId 새로운걸로 다시 가져옴 ㅎㅎ
 		                break; // 반복문 종료
 					}
 				}

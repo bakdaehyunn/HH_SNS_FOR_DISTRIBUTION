@@ -82,5 +82,11 @@ public class LikeInfoDAOImple implements LikeInfoDAO{
 		return sqlSession.delete(NAMESPACE + ".delete", likeId);
 	}// end delete
 //	-----------------------------------------------------------
+
+	@Override
+	public int deleteUserid(String userId) {
+		logger.info("★ LikeInfoDAOImple 좋아요 삭제");
+		return sqlSession.delete(NAMESPACE + ".delete_userId", userId);
+	}
 	
 }

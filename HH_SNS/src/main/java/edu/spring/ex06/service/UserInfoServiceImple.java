@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.CommentInfoDAO;
 import edu.spring.ex06.persistence.FeedDAO;
 import edu.spring.ex06.persistence.FollowDAO;
+import edu.spring.ex06.persistence.LikeInfoDAO;
 import edu.spring.ex06.persistence.NotiDAO;
 import edu.spring.ex06.persistence.ReplyDAO;
 import edu.spring.ex06.persistence.UserInfoDAO;
@@ -27,6 +29,9 @@ public class UserInfoServiceImple implements UserInfoService {
 	
 	@Autowired
 	private ReplyDAO replyDAO;
+	
+	@Autowired
+	private LikeInfoDAO likeDAO;
 	
 	@Autowired
 	private NotiDAO notiDAO;
@@ -87,6 +92,8 @@ public class UserInfoServiceImple implements UserInfoService {
 		followDAO.deleteFollow(userId);
 		replyDAO.deleteUserId(userId);
 		commentDAO.deleteUserId(userId);
+		likeDAO.deleteUserid(userId);
+		
 		return 1;
 	}
 
