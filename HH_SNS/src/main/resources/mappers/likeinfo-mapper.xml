@@ -46,6 +46,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	delete from ${like_info}
 	 	where ${likeId} = #{likeId}
 	 </delete>
+	 <delete id="delete_userId">
+	 	delete from ${like_info}
+	 	where ${userId} = #{userId}
+	 </delete>
 
 
 </mapper>

@@ -476,7 +476,7 @@
 			$('#btn_add').click(function() {
 				var feedId = $('#feedId').val();
 				const userId = document.getElementById("userId").textContent;
-				var feedContent = $('#feedContent').text(); 
+				var feedContent = $('#feedContent').html(); 
 				
 				console.log(feedContent);
 	
@@ -518,6 +518,7 @@
 								getAllList();
 								$('#feedContent').html('');
 			                    $('#preview').html('');
+			                    $('#upload').val('');
 							} else {
 								console.log('★ 피드작성 실패');
 							}

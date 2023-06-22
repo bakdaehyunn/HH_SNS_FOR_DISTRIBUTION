@@ -359,6 +359,7 @@
 			                    getAllMain();
 			                    $('#feedContent').html('');
 			                    $('#preview').html('');
+			                    $('#upload').val('');
 							} else {
 								console.log('★ 피드작성 실패');
 							}
