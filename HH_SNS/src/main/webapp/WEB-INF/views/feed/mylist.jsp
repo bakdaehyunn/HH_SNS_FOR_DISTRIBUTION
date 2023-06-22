@@ -213,7 +213,7 @@
 			<div id="feedContent" contentEditable='true'></div>
 			<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 			</div>
-			<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>
+			<div id ="feedTagList" style="position: absolute; background-color: white; display: none;  width : 700px; border: 1px solid #ccc;"></div>
 			<div id="check_feedContent" style="display: none;"></div>
 			
 			<form id="uploadForm" enctype="multipart/form-data">

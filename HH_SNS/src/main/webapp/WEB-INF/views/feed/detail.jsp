@@ -106,7 +106,7 @@
 			    <input type="submit" id="btn_update" value="수정">
 			    <input type="submit" id="btn_delete" value="삭제">
 			</c:if>
-			<div id ="feedTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>
+			<div id ="feedTagList" style="position: absolute; background-color: white; display: none; width : 700px; border: 1px solid #ccc;"></div>
 			</div>
 			<c:if test="${feedvo.feedPhoto ne 'null'}">
 				<br>
@@ -149,7 +149,7 @@
 			<div id="replyContent" style=" width : 700px; height:100px;display: inline-block;margin: 0 auto;" contenteditable="true"></div>
 		<button id="btn_add"style="display: inline-block" >작성</button>
 		</div>
-		<div id ="replyTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>
+		<div id ="replyTagList" style="position: absolute; background-color: white; display: none;   width : 700px; border: 1px solid #ccc;"></div>
 		</c:if>
 	</div>
 	
@@ -408,7 +408,7 @@
 							+ '&nbsp;&nbsp;'
 							+ '<button class="btn_update" ' + disabled + '>수정</button>'
 							+ '<button class="btn_delete" ' + disabled + '>삭제</button>'
-							+ '<div class ="getReplyTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>'
+							+ '<div class ="getReplyTagList" style="position: absolute; background-color: white; display: none;  width : 700px; border: 1px solid #ccc;"></div>'
 							+ '<br>'
 							+ '<input type="hidden" value="' + this.commentCount + '">'
 							+ '<button class="btn_comment"><a>답글 (' + this.commentCount + ')</a></button>'
@@ -692,7 +692,7 @@
 
 			    + '<input style="height: 30px; margin-left: 10px;" type="submit" class="btn_add_comment" value="등록">'
 
-			 	+ '<div class ="commentTagList" style="position: absolute; background-color: white; display: none; height:80px;  width : 700px; overflow: auto; border: 1px solid #ccc;"></div>'
+			 	+ '<div class ="commentTagList" style="position: absolute; background-color: white; display: none;   width : 700px;  border: 1px solid #ccc;"></div>'
 
 			    + '<div id="check_comment" style="display: none;">'
 			    + '</div>'
@@ -776,7 +776,7 @@
 							    + '<button class="btn_update_comment" ' + disabled + '>수정</button>'
 							    + '<button class="btn_delete_comment" ' + disabled + '>삭제</button>'
 							   
-							    + '<div class ="getCommentTagList" style="position: absolute; background-color: white; display: none; height:100px;  width : 700px;overflow: auto; border: 1px solid #ccc;"></div>'
+							    + '<div class ="getCommentTagList" style="position: absolute; background-color: white; display: none;   width : 700px; border: 1px solid #ccc;"></div>'
 							    + '<hr>'
 							    + '</div>';
 						}
