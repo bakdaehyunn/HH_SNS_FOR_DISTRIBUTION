@@ -11,17 +11,24 @@
 ## 개발환경
 
 운영체제 :Windows 10 64bit
+
 Java버전:Java JDK 11.0.2
+
 Build: Maven 3.9.1
+
 RDBMS : Oracle 11.2g
+
 Framework: Spring Framework 4.3.8
+
 IDE : Spring Tool Suite 3
 
 
 ## 적용 기술
 
 사용언어 : JAVA, Javascript, JSP, CSS
+
 자바스크립트 라이브러리 : jQuery, Ajax
+
 외부 라이브러리 : Mybatis, javaX.mail, Oracle, imgscalr, Jackson
 
 ## DB 모델링
