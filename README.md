@@ -26,7 +26,7 @@ IDE : Spring Tool Suite 3
 
 ## DB 모델링
 
-![ER다이어그램](https://github.com/H-H-SNS/HH_SNS/assets/99257977/3f658e1b-ce12-444e-a379-dba1031bbdc2)
+![ER다이어그램](https://github.com/H-H-SNS/HH_SNS/assets/99257977/dd4d352c-7c59-45da-9710-58c00d2cd820)
 
 ##유즈케이스 다이어그램
 
