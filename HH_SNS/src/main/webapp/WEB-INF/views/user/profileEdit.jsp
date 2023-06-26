@@ -61,14 +61,14 @@
 	<a href="myAccount">내 정보수정</a>
 	<script type="text/javascript">
 	$(document).ready(function(){
-		$('#button_out').click(function(){
-			$('#button_in').click();
+		$('#button_out').click(function(){ //사진변경 버튼 클릭 시
+			$('#button_in').click(); // file 선택창 활성화
 		});
-		$('#button_in').change(function(){
+		$('#button_in').change(function(){ //파일 선택 시
 			console.log(this.files[0]);
-			var file = this.files[0];
-			var srcURL = URL.createObjectURL(file);
-			$('#profileImage').attr("src",srcURL);
+			var file = this.files[0]; 
+			var srcURL = URL.createObjectURL(file);// 파일 경로 생성
+			$('#profileImage').attr("src",srcURL); // 이미지 띄우기
 		})
 	});
 	

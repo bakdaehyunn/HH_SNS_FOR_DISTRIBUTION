@@ -16,13 +16,13 @@ import edu.spring.ex06.domain.UserInfoVO;
 public class FollowDAOImple implements FollowDAO{
 	private static final Logger logger =
 			LoggerFactory.getLogger(FollowDAOImple.class);
-	private static final String NAMESPACE =  "edu.spring.ex06.FollowMapper";
+	private static final String NAMESPACE =  "edu.spring.ex06.FollowMapper"; //팔로우 매퍼 경로
 	
-	@Autowired
+	@Autowired// SqlSession 주입
 	private SqlSession sqlSession;
 
 	@Override
-	public int insert(String followerUserId, String followingUserId) {
+	public int insert(String followerUserId, String followingUserId) { // 팔로우 등록
 		logger.info("insert() 호출");
 		logger.info("followerUserId = " + followerUserId + ", followerUserId = " + followerUserId);
 		Map<String, Object> args = new HashMap();
@@ -32,46 +32,35 @@ public class FollowDAOImple implements FollowDAO{
 	}
 
 	@Override
-	public int selectFollowerCnt(String followerUserId) {
+	public int selectFollowerCnt(String followerUserId) { // 팔로워 수 불러오기
 		logger.info("selectFollowerCnt() 호출");
 		logger.info("followerUserId : " + followerUserId);
 		return sqlSession.selectOne(NAMESPACE +".select_follower_cnt", followerUserId);
 	}
 	
 	@Override
-	public int selectFollowingCnt(String followingUserId) {
+	public int selectFollowingCnt(String followingUserId) { // 팔로잉 수 불러오기
 		logger.info("selectFollowingCnt() 호출");
 		logger.info("followingUserId : " + followingUserId);
 		return sqlSession.selectOne(NAMESPACE +".select_following_cnt", followingUserId);
 	}
-	
 
 	@Override
-	public int delete(String followerUserId, String followingUserId) {
-		logger.info("delete() 호출");
-		logger.info("followerUserId : " + followerUserId + ", followingUserId : " + followingUserId);
-		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("followerUserId", followerUserId);
-		args.put("followingUserId", followingUserId);
-		return sqlSession.delete(NAMESPACE + ".delete", args);
-	}
-
-	@Override
-	public List<UserInfoVO> selectFollowingList(String followingUserId) {
+	public List<UserInfoVO> selectFollowingList(String followingUserId) { // 팔로잉 리스트 불러오기
 		logger.info("selectFollowingList() 호출");
 		logger.info("followingUserId :" + followingUserId );
 		return sqlSession.selectList(NAMESPACE + ".select_following_list", followingUserId);
 	}
 
 	@Override
-	public List<UserInfoVO> selectFollowerList(String followerUserId) {
+	public List<UserInfoVO> selectFollowerList(String followerUserId) { // 팔로워 리스트 불러오기
 		logger.info("selectFollowerList() 호출");
 		logger.info("followerUserId : " + followerUserId);
 		return sqlSession.selectList(NAMESPACE + ".select_follower_list", followerUserId);
 	}
 
 	@Override
-	public int selectFollowingCheck(String followerUserId, String followingUserId) {
+	public int selectFollowingCheck(String followerUserId, String followingUserId) { // 팔로우 확인 
 		logger.info("selectFollowingCheck() 호출");
 		logger.info("followerUserId : " + followerUserId);
 		logger.info("followingUserId : " + followingUserId);
@@ -82,11 +71,10 @@ public class FollowDAOImple implements FollowDAO{
 	}
 
 	@Override
-	public List<UserInfoVO> selectTagList( String followerUserId, String followingUserId) {
+	public List<UserInfoVO> selectTagList( String followerUserId, String followingUserId) { // 태그할 친구 리스트 불러오기
 		logger.info("selectHashtagList() 호출");
 		logger.info("followerUserId : " + followerUserId);
 		logger.info("followingUserId : "+ followingUserId);
-		
 		Map<String, String> args = new HashMap<String, String>();
 		args.put("followerUserId", followerUserId);
 		args.put("followingUserId", followingUserId);
@@ -94,11 +82,22 @@ public class FollowDAOImple implements FollowDAO{
 	}
 
 	@Override
-	public int deleteFollow(String followerUserId) {
+	public int delete(String followerUserId, String followingUserId) { // 팔로우 취소 
+		logger.info("delete() 호출");
+		logger.info("followerUserId : " + followerUserId + ", followingUserId : " + followingUserId);
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("followerUserId", followerUserId);
+		args.put("followingUserId", followingUserId);
+		return sqlSession.delete(NAMESPACE + ".delete", args);
+	}	
+	
+	@Override
+	public int deleteFollow(String followerUserId) { //유저아이디로 팔로우 내역 삭제
 		logger.info("deleteFollower : " + followerUserId);
 		return sqlSession.delete(NAMESPACE + ".delete_follow", followerUserId);
 	}
 
+	
 	
 	
 

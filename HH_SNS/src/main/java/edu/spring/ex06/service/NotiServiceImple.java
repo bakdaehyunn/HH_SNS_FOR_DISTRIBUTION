@@ -21,33 +21,32 @@ public class NotiServiceImple implements NotiService {
 			LoggerFactory.getLogger(NotiServiceImple.class);
 
 	@Autowired
-	private NotiDAO dao;
+	private NotiDAO notiDAO;
 
+	@Override
+	public List<NotiVO> readList(String receiverId) { // 알림 리스트 불러오기
+		logger.info("read() receiverId : " + receiverId);
+		return notiDAO.selectList(receiverId);
+	}
+
+	@Override
+	public int readCheck(String receiverId) { // 알림 확인
+		logger.info("readCheck() receiverId : " + receiverId);
+		return notiDAO.selectCheck(receiverId);
+	}
+	@Override
+	public int update(String receiverId) { // 알림 읽음 변경
+		logger.info("update() notiId : " + receiverId);
+		return notiDAO.update(receiverId);
+	}
+
+	@Override
+	public int delete(int notiId) { // 알림 삭제
+		logger.info("delete() notiId : " + notiId);
+		return notiDAO.deleteNotiId(notiId);
+	}
 
 	
-	@Override
-	public List<NotiVO> readList(String receiverId) {
-		logger.info("read() receiverId : " + receiverId);
-		return dao.selectList(receiverId);
-	}
-
-	@Override
-	public int update(String receiverId) {
-		logger.info("update() notiId : " + receiverId);
-		return dao.update(receiverId);
-	}
-
-	@Override
-	public int delete(int notiId) {
-		logger.info("delete() notiId : " + notiId);
-		return dao.deleteNotiId(notiId);
-	}
-
-	@Override
-	public int readCheck(String receiverId) {
-		logger.info("readCheck() receiverId : " + receiverId);
-		return dao.selectCheck(receiverId);
-	}
 	
 	
 	

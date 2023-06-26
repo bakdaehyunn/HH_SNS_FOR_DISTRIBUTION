@@ -3,46 +3,55 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.spring.ex06.ReplyMapper">
+
+	<!-- insert 댓글 등록 쿼리 -->
 	<insert id="insert">
 		insert into ${reply}
 		(${replyId}, ${feedId}, ${userId}, ${userNickname}, ${replyContent}, ${userProfile})
 		values (reply_seq.nextval, #{feedId}, #{userId}, #{userNickname}, #{replyContent}, #{userProfile})
 	</insert>
 	
+	<!-- select 댓글 불러오기 쿼리 -->
 	<select id="select_all_by_feed_id" resultType="ReplyVO">
 		select * from ${reply}
 		where ${feedId} = #{feedId}
 		order by ${replyId}
 	</select>
 	
+	<!--  select 댓글아이디로 댓글 불러오기 쿼리 -->
 	<select id="select_feedid_by_replyid" resultType="ReplyVO">
 		select * from ${reply}
 		where ${replyId} = #{replyId}
 	</select>
 	
+	<!-- update 댓글 수정 쿼리 -->
 	<update id="update">
 		update ${reply}
 		set ${replyContent} = #{replyContent}, ${replyDate} = sysdate
 		where ${replyId} = #{replyId}
 	</update>
-	
-	<delete id="delete">
-		delete from ${reply}
-		where ${replyId} = #{replyId}
-	</delete>
-	
+
+	<!--  update 댓글 카운트 증감 쿼리 -->
 	<update id="update_comment_cnt">
 		update ${reply}
 		set ${commentCount} = ${commentCount} + #{amount}
 		where ${replyId} = #{replyId}
 	</update>
 	
+	<!-- update 댓글의 프로필 정보 수정  -->
 	<update id="update_profile">
 		update ${reply}
 		set ${userNickname} = #{userNickname}, ${userProfile} = #{userProfile}
 		where ${userId} = #{userId}
 	</update>
 	
+	<!-- delete 댓글 삭제 쿼리 -->
+	<delete id="delete">
+		delete from ${reply}
+		where ${replyId} = #{replyId}
+	</delete>
+	
+	<!--  delete 유저아이디로 댓글 내역 삭제 -->
 	<delete id="delete_userId">
 		delete from ${reply}
 		where ${userId} = #{userId}

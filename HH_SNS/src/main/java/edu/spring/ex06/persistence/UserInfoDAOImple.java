@@ -20,38 +20,19 @@ public class UserInfoDAOImple implements UserInfoDAO{
 	private SqlSession sqlSession;
 	
 	@Override
-	public int insert(UserInfoVO vo) {
+	public int insert(UserInfoVO vo) { // 회원정보 생성(회원가입)
 		logger.info("insert() 호출");
 		return sqlSession.insert(NAMESPACE + ".insert", vo);
 	}
 
 	@Override
-	public UserInfoVO select(String userId) {
+	public UserInfoVO select(String userId) { // 회원 정보 불러오기
 		logger.info("select() 호출");
 		return sqlSession.selectOne(NAMESPACE + ".select_all_by_user_id", userId);
 	}
-
-	@Override
-	public int update(UserInfoVO vo) {
-		logger.info("update() 호출");
-		return sqlSession.update(NAMESPACE + ".update_userinfo", vo);
-	}
 	
 	@Override
-	public int updateProfile(UserInfoVO vo) {
-		logger.info("updateProfile() 호출");
-		return sqlSession.update(NAMESPACE + ".update_profile", vo);
-	}
-	
-
-	@Override
-	public int delete(String userId) {
-		// TODO Auto-generated method stub
-		return sqlSession.delete(NAMESPACE + ".delete", userId);
-	}
-
-	@Override
-	public int select(String userId, String userPassword) {
+	public int select(String userId, String userPassword) { // 로그인(회원정보 확인)
 		logger.info("select() 호출");
 		logger.info("userId = " + userId + ", password = " + userPassword);
 		Map<String, Object> args = new HashMap<String, Object>();
@@ -62,18 +43,34 @@ public class UserInfoDAOImple implements UserInfoDAO{
 	}
 
 	@Override
-	public int selectUserId(String userId) {
+	public int selectUserId(String userId) { // 아이디 중복체크
 		logger.info("selectUserId() 호출");
 		return sqlSession.selectOne(NAMESPACE + ".select_check_user_id", userId);
 	}
 
 	@Override
-	public int selectUserEmail(String userEmail) {
+	public int selectUserEmail(String userEmail) { // 이메일 중복체크
 		logger.info("selectUserEmail() 호출");
 		return sqlSession.selectOne(NAMESPACE + ".select_check_user_email", userEmail);
 	}
+
+	@Override
+	public int update(UserInfoVO vo) { // 회원정보 수정
+		logger.info("update() 호출");
+		return sqlSession.update(NAMESPACE + ".update_userinfo", vo);
+	}
+	
+	@Override
+	public int updateProfile(UserInfoVO vo) { // 프로필정보 수정
+		logger.info("updateProfile() 호출");
+		return sqlSession.update(NAMESPACE + ".update_profile", vo);
+	}
 	
 
-	
+	@Override
+	public int delete(String userId) { // 회원 탈퇴
+		// TODO Auto-generated method stub
+		return sqlSession.delete(NAMESPACE + ".delete", userId);
+	}
 
 }

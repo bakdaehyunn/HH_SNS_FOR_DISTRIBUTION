@@ -9,47 +9,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(${userId}, ${userPassword}, ${userName}, ${userNickname}, ${userBirth}, ${userEmail})
 		values (#{userId}, #{userPassword}, #{userName}, #{userNickname}, #{userBirth}, #{userEmail})
 	</insert>
-	<!--  select 유저의 정보 확인  -->
-	<select id="select_all_by_user_id" resultType="UserInfoVO">
-		select * from ${user_info}
-		where ${userId} = #{userId}
-	</select>
-	<!-- select 로그인 아이디 체크 -->
+	
+	<!-- select 로그인 확인 쿼리 -->
 	<select id="select_check_user_acc" resultType="Integer">
 		select count(${userId}) from ${user_info} 
 		where ${userId} = #{userId} and ${userPassword} = #{userPassword}
 	</select>
 	
-	<!-- select 아이디 중복 체크 -->
+	<!--  select 유저 정보 가져오기 쿼리 -->
+	<select id="select_all_by_user_id" resultType="UserInfoVO">
+		select * from ${user_info}
+		where ${userId} = #{userId}
+	</select>
+	
+	
+	<!-- select 아이디 중복 체크 쿼리 -->
 	<select id="select_check_user_id" resultType="Integer">
 	 	select count(${userId}) from ${user_info}
 	 	where ${userId} = #{userId}
 	</select>
 	
-	<!-- select 이메일 중복 체크 -->
+	<!-- select 이메일 중복 체크  쿼리 -->
 	<select id="select_check_user_email" resultType="Integer">
 		select count(${userEmail}) from ${user_info}
 		where ${userEmail} = #{userEmail}
 	</select>
 	
-	<!--  update 유저정보 수정 -->
+	<!--  update 유저정보 수정 쿼리 -->
 	<update id="update_userinfo">
 		update ${user_info}
 		set ${userId} = #{userId}, ${userPassword} = #{userPassword}, ${userName} = #{userName},
 		 ${userBirth} = #{userBirth}, ${userEmail} = #{userEmail}
 		where ${userId} = #{userId}
 	</update>
-	<!-- update 프로필 수정 -->
+	
+	<!-- update 프로필 수정 쿼리 -->
 	<update id="update_profile">
 		update ${user_info}
 		set ${userNickname} = #{userNickname}, ${userProfile} = #{userProfile}
 		where ${userId} = #{userId}
 	</update>
-	<!-- delete 유저계정 삭제 -->
+	
+	<!-- delete 유저계정 삭제 쿼리 -->
 	<delete id="delete">
 		delete from ${user_info}
 		where ${userId} = #{userId}
 	</delete>
-	
-	
+
 </mapper>

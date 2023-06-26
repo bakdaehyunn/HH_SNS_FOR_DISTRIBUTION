@@ -4,51 +4,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.spring.ex06.FollowMapper">
 	
-	
-	<insert id="insert">
+	<!-- insert 팔로우 등록 쿼리 -->
+	<insert id="insert"> 
 		insert into ${follow}
 		values (follow_seq.nextval, #{followerUserId}, #{followingUserId})
 	</insert>
 	
+	<!-- select 팔로잉 수 불러오기 쿼리 -->
 	<select id="select_following_cnt" resultType="Integer">
 		select count(${followingUserId}) from ${follow}
 		where ${followerUserId} = #{followerUserId}
 	</select>
 	
+	<!-- select 팔로워 수 불러오기 쿼리 -->
 	<select id="select_follower_cnt" resultType="Integer">
 		select count(${followerUserId}) from ${follow}
 		where ${followingUserId} = #{followingUserId}
 	</select>
 	
-	
-	<delete id="delete">
-		delete from ${follow}
-		where ${followerUserId} = #{followerUserId} and ${followingUserId} = #{followingUserId}
-	</delete>
-	
+	<!-- select 팔로워 리스트 불러오기 쿼리 -->
 	<select id="select_follower_list" resultType="UserInfoVO">
 		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
 		join ${follow} f on u.${userId} = f.${followerUserId} where f.${followingUserId} = #{followingUserId} 
 	</select>
 	
+	<!-- select 팔로잉 리스트 불러오기 쿼리 -->
 	<select id="select_following_list" resultType="UserInfoVO">
 		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
 		join ${follow} f on u.${userId} = f.${followingUserId} where f.${followerUserId} = #{followerUserId} 
 	</select>
 	
+	<!-- select 팔로우 확인 쿼리 -->
 	<select id="select_following_check" resultType="Integer">
 		select count(${followingUserId}) from ${follow}
 		where ${followerUserId} = #{followerUserId} and ${followingUserId} = #{followingUserId}
 	</select>
 	
+	<!-- select 태그할 팔로잉 리스트 불러오기 쿼리 -->
 	<select id="select_tag_list" resultType="UserInfoVO">
 		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
 		join ${follow} f on u.${userId} = f.${followingUserId} where f.${followerUserId} = #{followerUserId} and f.${followingUserId} like '%' || #{followingUserId} || '%' 
 	</select>
 	
+	<!-- delete 팔로우 취소 쿼리 -->
+	<delete id="delete">
+		delete from ${follow}
+		where ${followerUserId} = #{followerUserId} and ${followingUserId} = #{followingUserId}
+	</delete>
+	
+	<!-- delete 회원정보로 팔로우 내역 삭제 쿼리 -->
 	<delete id="delete_follow">
 		delete from ${follow}
-		where ${followerUserId} = #{followerUserId}  or ${followingUserId} = #{followerUserId}
+		where ${followerUserId} = #{userId}  or ${followingUserId} = #{userId}
 	</delete>
 	
 	

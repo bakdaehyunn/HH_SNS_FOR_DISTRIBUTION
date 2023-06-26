@@ -48,8 +48,6 @@ public class CommentInfoServiceImple implements CommentInfoService{
 			NotiVO notiVO = new NotiVO(0, commentvo.getUserId(), replyVO.getUserId(), "comment", 0, replyVO.getFeedId());
 			notidao.insert(notiVO);
 		}
-		
-
 		return 1;
 	}// end create()
 	

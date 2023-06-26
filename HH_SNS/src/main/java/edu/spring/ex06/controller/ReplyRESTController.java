@@ -22,8 +22,6 @@ import edu.spring.ex06.domain.ReplyVO;
 import edu.spring.ex06.service.FeedService;
 import edu.spring.ex06.service.ReplyService;
 
-
-
 // * RESTful url과 의미
 // /replies (POST) : 댓글 추가(insert)
 // /replies/all/숫자 (GET) : 해당 글 번호(boardId)의 모든 댓글 검색(select)
@@ -36,20 +34,29 @@ public class ReplyRESTController {
 	private static final Logger logger =
 			LoggerFactory.getLogger(ReplyRESTController.class);
 	
-	@Autowired
+	@Autowired // ReplyService 주입
 	private ReplyService replyService;
 	
-	@PostMapping // POST : 댓글 입력
+	@GetMapping("/all/{feedId}") //  댓글 가져오기 GET
+	public ResponseEntity<List<ReplyVO>> readReplies(
+			@PathVariable("feedId") int feedId) {
+		// @pathVariable("feedId") : /all/{feedId} 값을 설정된 변수에 저장
+		logger.info("readReplies() 호출 : feedId  = " + feedId);
+		List<ReplyVO> list = replyService.read(feedId); // 댓글 가져오기 서비스
+		return new ResponseEntity<List<ReplyVO>>(list, HttpStatus.OK); // 댓글 데이터 전달
+	}
+	
+	@PutMapping("/{replyId}") // 댓글 수정 PUT
+	public ResponseEntity<Integer> updateReply(
+			@PathVariable("replyId") int replyId,
+			@RequestBody String replyContent){
+		int result = replyService.update(replyId, replyContent); // 댓글 수정 서비스
+		return new ResponseEntity<Integer>(result, HttpStatus.OK); // 댓글 수정 상태 전달
+	}
+	
+	@PostMapping // 댓글 생성 POST
 	public ResponseEntity<Integer>createReply(@RequestBody Map<String,Object> param){
-	//public ResponseEntity<Integer> createReply(@RequestBody ReplyVO vo){
-		// @RequestBody
-		// - 클라이언트에서 전송받은 json 데이터를 
-		//   자바 객체로 변환해주는 annotation
 		logger.info("createReply() 호출 : vo = " + param.toString());
-		
-		// ResponseEntity<T> : Rest 방식에서 데이터를 리턴할 때 쓰이는 객체
-		// - 데이터 HttpStatus를 전송
-		// - <T> : 보내고자 하는 데이터 타입
 		int feedId = Integer.parseInt((String) param.get("feedId"));
 		String userId =(String) param.get("userId");
 		String userNickname=(String) param.get("userNickname");
@@ -60,44 +67,27 @@ public class ReplyRESTController {
 		ReplyVO vo = new ReplyVO(0, feedId, userId, userNickname, userProfile, replyContent, null, feedId, feedId);
 		int result = 0;
 		try {
-			result = replyService.create(vo,feedUserId);
+			result = replyService.create(vo,feedUserId); //댓글 생성 서비스
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+		return new ResponseEntity<Integer>(result, HttpStatus.OK); // 댓글 생성 상태 전달
 	}
 	
-	@GetMapping("/all/{feedId}") // GET : 댓글 선택(all)
-	public ResponseEntity<List<ReplyVO>> readReplies(
-			@PathVariable("feedId") int feedId) {
-		// @pathVariable("feedId") : /all/{feedId} 값을 설정된 변수에 저장
-		logger.info("readReplies() 호출 : feedId  = " + feedId);
-		List<ReplyVO> list = replyService.read(feedId);
-		return new ResponseEntity<List<ReplyVO>>(list, HttpStatus.OK);
-	}
-	
-	@PutMapping("/{replyId}") // PUT : 댓글 수정
-	public ResponseEntity<Integer> updateReply(
-			@PathVariable("replyId") int replyId,
-			@RequestBody String replyContent){
-		int result = replyService.update(replyId, replyContent);
-		return new ResponseEntity<Integer>(result, HttpStatus.OK);
-	}
-	
-	@DeleteMapping("/{replyId}")
+	@DeleteMapping("/{replyId}") // 댓글 삭제 DELET
 	public ResponseEntity<Integer> deleteReply(
 			@PathVariable("replyId") int replyId,
 			@RequestBody int feedId){
 		logger.info("replyId = " + replyId);
 		int result = 0;
 		try {
-			result = replyService.delete(replyId, feedId);
+			result = replyService.delete(replyId, feedId); // 댓글 삭제 서비스
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK); // 댓글 삭제 상태 전달
 		
 	}
 } // ReplyRESTcontroller 

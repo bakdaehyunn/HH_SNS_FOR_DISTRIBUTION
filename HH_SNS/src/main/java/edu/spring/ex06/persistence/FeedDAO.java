@@ -19,6 +19,6 @@ public interface FeedDAO {
 	// 피드 상세 != 개인피드
 	// detail = userdetail
 	// 게시글 클릭 = 유저 아이디로 게시글 출력
-	int deleteUserId(String userId);
+	int deleteUserId(String userId); 
 	
 }
