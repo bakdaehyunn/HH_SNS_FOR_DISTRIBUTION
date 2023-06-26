@@ -33,11 +33,11 @@ IDE : Spring Tool Suite 3
 
 ## DB 모델링
 
-![ER다이어그램](https://github.com/H-H-SNS/HH_SNS/assets/99257977/dd4d352c-7c59-45da-9710-58c00d2cd820)
+![ER다이어그램](https://github.com/H-H-SNS/HH_SNS/assets/99257977/91f64fa4-fbd4-4d32-a841-7bd469b515b6)
 
 ##유즈케이스 다이어그램
 
-![유즈케이스](https://github.com/H-H-SNS/HH_SNS/assets/99257977/2d942893-53be-4275-915a-979d25e2701b)
+![유즈케이스](https://github.com/H-H-SNS/HH_SNS/assets/99257977/b2aabbf3-5620-4197-8fc4-82a486a8d032)
 
 
 ## 기능 소개
