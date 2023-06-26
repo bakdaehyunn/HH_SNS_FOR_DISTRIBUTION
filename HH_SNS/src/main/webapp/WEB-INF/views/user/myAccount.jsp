@@ -66,44 +66,43 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			
-			function isBirthday(asValue){
+			function isBirthday(asValue){ // 생년월일 (YYYYMMDD)형식의 정규식
 				var regExp=/^[1-2]{1}[0-9]{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
 				return regExp.test(asValue);
 			}
-			function isBirthdayB(asValue){
+			function isBirthdayB(asValue){// 생년월이 (YYYY-MM-DD)형식의 정규식
 				var regExp=/^(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
 				return regExp.test(asValue);
 			}
-			function isNum(asValue) {
+			function isNum(asValue) { // 숫자 정규식
 				var regExp= /^[0-9]{8}$/
 				return regExp.test(asValue);
 				//숫자 8자리 입력 가능
 			}
-			function isUserid(asValue) {
+			function isUserid(asValue) { // 아이디 정규식
 			    var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{1,8}$/;
 			    return regExp.test(asValue);
 			}//아이디는 1-8자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능
-			function isPassword(asValue) {
+			
+			function isPassword(asValue) { // 패스워드 정규식
 			    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
 			    return regExp.test(asValue);
 			}//영문과 숫자 조합의 8-20자의 비밀번호를 설정. 특수문자(!@#$%^&*)도 사용
-			function isEmail(asValue) {
+			
+			function isEmail(asValue) { // 이메일 정규식
 				var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				return regExp.test(asValue);
 			}
-			function isName(asValue){
+			
+			function isName(asValue){ // 이름 정규식
 				var regExp = /^[가-힣a-zA-Z]*$/;
 				return regExp.test(asValue);
 			}
-			
-			
-			
-			
-			
+
 			var emailVerifCode ='-1'; // 발급된 이메일 인증번호 저장 변수
 			
 			var EmailSendBool = true;
-			$('#emailVerifSend').click(function(){
+			$('#emailVerifSend').click(function(){ //이메일 인증버튼 클릭 시
 				var userEmail = $('#userEmail').val();
 				$.ajax({
 					type : 'POST',
@@ -122,7 +121,7 @@
 				
 			});
 			var emailVerifBool = true;
-			$('#emailVerifInput').blur(function(){
+			$('#emailVerifInput').blur(function(){ //이메일 인증 항목 빠져나올 때
 				var list ='';
 				if($('#emailVerifInput').val() != null){
 					var emailVerifInput = $('#emailVerifInput').val();
@@ -137,12 +136,12 @@
 					$('#emailVerifInputGuide').html(list);
 				}
 			});
-			$('#userEmail').mousedown(function(){
+			$('#userEmail').mousedown(function(){ // 이메일 항목 클릭 시
 				$('#userEmail').val('');
 				emailVerifBool = true;
 				EmailSendBool = true;
 			});
-			$('#userEmail').keyup(function(){
+			$('#userEmail').keyup(function(){ // 이메일 항목에 값 입력 시
 				
 				var userEmail = $('#userEmail').val();
 				console.log(userEmail);
@@ -182,11 +181,11 @@
 				}
 			});
 			var userPasswordBool = true;
-			$('#userPassword').mousedown(function(){
+			$('#userPassword').mousedown(function(){ // 패스워드 항목 클릭 시
 				$('#userPassword').val('');
 				userPasswordBool= false;
 			});
-			$('#userPassword').keyup(function(){
+			$('#userPassword').keyup(function(){  //패스워드 항목에 값 입력 시
 				var userPassword = $('#userPassword').val();
 				console.log(userPassword);
 				var list = '';
@@ -208,11 +207,11 @@
 				}
 			});
 			var userNameBool = true;
-			$('#userName').mousedown(function(){
+			$('#userName').mousedown(function(){ // 이름 항목 클릭 시
 				$('#userName').val('');
 				userNameBool =false;
 			});
-			$('#userName').blur(function(){
+			$('#userName').blur(function(){ // 이름 항목에서 빠져나올 때
 				var userName = $('#userName').val();
 				console.log(userName);
 				var list = '';
@@ -236,7 +235,7 @@
 		
 			
 			var userBirthBool = true;
-			$('#userBirth').focus(function(){
+			$('#userBirth').focus(function(){ // 생년월일 항목 클릭 시
 				var userBirth =$(this).val();
 				console.log(userBirth);
 				if(userBirthBool == true && isBirthdayB(userBirth)){
@@ -246,7 +245,7 @@
 				}
 				
 			});
-			$('#userBirth').blur(function(){
+			$('#userBirth').blur(function(){ // 생년월일 항목 빠져나올 때
 				var userBirth =$(this).val();
 				console.log(userBirth);
 				if(userBirth != ''){
@@ -291,7 +290,7 @@
 				
 			});
 			
-			$('#myAccountForm').submit(function(e){
+			$('#myAccountForm').submit(function(e){ // 회원정보수정 폼 제출 시
 				warn="필수 입력 사항입니다.";
 				if(userPasswordBool==false){
 					e.preventDefault();

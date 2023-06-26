@@ -3,55 +3,44 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.spring.ex06.NotiMapper">
-	<!-- ★ ${key 이름} : mybatis-config.xml의 property - name(vo)과 매칭. DB 테이블의 
-		컬럼 ★ #{key 이름} : dao 클래스의 sqlSession에서 전송받은 데이터 변수명(입력받은 데이터) -->
 
-
-	<!-- 
-		INSERT INTO [테이블명] values([시퀀스명].NEXTVAL, 'test');
-	 -->
-	 
-	 <!-- 인서트 -->
+	 <!-- insert 알림 등록 쿼리 -->
 	 <insert id="insert">
 	 	insert into ${noti}
 	 	values (noti_seq.nextval, #{senderId}, #{receiverId}, #{notiCategory}, 0, #{feedId} )
 	 </insert>
 	 
-	 <!-- 회원 알림 사항 체크 -->
+	 <!-- select 알림 확인  쿼리 -->
 	 <select id="select_check" resultType="Integer">
 	 	select count(${senderId}) from ${noti}
 	 	where ${notiRead} = 0 and ${receiverId} = #{receiverId}
 	 </select>
-	 <!-- 회원 알람 내용 조회 -->
+	 
+	 <!-- select 알람 리스트 불러오기 쿼리 -->
 	 <select id="select_list" resultType="NotiVO">
 	 	select ${notiId}, ${senderId}, ${receiverId}, ${notiCategory}, ${notiRead}, ${feedId} from ${noti}
 	 	where  ${receiverId} = #{receiverId} order by ${notiId} desc
 	 </select>
 	
-	<!--  회원 알람 확인 상태로 변경 -->
+	<!-- update 알림 읽음 상태 변경 쿼리 -->
 	<update id="update">
 		update ${noti}
 		set ${notiRead} = 1
 		where ${receiverId} = #{receiverId}
 	</update>
 	
-	<!--  회원 알람 삭제 
-	
-	-->
-	
-	<!--  회원 팔로우 알람 삭제 -->
+	<!--  delete 팔로우 정보로 알림 삭제 -->
 	<delete id="delete">
 		delete from ${noti}
 		where ${senderId} = #{senderId} and ${receiverId} = #{receiverId} and ${notiCategory} = 'follow'
 	</delete>
 	
-	
-	
-	<delete id="delete_receiverId">
+	<!-- delete 유저정보로 알림 내역 삭제 -->
+	<delete id="delete_userId">
 		delete from ${noti}
-		where ${receiverId} = #{receiverId} or ${senderId} = #{receiverId} 
+		where ${receiverId} = #{userId} or ${senderId} = #{userId} 
 	</delete>
-	
+	<!-- delete 알림 삭제 쿼리 -->
 	<delete id="delete_notiId">
 		delete from ${noti}
 		where ${notiId} = #{notiId}

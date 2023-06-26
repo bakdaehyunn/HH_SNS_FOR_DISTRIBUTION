@@ -26,79 +26,74 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
 		
-		if(userId == null) {
+		if(userId == null) { // 로그인 상태가 아닐 경우
 		
 			logger.info("로그아웃 상태 -> controller method 실행 안됨");
-			// 목표 url 세션에 저장(만약 request parameter가 존재하면 같이 저
-			response.setContentType("text/html; charset=utf-8");
+			response.setContentType("text/html; charset=utf-8");// utf-8로 인코딩 설정
 			
-			if(isAjaxRequest(request)) {
+			if(isAjaxRequest(request)) { //Ajax 요청일 경우
 				logger.info("ajax request 이다.");
-				saveAjaxDestination(request);
-				response.sendError(400);
-				return false;
+				saveAjaxDestination(request); //접근하려던 경로 세션으로 저장
+				response.sendError(400); //400 에러 전송
+				return false; // 더 이상 진행 안됌
 			}
-			else {
-				
+			else { // Ajax 요청이 아닐 경우
 				logger.info("ajax request 아니다.");
-				saveDestination(request);
+				saveDestination(request); // 접근하려던 경로 세션으로 저장
 				PrintWriter out = response.getWriter();
-				out.print("<script>alert('로그인이 필요합니다. !'); location.href='/ex06/user/login';</script>");
+				out.print("<script>alert('로그인이 필요합니다. !'); location.href='/ex06/user/login';</script>"); // 로그인 요청 알람 과 로그인화면으로 redirect
 				out.flush();
 				out.close();
-				result = false;
+				result = false; // 더 이상 진행 안됌
 			}
 			
 		} else {
 			logger.info("로그인 상태 -> controller method 실행");
-			result = true;
+			result = true; // 정상적으로 진행
 		}
 		return result;
 	}
 	private boolean isAjaxRequest(HttpServletRequest req) {
         String header = req.getHeader("AJAX");
-        if ("true".equals(header)){
-         return true;
+        if ("true".equals(header)){ //AJAX가 true일 경우
+         return true; //true를 전달
         }else{
-         return false;
+         return false;// false를 전달
         }
     }
 
 	private void saveDestination(HttpServletRequest request) {
 		logger.info("saveDestination() 호출");
 		
-		String uri = request.getRequestURI();
+		String uri = request.getRequestURI(); //경로 불러오기
 		logger.info("요청 URI : " + uri);
 		
 		String contextRoot = request.getContextPath();
 		logger.info("contextRoot : " + contextRoot);
-		uri = uri.replace(contextRoot, "");
+		uri = uri.replace(contextRoot, ""); // 경로에서 contextRoot 제거 
 		logger.info("요청 URI : " + uri);
 		
 		String queryString = request.getQueryString();
-		logger.info("쿼리 스트링 : " + queryString);
+		logger.info("쿼리 스트링 : " + queryString); // 쿼리스트링 불러오기
 		
 		String targetURL ="";
-		if(queryString == null) {
-			targetURL = uri;
+		if(queryString == null) { //쿼리 스트링이 없을 경우
+			targetURL = uri; //경로 저장
 		} else {
-			targetURL = uri + "?"  + queryString;
+			targetURL = uri + "?"  + queryString;//쿼리 스트링을 추가하여 경로 저장
 		}
 		logger.info("targetURL : " + targetURL);
-		request.getSession().setAttribute("targetURL", targetURL);
+		request.getSession().setAttribute("targetURL", targetURL);// 세션에 경로 생성
 		
 	}
 	
 	private void saveAjaxDestination(HttpServletRequest request) {
 		logger.info("saveAjaxDestination() 호출");
-		
-		String queryString = request.getQueryString();
+		String queryString = request.getQueryString(); //쿼리 스트링을 저장
 		logger.info("쿼리 스트링 : " + queryString);
-		
-		String targetURL = "feed/mylist" + "?"  + queryString;
-		
-		logger.info("targetURL : " + targetURL);
-		request.getSession().setAttribute("targetURL", targetURL);
+		String targetURL = "feed/mylist" + "?"  + queryString; // 경로 저장
+		logger.info("targetURL : " + targetURL); 
+		request.getSession().setAttribute("targetURL", targetURL); //세션에 경로 생성
 		
 	}
 	

@@ -38,7 +38,7 @@
 	$(document).ready(function() {
 		//setInterval(checkNoti,5000);
 		getNotiList();
-		setInterval(getNotiList,1000);
+		setInterval(getNotiList,1000); // 1초마다 함수 실행
 		function checkNoti(){
 			$.ajax({
 				type: 'GET',
@@ -75,22 +75,22 @@
 					var list = '';
 					$(data).each(function() {
 						console.log(this);
-						if(this.feedId != ''){
-							if(this.notiCategory =='reply'){
+						if(this.feedId != ''){ // feedId 값 있는 카테고리
+							if(this.notiCategory =='reply'){ // 댓글 알림
 								list +='<div class="noti_reply" id="notificationItem" >'
 								+ this.senderId +'님이 회원님의 게시물에 댓글을 달았습니다.'
 								+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 								+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
 								+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
 								
-							}else if(this.notiCategory == 'like'){
+							}else if(this.notiCategory == 'like'){ // 좋아요 알림
 								list +='<div class="noti_like" id="notificationItem">'
 									+ this.senderId +'님이 회원님의 댓글에 좋아요를 눌렀습니다.'
 									+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 									+ '<input type="hidden" id="notiId" value="' + this.notiId + '">'
 									+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
 									
-							}else if(this.notiCategory =='comment'){
+							}else if(this.notiCategory =='comment'){ // 대댓글 알림
 								list +='<div class="noti_comment" id="notificationItem" >'
 									+ this.senderId +'님이 회원님의 댓글에 대댓글을 달았습니다.'
 									+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
@@ -98,8 +98,8 @@
 									+'<button class="delete" style="display: inline-block;">X</button>'+'</div>'
 							
 							}
-						}
-						else if(this.notiCategory == 'follow'){
+						}// FeedId 값 없는 카테고리
+						else if(this.notiCategory == 'follow'){ // 팔로우 알림
 							list +='<div class="noti_follow" id="notificationItem">'
 								+ this.senderId +'님이 회원님을 팔로우 합니다.'
 								+ '<input type="hidden" id="senderId" value="' + this.senderId + '">'

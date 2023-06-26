@@ -70,47 +70,45 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			
-			function isBirthday(asValue){
+			function isBirthday(asValue){ //생년월일 (YYYYMMDD)형식 정규식
 				var regExp=/^[1-2]{1}[0-9]{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
 				return regExp.test(asValue);
 			}
-			function isBirthdayB(asValue){
+			function isBirthdayB(asValue){ //생녕월일 (YYYY-MM_DD)형식 정규식
 				var regExp=/^(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
 				return regExp.test(asValue);
 			}
-			function isNum(asValue) {
+			function isNum(asValue) { // 숫자 정규식
 				var regExp= /^[0-9]{8}$/
 				return regExp.test(asValue);
 				//숫자 8자리 입력 가능
 			}
-			function isUserid(asValue) {
+			function isUserid(asValue) { //아이디 정규식
 			    var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{1,8}$/;
 			    return regExp.test(asValue);
 			}//아이디는 1-8자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능
-			function isPassword(asValue) {
+			
+			function isPassword(asValue) { // 패스워드 정규식
 			    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
 			    return regExp.test(asValue);
 			}//영문과 숫자 조합의 8-20자의 비밀번호를 설정. 특수문자(!@#$%^&*)도 사용
-			function isEmail(asValue) {
+			
+			function isEmail(asValue) { //이메일 정규식
 				var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				return regExp.test(asValue);
 			}
-			function isName(asValue){
+			function isName(asValue){ //이름 정규식
 				var regExp = /^[가-힣a-zA-Z]*$/;
 				return regExp.test(asValue);
 			}
-			function isNickname(asValue){
+			function isNickname(asValue){// 닉네임 정규식
 				var regExp = /^[가-힣a-zA-Z0-9]*$/;
 				return regExp.test(asValue);
 			};
-			$('#userBirth').blur(function(){
-				var userBirth = $('#userBirth').val();
-				
-				
-			});
+			
 			
 			var userIdBool =false;
-			$('#userId').keyup(function(){
+			$('#userId').keyup(function(){// 아이디 항목에 입력 시
 				var userId = $('#userId').val();
 				console.log(userId);
 				var list = '';
@@ -120,7 +118,6 @@
 						$.ajax({
 							type : 'GET',
 							url : '../users/userId/'+userId,
-							headers : {'Content-Type' : 'application/json' },
 							success :function(data){
 								console.log(data);
 								if(data == 1){
@@ -140,6 +137,7 @@
 						userIdBool =false;
 						list = '아이디는 1-8자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능';
 						$('#userIdGuide').html(list);
+						$('#userIdGuide').show();
 					}
 				} else {
 					userIdBool =false;
@@ -154,7 +152,7 @@
 			var emailVerifCode ='-1'; // 발급된 이메일 인증번호 저장 변수
 			
 			var EmailSendBool = false;
-			$('#emailVerifSend').click(function(){
+			$('#emailVerifSend').click(function(){// 이메일 인증 버튼 클릭 시 
 				var userEmail = $('#userEmail').val();
 				$.ajax({
 					type : 'POST',
@@ -173,7 +171,7 @@
 				
 			});
 			var emailVerifBool = false;
-			$('#emailVerifInput').blur(function(){
+			$('#emailVerifInput').blur(function(){ 이메일 인증 항목에서 빠져나올 때
 				var list ='';
 				if($('#emailVerifInput').val() != null){
 					var emailVerifInput = $('#emailVerifInput').val();
@@ -189,7 +187,7 @@
 				}
 			});
 			
-			$('#userEmail').keyup(function(){
+			$('#userEmail').keyup(function(){ //이메일 항목에 키입력 시
 				var userEmail = $('#userEmail').val();
 				console.log(userEmail);
 				var list = '';
@@ -228,7 +226,7 @@
 				}
 			});
 			var userPasswordBool = false;
-			$('#userPassword').keyup(function(){
+			$('#userPassword').keyup(function(){ // 패스워드 항목에서 빠져나올 때
 				var userPassword = $('#userPassword').val();
 				console.log(userPassword);
 				var list = '';
@@ -250,7 +248,7 @@
 				}
 			});
 			var userNameBool = false;
-			$('#userName').blur(function(){
+			$('#userName').blur(function(){  //이름 항목에서 빠져나올 때
 				var userName = $('#userName').val();
 				console.log(userName);
 				var list = '';
@@ -272,7 +270,7 @@
 				}
 			});
 			var userNicknameBool = false;
-			$('#userNickname').blur(function(){
+			$('#userNickname').blur(function(){ //닉네임 항목에서 빠져나올 때
 				var userNickname =  $('#userNickname').val();
 				console.log(userNickname);
 				var list = '';
@@ -295,7 +293,7 @@
 				}
 			});
 			var userBirthBool = false;
-			$('#userBirth').focus(function(){
+			$('#userBirth').focus(function(){// 생년월일 항목 클릭 시
 				var userBirth =$(this).val();
 				console.log(userBirth);
 				if(userBirthBool == true && isBirthdayB(userBirth)){
@@ -304,7 +302,7 @@
 					$('#userBirthGuide').show();
 				}
 			});
-			$('#userBirth').blur(function(){
+			$('#userBirth').blur(function(){// 생년월일 항목에서 빠져나올 때
 				var userBirth =$(this).val();
 				console.log(userBirth);
 				if(userBirth != ''){
@@ -349,7 +347,7 @@
 				
 			});
 			
-			$('#signUpForm').submit(function(e){
+			$('#signUpForm').submit(function(e){ //회원가입 폼 제출 이벤트 발생 시
 				warn="필수 입력 사항입니다.";
 				if(userIdBool == false){
 					e.preventDefault();

@@ -185,6 +185,7 @@
 		</dependency>
 		
 		<!-- mail library -->
+		
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>

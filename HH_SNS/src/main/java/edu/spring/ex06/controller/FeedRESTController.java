@@ -65,16 +65,18 @@ public class FeedRESTController {
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 	
-	@GetMapping("/tagList/{followingUserId}")
+	@GetMapping("/tagList/{followingUserId}") // 태그하기 GET
 	public ResponseEntity<List<UserInfoVO>> readTagList(@PathVariable("followingUserId") String followingUserId,HttpServletRequest request){
 		HttpSession session = request.getSession();
 		List<UserInfoVO> list = null;
-		if(session.getAttribute("userId") != null) {
+		if(session.getAttribute("userId") != null) { // session에 userId 정보가 있을 경우
 			String userId = (String) session.getAttribute("userId");
-			list=followService.readTagList(userId, followingUserId);
+			list=followService.readTagList(userId, followingUserId); // 유저의 친구 리스트 가져오기 서비스
 		}
-		return new ResponseEntity<List<UserInfoVO>>(list,HttpStatus.OK);
+		return new ResponseEntity<List<UserInfoVO>>(list,HttpStatus.OK);// 유저의 친구 데이터 전달
 	}
+	
+	
 
 	@PostMapping
 	public ResponseEntity<Integer> createFeed(FeedVO feedvo, MultipartFile feedPicture,  HttpSession session) {
@@ -218,7 +220,7 @@ public class FeedRESTController {
 		return new ResponseEntity<List<FeedVO>>(list, HttpStatus.OK);
 	}
 	
-	@PutMapping("/{feedId}") // PUT : 댓글 수정
+	@PutMapping("/{feedId}") // PUT : 피드 수정
 	public ResponseEntity<Integer> updateFeeds(
 			@PathVariable("feedId") int feedId,
 			@RequestBody String feedContent
@@ -245,4 +247,4 @@ public class FeedRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 
-}// ReplyRESTcontroller
+}// FeedRESTcontroller

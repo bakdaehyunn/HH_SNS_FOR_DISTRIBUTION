@@ -21,28 +21,40 @@ public class NotiDAOImple implements NotiDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public int insert(NotiVO vo) {
+	public int insert(NotiVO vo) { // 알림 등록
 		logger.info("insert() 호출");
 		logger.info("VO :"+vo.toString());
-//		logger.info("senderId : " + senderId);
-//		logger.info("receiverId : " + receiverId);
-//		logger.info("notiCategory : "  + notiCategory);
-//		Map<String,String> args = new HashMap<String, String>();
-//		args.put("senderId", senderId);
-//		args.put("receiverId", receiverId);
-//		args.put("notiCategory", notiCategory);
 		return sqlSession.insert(NAMESPACE + ".insert", vo);
 	}
 
 	@Override
-	public List<NotiVO> selectList(String receiverId) {
+	public int selectCheck(String receiverId) { // 알림 확인
+		logger.info("select_check() 호출");
+		return sqlSession.selectOne(NAMESPACE + ".select_check", receiverId);
+	}
+
+	@Override
+	public List<NotiVO> selectList(String receiverId) { // 알림 리스트 불러오기
 		logger.info("select() 호출");
 		logger.info("receiverId : " + receiverId);
 		return sqlSession.selectList(NAMESPACE + ".select_list", receiverId);
 	}
 
 	@Override
-	public int delete(String senderId, String receiverId) {
+	public int update(String receiverId) { // 알림 읽음 변경
+		logger.info("update() 호출 notiId : " + receiverId);
+		return sqlSession.update(NAMESPACE + ".update", receiverId);
+	}
+
+
+	@Override
+	public int deleteNotiId(int notiId) { // 알림 아이디로 알림 삭제
+		logger.info("deleteNotiId : " +notiId);
+		return sqlSession.delete(NAMESPACE + ".delete_notiId", notiId);
+	}
+
+	@Override
+	public int delete(String senderId, String receiverId) { //팔로우정보로 알림 삭제
 		logger.info("delete() 호출");
 		logger.info("senderId : " + senderId);
 		logger.info("receiverId : " + receiverId);
@@ -51,32 +63,14 @@ public class NotiDAOImple implements NotiDAO {
 		args.put("receiverId", receiverId);
 		return sqlSession.update(NAMESPACE + ".delete", args);
 	}
-
+	
 	@Override
-	public int update(String receiverId) {
-		logger.info("update() 호출 notiId : " + receiverId);
-		return sqlSession.update(NAMESPACE + ".update", receiverId);
-	}
-
-	@Override
-	public int selectCheck(String receiverId) {
-		logger.info("select_check() 호출");
-		return sqlSession.selectOne(NAMESPACE + ".select_check", receiverId);
-	}
-
-
-
-	@Override
-	public int deleteUserId(String receiverId) {
-		logger.info("deleteReceiverId : " +receiverId);
-		return sqlSession.delete(NAMESPACE + ".delete_receiverId", receiverId);
+	public int deleteUserId(String userId) { // 회원 정보로 알림 삭제
+		logger.info("deleteReceiverId : " + userId);
+		return sqlSession.delete(NAMESPACE + ".delete_userId", userId);
 
 	}
 
-	@Override
-	public int deleteNotiId(int notiId) {
-		logger.info("deleteNotiId : " +notiId);
-		return sqlSession.delete(NAMESPACE + ".delete_notiId", notiId);
-	}
+	
 
 }

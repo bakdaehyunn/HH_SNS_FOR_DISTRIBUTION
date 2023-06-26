@@ -21,8 +21,6 @@ public class CommentInfoDAOImple implements CommentInfoDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
-	
-
 	@Override
 	public int insert(CommentInfoVO vo) {
 		logger.info("★ CommentInfoDAOImple 대댓글 등록 : " + vo.toString());

@@ -44,53 +44,52 @@ import edu.spring.ex06.util.MediaUtil;
 public class UserController {
 	private static final Logger logger = 
 			LoggerFactory.getLogger(UserController.class);
-	@Autowired
-	private UserInfoService userInfoservice;
 	
-	@Autowired
+	@Autowired // UserInfoService 주입
+	private UserInfoService userInfoService;
+	
+	@Autowired// FollowService 주입
 	private FollowService followService;
 	
-	@InitBinder
+	@InitBinder// String형으로 전달 받은 생년월일 데이터를 Date형으로 변환
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, false));
 	} // 폼에서 전달되는 String형의 데이터를 VO의 Date형의 변수와 매핑되도록 Date형으로 변환 
 	
-	@Resource(name = "uploadPath")
+	@Resource(name = "uploadPath") // 이미지저장경로
 	private String uploadPath;
 	
-	@GetMapping("/noti")
+	@GetMapping("/noti")  //알림 GET
 	public void notiGET(){
 		logger.info("notiGET() 호출");
 		
 	}
 	
 
-	@GetMapping("/login")
+	@GetMapping("/login") // 로그인 GET
 	public void loginGET() {
 		logger.info("loginGET() 호출");
 	}
-	@PostMapping("/login")
+	@PostMapping("/login") // 로그인 POST
 	public String loginPOST( String userId, String userPassword, HttpServletRequest request, RedirectAttributes reAttr ) {
 		logger.info("loginPOST() 호출");
-		int result = userInfoservice.read(userId, userPassword);
-		if(result == 1) {
+		int result = userInfoService.read(userId, userPassword); //회원정보 확인 서비스
+		if(result == 1) { // 로그인 성공 시
 			logger.info("로그인 성공");
 			HttpSession session = request.getSession();
-			session.setAttribute("userId", userId);
-			// 세션에서 targetURL 가져오기
-			String targetURL = (String) session.getAttribute("targetURL");
-			
-			if(targetURL != null) {
-				session.removeAttribute("targetURL");
-				return "redirect:../" + targetURL;
-			} else {
-				return "redirect:/feed/main";
+			session.setAttribute("userId", userId);// 아이디를 세션으로 저장
+			String targetURL = (String) session.getAttribute("targetURL"); // 세션에서 targetURL 가져오기
+			if(targetURL != null) { // authInterceptor에서 세션으로 저장된 경로 가 있다면
+				session.removeAttribute("targetURL"); // 세션에 저장된 경로 삭제 
+				return "redirect:../" + targetURL; // 지정된 경로로 Redirect
+			} else { //저장된 경로가 없다면
+				return "redirect:/feed/main"; // main경로로 redirect
 			}
 		}
-		else {
-			reAttr.addFlashAttribute("insert_result", "logInUnsuccess");
-			return "redirect:/user/login";
+		else { // 로그인 실패 시
+			reAttr.addFlashAttribute("login_result", "logInUnsuccess"); // 로그인 실패했다는 정보를 redirect하는 경로로 전달
+			return "redirect:/user/login"; // 로그인 화면으로 redirect
 		}
 	}
 	
@@ -104,99 +103,99 @@ public class UserController {
 		logger.info("signupPOST() 호출");
 		
 	    
-		int result = userInfoservice.create(vo);
+		int result = userInfoService.create(vo); // 회원가입 정보 추가 서비스
 		logger.info(result+"개의 계정 생성");
-		if(result == 1) {
-			reAttr.addFlashAttribute("insert_result", "signUpSuccess");
-			return "redirect:/user/login";
-		}
-		return "redirect:/user/signup";
+		if(result == 1) { //회원 가입 성공 시
+			reAttr.addFlashAttribute("signup_result", "signUpSuccess");// 회원가입 성공했다는 정보를 redirect하는 경로로 전달
+			return "redirect:/user/login"; // 로그인 화면으로 redirect
+		} 
+		return "redirect:/user/signup"; //회원가입 성공하지 않는 경우 회원가입 화면으로 redirect
 	}
 	
-	@GetMapping("/logout")
+	@GetMapping("/logout") // 로그아웃 GET
 	public String logout(HttpServletRequest request) {
 		logger.info("logout() 호출");
 		HttpSession session = request.getSession();
-		if(session.getAttribute("userId") != null) {
-			session.removeAttribute("userId");
-			return "redirect:/feed/main";
-		} else {
-			return "redirect:/feed/main";
+		if(session.getAttribute("userId") != null) { //세션에 userId 정보가 있을 경우
+			session.removeAttribute("userId"); // 세션에 userId 정보 삭제
+			return "redirect:/feed/main"; // 메인 화면으로 redirect
+		} else { //세션에 userId 정보가 없을 경우
+			return "redirect:/feed/main"; // 메인 화면으로 redirect
 		}
 	}
 	
-	@GetMapping("/followerlist")
+	@GetMapping("/followerlist") // 팔로워리스트 GET
 	public void followerlistGET(Model model, String userId) {
 		logger.info("followerListGET()");
 		List<UserInfoVO> list = followService.readFollowerList(userId);
 		model.addAttribute("list", list);
 	}
 	
-	@GetMapping("/followinglist")
+	@GetMapping("/followinglist") // 팔로잉리스트 GET
 	public void followinglistGET(Model model, String userId) {
 		logger.info("followingListGET()");
 		List<UserInfoVO> list = followService.readFollowingList(userId);
 		model.addAttribute("list", list);
 	}
 	
-	@GetMapping("/myAccount")
+	@GetMapping("/myAccount") // 회원정보 수정 GET
 	public void myAccountGET(Model model, HttpServletRequest request) {
 		logger.info("myAccountGET()");
 		HttpSession session =request.getSession();
 		String userId = (String) session.getAttribute("userId");
-		UserInfoVO vo = userInfoservice.read(userId);
+		UserInfoVO vo = userInfoService.read(userId);
 		model.addAttribute("vo",vo);
 	}
-	@PostMapping("/myAccount")
+	@PostMapping("/myAccount")// 회원정보 수정 POST
 	public String  myAccountPOST(UserInfoVO vo,  RedirectAttributes reAttr) {
 		logger.info("myAccountPOST()");
-		int result = userInfoservice.update(vo);
-		logger.info(result+"개의 계정 정보 변경");
-		if(result == 1) {
-			return "redirect:/user/profileEdit";
+		int result = userInfoService.update(vo); // 회원정보 수정 서비스
+		logger.info(result+"개의 계정 정보 변경"); 
+		if(result == 1) { // 회원정보 수정 성공 시
+			return "redirect:/user/profileEdit"; //프로필 편집 화면으로 redirect
 		}
-		return "redirect:/user/myAccount";
+		return "redirect:/user/myAccount"; //회원정보 수정 화면으로 redirect
 	}
-	@GetMapping("/accDelete")
+	@GetMapping("/accDelete") // 회원 탈퇴 GET
 	public void accDeleteGET() {
 		logger.info("accDeleteGET()");
 	}
-	@PostMapping("/accDelete")
+	@PostMapping("/accDelete") // 회원 탈퇴 POST
 	public String  accDeletePOST(String userPassword, HttpServletRequest request, RedirectAttributes reAttr) {
 		logger.info("accDeletePOST()");
 		HttpSession session = request.getSession();
 		
 		String userId = (String) session.getAttribute("userId");
-		int result = userInfoservice.read(userId, userPassword);
-		if(result == 1) {
+		int result = userInfoService.read(userId, userPassword); //회원 정보 확인 서비스
+		if(result == 1) { // 회원정보가 존재할 경우
 			try {
-				userInfoservice.delete(userId);
+				userInfoService.delete(userId); //회원 탈퇴 서비스
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			session.removeAttribute("userId");
-			reAttr.addFlashAttribute("delete_result", "accDeleteSuccess");
-			return "redirect:/user/login";
-		}else {
-			reAttr.addFlashAttribute("delete_result", "accDeleteUnsuccess");
-			return "redirect:/user/accDelete";
+			session.removeAttribute("userId"); // 세션에 있는 userId attribute 삭제
+			reAttr.addFlashAttribute("delete_result", "accDeleteSuccess"); // 회원이 삭제 되었다는 정보 redirect 경로로 전달
+			return "redirect:/user/login"; //로그인 창으로 redirect
+		}else { // 회원정보가 틀릴 경우
+			reAttr.addFlashAttribute("delete_result", "accDeleteUnSuccess"); //회원 정보가 틀렸다는 정보를 redirect 경로로 전달
+			return "redirect:/user/accDelete"; // 회원 탈퇴 화면으로 redirect
 		}
 	
 		
 		
 	}
 	
-	@GetMapping("/profileEdit")
+	@GetMapping("/profileEdit") // 프로필 편집 GET
 	public void profileEditGET(Model model, HttpServletRequest request) {
 		logger.info("profileEdit() 호출");
 		HttpSession session =request.getSession();
 		String userId = (String) session.getAttribute("userId");
-		UserInfoVO vo = userInfoservice.read(userId);
+		UserInfoVO vo = userInfoService.read(userId);
 		model.addAttribute("vo",vo);
 	}
 	
-	@PostMapping("/profileEdit")
+	@PostMapping("/profileEdit")// 프로필 편집 POST
 	public String profileEditPOST(UserInfoVO vo, MultipartFile file ) {
 		logger.info("profileEdit() 호출");
 		logger.info("vo.getUserProfile() : " + vo.getUserProfile());
@@ -211,7 +210,7 @@ public class UserController {
 		}
 		int result=0;
 		try {
-			result = userInfoservice.updateProfile(vo);
+			result = userInfoService.updateProfile(vo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

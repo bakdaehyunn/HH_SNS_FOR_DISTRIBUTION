@@ -49,25 +49,20 @@
 		<div id="deleteGuide" style="display: none ;"></div>
 	</form>
 </div>	
-	
-	
 	<input type="hidden" id="deleteAlert" value="${delete_result }">
 	
 	<script type="text/javascript">
 		
 		$(document).ready(function(){
-			
 			var result = $('#deleteAlert').val();
-			
-			if(result == 'accDeleteUnsuccess'){
-				$('#deleteGuide').text('비밀번호가 일치 하지않습니다.');
+			if(result == 'accDeleteUnSuccess'){ //  회원 정보가 일치 하지 않을 때
+				$('#deleteGuide').text('회원정보가 일치 하지않습니다.');
 				$('#deleteGuide').show();
 			}
 			
-			$('#accDeleteForm').submit(function(e){
-				
+			$('#accDeleteForm').submit(function(e){ //회원탈퇴 폼 제출 시
 				var userPassword = $('#userPassword').val();
-				if(userPassword == ''){
+				if(userPassword == ''){// 패스워드 값이 없을 경우
 					e.preventDefault();
 					$('#userPassword').focus();
 					$('#deleteGuide').text('비밀번호를 입력해주세요.');

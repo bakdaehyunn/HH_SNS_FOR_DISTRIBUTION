@@ -35,8 +35,11 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/user/profileEdit" />
-			<mapping path="/users/follow" />
+			<mapping path="/user/profileEdit" /> <!-- 프로필 편집 -->
+			<mapping path="/user/accDelete" /> <!-- 계정 탈퇴 -->
+			<mapping path="/user/myAccount" /> <!-- 유저정보 수정 -->
+			<mapping path="/user/noti" /> <!-- 알림 -->
+			<mapping path="/users/follow" /> <!-- 팔로우 -->
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 	</interceptors>
