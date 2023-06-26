@@ -594,16 +594,6 @@
 									+ '</div>'
 									+ '</div>';
 								
-									var feedId = this.feedId;
-									
-									$.ajax({
-										type : 'GET',
-										url : '../likes/check/' + userId,
-										success : function(data) {
-										$(data).each(function() {
-										
-										});
-									}
 								});//end ajax
 								
 

@@ -81,6 +81,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	where ${userId} = #{userId}
 	 </delete>
 	 
+	 <!--
+	▼
+	#{start} : criteria.getStart()
+	#{end} : criteria.getEnd()
+	  -->
+	<select id="paging" resultType="FeedVO">
+		select *
+		from(
+    		select rownum rn, a.* from(
+        		select * from ${feed} order by ${feedId} desc
+    		)a
+		)f where rn between #{start} and #{end}
+	</select>
+	 
 
 	
 	

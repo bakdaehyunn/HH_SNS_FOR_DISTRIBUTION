@@ -15,6 +15,7 @@ import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.FeedDAO;
 import edu.spring.ex06.persistence.UserInfoDAO;
+import edu.spring.ex06.util.PageCriteria;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/*.xml" })
@@ -38,8 +39,18 @@ public class FeedDAOTest {
 //		testUpdate();
 //		testDelete();
 //		testSelectAllbyId();
-		testProfileUpdate();
+//		testProfileUpdate();
+		testPaging();
 	}// end testDAO()
+
+	private void testPaging() {
+		PageCriteria criteria = new PageCriteria();
+		List<FeedVO> list = feeddao.select(criteria);
+		for(FeedVO vo : list) {
+			logger.info(vo.toString());
+		}
+		
+	}
 
 	private void testProfileUpdate() {
 		String userid= "asd";

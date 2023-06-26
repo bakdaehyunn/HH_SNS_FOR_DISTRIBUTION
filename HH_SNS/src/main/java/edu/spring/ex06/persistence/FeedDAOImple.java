@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.spring.ex06.domain.FeedVO;
 import edu.spring.ex06.domain.UserInfoVO;
+import edu.spring.ex06.util.PageCriteria;
 
 @Repository
 public class FeedDAOImple implements FeedDAO{
@@ -106,6 +107,15 @@ public class FeedDAOImple implements FeedDAO{
 	public int deleteUserId(String userId) {
 		logger.info("deleteUserId() : "+userId);
 		return sqlSession.delete(NAMESPACE + ".delete_userId", userId);
+	}
+
+	@Override
+	public List<FeedVO> select(PageCriteria criteria) {
+		logger.info("페이징 처리 criteria : " + criteria.toString());
+		int start = criteria.getStart();
+		int end = criteria.getEnd();
+		logger.info("시작 페이지 번호 : " + start + ", 끝나는 번호 : " + end);
+		return sqlSession.selectList(NAMESPACE + ".paging", criteria);
 	}
 
 	

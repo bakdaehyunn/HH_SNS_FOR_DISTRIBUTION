@@ -3,7 +3,7 @@ package edu.spring.ex06.persistence;
 import java.util.List;
 
 import edu.spring.ex06.domain.FeedVO;
-import edu.spring.ex06.domain.UserInfoVO;
+import edu.spring.ex06.util.PageCriteria;
 
 public interface FeedDAO {
 	int insert(FeedVO vo); // 피드 작성(회원)
@@ -20,5 +20,6 @@ public interface FeedDAO {
 	// detail = userdetail
 	// 게시글 클릭 = 유저 아이디로 게시글 출력
 	int deleteUserId(String userId);
+	List<FeedVO> select(PageCriteria criteria); // 페이징 처리
 	
 }
