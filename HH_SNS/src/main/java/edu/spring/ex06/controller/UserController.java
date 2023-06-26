@@ -88,7 +88,7 @@ public class UserController {
 			}
 		}
 		else { // 로그인 실패 시
-			reAttr.addFlashAttribute("login_result", "logInUnsuccess"); // 로그인 실패했다는 정보 전달
+			reAttr.addFlashAttribute("login_result", "logInUnsuccess"); // 로그인 실패했다는 정보를 redirect하는 경로로 전달
 			return "redirect:/user/login"; // 로그인 화면으로 redirect
 		}
 	}
@@ -106,7 +106,7 @@ public class UserController {
 		int result = userInfoService.create(vo); // 회원가입 정보 추가 서비스
 		logger.info(result+"개의 계정 생성");
 		if(result == 1) { //회원 가입 성공 시
-			reAttr.addFlashAttribute("signup_result", "signUpSuccess");// 회원가입 성공했다는 정보를 전달
+			reAttr.addFlashAttribute("signup_result", "signUpSuccess");// 회원가입 성공했다는 정보를 redirect하는 경로로 전달
 			return "redirect:/user/login"; // 로그인 화면으로 redirect
 		} 
 		return "redirect:/user/signup"; //회원가입 성공하지 않는 경우 회원가입 화면으로 redirect
@@ -178,7 +178,7 @@ public class UserController {
 			reAttr.addFlashAttribute("delete_result", "accDeleteSuccess"); // 회원이 삭제 되었다는 정보 redirect 경로로 전달
 			return "redirect:/user/login"; //로그인 창으로 redirect
 		}else { // 회원정보가 틀릴 경우
-			reAttr.addFlashAttribute("delete_result", "accDeleteUnSuccess");
+			reAttr.addFlashAttribute("delete_result", "accDeleteUnSuccess"); //회원 정보가 틀렸다는 정보를 redirect 경로로 전달
 			return "redirect:/user/accDelete"; // 회원 탈퇴 화면으로 redirect
 		}
 	
