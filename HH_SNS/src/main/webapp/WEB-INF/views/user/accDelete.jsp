@@ -49,8 +49,6 @@
 		<div id="deleteGuide" style="display: none ;"></div>
 	</form>
 </div>	
-	
-	
 	<input type="hidden" id="deleteAlert" value="${delete_result }">
 	
 	<script type="text/javascript">
