@@ -1,7 +1,8 @@
 # HH_SNS
 
-## 프로젝트 소개
 ![프로젝트화면](https://github.com/H-H-SNS/HH_SNS/assets/99257977/2fb90fdf-61eb-448a-bcd0-636720376df9)
+
+## 프로젝트 소개
 
 트위터와 같이 텍스트를 기반으로 유저들과 소통할 수 있는 SNS입니다.
 
