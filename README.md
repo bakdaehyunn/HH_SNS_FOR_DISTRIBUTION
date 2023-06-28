@@ -38,7 +38,7 @@ IDE : Spring Tool Suite 3
 ![ER다이어그램](https://github.com/H-H-SNS/HH_SNS/assets/99257977/60b0442c-2e24-4815-baf3-04e25f7cb3ee)
 
 
-##유즈케이스 다이어그램
+## 유즈케이스 다이어그램
 
 ![유즈케이스](https://github.com/H-H-SNS/HH_SNS/assets/99257977/b2aabbf3-5620-4197-8fc4-82a486a8d032)
 

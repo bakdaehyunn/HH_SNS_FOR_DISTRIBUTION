@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select_all_by_feed_id" resultType="ReplyVO">
 		select * from ${reply}
 		where ${feedId} = #{feedId}
-		order by ${replyId}
+		order by ${replyDate} asc
 	</select>
 	
 	<!--  select 댓글아이디로 댓글 불러오기 쿼리 -->

@@ -11,7 +11,7 @@ public interface CommentInfoDAO {
 	List<CommentInfoVO> select_all_commentid(int commentId);
 	int update(int commentId, String commentContent);
 	int delete(int commentId);
-	int update_profile(String userNickname, String userProfile, String userId);
+	int updateProfile(String userNickname, String userProfile, String userId);
 	int deleteUserId(String userId);
 	
 }

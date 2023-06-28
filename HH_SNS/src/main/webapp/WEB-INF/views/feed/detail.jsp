@@ -146,7 +146,7 @@
 			<div><a href="../feed/mylist?userId=${feedvo.userId}"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></div>
 			<div><a href="../feed/mylist?userId=${userinfovo.userId } "><b>@${userinfovo.userId}(${userinfovo.userNickname})</b></a></div>
 			<div>
-			<div id="replyContent" style=" width : 700px; height:100px;display: inline-block;margin: 0 auto;" contenteditable="true"></div>
+			<div id="replyContent" style=" width : 700px; height:100px;display: inline-block;margin: 0 auto; border: 3px solid #ccc;"   contenteditable="true"></div>
 		<button id="btn_add"style="display: inline-block" >작성</button>
 		</div>
 		<div id ="replyTagList" style="position: absolute; background-color: white; display: none;   width : 700px; border: 1px solid #ccc;"></div>

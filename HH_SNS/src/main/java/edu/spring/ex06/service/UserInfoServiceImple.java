@@ -89,9 +89,9 @@ public class UserInfoServiceImple implements UserInfoService {
 		String userNicknamne = vo.getUserNickname();
 		String userProfile = vo.getUserProfile();
 		String userId = vo.getUserId();
-		feedDAO.update_profile(userNicknamne, userProfile, userId);//피드의 프로필 정보 수정
-		replyDAO.update_profile(userNicknamne, userProfile, userId);//댓글의 프로필 정보 수정
-		commentDAO.update_profile(userNicknamne, userProfile, userId);//대댓글의 프로필 정보 수정
+		feedDAO.updateProfile(userNicknamne, userProfile, userId);//피드의 프로필 정보 수정
+		replyDAO.updateProfile(userNicknamne, userProfile, userId);//댓글의 프로필 정보 수정
+		commentDAO.updateProfile(userNicknamne, userProfile, userId);//대댓글의 프로필 정보 수정
 		return 1;
 	}
 	
