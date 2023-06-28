@@ -84,6 +84,7 @@ public class LikeRESTController {
 		List<LikeInfoVO> list = likeInfoService.read_check(userId, feedId);
 		for(LikeInfoVO vo : list) {
 			logger.info("♥ 중복확인 총 정보 : " + vo.toString());
+			logger.info("---------------------------------------------------------------");
 		}
 		return new ResponseEntity<List<LikeInfoVO>>(list, HttpStatus.OK);
 	}

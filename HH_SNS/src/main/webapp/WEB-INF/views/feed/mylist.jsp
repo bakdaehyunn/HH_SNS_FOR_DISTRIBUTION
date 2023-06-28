@@ -593,9 +593,6 @@
 									
 									+ '</div>'
 									+ '</div>';
-								
-								});//end ajax
-								
 
 
 							});// end data.function;
