@@ -4,7 +4,7 @@
 
 ## 프로젝트 소개
 
-트위터와 같이 텍스트를 기반으로 유저들과 소통할 수 있는 SNS입니다.
+▪트위터와 같이 텍스트 기반으로 유저들이 소통할 수 있는 소셜 네트워크 입니다.
 
 ## 주요기능
 
@@ -38,7 +38,7 @@ IDE : Spring Tool Suite 3
 ![ER다이어그램](https://github.com/H-H-SNS/HH_SNS/assets/99257977/60b0442c-2e24-4815-baf3-04e25f7cb3ee)
 
 
-##유즈케이스 다이어그램
+## 유즈케이스 다이어그램
 
 ![유즈케이스](https://github.com/H-H-SNS/HH_SNS/assets/99257977/b2aabbf3-5620-4197-8fc4-82a486a8d032)
 
