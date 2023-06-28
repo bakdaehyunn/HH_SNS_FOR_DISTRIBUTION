@@ -214,7 +214,8 @@ public class UserController {
 				logger.info("회원의 프로필 파일 저장"); 
 				saveProfileFile(file, userinfoVO.getUserProfile());//변경할 프로필 사진을 덮어쓰기로 저장
 			}
-		}
+		} 
+		
 		int result=0;
 		try {
 			result = userInfoService.updateProfile(userinfoVO);
