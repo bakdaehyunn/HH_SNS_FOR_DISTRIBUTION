@@ -171,7 +171,7 @@
 				
 			});
 			var emailVerifBool = false;
-			$('#emailVerifInput').blur(function(){ 이메일 인증 항목에서 빠져나올 때
+			$('#emailVerifInput').blur(function(){ //이메일 인증 항목에서 빠져나올 때
 				var list ='';
 				if($('#emailVerifInput').val() != null){
 					var emailVerifInput = $('#emailVerifInput').val();

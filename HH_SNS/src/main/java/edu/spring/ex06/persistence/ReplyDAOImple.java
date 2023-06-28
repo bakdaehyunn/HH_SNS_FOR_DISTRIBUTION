@@ -52,7 +52,7 @@ public class ReplyDAOImple implements ReplyDAO{
 	}
 
 	@Override
-	public int update_profile(String userNickname, String userProfile, String userId) {  //프로필 정보 변경
+	public int updateProfile(String userNickname, String userProfile, String userId) {  //프로필 정보 변경
 		logger.info("updateProfile()");
 		logger.info("userNickname : " + userNickname);
 		logger.info("userProfile : "  + userProfile);

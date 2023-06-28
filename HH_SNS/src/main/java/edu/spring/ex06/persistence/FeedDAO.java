@@ -15,7 +15,7 @@ public interface FeedDAO {
 	int delete(int feedId); // 피드 번호 기준 피드 삭제(회원)
 	int updateLikeCnt(int amount, int feedId); // 개인 좋아요 수 출력
 	int updateReplyCnt(int amount, int feedId); // 개인 댓글 수 출력
-	int update_profile(String userNickname, String userProfile, String userId);
+	int updateProfile(String userNickname, String userProfile, String userId);
 	// 피드 상세 != 개인피드
 	// detail = userdetail
 	// 게시글 클릭 = 유저 아이디로 게시글 출력

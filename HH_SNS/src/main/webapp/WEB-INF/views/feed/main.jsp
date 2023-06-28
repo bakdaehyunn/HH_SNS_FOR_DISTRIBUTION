@@ -149,11 +149,11 @@
 	
 		<div class="input_feed">
 		<c:if test="${empty userId}">
-		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=X.PNG" />　　로그인시 이용 가능합니다.</p>
+		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=default.png" />　　로그인시 이용 가능합니다.</p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
 		<c:if test="${not empty userId and userId eq userinfovo.userId}">
-		<p><a id="notiT" href="../user/noti">알람</a></p>
+		<p><a id="notiT" href="../user/noti">알림</a></p>
 		<p id="userProfile"><a href="../user/profileEdit"><img width="100px" height="100px" src="display?fileName=${userinfovo.userProfile}" /></a></p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
 		</c:if>
@@ -226,7 +226,7 @@
 					success: function(data){
 						console.log(data);
 						if(data >= 1){
-							$('#notiT').text('알람(New)');
+							$('#notiT').text('알림(New)');
 							console.log("성공");
 						}else {
 							$('#notiT').text('알람');

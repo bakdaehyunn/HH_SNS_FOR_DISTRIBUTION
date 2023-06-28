@@ -89,7 +89,7 @@ public class FeedDAOImple implements FeedDAO{
 	}// end updateCommentCnt 개인 댓글 출력
 
 	@Override
-	public int update_profile(String userNickname, String userProfile, String userId) {
+	public int updateProfile(String userNickname, String userProfile, String userId) {
 		logger.info("updateProfile()");
 		logger.info("userNickname : " + userNickname);
 		logger.info("userProfile : "  + userProfile);

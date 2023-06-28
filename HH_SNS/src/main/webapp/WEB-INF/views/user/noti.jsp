@@ -30,7 +30,7 @@
 </head>
 <body>
 <h1><a href="../feed/main">H&H</a></h1> <br>
-	<h1 id="title">알림창</i></h1>
+	<h1 id="title">알림 리스트</h1>
 	<br>
 	<br>
 	 <div id="notis"></div>

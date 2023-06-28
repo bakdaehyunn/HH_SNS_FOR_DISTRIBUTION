@@ -196,39 +196,52 @@ public class UserController {
 	}
 	
 	@PostMapping("/profileEdit")// 프로필 편집 POST
-	public String profileEditPOST(UserInfoVO vo, MultipartFile file ) {
+	public String profileEditPOST(UserInfoVO userinfoVO, MultipartFile file,HttpServletRequest request ) {
 		logger.info("profileEdit() 호출");
-		logger.info("vo.getUserProfile() : " + vo.getUserProfile());
-		logger.info("vo.getUserNickname() : " + vo.getUserNickname());
+		logger.info("vo.getUserProfile() : " + userinfoVO.getUserProfile());
+		logger.info("vo.getUserNickname() : " + userinfoVO.getUserNickname());
+		HttpSession session =request.getSession();
+		String userId = (String) session.getAttribute("userId");
 		logger.info("file : "+ file.getSize());
 		
-		if(file.getSize()>0) { //사진파일의 사이즈가 0이상 경우 파일로 간주하여 파일업로드 진행  (현재 파일을 추가안하는 경우에 null로 넘어오지 않음)
-			String savedFileName = saveUploadFile(file);
-			vo.setUserProfile(savedFileName);
-			logger.info("file 추가 하겠습니다.");
-			logger.info("vo.getUserProfile() : " + vo.getUserProfile());
+		if(file.getSize()>0) { //프로필사진 파일의 사이즈가 0보다 클 경우 프로필 사진 변경으로 간주하여 프로필 파일 업로드 진행 
+			if(userinfoVO.getUserProfile() =="default.png") { //회원가입 후 처음으로 프로필 사진 변경 시
+				logger.info("회원의 프로필 파일 저장 및 프로필 사진 파일명 변경"); 
+				String savedFileName = firstSaveProfileFile(file,userId); //프로필 사진 파일 이름은 UUID + 본인 아이디로 설정된다.
+				userinfoVO.setUserProfile(savedFileName); //변경할 프로필사진을 저장하고 프로필 사진 파일명을 변경 한다. (default->유저전용파일명)
+				logger.info("vo.getUserProfile() : " + userinfoVO.getUserProfile());
+			}else { // 이전에 프로필 변경을 해본 적이 있는 경우
+				logger.info("회원의 프로필 파일 저장"); 
+				saveProfileFile(file, userinfoVO.getUserProfile());//변경할 프로필 사진을 덮어쓰기로 저장
+			}
 		}
 		int result=0;
 		try {
-			result = userInfoService.updateProfile(vo);
+			result = userInfoService.updateProfile(userinfoVO);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		if(result == 1) {
 			logger.info("프로필 업데이트 성공");
 		}
-
-		//return "redirect:/feed/main";
-
-		return "redirect:/feed/mylist?userId="+vo.getUserId();
+		return "redirect:/feed/mylist?userId="+userinfoVO.getUserId();
+	}
+	private void saveProfileFile(MultipartFile file,String userProfile) {
+		File target = new File(uploadPath, userProfile);
+		
+		try {
+			FileCopyUtils.copy(file.getBytes(), target);
+			logger.info("파일 저장 성공");
+		} catch (IOException e) {
+			logger.error("파일 저장 실패");
+		}
 	}
 
-	private String saveUploadFile(MultipartFile file) {
+	private String firstSaveProfileFile(MultipartFile file,String userProfile) {
 		// UUID : 업로드하는 파일 이름이 중복되지 않도록 값 생성
 		UUID uuid = UUID.randomUUID();
-		String savedName = uuid + "_" + file.getOriginalFilename();
+		String savedName = uuid + "_" + userProfile;
 		File target = new File(uploadPath, savedName);
 		
 		try {
