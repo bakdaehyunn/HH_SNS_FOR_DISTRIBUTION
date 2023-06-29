@@ -38,6 +38,8 @@ import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.service.FollowService;
 import edu.spring.ex06.service.UserInfoService;
 import edu.spring.ex06.util.MediaUtil;
+import edu.spring.ex06.util.PageCriteria;
+import edu.spring.ex06.util.PageMaker;
 
 @Controller
 @RequestMapping(value="/user")
@@ -125,10 +127,25 @@ public class UserController {
 	}
 	
 	@GetMapping("/followerlist") // 팔로워리스트 GET
-	public void followerlistGET(Model model, String userId) {
+	public void followerlistGET(Model model, String userId, Integer page, Integer numsPerPage) {
 		logger.info("followerListGET()");
-		List<UserInfoVO> list = followService.readFollowerList(userId);
+		PageCriteria criteria = new PageCriteria();
+		if(page != null) {
+			criteria.setPage(page);
+		}
+		if(numsPerPage != null) {
+			criteria.setNumsPerPage(numsPerPage);
+		}
+		
+		List<UserInfoVO> list = followService.readPagingFollowerList(userId,criteria);
 		model.addAttribute("list", list);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(followService.readFollowerCnt(userId));
+		pageMaker.setPageData();
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("targetUserId", userId);
 	}
 	
 	@GetMapping("/followinglist") // 팔로잉리스트 GET

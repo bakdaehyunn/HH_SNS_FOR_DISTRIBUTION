@@ -14,6 +14,7 @@ import edu.spring.ex06.domain.NotiVO;
 import edu.spring.ex06.domain.UserInfoVO;
 import edu.spring.ex06.persistence.FollowDAO;
 import edu.spring.ex06.persistence.NotiDAO;
+import edu.spring.ex06.util.PageCriteria;
 
 
 @Service
@@ -43,6 +44,13 @@ public class FollowServiceImple implements FollowService {
 		logger.info("readFollowerList() 호출");
 		logger.info("followerUserId : " + followerUserId);
 		return followDAO.selectFollowerList(followerUserId);
+	}
+	@Override
+	public List<UserInfoVO> readPagingFollowerList(String followerUserId, PageCriteria criteria) { // 페이칭 처리된 팔로워 리스트 불러오기
+		logger.info("readPagingFollowerList() 호출 " );
+		logger.info("start = " + criteria.getStart());
+		logger.info("end = " + criteria.getEnd());
+		return followDAO.selectFollowerListPaging(followerUserId,criteria);
 	}
 
 	@Override
@@ -90,4 +98,5 @@ public class FollowServiceImple implements FollowService {
 		notiDAO.delete(followerUserId, followingUserId); //알림 삭제
 		return 1;
 	}
+	
 }

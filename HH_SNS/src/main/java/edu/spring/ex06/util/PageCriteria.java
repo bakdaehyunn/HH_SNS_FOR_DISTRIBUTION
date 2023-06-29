@@ -9,7 +9,7 @@ public class PageCriteria {
 	
 	public PageCriteria() {
 		this.page = 1;
-		this.numsPerPage = 5;
+		this.numsPerPage = 2;
 	}
 	
 	public PageCriteria(int page, int numsPerPage) {

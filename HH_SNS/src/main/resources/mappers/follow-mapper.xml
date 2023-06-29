@@ -28,6 +28,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		join ${follow} f on u.${userId} = f.${followerUserId} where f.${followingUserId} = #{followingUserId} 
 	</select>
 	
+	<select id="follower_list_paging" resultType="UserInfoVO">
+		select b.${userId}, b.${userNickname}, b.${userProfile} from(
+			select rownum rn, a.* from(
+				select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u join ${follow} f 
+				on u.${userId} = f.${followerUserId} where f.${followingUserId} = #{followingUserId} 
+			)a
+		)b where rn between #{start} and #{end}
+	</select>
+	
+	
 	<!-- select 팔로잉 리스트 불러오기 쿼리 -->
 	<select id="select_following_list" resultType="UserInfoVO">
 		select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u
@@ -55,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- delete 회원정보로 팔로우 내역 삭제 쿼리 -->
 	<delete id="delete_follow">
 		delete from ${follow}
-		where ${followerUserId} = #{userId}  or ${followingUserId} = #{userId}
+		where ${followerUserId} = #{followerUserId}  or ${followingUserId} = #{followerUserId}
 	</delete>
 	
 	

@@ -6,6 +6,15 @@
 <head>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style type="text/css">
+ul {
+	list-style-type: none;
+}
+
+li {
+	display: inline-block;
+}
+</style>
 <meta charset="UTF-8">
 <title>Profile Edit</title>
 </head>
@@ -26,6 +35,18 @@
 		</div>
 		<hr>	
 	</c:forEach>
+	<ul>
+		<c:if test="${pageMaker.hasPrev }">
+			<a href="followerlist?page=${pageMaker.startPageNo - 1} ">이전</a>
+		</c:if>
+		<c:forEach begin="${pageMaker.startPageNo }" end="${pageMaker.endPageNo }" var="num">
+			<li><a href="followerlist?userId=${targetUserId }&page=${num }">${num }</a></li>
+		</c:forEach>
+		<c:if test="${pageMaker.hasNext }">
+			<a href="followerlist?page=${pageMaker.endPageNo + 1} "> 다음</a>
+		</c:if>
+
+	</ul>
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('.followButton').on('click',function(e){ // 팔로우 버튼 클릭 시

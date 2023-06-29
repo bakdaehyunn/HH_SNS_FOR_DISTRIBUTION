@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.spring.ex06.domain.UserInfoVO;
+import edu.spring.ex06.util.PageCriteria;
 
 @Repository
 public class FollowDAOImple implements FollowDAO{
@@ -46,17 +47,34 @@ public class FollowDAOImple implements FollowDAO{
 	}
 
 	@Override
-	public List<UserInfoVO> selectFollowingList(String followingUserId) { // 팔로잉 리스트 불러오기
+	public List<UserInfoVO> selectFollowingList(String userId) { // 팔로잉 리스트 불러오기
 		logger.info("selectFollowingList() 호출");
-		logger.info("followingUserId :" + followingUserId );
-		return sqlSession.selectList(NAMESPACE + ".select_following_list", followingUserId);
+		logger.info("userId :" + userId );
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("followerUserId", userId);
+		return sqlSession.selectList(NAMESPACE + ".select_following_list", args);
 	}
 
 	@Override
-	public List<UserInfoVO> selectFollowerList(String followerUserId) { // 팔로워 리스트 불러오기
+	public List<UserInfoVO> selectFollowerList(String userId) { // 팔로워 리스트 불러오기
 		logger.info("selectFollowerList() 호출");
-		logger.info("followerUserId : " + followerUserId);
-		return sqlSession.selectList(NAMESPACE + ".select_follower_list", followerUserId);
+		logger.info("UserId : " + userId);
+		Map<String, Object> args = new HashMap<String, Object>();
+		
+		args.put("followingUserId", userId);
+		return sqlSession.selectList(NAMESPACE + ".select_follower_list", args);
+	}
+	@Override
+	public List<UserInfoVO> selectFollowerListPaging(String userId,PageCriteria criteria) {
+		logger.info("selectFollowerListPaging() 호출 ");
+		logger.info("followerUserId : "+userId);
+		logger.info("start : " + criteria.getStart());
+		logger.info("end : " + criteria.getEnd());
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("followingUserId", userId);
+		args.put("start", criteria.getStart());
+		args.put("end", criteria.getEnd());
+		return sqlSession.selectList(NAMESPACE +".follower_list_paging", args);
 	}
 
 	@Override
@@ -92,10 +110,15 @@ public class FollowDAOImple implements FollowDAO{
 	}	
 	
 	@Override
-	public int deleteFollow(String followerUserId) { //유저아이디로 팔로우 내역 삭제
-		logger.info("deleteFollower : " + followerUserId);
-		return sqlSession.delete(NAMESPACE + ".delete_follow", followerUserId);
+	public int deleteFollow(String userId) { //유저아이디로 팔로우 내역 삭제
+		logger.info("deleteFollower : " + userId);
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("followerUserId", userId);
+		args.put("followingUserId", userId);
+		return sqlSession.delete(NAMESPACE + ".delete_follow", args);
 	}
+
+	
 
 	
 	
