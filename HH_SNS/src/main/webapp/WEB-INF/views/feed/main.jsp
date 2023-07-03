@@ -147,7 +147,7 @@
 	
 	<h1><a href="../feed/main">H&H</a></h1> <br>
 	
-		<div class="input_feed">
+		<div class="input_feed" style=" border: 1px solid black;">
 		<c:if test="${empty userId}">
 		<p id="userProfile"><img width="100px" height="100px" src="display?fileName=default.png" />　　로그인시 이용 가능합니다.</p>
 		<p id="userId"><a href="../feed/mylist?userId=${userinfovo.userId }"><b>${userId}</b></a></p>
@@ -160,10 +160,11 @@
 		<p id="userNickname">${userinfovo.userNickname }</p>
 		<c:if test="${empty userId }">
 		<input type="submit" id="btn_login" value="로그인">
+		<a href="../user/signup">회원가입</a>
 		</c:if>
 		<c:if test="${not empty userId }">
 		<div >
-		<div id="feedContent" contentEditable='true'></div>
+		<div id="feedContent" style=" border: 1px solid black;"contentEditable='true'></div>
 		
 		<input style=" width: auto; height: 30px;" type="submit" id="btn_add" value="등록">
 		<br>
@@ -413,8 +414,8 @@
 											console.log(userId); // 접속한 회원
 											console.log(this.userId); // 작성 된 회원
 											
-											list += '<div class="div_post">'
-											+ '<div class="post_item">'
+											list += '<div class="div_post" >'
+											+ '<div class="post_item" style=" border: 1px solid black;">'
 											+ '<div style="cursor: pointer;" class="post_tag clickable" data-feedId="' + this.feedId + '">'
 											+ '<input type="hidden" id="feedId" value="' + this.feedId + '">'
 											+ '<p>' + '<a href="../feed/mylist?userId=' + this.userId + '">' + '<img width="100px" height="100px" src="display?fileName=' + this.userProfile + '" />' + '</a>' +'</p>'
