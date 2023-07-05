@@ -2,6 +2,10 @@
 
 ![프로젝트화면](https://github.com/H-H-SNS/HH_SNS/assets/99257977/2fb90fdf-61eb-448a-bcd0-636720376df9)
 
+## 프로젝트 시연영상
+
+([https://youtu.be/zGN2i_5yucM](https://youtu.be/zGN2i_5yucM))
+
 ## 프로젝트 소개
 
 ▪트위터와 같이 텍스트 기반으로 유저들이 소통할 수 있는 소셜 네트워크 입니다.
@@ -47,7 +51,5 @@ IDE : Spring Tool Suite 3
 
 ![image](https://github.com/H-H-SNS/HH_SNS/assets/99257977/5e9d1db6-4759-460e-901f-73a64bbb45b4)
 
-## 프로젝트 시연영상
 
-([https://youtu.be/zGN2i_5yucM](https://youtu.be/zGN2i_5yucM))
 
