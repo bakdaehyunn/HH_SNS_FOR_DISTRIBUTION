@@ -37,6 +37,11 @@ IDE : Spring Tool Suite 3
 
 외부 라이브러리 : Mybatis, javaX.mail, Oracle, imgscalr, Jackson
 
+## 개발 일정
+
+![image](https://github.com/H-H-SNS/HH_SNS/assets/99257977/94f15be3-a8ec-43ca-8420-788a33a625c7)
+
+
 ## 사이트 맵
 
 ![사이트맵](https://github.com/H-H-SNS/HH_SNS/assets/99257977/9e2ab139-fcda-4eed-b90d-5f4c9adb053b)
