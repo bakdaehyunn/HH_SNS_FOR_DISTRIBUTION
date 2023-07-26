@@ -1,6 +1,6 @@
 # HH_SNS
 
-![프로젝트화면](https://github.com/H-H-SNS/HH_SNS/assets/99257977/2fb90fdf-61eb-448a-bcd0-636720376df9)
+![프로젝트화면](https://github.com/H-H-SNS/HH_SNS/assets/99257977/5aacd1d8-b3ba-45ce-87ac-6e1fac37d1e4)
 
 ## 프로젝트 시연영상
 
@@ -37,14 +37,13 @@ IDE : Spring Tool Suite 3
 
 외부 라이브러리 : Mybatis, javaX.mail, Oracle, imgscalr, Jackson
 
+## 사이트 맵
+
+![사이트맵](https://github.com/H-H-SNS/HH_SNS/assets/99257977/9e2ab139-fcda-4eed-b90d-5f4c9adb053b)
+
 ## DB 모델링
 
 ![ER다이어그램](https://github.com/H-H-SNS/HH_SNS/assets/99257977/60b0442c-2e24-4815-baf3-04e25f7cb3ee)
-
-
-## 유즈케이스 다이어그램
-
-![유즈케이스](https://github.com/H-H-SNS/HH_SNS/assets/99257977/b2aabbf3-5620-4197-8fc4-82a486a8d032)
 
 
 ## 기능 소개
