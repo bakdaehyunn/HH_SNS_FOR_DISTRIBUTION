@@ -12,7 +12,7 @@ local.properties
 .recommenders
 .target/
 
-.root-context.xml
+root-context.xml
 
 # External tool builders
 .externalToolBuilders/

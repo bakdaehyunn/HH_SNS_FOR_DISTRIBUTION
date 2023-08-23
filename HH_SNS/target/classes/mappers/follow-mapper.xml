@@ -30,10 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="follower_list_paging" resultType="UserInfoVO">
 		select b.${userId}, b.${userNickname}, b.${userProfile} from(
-			select rownum rn, a.* from(
+			select (@R:=@R+1) rn, a.* from(
 				select u.${userId}, u.${userNickname}, u.${userProfile} from ${user_info} u join ${follow} f 
 				on u.${userId} = f.${followerUserId} where f.${followingUserId} = #{followingUserId} 
-			)a
+			)a,(select @R:=0) r
 		)b where rn between #{start} and #{end}
 	</select>
 	

@@ -430,12 +430,12 @@
 			});
 
 			$('#btn_login').click(function(){
-				var target = encodeURI('/ex06/user/login');
+				var target = encodeURI('../user/login');
 				location = target;
 			});
 			
 			$('#btn_profileEdit').click(function(){
-				var target = encodeURI('/ex06/user/profileEdit');
+				var target = encodeURI('../user/profileEdit');
 				location = target;
 			});
 			
@@ -507,7 +507,7 @@
 						type : 'POST',
 						method : 'POST',
 						cache : false,
-						url : '/ex06/feeds',
+						url : '../feeds',
 						data : formData,
 						contentType : false,
 				        processData : false,  
