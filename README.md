@@ -20,6 +20,8 @@
 
 Java버전:Java JDK 11.0.2
 
+WAS: Tomcat 9.0.46 
+
 Build: Maven 3.9.1
 
 RDBMS : Oracle 11.2g
