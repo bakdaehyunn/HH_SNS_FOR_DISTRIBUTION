@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insert">
 		insert into ${like_info}
-		values (LIKE_INFO_SEQ.NEXTVAL, #{userId}, #{feedId}, 0, 0, sysdate)
+		values (NULL, #{userId}, #{feedId}, CURRENT_TIMESTAMP)
 	</insert>
 	
 	<select id="select" resultType="LikeInfoVO">

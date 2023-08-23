@@ -164,7 +164,7 @@
 	<!-- ----------------------- 피드 디테일 ------------------------------ -->
 	$(document).ready(function() {
 		$('#btn_login').click(function(){
-			var target = encodeURI('/ex06/user/login');
+			var target = encodeURI('../user/login');
 			location = target;
 		});
 		$('#btn_update').click(function() {
@@ -709,7 +709,7 @@
 		function showAlert() {
 			if(userId == null) {
 			    alert('로그인을 해주세요.');
-			    var target = encodeURI('/ex06/user/login');
+			    var target = encodeURI('../user/login');
 				location = target;
 			}
 		}
@@ -1142,7 +1142,7 @@
 
 	    if (userId == null) {
 	        alert('로그인을 해주세요');
-	        var target = encodeURI('/ex06/user/login');
+	        var target = encodeURI('../user/login');
 	        location = target;
 	    } else {
 	        $.ajax({

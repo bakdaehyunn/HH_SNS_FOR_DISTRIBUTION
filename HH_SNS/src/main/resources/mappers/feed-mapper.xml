@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insert">
 		insert into ${feed}
-		values (FEED_SEQ.NEXTVAL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, sysdate, #{feedPhoto})
+		values (NULL, #{feedContent}, #{userId}, #{userNickname}, #{userProfile}, 0, 0, CURRENT_TIMESTAMP, #{feedPhoto})
 	</insert>
 		
 	<select id="select_all" resultType="FeedVO">

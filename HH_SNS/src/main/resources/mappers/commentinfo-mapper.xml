@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert">
 		insert into ${comment_info}
 		(${commentId}, ${replyId}, ${userId}, ${userNickname}, ${userProfile}, ${commentContent})
-		values (comment_info_seq.nextval, #{replyId}, #{userId}, #{userNickname}, #{userProfile}, #{commentContent})
+		values (NULL, #{replyId}, #{userId}, #{userNickname}, #{userProfile}, #{commentContent})
 	</insert>
 	
 	<select id="select_commentid" resultType="CommentInfoVO">

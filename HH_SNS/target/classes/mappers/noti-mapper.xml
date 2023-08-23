@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <!-- insert 알림 등록 쿼리 -->
 	 <insert id="insert">
 	 	insert into ${noti}
-	 	values (noti_seq.nextval, #{senderId}, #{receiverId}, #{notiCategory}, 0, #{feedId} )
+	 	values (NULL, #{senderId}, #{receiverId}, #{notiCategory}, 0, #{feedId} )
 	 </insert>
 	 
 	 <!-- select 알림 확인  쿼리 -->

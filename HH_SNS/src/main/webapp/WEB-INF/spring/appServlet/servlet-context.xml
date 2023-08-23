@@ -60,7 +60,8 @@
 	<!-- 문자열 리소스를 bean으로 추가 -->
 	<!-- String uploadPath = new String("경로"); -->
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="C:\\Study\\FileUploadTest">
+		<!--  <beans:constructor-arg value="C:\\Study\\FileUploadTest">-->
+		<beans:constructor-arg value="/home/ec2-user">
 		</beans:constructor-arg>
 	</beans:bean>
 	

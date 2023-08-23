@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert">
 		insert into ${reply}
 		(${replyId}, ${feedId}, ${userId}, ${userNickname}, ${replyContent}, ${userProfile})
-		values (reply_seq.nextval, #{feedId}, #{userId}, #{userNickname}, #{replyContent}, #{userProfile})
+		values (NULL, #{feedId}, #{userId}, #{userNickname}, #{replyContent}, #{userProfile})
 	</insert>
 	
 	<!-- select 댓글 불러오기 쿼리 -->
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- update 댓글 수정 쿼리 -->
 	<update id="update">
 		update ${reply}
-		set ${replyContent} = #{replyContent}, ${replyDate} = sysdate
+		set ${replyContent} = #{replyContent}, ${replyDate} = CURRENT_TIMESTAMP
 		where ${replyId} = #{replyId}
 	</update>
 
